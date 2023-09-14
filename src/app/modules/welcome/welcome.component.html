@@ -1,0 +1,15 @@
+<div class="statistics" nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32 }">
+  <div nz-col class="gutter-row" [nzSpan]="6">
+    <div class="inner-box">
+      <h3>Số lượng đặt phòng: </h3>
+      <h5>100</h5>
+    </div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">col-6</div></div>
+  <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">col-6</div></div>
+  <div nz-col class="gutter-row" [nzSpan]="6"><div class="inner-box">col-6</div></div>
+</div>
+
+<div class="card">
+  <p-chart type="line" [data]="data" [options]="options"></p-chart>
+</div>

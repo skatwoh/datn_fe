@@ -1,0 +1,34 @@
+<form #form consFormFieldValidation class="w-full max-w-lg" [formGroup]="confirmationForm">
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="env">
+        Environment
+      </label>
+
+      <select formControlName="env" id="env" class="block w-full text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <option value="dev">DEV</option>
+        <option value="test">TEST</option>
+        <option value="uat">UAT</option>
+        <option value="training">TRAINING</option>
+        <option value="prod">PROD</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap -mx-3 mb-3">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <div class="flex items-start mb-6">
+        <div class="flex items-center h-5">
+          <input id="remember" type="checkbox" value=""
+                 class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                 formControlName="isTruncateTable">
+        </div>
+        <label for="remember" class="ml-2 text-sm text-gray-900 dark:text-gray-300 font-bold uppercase">Truncate
+          table?</label>
+      </div>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+
+    </div>
+  </div>
+</form>

@@ -1,0 +1,59 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách tài khoản"
+  nzSubtitle="Total {{accounts.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Tài khoản</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý tài khoản</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <nz-table #tableData [nzData]="accounts">
+    <thead>
+    <tr>
+      <th nzLeft>STT</th>
+      <th nzLeft>Name</th>
+      <th>Email</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <th>Status</th>
+      <th nzRight>Action</th>
+      <th>Tác vụ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tableData.data; let i = index">
+      <th nzLeft>{{ i + 1 }}</th>
+      <td nzLeft>{{ data.name }}</td>
+      <td nzLeft>{{ data.email }}</td>
+      <td nzLeft>{{ data.createdAt | date: APP_DATE_TIME }}</td>
+      <td nzLeft>{{ data.updatedAt | date: APP_DATE_TIME }}</td>
+      <td nzLeft>
+        <div class="flex items-center" *ngIf="!data.emailVerified">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> InActive
+        </div>
+
+        <div class="flex items-center" *ngIf="data.emailVerified">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Activated
+        </div>
+      </td>
+      <td>
+        <nz-switch
+          [ngModel]="data.emailVerified"
+          [nzControl]="true"
+          (click)="manualUpdateUserStatus(data.email, i, data.emailVerified)"
+          [nzLoading]="isLoading"
+        ></nz-switch>
+      </td>
+      <td>
+        <div (click)="getDetailAccount(i)" [routerLink]="['./detail']">
+          <span nz-icon style="font-size: 16px; color: #08c;" nzType="exclamation-circle" nzTheme="outline"></span>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>

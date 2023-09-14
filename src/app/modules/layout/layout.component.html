@@ -1,0 +1,74 @@
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="sidebar-logo">
+<!--      <a href="" target="_blank">-->
+      <a href="">
+        <img src="https://th.bing.com/th/id/OIG.zmugIBd5YZfykKUvhpvW?pid=ImgGn" alt="logo">
+        <h1>Éternel Hotel</h1>
+      </a>
+    </div>
+    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Account" nzIcon="user-switch">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/accounts">Tài khoản</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/logs">Phân quyền</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div nz-row class="app-header">
+        <div nz-col nzSpan="16">
+            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+              <span class="trigger"
+                    nz-icon
+                    [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+              ></span>
+          </span>
+        </div>
+        <div nz-col nzSpan="8" class="pr-5">
+          <div class="float-right">
+            <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="(user$ | async) as userInfo">
+              <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+              {{userInfo?.name || ''}}
+              <span nz-icon nzType="down"></span>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item>Info</li>
+                <li nz-menu-item>Setting</li>
+                <li nz-menu-item>Can I Help?</li>
+                <li nz-menu-item>Theme -
+                  <nz-switch [(ngModel)]="theme">
+                    <span checked>Dark</span>
+                    <span unchecked>Light</span>
+                  </nz-switch>
+                </li>
+                <li nz-menu-item nzDanger (click)="onLogout()">
+                  Logout
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>Bds ©2023 Implement By K Team</nz-footer>
+  </nz-layout>
+</nz-layout>

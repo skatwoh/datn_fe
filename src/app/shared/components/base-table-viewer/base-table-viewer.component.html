@@ -1,0 +1,12 @@
+<nz-table #basicTable [nzData]="data || []" *ngIf="tableFields.length > 0">
+  <thead>
+  <tr>
+    <th *ngFor="let f of tableFields">{{f}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td *ngFor="let f of tableFields">{{data[f]}}</td>
+  </tr>
+  </tbody>
+</nz-table>
