@@ -13,13 +13,27 @@
       </a>
     </div>
     <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Account" nzIcon="user-switch">
+      <li nz-submenu nzOpen nzTitle="Thống kê" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/accounts">Tài khoản</a>
+            <a routerLink="/admin/dashboard">Thống kê</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Quản lý tài khoản" nzIcon="user-switch">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/accounts">Tài khoản</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a routerLink="/logs">Phân quyền</a>
+            <a routerLink="/admin/logs">Phân quyền</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Quản lý đặt phòng" nzIcon="group">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-manager">Đặt phòng</a>
           </li>
         </ul>
       </li>
