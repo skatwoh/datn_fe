@@ -1,16 +1,22 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AccountDetailComponent, AccountListComponent} from './pages';
+import {UserModel} from "../../auth/models/user.model";
 
 const routes: Routes = [
   {
     path: '',
-    component: AccountListComponent
+    component: AccountListComponent,
+    children: [
+      {
+        path: `detail`,
+        component: AccountDetailComponent,
+        resolve: {
+          user: UserModel,
+        },
+      }
+    ]
   },
-  {
-    path: `detail`,
-    component: AccountDetailComponent,
-  }
 ];
 
 @NgModule({
