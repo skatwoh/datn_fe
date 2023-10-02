@@ -7,12 +7,12 @@
             [nzTrigger]="null">
     <div class="sidebar-logo">
 <!--      <a href="" target="_blank">-->
-      <a href="">
-        <img src="https://th.bing.com/th/id/OIG.zmugIBd5YZfykKUvhpvW?pid=ImgGn" alt="logo">
+      <a href="/admin/dashboard">
+        <img src="assets/logo.png" alt="logo">
         <h1>Éternel Hotel</h1>
       </a>
     </div>
-    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed" *ngIf="(user$ | async) as user">
       <li nz-submenu nzOpen nzTitle="Thống kê" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -20,7 +20,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Quản lý tài khoản" nzIcon="user-switch">
+      <li nz-submenu nzOpen nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/accounts">Tài khoản</a>
@@ -34,6 +34,13 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room-manager">Đặt phòng</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Quản lý khách hàng" nzIcon="team">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/account-user">Tài khoản</a>
           </li>
         </ul>
       </li>
@@ -53,7 +60,14 @@
         <div nz-col nzSpan="8" class="pr-5">
           <div class="float-right">
             <a nz-dropdown [nzDropdownMenu]="menu" *ngIf="(user$ | async) as userInfo">
-              <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+              <ng-container *ngIf="userInfo.imageUrl">
+                <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->
+                <nz-avatar [nzSrc]="userInfo.imageUrl"></nz-avatar>
+              </ng-container>
+              <ng-container *ngIf="!userInfo.imageUrl">
+                <!-- Sử dụng consFirstChar nếu userInfo.urlImage là null -->
+                <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+              </ng-container>
               {{userInfo?.name || ''}}
               <span nz-icon nzType="down"></span>
             </a>
