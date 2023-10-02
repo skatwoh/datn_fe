@@ -27,6 +27,10 @@ const routes: Routes = [
         path: 'room-manager',
         loadChildren: () => import('./modules/room-manager/room-manager.module').then(m => m.RoomManagerModule)
       },
+      {
+        path: 'account-user',
+        loadChildren: () => import('./modules/account-user/account-user.module').then(m => m.AccountUserModule)
+      },
     ]
   },
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},

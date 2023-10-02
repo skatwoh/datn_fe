@@ -19,6 +19,7 @@
     "@angular/router": "^16.1.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "angular-svg-icon": "^16.1.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
     "exceljs": "^4.3.0",

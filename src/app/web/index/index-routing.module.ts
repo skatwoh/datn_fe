@@ -23,7 +23,7 @@ const routes: Routes = [
         component: RoomComponent
       }
     ]
-  }
+  },
 ];
 
 @NgModule({

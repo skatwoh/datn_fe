@@ -4,6 +4,8 @@ import * as fromPages from './page';
 import {HttpClientModule} from '@angular/common/http';
 import {IndexComponent} from "./index.component";
 import {IndexRoutingModule} from "./index-routing.module";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NzAvatarModule} from "ng-zorro-antd/avatar";
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import {IndexRoutingModule} from "./index-routing.module";
     CommonModule,
     HttpClientModule,
     IndexRoutingModule,
+    NzDropDownModule,
+    NzAvatarModule,
   ]
 })
 export class IndexModule {
