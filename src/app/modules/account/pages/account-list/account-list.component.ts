@@ -38,9 +38,8 @@ export class AccountListComponent implements OnInit {
     })
   }
 
-  getDetailAccount(i: number) {
-    const email = this.accounts[i].email;
-    this.router.navigate(['admin/accounts/detail']);
+  getDetailAccount(email: any) {
+    this.router.navigate([`/detail/${email}`]);
   }
 
 }
