@@ -31,6 +31,22 @@ const routes: Routes = [
         path: 'account-user',
         loadChildren: () => import('./modules/account-user/account-user.module').then(m => m.AccountUserModule)
       },
+      {
+        path: 'customer',
+        loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule)
+      },
+      {
+        path: 'room',
+        loadChildren: () => import('./modules/room/room.module').then(m => m.RoomModule)
+      },
+      {
+        path: 'room-category',
+        loadChildren: () => import('./modules/room-category/room-category.module').then(m => m.RoomCategoryModule)
+      },
+      {
+        path: 'room-details',
+        loadChildren: () => import('./modules/room-details/room-details.module').then(m => m.RoomDetailsModule)
+      }
     ]
   },
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},

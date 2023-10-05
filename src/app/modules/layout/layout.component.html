@@ -37,10 +37,26 @@
           </li>
         </ul>
       </li>
+      <li nz-submenu nzOpen nzTitle="Quản lý phòng" nzIcon="database">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room">Phòng</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-category">Loại phòng</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-details">Chi tiết phòng</a>
+          </li>
+        </ul>
+      </li>
       <li nz-submenu nzOpen nzTitle="Quản lý khách hàng" nzIcon="team">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/account-user">Tài khoản</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/customer">Khách hàng</a>
           </li>
         </ul>
       </li>

@@ -1,0 +1,47 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách tài khoản"
+  nzSubtitle="Total {{customer.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Tài khoản</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý tài khoản</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <nz-table #tableData [nzData]="customer">
+    <thead>
+    <tr>
+<!--      <th nzLeft>STT</th>-->
+      <th nzLeft>Id</th>
+      <th>Mã</th>
+      <th>Ngày sinh</th>
+      <th>Giới tính</th>
+      <th>Số điện thoại</th>
+      <th>Địa chỉ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tableData.data; let i = index">
+<!--      <th nzLeft>{{ i + 1 }}</th>-->
+      <th nzLeft>{{ data.id }}</th>
+      <td nzLeft>{{ data.ma }}</td>
+      <td nzLeft>{{ data.ngaySinh }}</td>
+      <td nzLeft>
+        <div class="flex items-center" *ngIf="data.gioiTinh == true">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Nam
+        </div>
+
+        <div class="flex items-center" *ngIf="data.gioiTinh == false">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Nữ
+        </div>
+      </td>
+      <td nzLeft>{{ data.sdt }}</td>
+      <td nzLeft>{{ data.diaChi }}</td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
