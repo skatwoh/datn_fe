@@ -1,6 +1,6 @@
-<div class="w-96 bg-white rounded rounded-xl shadow-2xl p-5">
-  <h1 class="text-3xl text-xl">Register</h1>
-  <p class="text-base">Make the most of your professional life</p>
+<!--<div class="w-96 bg-white rounded rounded-xl shadow-2xl p-5">-->
+<!--  <h1 class="text-3xl text-xl">Register</h1>-->
+<!--  <p class="text-base">Make the most of your professional life</p>-->
 
   <!-- begin::Alert error-->
   <div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
@@ -9,7 +9,13 @@
   </div>
   <!-- end::Alert error-->
 
-  <form consFormFieldValidation class="space-y-5 mt-5" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+  <form consFormFieldValidation class="my-10 space-y-6" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+    <div class="text-center">
+      <h2 class="mb-1 text-3xl text-xl font-semibold text-gray-700 dark:text-white">
+        Register <span class="text-primary-500">!</span>
+      </h2>
+      <p class="text-sm text-gray-400 dark:text-night-200">Make the most of your professional life</p>
+    </div>
     <div class="space-y-0.5">
       <label class="text-base text-gray-600">Name</label>
       <input
@@ -87,4 +93,4 @@
       <p>Already on BDS? <a routerLink="/auth/login" class="text-blue-700 hover:underline">Sign in</a></p>
     </div>
   </form>
-</div>
+<!--</div>-->

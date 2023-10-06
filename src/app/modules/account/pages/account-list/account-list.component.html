@@ -21,7 +21,7 @@
       <th>Updated At</th>
       <th>Status</th>
       <th nzRight>Action</th>
-      <th>Tác vụ</th>
+<!--      <th>Tác vụ</th>-->
     </tr>
     </thead>
     <tbody>
@@ -48,11 +48,11 @@
           [nzLoading]="isLoading"
         ></nz-switch>
       </td>
-      <td>
-        <div (click)="getDetailAccount(i)" [routerLink]="['./detail']">
-          <span nz-icon style="font-size: 16px; color: #08c;" nzType="exclamation-circle" nzTheme="outline"></span>
-        </div>
-      </td>
+<!--      <td>-->
+<!--        <div (click)="getDetailAccount(data.email)">-->
+<!--          <span nz-icon style="font-size: 16px; color: #08c;" nzType="exclamation-circle" nzTheme="outline"></span>-->
+<!--        </div>-->
+<!--      </td>-->
     </tr>
     </tbody>
   </nz-table>

@@ -1,7 +1,7 @@
-<div class="w-96 bg-white rounded rounded-xl shadow p-5">
-  <h1 class="text-3xl text-xl">Sign in</h1>
-  <p class="text-base">Stay updated on your business</p>
-  
+<!--<div class="w-96 bg-white rounded rounded-xl shadow p-5">-->
+<!--  <h1 class="text-3xl text-xl">Sign in</h1>-->
+<!--  <p class="text-base">Stay updated on your business</p>-->
+
   <!-- begin::Alert error-->
   <div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
        role="alert">
@@ -9,7 +9,13 @@
   </div>
   <!-- end::Alert error-->
 
-  <form consFormFieldValidation class="space-y-5 mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+  <form consFormFieldValidation class="my-10 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+    <div class="text-center">
+      <h2 class="mb-1 text-3xl text-xl font-semibold text-gray-700 dark:text-white">
+        Sign in <span class="text-primary-500">!</span>
+      </h2>
+      <p class="text-sm text-gray-400 dark:text-night-200">Enter your credential to access your account.</p>
+    </div>
     <div class="space-y-0.5">
       <label class="text-base text-gray-600">Email or Phone</label>
       <input
@@ -52,4 +58,4 @@
       <p>New to Be? <a routerLink="/auth/register" class="text-blue-700 hover:underline">Sign up</a></p>
     </div>
   </form>
-</div>
+<!--</div>-->
