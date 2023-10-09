@@ -10,7 +10,7 @@ import {NzAvatarModule} from "ng-zorro-antd/avatar";
 @NgModule({
   declarations: [
     IndexComponent,
-    ...fromPages.pages
+    ...fromPages.pages,
   ],
   imports: [
     CommonModule,
