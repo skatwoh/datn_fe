@@ -1,7 +1,8 @@
 export interface AccountUserModel{
-  id: string;
+  id: number;
   ten: string;
   email: string;
   matKhau: string;
   trangThai: number;
+  maKhachHang: string;
 }

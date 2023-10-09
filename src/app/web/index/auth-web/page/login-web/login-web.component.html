@@ -1,0 +1,61 @@
+<!--<div class="w-96 bg-white rounded rounded-xl shadow p-5">-->
+<!--  <h1 class="text-3xl text-xl">Sign in</h1>-->
+<!--  <p class="text-base">Stay updated on your business</p>-->
+
+<!-- begin::Alert error-->
+<div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+     role="alert">
+  {{errorMsg}}
+</div>
+<!-- end::Alert error-->
+
+<form consFormFieldValidation class="my-10 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+  <div class="text-center">
+    <h2 class="mb-1 text-3xl text-xl font-semibold text-gray-700 dark:text-white">
+      Sign in <span class="text-primary-500">!</span>
+    </h2>
+    <p class="text-sm text-gray-400 dark:text-night-200">Enter your credential to access your account.</p>
+  </div>
+  <div class="space-y-0.5">
+    <label class="text-base text-gray-600">Email or Phone</label>
+    <input
+      type="text"
+      class="w-full h-12 border border-gray-800 rounded px-3 text-base"
+      placeholder="E-mail"
+      formControlName="email"
+    />
+  </div>
+
+  <div class="space-y-0.5">
+    <label class="text-base text-gray-600">Password (6 or more characters)</label>
+    <input
+      type="password"
+      class="w-full h-12 border border-gray-800 rounded px-3 text-base"
+      placeholder="Password"
+      formControlName="password"
+    />
+  </div>
+
+  <div class="">
+    <a routerLink="/hotel/forgot-password" class="font-medium text-black hover:bg-blue-100 rounded-full py-2 px-3">Forgot
+      password?</a>
+  </div>
+
+  <button
+    [disabled]="(isLoading$ | async)"
+    type="submit"
+    class="text-center w-full bg-blue-700 hover:bg-blue-800 rounded-md text-white py-3 font-medium"
+  >
+    <ng-container *ngIf="isLoading$ | async">
+      <span nz-icon nzType="loading" nzTheme="outline"></span> Please wait...
+    </ng-container>
+    <ng-container *ngIf="!(isLoading$ | async)">
+      Sign In
+    </ng-container>
+  </button>
+
+  <div class="text-center">
+    <p>New to Be? <a routerLink="/hotel/register" class="text-blue-700 hover:underline">Sign up</a></p>
+  </div>
+</form>
+<!--</div>-->

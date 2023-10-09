@@ -17,6 +17,7 @@
 <!--      <th nzLeft>STT</th>-->
       <th nzLeft>Id</th>
       <th>Tên</th>
+      <th>Mã khách hàng</th>
       <th>Email</th>
       <th>Mật khẩu</th>
       <th>Trạng thái</th>
@@ -28,6 +29,7 @@
 <!--      <th nzLeft>{{ i + 1 }}</th>-->
       <th nzLeft>{{ data.id }}</th>
       <td nzLeft>{{ data.ten }}</td>
+      <td nzLeft>{{ data.maKhachHang }}</td>
       <td nzLeft>{{ data.email }}</td>
       <td nzLeft>{{ data.matKhau }}</td>
       <td nzLeft>
@@ -38,6 +40,9 @@
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
         </div>
+      </td>
+      <td>
+          <span nz-icon nzType="eye" nzTheme="outline" routerLink="./account-user-detail/{{ data.id }}"></span>
       </td>
     </tr>
     </tbody>
