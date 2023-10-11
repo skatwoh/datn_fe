@@ -9,5 +9,5 @@ export interface RoomDetailsModel{
   dienTich: number;
   trangThai: number;
   idLoaiPhong: string;
-  roomCategoty: RoomCategoryModel;
+  tenLoaiPhong: string;
 }

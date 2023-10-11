@@ -13,14 +13,14 @@
       </a>
     </div>
     <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed" *ngIf="(user$ | async) as user">
-      <li nz-submenu nzOpen nzTitle="Thống kê" nzIcon="dashboard">
+      <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/dashboard">Thống kê</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
+      <li nz-submenu nzTitle="Quản lý tài khoản" nzIcon="user-switch" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/accounts">Tài khoản</a>
@@ -30,14 +30,14 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Quản lý đặt phòng" nzIcon="group">
+      <li nz-submenu nzTitle="Quản lý đặt phòng" nzIcon="group">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room-manager">Đặt phòng</a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Quản lý phòng" nzIcon="database">
+      <li nz-submenu nzTitle="Quản lý phòng" nzIcon="database">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room">Phòng</a>
@@ -50,7 +50,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Quản lý khách hàng" nzIcon="team">
+      <li nz-submenu nzTitle="Quản lý khách hàng" nzIcon="team">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/account-user">Tài khoản</a>
