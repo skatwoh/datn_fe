@@ -6,7 +6,7 @@ import {ForgotPasswordWebComponent} from "./page/forgot-password-web/forgot-pass
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'hotel',
     component: AuthWebComponent,
     children: [
       {
