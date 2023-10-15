@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cons-not-found',
+  selector: 'cons-error',
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.css']
 })
