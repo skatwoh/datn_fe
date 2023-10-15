@@ -58,43 +58,33 @@
             <!-- Profile dropdown -->
             <div class="relative ml-3">
               <div>
-                <div class="float-right" style="color: white">
+                <div class="float-right" style="color: white" *ngIf="(user$ | async) as userInfo; else loginButton">
                   <a nz-dropdown [nzDropdownMenu]="menu">
                     <nz-avatar nzSrc="https://i.pinimg.com/236x/ad/3e/91/ad3e914f4a02dee7f7dfe101b821cd45.jpg"></nz-avatar>
-                    <span nz-icon nzType="down"></span>
                   </a>
-                  <nz-dropdown-menu #menu="nzDropdownMenu" >
-                    <ul nz-menu nzSelectable>
-                      <li nz-menu-item class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                        Đào Quốc Khánh
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu nzSelectable style="width: 200px; border-radius: 10px">
+                      <li nz-menu-item class="truncate text-ellipsis text-s font-semibold text-gray-400 dark:text-night-300">
+                        {{userInfo.name}}
                       </li>
-                      <li nz-menu-item class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Info</li>
-                      <li nz-menu-item class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Setting</li>
-                      <li nz-menu-item class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-3">Can I Help?</li>
-                      <li nz-menu-item class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-4" nzDanger routerLink="/hotel/login">
+                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover-text-primary-500">Profile</li>
+                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Setting</li>
+                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Can I Help?</li>
+                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500" nzDanger (click)="onLogout1()">
                         Logout
                       </li>
                     </ul>
                   </nz-dropdown-menu>
                 </div>
+
+                <ng-template #loginButton>
+                  <!-- Hiển thị nút "Đăng nhập" khi userInfo.name không có giá trị -->
+                  <button class="border-y-gray-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full" routerLink="/hotel/login">Đăng nhập</button>
+                </ng-template>
+
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Mobile menu, show/hide based on menu state. -->
-      <div class="sm:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pb-3 pt-2">
-          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-          <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-             aria-current="page">Dashboard</a>
-          <a href="#"
-             class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-          <a href="#"
-             class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-          <a href="#"
-             class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
         </div>
       </div>
     </nav>

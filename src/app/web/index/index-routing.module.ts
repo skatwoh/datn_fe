@@ -24,7 +24,7 @@ const routes: Routes = [
       }
     ]
   },
-  {path: 'hotel', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
+  {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
 ];
 
 @NgModule({

@@ -30,14 +30,14 @@ export class LoginWebComponent implements OnDestroy {
 
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/']);
     }
   }
 
   ngOnInit(): void {
     this.initForm();
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'.toString()] || '/admin';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
   }
 
   private initForm(): void {
