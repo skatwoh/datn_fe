@@ -3,18 +3,18 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {RoomModel} from "../../../models/room.model";
+import {RoomInformationModel} from "../../../models/room-information.model";
 
-const API_AU_URL = `${environment.apiUrl}/phong`;
+const API_AU_URL = `${environment.apiUrl}/chi-tiet-phong`;
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomService{
+export class RoomInformationService {
   constructor(private http: HttpClient) {
   }
 
-  getRoomList(page: number, size: number): Observable<any> {
+  getRoomInformationList(page: number, size: number): Observable<any> {
     const params = {page, size};
     return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
       if (res.body && res.body) {
@@ -28,7 +28,7 @@ export class RoomService{
     return this.http.post(`${API_AU_URL}/create`, data);
   }
 
-  get(id: any): Observable<any> {
+  get(id: number): Observable<RoomInformationModel> {
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/detail`, {params});
   }
