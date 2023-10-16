@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomCategoryComponent } from './room-category.component';
+import { RoomTypeComponent } from './room-type.component';
 
 describe('RoomCategoryComponent', () => {
-  let component: RoomCategoryComponent;
-  let fixture: ComponentFixture<RoomCategoryComponent>;
+  let component: RoomTypeComponent;
+  let fixture: ComponentFixture<RoomTypeComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RoomCategoryComponent]
+      declarations: [RoomTypeComponent]
     });
-    fixture = TestBed.createComponent(RoomCategoryComponent);
+    fixture = TestBed.createComponent(RoomTypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
