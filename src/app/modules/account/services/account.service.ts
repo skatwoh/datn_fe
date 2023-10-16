@@ -29,12 +29,6 @@ export class AccountService {
   }
 
   getUsersDetail(email: string): Observable<any> {
-    const params = {email};
-    return this.http.get<any>(`${API_USER_URL}/detail/${email}`, {params}).pipe(map(res => {
-      if (res.body && res.body) {
-        return res.body;
-      }
-      return null;
-    }));
+    return this.http.get<any>(`${API_USER_URL}/detail/${email}`, {});
   }
 }

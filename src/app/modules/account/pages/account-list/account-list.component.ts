@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AccountService} from '../../services/account.service';
 import {AccountModel} from '../../models/account.model';
 import {AppConstants} from '../../../../app-constants';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-account-list',
@@ -12,7 +13,7 @@ export class AccountListComponent implements OnInit {
   readonly APP_DATE_TIME = AppConstants.APP_DATE_TIME;
   accounts: AccountModel[] = [];
   isLoading = false;
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -37,11 +38,8 @@ export class AccountListComponent implements OnInit {
     })
   }
 
-   getDetailAccount(index: number): void {
-    this.accountService.getUsersDetail(this.accounts[index].email).subscribe(res => {
-      if (res && res.content) {
-        this.accounts = res.content;
-      }
-    })
+  getDetailAccount(email: any) {
+    this.router.navigate([`/detail/${email}`]);
   }
+
 }

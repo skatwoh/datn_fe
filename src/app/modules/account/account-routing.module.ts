@@ -5,11 +5,7 @@ import {AccountDetailComponent, AccountListComponent} from './pages';
 const routes: Routes = [
   {
     path: '',
-    component: AccountListComponent
-  },
-  {
-    path: `detail`,
-    component: AccountDetailComponent,
+    component: AccountListComponent,
   }
 ];
 

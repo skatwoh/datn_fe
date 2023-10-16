@@ -1,0 +1,51 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách chi tiết phòng"
+  nzSubtitle="Total {{roomDetails.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Chi tiết phòng</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý chi tiết phòng</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <nz-table #tableData [nzData]="roomDetails">
+    <thead>
+    <tr>
+      <th nzLeft>STT</th>
+      <th nzLeft>Id</th>
+      <th>Tầng</th>
+      <th>Dịch vụ</th>
+      <th>Diện tích</th>
+      <th>Tiện ích</th>
+      <th>Số lượng người</th>
+       <th>Loại phòng</th>
+      <th>Trạng thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tableData.data; let i = index">
+      <th nzLeft>{{ i + 1 }}</th>
+      <th nzLeft>{{ data.id }}</th>
+      <td nzLeft>{{ data.tang }}</td>
+      <td nzLeft>{{ data.dichVu }}</td>
+      <td nzLeft>{{ data.dienTich }}</td>
+      <td nzLeft>{{ data.tienIch }}</td>
+      <td nzLeft>{{ data.soLuongNguoi }}</td>
+       <td nzLeft>{{ data.tenLoaiPhong }}</td>
+      <td nzLeft>
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai != 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+

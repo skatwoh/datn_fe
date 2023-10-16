@@ -23,7 +23,8 @@ const routes: Routes = [
         component: RoomComponent
       }
     ]
-  }
+  },
+  {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
 ];
 
 @NgModule({

@@ -7,6 +7,7 @@ export class UserModel extends AuthModel {
   email: string | null;
   imageUrl: string | null;
   emailVerified: boolean | null;
+  role: string | null;
 
   setUser(_user: unknown) {
     const user = _user as UserModel;
@@ -15,6 +16,7 @@ export class UserModel extends AuthModel {
     this.email = user.email || '';
     this.imageUrl = user.imageUrl || './assets/media/users/default.jpg';
     this.emailVerified = false;
+    this.role = user.role || '';
   }
 
   constructor() {
@@ -25,5 +27,6 @@ export class UserModel extends AuthModel {
     this.email = null;
     this.imageUrl = null;
     this.emailVerified = null;
+    this.role = null;
   }
 }

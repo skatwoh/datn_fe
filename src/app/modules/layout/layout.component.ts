@@ -11,8 +11,6 @@ export class LayoutComponent {
   isCollapsed = false;
   user$: Observable<any>;
   theme = true;
-  isAdmin: boolean = false; // Biến để kiểm tra vai trò admin
-  isUser: boolean = false; // Biến để kiểm tra vai trò user
 
   constructor(private authService: AuthService) {
     this.user$ = this.authService.currentUser$;

@@ -13,7 +13,7 @@
     position: relative;
     z-index: 10;
     min-height: 100vh;
-    box-shadow: 2px 0 6px rgba(0,21,41,.35);
+    box-shadow: 2px 0 6px rgb(107, 107, 107);
   }
 
   .header-trigger {
@@ -25,7 +25,7 @@
   }
 
   .trigger:hover {
-    color: #1890ff;
+    color: #ff1871;
   }
 
   .sidebar-logo {
