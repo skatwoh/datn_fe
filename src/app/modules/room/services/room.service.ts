@@ -28,7 +28,7 @@ export class RoomService{
     return this.http.post(`${API_AU_URL}/create`, data);
   }
 
-  get(id: number): Observable<RoomModel> {
+  get(id: any): Observable<any> {
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/detail`, {params});
   }
