@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutComponent} from './modules/layout/layout.component';
 import {AuthGuard} from './auth/services';
-import {NotFoundComponent} from "./not-found/not-found.component";
+import {NotFoundComponent} from "./error/not-found/not-found.component";
+import {ForbiddenComponent} from "./error/forbidden/forbidden.component";
 
 const routes: Routes = [
   {path: '', loadChildren: () => import('./web/index/index.module').then(m => m.IndexModule)},
@@ -50,11 +51,11 @@ const routes: Routes = [
     ]
   },
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  { path: 'forbidden', component: ForbiddenComponent },
   {
     path: '**', // Đây là route wildcard để xử lý tất cả các đường dẫn không khớp
     component: NotFoundComponent,
   },
-
 ];
 
 @NgModule({
