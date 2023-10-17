@@ -13,7 +13,8 @@ export class RoomCreateComponent {
     ma: '',
     giaPhong: 0,
     trangThai: 0,
-    idLoaiPhong: ''
+    idLoaiPhong: '',
+    tenLoaiPhong: ''
   };
   submitted = false;
 
@@ -43,7 +44,8 @@ export class RoomCreateComponent {
       ma: '',
       giaPhong: 0,
       trangThai: 0,
-      idLoaiPhong: ''
+      idLoaiPhong: '',
+      tenLoaiPhong: ''
     };
   }
 

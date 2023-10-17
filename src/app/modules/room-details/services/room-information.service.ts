@@ -28,7 +28,7 @@ export class RoomInformationService {
     return this.http.post(`${API_AU_URL}/create`, data);
   }
 
-  get(id: number): Observable<RoomInformationModel> {
+  get(id: any): Observable<RoomInformationModel> {
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/detail`, {params});
   }
