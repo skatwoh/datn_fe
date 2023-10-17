@@ -1,15 +1,25 @@
-<div *ngIf="room">
-  <h2>Data from Java Backend:</h2>
-  <div class="full-width" *ngIf="room.id">
-    <nz-form-label>ID</nz-form-label>
-    <input matInput [(ngModel)]="room.id" id="id" name="id" placeholder="ID" readonly disabled>
+<div *ngIf="room" class="edit-form">
+  <nz-form-item>
+    <nz-form-label nzFor="ma">Mã phòng: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="ma" name="ma" [(ngModel)]="room.ma"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="giaPhong">Giá phòng: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập giá">
+      <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="room.gia_Phong"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-label nzFor="giaPhong">Loại phòng: </nz-form-label>
+  <nz-select [(ngModel)]="room.id_Loai_Phong" nzMode="tags" nzPlaceHolder="Please select">
+    <nz-option *ngFor="let option of roomType" [nzValue]="option.id">{{option.ten_Loai_Phong}}</nz-option>
+  </nz-select>
+  <br>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" style="width: 100%" (click)="updateRoom()">Cập nhật</button>
+    </nz-form-control>
+  </nz-form-item>
+  <p>{{message}}</p>
   </div>
-  <div class="full-width" *ngIf="room.ma">
-    <nz-form-label>Mã phòng</nz-form-label>
-    <input matInput [(ngModel)]="room.ma" id="ma" name="ma" placeholder="ID" readonly disabled>
-  </div>
-  <div class="full-width" *ngIf="room.gia_Phong">
-    <nz-form-label>Giá phòng</nz-form-label>
-    <input matInput [(ngModel)]="room.gia_Phong" id="giaPhong" name="gia_Phong" placeholder="ID" readonly disabled>
-  </div>
-</div>

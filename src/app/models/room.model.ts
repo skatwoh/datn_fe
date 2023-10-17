@@ -4,4 +4,5 @@ export class RoomModel{
   giaPhong: number | undefined;
   trangThai: number | undefined;
   idLoaiPhong: string | undefined;
+  tenLoaiPhong: string | undefined;
 }

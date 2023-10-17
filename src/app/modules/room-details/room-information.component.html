@@ -23,6 +23,7 @@
       <th>Số lượng người</th>
        <th>Loại phòng</th>
       <th>Trạng thái</th>
+      <th>Tác vụ</th>
     </tr>
     </thead>
     <tbody>
@@ -43,6 +44,9 @@
         <div class="flex items-center" *ngIf="data.trangThai != 1">
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
         </div>
+      </td>
+      <td>
+        <a href="admin/room-information/room-information-details/{{ data.id }}">Xem</a>
       </td>
     </tr>
     </tbody>

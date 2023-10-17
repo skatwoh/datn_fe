@@ -34,10 +34,17 @@ export class RoomService{
   }
 
   update(id: any, data: any): Observable<any> {
-    return this.http.put(`${API_AU_URL}/update/${id}`, data);
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update`, {params}, data);
   }
 
   delete(id: any): Observable<any> {
     return this.http.delete(`${API_AU_URL}/${id}`);
   }
+
+  // singleListRoomType() {
+  //   this.http.get<any>(`${API_AU_URL}`).subscribe(data => {
+  //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType
+  //   });
+  // }
 }
