@@ -1,4 +1,15 @@
-<div>
-  <h1>{{room.ma}}</h1>
-  <h1>{{room.giaPhong}}</h1>
+<div *ngIf="room">
+  <h2>Data from Java Backend:</h2>
+  <div class="full-width" *ngIf="room.id">
+    <nz-form-label>ID</nz-form-label>
+    <input matInput [(ngModel)]="room.id" id="id" name="id" placeholder="ID" readonly disabled>
+  </div>
+  <div class="full-width" *ngIf="room.ma">
+    <nz-form-label>Mã phòng</nz-form-label>
+    <input matInput [(ngModel)]="room.ma" id="ma" name="ma" placeholder="ID" readonly disabled>
+  </div>
+  <div class="full-width" *ngIf="room.gia_Phong">
+    <nz-form-label>Giá phòng</nz-form-label>
+    <input matInput [(ngModel)]="room.gia_Phong" id="giaPhong" name="gia_Phong" placeholder="ID" readonly disabled>
+  </div>
 </div>
