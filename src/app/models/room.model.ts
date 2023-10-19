@@ -1,8 +1,8 @@
 export class RoomModel{
-  id?: number ;
+  id: number | undefined ;
   ma: string | undefined;
   giaPhong: number | undefined;
   trangThai: number | undefined;
-  idLoaiPhong: string | undefined;
+  idLoaiPhong: number | undefined;
   tenLoaiPhong: string | undefined;
 }

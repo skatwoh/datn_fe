@@ -34,7 +34,8 @@ export class RoomInformationService {
   }
 
   update(id: any, data: any): Observable<any> {
-    return this.http.put(`${API_AU_URL}/update/${id}`, data);
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update`, data, {params});
   }
 
   delete(id: any): Observable<any> {

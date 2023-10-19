@@ -29,6 +29,16 @@
       <input nz-input type="number" id="dienTich" name="dienTich" [(ngModel)]="room.dienTich"/>
     </nz-form-control>
   </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="dienTich">Trạng thái: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
+      <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="room.trangThai"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-label nzFor="loaiPhong">Loại phòng: {{room.idLoaiPhong}}</nz-form-label>
+  <nz-select name="idLoaiPhong" style="width: 200px" [(ngModel)]="room.idLoaiPhong">
+    <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
+  </nz-select>
   <br>
   <nz-form-item>
     <nz-form-control>
