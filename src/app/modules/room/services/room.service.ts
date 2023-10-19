@@ -35,7 +35,7 @@ export class RoomService{
 
   update(id: any, data: any): Observable<any> {
     const params = {id};
-    return this.http.put(`${API_AU_URL}/update`, {params}, data);
+    return this.http.put(`${API_AU_URL}/update`, data, {params});
   }
 
   delete(id: any): Observable<any> {

@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../services/room.service";
 import {RoomModel} from "../../../models/room.model";
-import {RoomDTOModel} from "../../../models/roomDTO.model";
-import {RoomTypeModel} from "../../../models/room-type.model";
 import {RoomTypeService} from "../../room-category/services/room-type.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-room-details',
@@ -16,41 +15,41 @@ import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
 })
 export class RoomDetailsComponent implements OnInit {
   id: number | undefined;
-  room!: RoomDTOModel;
   roomModel!: RoomModel;
-  message = '';
-  roomType!: RoomTypeDtoModel[];
-
-  constructor(public roomService: RoomService, public roomTypeService: RoomTypeService, private router: Router, private route: ActivatedRoute, private http : HttpClient) {}
+  roomType : RoomTypeDtoModel[] = [];
+  constructor(public roomService: RoomService, public roomTypeService: RoomTypeService, private router: Router,
+              private route: ActivatedRoute, private http : HttpClient, private message: NzMessageService) {}
 
 
 
   ngOnInit() {
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2 : RoomTypeDtoModel) => {
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
       console.log(data2);
+      console.log(this.roomType);
     });
-    console.log(this.roomType);
     this.id = this.route.snapshot.params['id'];
-    this.roomService.get(this.id).subscribe((data: RoomDTOModel) => {
-      this.room = data;
-      console.log(this.room);
+    this.roomService.get(this.id).subscribe((data: RoomModel) => {
+      this.roomModel = data;
+      console.log(this.roomModel);
     });
   }
 
   updateRoom(): void {
-    this.message = '';
 
     this.roomService
-      .update(this.room.id, this.roomModel)
+      .update(this.roomModel.id, this.roomModel)
       .subscribe({
         next: (res) => {
-          console.log(this.roomModel);
+          console.log(res);
           this.message = res.message
             ? res.message
-            : 'This room was updated successfully!';
+            : this.message.success('This is a prompt message for success, and it will disappear in 10 seconds', {
+              nzDuration: 10000
+            });;
         },
         error: (e) => console.error(e)
       });
+    this.router.navigate(['/admin/room']);
   }
 }
