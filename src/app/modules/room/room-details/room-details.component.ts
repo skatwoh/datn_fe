@@ -6,7 +6,6 @@ import {RoomTypeService} from "../../room-category/services/room-type.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
-import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-room-details',
@@ -17,8 +16,9 @@ export class RoomDetailsComponent implements OnInit {
   id: number | undefined;
   roomModel!: RoomModel;
   roomType : RoomTypeDtoModel[] = [];
+  message ='';
   constructor(public roomService: RoomService, public roomTypeService: RoomTypeService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private message: NzMessageService) {}
+              private route: ActivatedRoute, private http : HttpClient) {}
 
 
 
@@ -44,9 +44,7 @@ export class RoomDetailsComponent implements OnInit {
           console.log(res);
           this.message = res.message
             ? res.message
-            : this.message.success('This is a prompt message for success, and it will disappear in 10 seconds', {
-              nzDuration: 10000
-            });;
+            : 'Update thành công!'
         },
         error: (e) => console.error(e)
       });
