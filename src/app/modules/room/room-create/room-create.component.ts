@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RoomModel} from "../../../models/room.model";
 import {RoomService} from "../services/room.service";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
+import {NzMessageModule, NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'cons-room-create',
   templateUrl: './room-create.component.html',
   styleUrls: ['./room-create.component.scss']
 })
-export class RoomCreateComponent {
+export class RoomCreateComponent implements OnInit {
   room : RoomModel = {
     id: 0,
     ma: '',
@@ -22,14 +23,16 @@ export class RoomCreateComponent {
   roomType : RoomTypeDtoModel[] = [];
   submitted = false;
 
-  constructor(private roomService: RoomService, private http : HttpClient) {}
+  constructor(private roomService: RoomService, private http : HttpClient, private message: NzMessageService) {}
 
   ngOnInit() {
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
-      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
-      console.log(data2);
-      console.log(this.roomType);
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((dataRoom)  => {
+      this.roomType = dataRoom; // Gán dữ liệu lấy được vào biến roomType
     });
+  }
+
+  successMessage(): void {
+    this.message.success('Thêm thành công');
   }
 
   saveRoom(): void {
@@ -42,7 +45,7 @@ export class RoomCreateComponent {
 
     this.roomService.create(data).subscribe({
       next: (res) => {
-        console.log(res);
+        this.successMessage();
         this.submitted = true;
       },
       error: (e) => console.error(e)
@@ -62,4 +65,6 @@ export class RoomCreateComponent {
   }
 
   protected readonly RoomModel = RoomModel;
+
+
 }

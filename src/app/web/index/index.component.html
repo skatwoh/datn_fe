@@ -23,7 +23,7 @@
           </div>
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div class="flex flex-shrink-0 items-center">
-              <a href="" >
+              <a href="">
                 <img class="h-8 w-auto" src="./assets/logo.png"
                      alt="logo">
               </a>
@@ -60,17 +60,39 @@
               <div>
                 <div class="float-right" style="color: white" *ngIf="(user$ | async) as userInfo; else loginButton">
                   <a nz-dropdown [nzDropdownMenu]="menu">
-                    <nz-avatar nzSrc="https://i.pinimg.com/236x/ad/3e/91/ad3e914f4a02dee7f7dfe101b821cd45.jpg"></nz-avatar>
+                    <ng-container *ngIf="userInfo.imageUrl">
+                      <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->
+                      <nz-avatar [nzSrc]="userInfo.imageUrl"></nz-avatar>
+                    </ng-container>
+                    <ng-container *ngIf="!userInfo.imageUrl">
+                      <!-- Sử dụng consFirstChar nếu userInfo.urlImage là null -->
+                      <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+                    </ng-container>
                   </a>
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu nzSelectable style="width: 200px; border-radius: 10px">
-                      <li nz-menu-item class="truncate text-ellipsis text-s font-semibold text-gray-400 dark:text-night-300">
+                      <li nz-menu-item
+                          class="truncate text-ellipsis text-s font-semibold text-gray-400 dark:text-night-300">
                         {{userInfo.name}}
                       </li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover-text-primary-500">Profile</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Setting</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Can I Help?</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500" nzDanger (click)="onLogout1()">
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700
+                          hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover-text-primary-500"
+                          routerLink="/profile"
+                      >
+                        Profile
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">
+                        Setting
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">
+                        Can I Help?
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500"
+                          nzDanger (click)="onLogout1()">
                         Logout
                       </li>
                     </ul>
@@ -79,7 +101,9 @@
 
                 <ng-template #loginButton>
                   <!-- Hiển thị nút "Đăng nhập" khi userInfo.name không có giá trị -->
-                  <button class="border-y-gray-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full" routerLink="/hotel/login">Đăng nhập</button>
+                  <button class="border-y-gray-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full"
+                          routerLink="/hotel/login">Đăng nhập
+                  </button>
                 </ng-template>
 
               </div>
