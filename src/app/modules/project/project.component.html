@@ -1,0 +1,54 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách dự án"
+  nzSubtitle="Total {{project.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Dự Án </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý dự án</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <nz-table #tableData [nzData]="project">
+    <thead>
+    <tr>
+<!--      <th nzLeft>STT</th>-->
+      <th nzLeft>Id</th>
+      <th>Mã </th>
+      <th>Tên </th>
+      <th>Tiến Độ </th>
+      <th>Chi Phí </th>
+      <th>Ngày bắt đầu</th>
+      <th>Ngày kết thúc</th>
+      <th>Ghi chú</th>
+      <th>Trạng Thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of tableData.data; let i = index">
+<!--      <th nzLeft>{{ i + 1 }}</th>-->
+      <th nzLeft>{{ data.id }}</th>
+      <td nzLeft>{{ data.ma }}</td>
+      <td nzLeft>{{ data.ten }}</td>
+      <td nzLeft>{{ data.tienDo }}</td>
+      <td nzLeft>{{ data.chiPhi }}</td>
+      <td nzLeft>{{ data.ngayBatDau }}</td>
+      <td nzLeft>{{ data.ngayKetThuc }}</td>
+      <td nzLeft>{{ data.ghiChu }}</td>
+      <td nzLeft>
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai != 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+

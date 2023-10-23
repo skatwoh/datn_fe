@@ -46,7 +46,20 @@ const routes: Routes = [
       {
         path: 'room-details',
         loadChildren: () => import('./modules/room-details/room-details.module').then(m => m.RoomDetailsModule)
+      },
+      {
+        path: 'project',
+        loadChildren: () => import('./modules/project/project.module').then(m => m.ProjectModule)
+      },
+      {
+        path: 'service-hotel',
+        loadChildren: () => import('./modules/service-hotel/service-hotel.module').then(m => m.ServiceHotelModule)
+      },
+      {
+        path: 'asset',
+        loadChildren: () => import('./modules/asset/asset.module').then(m => m.AssetModule)
       }
+      
     ]
   },
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
