@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RoomModel} from "../../../models/room.model";
 import {RoomService} from "../services/room.service";
+import {NzMessageModule, NzMessageService} from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'cons-room-create',
   templateUrl: './room-create.component.html',
   styleUrls: ['./room-create.component.scss']
 })
-export class RoomCreateComponent {
+export class RoomCreateComponent implements OnInit {
   room : RoomModel = {
     id: 0,
     ma: '',
@@ -18,7 +19,11 @@ export class RoomCreateComponent {
   };
   submitted = false;
 
-  constructor(private roomService: RoomService) {}
+  constructor(private roomService: RoomService, private message: NzMessageService) {}
+
+  createBasicMessage(): void {
+    this.message.info('This is a normal message');
+  }
 
   saveRoom(): void {
     const data = {
@@ -50,4 +55,9 @@ export class RoomCreateComponent {
   }
 
   protected readonly RoomModel = RoomModel;
+  value: any;
+
+  ngOnInit() {
+    console.log(this.room);
+  }
 }

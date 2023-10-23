@@ -28,3 +28,10 @@
     </div>
   </div>
 </div>
+
+<input nz-input placeholder="Basic usage" [(ngModel)]="value" />
+<br />
+<br />
+<input nz-input placeholder="Basic usage" [(ngModel)]="value" [disabled]="true" />
+
+<button nz-button [nzType]="'primary'" (click)="createBasicMessage()">Display normal message</button>

@@ -13,7 +13,7 @@ export class RoomComponent implements OnInit{
   constructor(private roomService: RoomService, private router: Router) { }
 
   private getRooms(): void {
-    this.roomService.getRoomList(1, 15).subscribe(res => {
+    this.roomService.getRoomList(1, 50).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
       }
