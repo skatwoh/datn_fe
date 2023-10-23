@@ -13,6 +13,12 @@
           <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="room.giaPhong"/>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>
+        <nz-select id="idLoaiPhong" name="idLoaiPhong" style="width: 200px" [(ngModel)]="room.idLoaiPhong">
+          <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
+        </nz-select>
+      </nz-form-item>
       <br>
       <nz-form-item>
         <nz-form-control>

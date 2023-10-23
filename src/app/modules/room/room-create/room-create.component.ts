@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import {RoomModel} from "../../../models/room.model";
 import {RoomService} from "../services/room.service";
+import {environment} from "../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
 
 @Component({
   selector: 'cons-room-create',
@@ -16,16 +19,25 @@ export class RoomCreateComponent {
     idLoaiPhong: 0,
     tenLoaiPhong: ''
   };
+  roomType : RoomTypeDtoModel[] = [];
   submitted = false;
 
-  constructor(private roomService: RoomService) {}
+  constructor(private roomService: RoomService, private http : HttpClient) {}
+
+  ngOnInit() {
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
+      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
+      console.log(data2);
+      console.log(this.roomType);
+    });
+  }
 
   saveRoom(): void {
     const data = {
       ma: this.room.ma,
       giaPhong: this.room.giaPhong,
       trangThai: 1,
-      idLoaiPhong: '1'
+      idLoaiPhong: this.room.idLoaiPhong
     };
 
     this.roomService.create(data).subscribe({
