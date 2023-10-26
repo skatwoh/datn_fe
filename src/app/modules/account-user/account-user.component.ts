@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AccountUserService} from "./services/account-user.service";
 import {Router} from "@angular/router";
-import {AccountUserModel} from "./models/account-user.model";
+import {AccountUserModel} from "../../models/account-user.model";
+import {NzModalComponent} from "ng-zorro-antd/modal";
 
 @Component({
   selector: 'cons-account-user',
@@ -19,7 +20,9 @@ export class AccountUserComponent implements OnInit{
       }
     })
   }
+
   ngOnInit() {
     this.getAccountUsers();
   }
+
 }

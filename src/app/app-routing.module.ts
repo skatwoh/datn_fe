@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutComponent} from './modules/layout/layout.component';
 import {AuthGuard} from './auth/services';
-import {NotFoundComponent} from "./not-found/not-found.component";
+import {NotFoundComponent} from "./error/not-found/not-found.component";
+import {ForbiddenComponent} from "./error/forbidden/forbidden.component";
 
 const routes: Routes = [
   {path: '', loadChildren: () => import('./web/index/index.module').then(m => m.IndexModule)},
@@ -40,12 +41,12 @@ const routes: Routes = [
         loadChildren: () => import('./modules/room/room.module').then(m => m.RoomModule)
       },
       {
-        path: 'room-category',
-        loadChildren: () => import('./modules/room-category/room-category.module').then(m => m.RoomCategoryModule)
+        path: 'room-type',
+        loadChildren: () => import('./modules/room-category/room-type.module').then(m => m.RoomTypeModule)
       },
       {
-        path: 'room-details',
-        loadChildren: () => import('./modules/room-details/room-details.module').then(m => m.RoomDetailsModule)
+        path: 'room-information',
+        loadChildren: () => import('./modules/room-details/room-information.module').then(m => m.RoomInformationModule)
       },
       {
         path: 'project',
@@ -59,10 +60,10 @@ const routes: Routes = [
         path: 'asset',
         loadChildren: () => import('./modules/asset/asset.module').then(m => m.AssetModule)
       }
-      
     ]
   },
   {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  { path: 'forbidden', component: ForbiddenComponent },
   {
     path: '**', // Đây là route wildcard để xử lý tất cả các đường dẫn không khớp
     component: NotFoundComponent,

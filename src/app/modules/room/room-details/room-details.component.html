@@ -1,0 +1,33 @@
+<div *ngIf="roomModel" class="edit-form">
+  <nz-form-item>
+    <nz-form-label nzFor="ma">Mã phòng: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="ma" name="ma" [(ngModel)]="roomModel.ma"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="giaPhong">Giá phòng: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập giá">
+      <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="roomModel.giaPhong"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="giaPhong">Trạng thái: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
+      <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="roomModel.trangThai"/>
+    </nz-form-control>
+  </nz-form-item>
+  <div style="display: flex">
+    <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>
+    <nz-select name="idLoaiPhong" style="width: 200px" [(ngModel)]="roomModel.idLoaiPhong">
+    <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
+  </nz-select>
+  <h2 style="margin-left: 10px">({{roomModel.tenLoaiPhong}})</h2>
+  </div>
+  <br>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" style="width: 100%" (click)="updateRoom()">Cập nhật</button>
+    </nz-form-control>
+  </nz-form-item>
+  </div>

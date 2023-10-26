@@ -11,6 +11,9 @@
 </nz-page-header>
 
 <div class="page-content">
+  <div class="d-flex">
+    <a nz-button nzType="primary" routerLink="/admin/room/room-create">Thêm mới</a>
+  </div>
   <nz-table #tableData [nzData]="room">
     <thead>
     <tr>
@@ -18,7 +21,9 @@
       <th nzLeft>Id</th>
       <th>Mã</th>
       <th>Giá phòng</th>
+      <th>Loại phòng</th>
       <th>Trạng thái</th>
+      <th>Tác vụ</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +32,7 @@
       <th nzLeft>{{ data.id }}</th>
       <td nzLeft>{{ data.ma }}</td>
       <td nzLeft>{{ data.giaPhong }}</td>
+      <td nzLeft>{{ data.idLoaiPhong }} {{ data.tenLoaiPhong }}</td>
       <td nzLeft>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
@@ -35,6 +41,9 @@
         <div class="flex items-center" *ngIf="data.trangThai != 1">
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
         </div>
+      </td>
+      <td>
+        <a href="admin/room/room-details/{{ data.id }}">Xem</a>
       </td>
     </tr>
     </tbody>

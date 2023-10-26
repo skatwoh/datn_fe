@@ -11,6 +11,9 @@
 </nz-page-header>
 
 <div class="page-content">
+  <div class="d-flex">
+    <a nz-button nzType="primary" routerLink="/admin/project/project-create">Thêm mới</a>
+  </div>
   <nz-table #tableData [nzData]="project">
     <thead>
     <tr>
@@ -24,6 +27,7 @@
       <th>Ngày kết thúc</th>
       <th>Ghi chú</th>
       <th>Trạng Thái</th>
+      <th>Tác Vụ</th>
     </tr>
     </thead>
     <tbody>
@@ -45,6 +49,10 @@
         <div class="flex items-center" *ngIf="data.trangThai != 1">
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
         </div>
+
+      </td>
+      <td>
+        <a href="admin/project/project-details/{{ data.id }}">Xem</a>
       </td>
     </tr>
     </tbody>

@@ -77,6 +77,14 @@ export class AuthService implements OnDestroy {
     });
   }
 
+  logout1() {
+    this.currentUserSubject.next(undefined);
+    localStorage.removeItem(this.authLocalStorageToken);
+    this.router.navigate(['/hotel/login'], {
+      queryParams: {},
+    });
+  }
+
   getUserByToken(): Observable<UserType> {
     const auth = this.getAuthFromLocalStorage();
     if (!auth || !auth.accessToken) {

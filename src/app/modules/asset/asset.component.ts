@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AssetModel } from './models/asset.model';
+import { AssetModel } from '../../models/asset.model';
 import { AssetService } from './service/asset.service';
 
 @Component({

@@ -22,4 +22,23 @@ export class ProjectService{
       return null;
     }));
   }
+  create(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create`, data);
+  }
+
+  get(id: any): Observable<any> {
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/detail`, {params});
+  }
+
+  update(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update`, data, {params});
+  }
+
+  delete(id: any): Observable<any> {
+    return this.http.delete(`${API_AU_URL}/${id}`);
+  }
+
 }
+

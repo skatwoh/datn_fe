@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiceHotelService } from './service/service-hotel.service';
-import { ServiceHotelModel } from './models/service-hote.model';
+import { ServiceHotelModel } from '../../models/service-hote.model';
 
 @Component({
   selector: 'cons-hotel-service',

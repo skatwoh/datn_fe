@@ -1,0 +1,37 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <nz-form-item>
+        <nz-form-label nzFor="ma">Mã phòng: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="room.ma" disabled/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="giaPhong">Giá phòng: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá">
+          <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="room.giaPhong"/>
+        </nz-form-control>
+      </nz-form-item>
+      <br>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" (click)="saveRoom()">Thêm</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div *ngIf="submitted">
+      <h1>Thêm thành công!</h1><br>
+      <button nz-button nzType="primary" (click)="newRoom()">Add</button><br><br>
+      <a nz-button nzType="primary" routerLink="/admin/room">Trở về</a>
+    </div>
+  </div>
+</div>
+
+<input nz-input placeholder="Basic usage" [(ngModel)]="value" />
+<br />
+<br />
+<input nz-input placeholder="Basic usage" [(ngModel)]="value" [disabled]="true" />
+
+<button nz-button [nzType]="'primary'" (click)="createBasicMessage()">Display normal message</button>
