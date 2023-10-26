@@ -24,6 +24,16 @@ export class RoomService{
     }));
   }
 
+  getRoomListSearch(page: number, size: number, input: string): Observable<any> {
+    const params = {page, size, input};
+    return this.http.get<any>(`${API_AU_URL}/search`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   create(data: any): Observable<any> {
     return this.http.post(`${API_AU_URL}/create`, data);
   }
@@ -36,6 +46,11 @@ export class RoomService{
   update(id: any, data: any): Observable<any> {
     const params = {id};
     return this.http.put(`${API_AU_URL}/update`, data, {params});
+  }
+
+  updateStatus(id: any, data: number): Observable<any> {
+    const params = {id};
+    return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
   }
 
   delete(id: any): Observable<any> {
