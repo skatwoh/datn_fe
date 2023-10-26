@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AuthModel} from '../models/auth.model';
 import {UserModel} from '../models/user.model';
 import {RegistrationModel} from '../models/registration.model';
+import {ForgotModel} from "../models/forgot.model";
 
 const API_AUTH_URL = `${environment.apiUrl}/auth`;
 const API_USER_URL = `${environment.apiUrl}/user`;
@@ -26,9 +27,10 @@ export class AuthHttpService {
     return this.http.post<AuthModel>(`${API_AUTH_URL}/login`, payload);
   }
 
-  forgotPassword(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${API_AUTH_URL}/forgot-password`, {email,});
+  forgotPassword(payload: ForgotModel): Observable<any> {
+    return this.http.post<any>(`${API_AUTH_URL}/forgot`, payload);
   }
+
 
   getUserByToken(jwt: string): Observable<UserModel> {
     const httpHeaders = new HttpHeaders({

@@ -1,14 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {
-  FormBuilder, FormControl,
-  FormGroup,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
-
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {first, Observable, Subscription} from "rxjs";
 import {AuthService} from "../../../../../auth/services";
 import {Router} from "@angular/router";
@@ -74,7 +65,7 @@ export class RegisterWebComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe((res: any) => {
           if (res?.code === AppConstants.API_SUCCESS_CODE) {
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(['/hotel/login']);
           } else {
             if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
               const msg: any = res.entityMessages[0];
