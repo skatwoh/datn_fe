@@ -10,6 +10,9 @@ import { RoomService } from './services/room.service';
 })
 export class RoomComponent implements OnInit{
   room: RoomModel[] = [];
+  currentRoom!: RoomModel;
+  isLoading = false;
+  message ='';
   constructor(private roomService: RoomService, private router: Router) { }
 
   private getRooms(): void {
@@ -19,6 +22,33 @@ export class RoomComponent implements OnInit{
       }
     })
   }
+
+  searchInput :string = '';
+  getRoomsSearch(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.roomService.getRoomListSearch(1, 50, this.searchInput).subscribe(res => {
+      if (res && res.content) {
+        this.room= res.content;
+      }
+    })
+  }
+
+  updateRoomStatus(id: any, status: number): void {
+    this.roomService.get(id).subscribe((data: RoomModel) => {
+      this.currentRoom = data;
+      console.log(this.currentRoom);
+    });
+    this.roomService.updateStatus(id, status)
+      .subscribe({
+        next: (res) => {
+          this.message = res.message
+          this.currentRoom.trangThai = status
+          this.getRooms();
+        },
+      });
+  }
+
   ngOnInit() {
     this.getRooms();
   }

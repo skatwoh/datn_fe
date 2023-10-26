@@ -11,39 +11,61 @@
 </nz-page-header>
 
 <div class="page-content">
-  <div class="d-flex">
-    <a nz-button nzType="primary" routerLink="/admin/room/room-create">Thêm mới</a>
+  <div>
+    <div class="d-flex">
+      <a nz-button nzType="primary" routerLink="/admin/room/room-create">Thêm mới</a>
+    </div>
+    <div style="float: right;width: 50%;margin: 20px">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" id="searchInput" name="searchInput" [ngModel]= "searchInput" nz-input placeholder="Nhập để tìm kiếm"/>
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" (click)="getRoomsSearch()" nzSearch><span nz-icon nzType="search"></span></button>
+      </ng-template>
+    </div>
   </div>
   <nz-table #tableData [nzData]="room">
     <thead>
     <tr>
-<!--      <th nzLeft>STT</th>-->
+      <!--      <th nzLeft>STT</th>-->
       <th nzLeft>Id</th>
       <th>Mã</th>
       <th>Giá phòng</th>
       <th>Loại phòng</th>
       <th>Trạng thái</th>
       <th>Tác vụ</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of tableData.data; let i = index">
-<!--      <th nzLeft>{{ i + 1 }}</th>-->
+      <!--      <th nzLeft>{{ i + 1 }}</th>-->
       <th nzLeft>{{ data.id }}</th>
       <td nzLeft>{{ data.ma }}</td>
       <td nzLeft>{{ data.giaPhong }}</td>
       <td nzLeft>{{ data.idLoaiPhong }} {{ data.tenLoaiPhong }}</td>
       <td nzLeft>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
-          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+          Đang hoạt động
         </div>
 
-        <div class="flex items-center" *ngIf="data.trangThai != 1">
-          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+          Ngừng hoạt động
         </div>
       </td>
       <td>
         <a href="admin/room/room-details/{{ data.id }}">Xem</a>
+      </td>
+      <td>
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <button nz-button nzType="primary" nzDanger (click)="updateRoomStatus(data.id, 0)">Tắt hoạt động</button>
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <button nz-button nzType="primary" (click)="updateRoomStatus(data.id, 1)">Bật hoạt động</button>
+        </div>
       </td>
     </tr>
     </tbody>

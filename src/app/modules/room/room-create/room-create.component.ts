@@ -5,6 +5,9 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
 import {NzMessageModule, NzMessageService} from 'ng-zorro-antd/message';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {first} from "rxjs";
+import {UserModel} from "../../../auth/models/user.model";
 
 @Component({
   selector: 'cons-room-create',
@@ -12,6 +15,9 @@ import {NzMessageModule, NzMessageService} from 'ng-zorro-antd/message';
   styleUrls: ['./room-create.component.scss']
 })
 export class RoomCreateComponent implements OnInit {
+
+  // @ts-ignore
+  submitForm : FormGroup;
   room : RoomModel = {
     id: 0,
     ma: '',
@@ -22,13 +28,21 @@ export class RoomCreateComponent implements OnInit {
   };
   roomType : RoomTypeDtoModel[] = [];
   submitted = false;
+  hasError: boolean = false;
 
-  constructor(private roomService: RoomService, private http : HttpClient, private message: NzMessageService) {}
+  constructor(private roomService: RoomService, private http : HttpClient, private message: NzMessageService,  private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.initForm();
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((dataRoom)  => {
       this.roomType = dataRoom; // Gán dữ liệu lấy được vào biến roomType
     });
+  }
+
+  private initForm(): void {
+    this.submitForm = this.fb.group({
+        giaPhong: new FormControl(null, Validators.compose([Validators.min(1000), Validators.max(100000000000)])),
+    })
   }
 
   successMessage(): void {
