@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, effect} from '@angular/core';
 
 @Component({
   selector: 'cons-home',
