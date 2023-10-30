@@ -36,7 +36,6 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   updateRoom(): void {
-
     this.roomService
       .update(this.roomModel.id, this.roomModel)
       .subscribe({

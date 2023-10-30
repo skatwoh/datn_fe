@@ -22,7 +22,7 @@
           <ng-container *ngIf="!userInfo.imageUrl">
             <!-- Sử dụng consFirstChar nếu userInfo.urlImage là null -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
             </svg>
           </ng-container>
         </div>
@@ -33,13 +33,17 @@
           Connect
         </button>
         <button
-          class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-          Message
+          class="text-white py-2 px-4 rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+          style="border-radius: 10px"
+          (click)="showModal()"
+        >
+          <span nz-icon nzType="lock" nzTheme="outline" style="font-size: 24px"></span> Đổi mật khẩu
         </button>
       </div>
     </div>
-    <div class="mt-20 text-center border-b pb-12"><h1 class="text-4xl font-medium text-gray-700">{{userInfo.name}}, <span
-      class="font-light text-gray-500">27</span></h1>
+    <div class="mt-20 text-center border-b pb-12"><h1 class="text-4xl font-medium text-gray-700">{{userInfo.name}},
+      <span
+        class="font-light text-gray-500">27</span></h1>
       <p class="font-light text-gray-600 mt-3">Bucharest, Romania</p>
       <p class="mt-8 text-gray-500">Solution Manager - Creative Tim Officer</p>
       <p class="mt-2 text-gray-500">University of Computer Science</p></div>
@@ -51,3 +55,22 @@
     </div>
   </div>
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input formControlName="password" placeholder="Password" required/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input formControlName="password" placeholder="Confirm Password" required/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </ng-container>
+</nz-modal>

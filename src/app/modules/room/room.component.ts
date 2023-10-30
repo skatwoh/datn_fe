@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { RoomModel } from '../../models/room.model';
 import { RoomService } from './services/room.service';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {RoomTypeDtoModel} from "../../models/room-type-dto.model";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-room',
@@ -10,7 +14,39 @@ import { RoomService } from './services/room.service';
 })
 export class RoomComponent implements OnInit{
   room: RoomModel[] = [];
-  constructor(private roomService: RoomService, private router: Router) { }
+  currentRoom!: RoomModel;
+  message ='';
+  isVisible = false;
+  isOkLoading = false;
+
+  // detail
+  id: number | undefined;
+  // roomModel!: RoomModel;
+  roomType : RoomTypeDtoModel[] = [];
+
+  showModal(id: any): void {
+    this.isVisible = true;
+    this.id = id;
+    this.roomService.get(this.id).subscribe((data: RoomModel) => {
+      this.currentRoom = data;
+      console.log(this.currentRoom);
+    });
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    this.updateRoom();
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 500);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+  constructor(private roomService: RoomService, private router: Router,
+              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
 
   private getRooms(): void {
     this.roomService.getRoomList(1, 50).subscribe(res => {
@@ -19,7 +55,56 @@ export class RoomComponent implements OnInit{
       }
     })
   }
+
+  searchInput :string = '';
+  getRoomsSearch(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.roomService.getRoomListSearch(1, 50, this.searchInput).subscribe(res => {
+      if (res && res.content) {
+        this.room= res.content;
+      }
+    })
+  }
+
+  updateRoomStatus(id: any, status: number): void {
+    this.roomService.get(id).subscribe((data: RoomModel) => {
+      this.currentRoom = data;
+      console.log(this.currentRoom);
+    });
+    this.roomService.updateStatus(id, status)
+      .subscribe({
+        next: (res) => {
+          this.message = res.message
+          this.currentRoom.trangThai = status
+          this.getRooms();
+        },
+      });
+  }
+
+  updateRoom(): void {
+    this.roomService
+      .update(this.currentRoom.id, this.currentRoom)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.message = res.message
+            ? res.message
+            : this.messageNoti.success('Update thành công', {
+              nzDuration: 5000
+            });
+          this.getRooms();
+        },
+        error: (e) => console.error(e)
+      });
+  }
+
   ngOnInit() {
     this.getRooms();
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
+      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
+      console.log(data2);
+      console.log(this.roomType);
+    });
   }
 }

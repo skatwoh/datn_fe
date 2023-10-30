@@ -10,6 +10,12 @@ import {FirstCharPipe} from "../../shared/pipes/first-char.pipe";
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
 import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzCarouselModule} from "ng-zorro-antd/carousel";
+import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzFormModule} from "ng-zorro-antd/form";
+import {NzInputModule} from "ng-zorro-antd/input";
 
 @NgModule({
   declarations: [
@@ -27,6 +33,12 @@ import {NzButtonModule} from "ng-zorro-antd/button";
         NgOptimizedImage,
         NzTypographyModule,
         NzButtonModule,
+        NzCarouselModule,
+        NzBadgeModule,
+        NzIconModule,
+        NzModalModule,
+        NzFormModule,
+        NzInputModule,
     ]
 })
 export class IndexModule {

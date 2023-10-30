@@ -10,8 +10,23 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 })
 export class ProfileComponent {
   user$: Observable<any>;
+  isVisible = false;
 
   constructor(private authService: AuthService) {
     this.user$ = this.authService.currentUser$;
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }

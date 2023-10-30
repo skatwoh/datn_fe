@@ -14,10 +14,12 @@ import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
 import { RoomDetailsComponent } from './room-details/room-details.component';
 import {NzMessageModule, NzMessageServiceModule} from "ng-zorro-antd/message";
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 @NgModule({
-  imports: [RoomRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageServiceModule, NzMessageModule ],
+    imports: [RoomRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageServiceModule, NzMessageModule, NzIconModule, NzModalModule],
   declarations: [RoomComponent, RoomCreateComponent, RoomDetailsComponent],
   exports: [RoomComponent]
 })
