@@ -41,12 +41,12 @@ const routes: Routes = [
         loadChildren: () => import('./modules/room/room.module').then(m => m.RoomModule)
       },
       {
-        path: 'room-category',
-        loadChildren: () => import('./modules/room-category/room-category.module').then(m => m.RoomCategoryModule)
+        path: 'room-type',
+        loadChildren: () => import('./modules/room-category/room-type.module').then(m => m.RoomTypeModule)
       },
       {
-        path: 'room-details',
-        loadChildren: () => import('./modules/room-details/room-details.module').then(m => m.RoomDetailsModule)
+        path: 'room-information',
+        loadChildren: () => import('./modules/room-details/room-information.module').then(m => m.RoomInformationModule)
       }
     ]
   },

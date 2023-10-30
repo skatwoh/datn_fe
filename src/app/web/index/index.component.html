@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <header>
-    <nav class="bg-amber-500">
+    <nav class="nav-web">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -23,54 +23,81 @@
           </div>
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div class="flex flex-shrink-0 items-center">
-              <a href="" >
+              <a href="">
                 <img class="h-8 w-auto" src="./assets/logo.png"
                      alt="logo">
               </a>
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
-                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a [routerLink]="['']" class="hover:bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium"
+                <a [routerLink]="['']"
+                   class="hover:underline hover:text-orange-300 text-black rounded-md px-3 py-2 text-sm font-nunito"
                    aria-current="page">Trang chủ</a>
                 <a href="#"
-                   class="hover:bg-gray-700 text-white hover:text-blue rounded-md px-3 py-2 text-sm font-medium">Team</a>
+                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Team</a>
                 <a [routerLink]="['room']"
-                   class="hover:bg-gray-700 text-white hover:text-blue rounded-md px-3 py-2 text-sm font-medium">Phòng</a>
+                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Phòng</a>
+                <a [routerLink]="['blog']"
+                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Bài viết</a>
                 <a [routerLink]="['about']"
-                   class="hover:bg-gray-700 text-white hover:text-blue rounded-md px-3 py-2 text-sm font-medium">Giới
+                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Giới
                   thiệu</a>
               </div>
             </div>
           </div>
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button type="button"
-                    class="relative rounded-full bg-opacity-10 p-1 text-white hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">View notifications</span>
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                   aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
-              </svg>
-            </button>
+<!--            thông báo-->
+            <nz-badge [nzCount]="200">
+              <button type="button"
+                      class="relative rounded-full bg-opacity-10 p-1 text-black hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <span class="absolute -inset-1.5"></span>
+                <span class="sr-only">View notifications</span>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+                </svg>
+              </button>
+            </nz-badge>
 
             <!-- Profile dropdown -->
             <div class="relative ml-3">
               <div>
-                <div class="float-right" style="color: white" *ngIf="(user$ | async) as userInfo; else loginButton">
+                <div class="float-right" style="color: white; margin-left: 10px" *ngIf="(user$ | async) as userInfo; else loginButton">
                   <a nz-dropdown [nzDropdownMenu]="menu">
-                    <nz-avatar nzSrc="https://i.pinimg.com/236x/ad/3e/91/ad3e914f4a02dee7f7dfe101b821cd45.jpg"></nz-avatar>
+                    <ng-container *ngIf="userInfo.imageUrl">
+                      <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->
+                      <nz-avatar [nzSrc]="userInfo.imageUrl"></nz-avatar>
+                    </ng-container>
+                    <ng-container *ngIf="!userInfo.imageUrl">
+                      <!-- Sử dụng consFirstChar nếu userInfo.urlImage là null -->
+                      <nz-avatar nzText="{{userInfo.name | consFirstChar}}"></nz-avatar>
+                    </ng-container>
                   </a>
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu nzSelectable style="width: 200px; border-radius: 10px">
-                      <li nz-menu-item class="truncate text-ellipsis text-s font-semibold text-gray-400 dark:text-night-300">
+                      <li nz-menu-item
+                          class="truncate text-ellipsis text-s font-semibold text-gray-400 dark:text-night-300">
                         {{userInfo.name}}
                       </li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover-text-primary-500">Profile</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Setting</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">Can I Help?</li>
-                      <li nz-menu-item class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500" nzDanger (click)="onLogout1()">
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700
+                          hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover:bg-night-500 dark:hover-text-primary-500"
+                          routerLink="/profile"
+                      >
+                        Profile
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">
+                        Setting
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-orange-300 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500">
+                        Can I Help?
+                      </li>
+                      <li nz-menu-item
+                          class="block cursor-pointer rounded-md px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 hover-text-primary-500 dark:text-night-200 dark:hover-bg-night-500 dark:hover-text-primary-500"
+                          nzDanger (click)="onLogout1()">
                         Logout
                       </li>
                     </ul>
@@ -79,7 +106,9 @@
 
                 <ng-template #loginButton>
                   <!-- Hiển thị nút "Đăng nhập" khi userInfo.name không có giá trị -->
-                  <button class="border-y-gray-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full" routerLink="/hotel/login">Đăng nhập</button>
+                  <button class="border-y-gray-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full"
+                          routerLink="/hotel/login">Đăng nhập
+                  </button>
                 </ng-template>
 
               </div>

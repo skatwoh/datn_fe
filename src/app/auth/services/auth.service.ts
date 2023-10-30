@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {AuthModel} from '../models/auth.model';
 import {catchError, map} from 'rxjs/operators';
 import {RegistrationModel} from '../models/registration.model';
+import {ForgotModel} from "../models/forgot.model";
 
 export type UserType = UserModel | undefined;
 
@@ -106,12 +107,16 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  forgotPassword(email: string): Observable<boolean> {
+  forgotPassword(email: string): Observable<any> {
     this.isLoadingSubject.next(true);
+    const payload = new ForgotModel(email); // Tạo đối tượng ForgotModel
     return this.authHttpService
-      .forgotPassword(email)
-      .pipe(finalize(() => this.isLoadingSubject.next(false)));
+      .forgotPassword(payload) // Truyền đối tượng payload
+      .pipe(
+        finalize(() => this.isLoadingSubject.next(false))
+      );
   }
+
 
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
     if (auth && auth.accessToken) {
