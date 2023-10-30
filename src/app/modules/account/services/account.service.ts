@@ -28,6 +28,18 @@ export class AccountService {
     return this.http.put<any>(`${API_USER_URL}/${id}/manual-active`, {});
   }
 
+  setUser(id: number): Observable<any> {
+    return this.http.put<any>(`${API_USER_URL}/${id}/set-permission-user`, {});
+  }
+
+  setAdmin(id: number): Observable<any> {
+    return this.http.put<any>(`${API_USER_URL}/${id}/set-permission-admin`, {});
+  }
+
+  setGuest(id: number): Observable<any> {
+    return this.http.put<any>(`${API_USER_URL}/${id}/set-permission-guest`, {});
+  }
+
   getUsersDetail(email: string): Observable<any> {
     return this.http.get<any>(`${API_USER_URL}/detail/${email}`, {});
   }
