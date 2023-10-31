@@ -6,6 +6,6 @@ export class RoomInformationModel {
   soLuongNguoi: number | undefined;
   dienTich: number | undefined;
   trangThai: number | undefined;
-  idLoaiPhong: string | undefined;
-  tenLoaiPhong: string | undefined;
+  idPhong: number | undefined;
+  maPhong: string | undefined;
 }

@@ -11,6 +11,42 @@
 </nz-page-header>
 
 <div class="page-content">
+  <div>
+    <div style="float: right">
+      <button
+        class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+        routerLink="/admin/room-information/room-information-create"
+      >
+      <span
+        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Thêm mới
+      </span>
+      </button>
+    </div>
+    <div style="float: left">
+      <fieldset class="w-full space-y-1 dark:text-gray-100">
+        <label class="hidden">Search</label>
+        <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getRoomInformationSearch()">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+          <input type="search" name="Search" placeholder="Search..." id="searchInput"
+                 class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+                 [ngModel]="searchInput"
+                 (ngModelChange)="getRoomInformationSearch()"
+          >
+        </div>
+      </fieldset>
+    </div>
+  </div>
   <nz-table #tableData [nzData]="roomDetails">
     <thead>
     <tr>
@@ -21,7 +57,7 @@
       <th>Diện tích</th>
       <th>Tiện ích</th>
       <th>Số lượng người</th>
-       <th>Loại phòng</th>
+       <th>Mã phòng</th>
       <th>Trạng thái</th>
       <th>Tác vụ</th>
     </tr>
@@ -35,7 +71,7 @@
       <td nzLeft>{{ data.dienTich }}</td>
       <td nzLeft>{{ data.tienIch }}</td>
       <td nzLeft>{{ data.soLuongNguoi }}</td>
-       <td nzLeft>{{ data.tenLoaiPhong }}</td>
+       <td nzLeft>{{ data.maPhong }}</td>
       <td nzLeft>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
@@ -48,10 +84,16 @@
       <td>
         <a href="admin/room-information/room-information-details/{{ data.id }}">Xem</a>
       </td>
+      <td>
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <button nz-button nzType="primary" nzDanger (click)="updateStatus(data.id, 0)">Tắt hoạt động</button>
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <button nz-button nzType="primary" (click)="updateStatus(data.id, 1)">Bật hoạt động</button>
+        </div>
+      </td>
     </tr>
     </tbody>
   </nz-table>
-</div>
-<div>
-  <a nz-button nzType="primary" routerLink="/admin/room-information/room-information-create">Thêm mới</a>
 </div>
