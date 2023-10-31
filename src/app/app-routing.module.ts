@@ -47,6 +47,18 @@ const routes: Routes = [
       {
         path: 'room-information',
         loadChildren: () => import('./modules/room-details/room-information.module').then(m => m.RoomInformationModule)
+      },
+      {
+        path: 'project',
+        loadChildren: () => import('./modules/project/project.module').then(m => m.ProjectModule)
+      },
+      {
+        path: 'room-service',
+        loadChildren: () => import('./modules/room-service/room-service.module').then(m => m.RoomServiceModule)
+      },
+      {
+        path: 'asset',
+        loadChildren: () => import('./modules/asset/asset.module').then(m => m.AssetModule)
       }
     ]
   },
@@ -56,6 +68,7 @@ const routes: Routes = [
     path: '**', // Đây là route wildcard để xử lý tất cả các đường dẫn không khớp
     component: NotFoundComponent,
   },
+
 ];
 
 @NgModule({

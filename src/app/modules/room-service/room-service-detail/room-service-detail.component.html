@@ -1,0 +1,38 @@
+<div>
+  <div class="edit-form">
+    <div *ngIf="roomServiceModel">
+      <nz-form-item>
+        <nz-form-label nzFor="ma">Mã Dịch Vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="roomServiceModel.ma" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ten">Tên Dịch Vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên dịch vụ">
+          <input nz-input type="text" id="tenDichVu" name="tenDichVu" [(ngModel)]="roomServiceModel.tenDichVu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ghiChu">Ghi Chú: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
+          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomServiceModel.ghiChu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ghiChu">Gía dịch vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá dịch vụ">
+          <input nz-input type="number" id="" name="giaDichVu" [(ngModel)]="roomServiceModel.giaDichVu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <br>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" (click)="updateRoomService()">Update</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+</div>
+
