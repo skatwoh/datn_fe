@@ -35,8 +35,8 @@
       <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="room.trangThai"/>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-label nzFor="loaiPhong">Loại phòng: {{room.idLoaiPhong}}</nz-form-label>
-  <nz-select name="idLoaiPhong" style="width: 200px" [(ngModel)]="room.idLoaiPhong">
+  <nz-form-label nzFor="phong">Mã phòng: {{room.idPhong}}</nz-form-label>
+  <nz-select name="idPhong" style="width: 200px" [(ngModel)]="room.idPhong">
     <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
   </nz-select>
   <br>
