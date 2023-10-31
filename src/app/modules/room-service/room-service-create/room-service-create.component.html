@@ -1,0 +1,43 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <nz-form-item>
+        <nz-form-label nzFor="ma">Mã Dịch Vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="roomservice.ma" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ten">Tên Dịch Vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên dịch vụ">
+          <input nz-input type="text" id="tenDichVu" name="tenDichVu" [(ngModel)]="roomservice.tenDichVu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ghiChu">Ghi Chú: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
+          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomservice.ghiChu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ghiChu">Gía dịch vụ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá dịch vụ">
+          <input nz-input type="number" id="" name="giaDichVu" [(ngModel)]="roomservice.giaDichVu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <br>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" (click)="saveRoomSerivce()">Thêm</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div *ngIf="submitted">
+      <h1>Thêm thành công!</h1><br>
+      <button nz-button nzType="primary" (click)="newRoomService()">Add</button><br><br>
+      <a nz-button nzType="primary" routerLink="/admin/room-service">Trở về</a>
+    </div>
+  </div>
+</div>
+

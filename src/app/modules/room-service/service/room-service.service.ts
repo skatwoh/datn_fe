@@ -4,16 +4,17 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
-const API_AU_URL = `${environment.apiUrl}/du-an`;
+const API_AU_URL = `${environment.apiUrl}/dich-vu`;
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService{
+export class RoomServiceService{
+  [x: string]: any;
   constructor(private http: HttpClient) {
   }
 
-  getProjectList(page: number, size: number): Observable<any> {
+  getRoomSerivceList(page: number, size: number): Observable<any> {
     const params = {page, size};
     return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
       if (res.body && res.body) {
@@ -39,7 +40,7 @@ export class ProjectService{
   delete(id: any): Observable<any> {
     return this.http.delete(`${API_AU_URL}/${id}`);
   }
-  getProjectListSearch(page: number, size: number, input: string): Observable<any> {
+  getRoomServiceListSearch(page: number, size: number, input: string): Observable<any> {
     const params = {page, size, input};
     return this.http.get<any>(`${API_AU_URL}/search`, {params}).pipe(map(res => {
       if (res.body && res.body) {
@@ -52,6 +53,4 @@ export class ProjectService{
     const params = {id};
     return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
   }
-
 }
-

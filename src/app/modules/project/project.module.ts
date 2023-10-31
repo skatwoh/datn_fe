@@ -9,16 +9,17 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
-import {NzMessageModule, NzMessageServiceModule} from "ng-zorro-antd/message";
+import {NzMessageModule } from "ng-zorro-antd/message";
 import {ProjectRoutingModule} from "./project-routing.module";
 import {ProjectCreateComponent} from "./project-create/project-create.component";
 import {ProjectComponent} from "./project.component";
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 
 @NgModule({
   imports: [ProjectRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageServiceModule, NzMessageModule ],
+    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule],
   declarations: [ProjectComponent, ProjectCreateComponent, ProjectDetailComponent],
   exports: [ProjectComponent]
 })

@@ -53,8 +53,8 @@ const routes: Routes = [
         loadChildren: () => import('./modules/project/project.module').then(m => m.ProjectModule)
       },
       {
-        path: 'service-hotel',
-        loadChildren: () => import('./modules/service-hotel/service-hotel.module').then(m => m.ServiceHotelModule)
+        path: 'room-service',
+        loadChildren: () => import('./modules/room-service/room-service.module').then(m => m.RoomServiceModule)
       },
       {
         path: 'asset',
