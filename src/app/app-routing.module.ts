@@ -49,6 +49,18 @@ const routes: Routes = [
         loadChildren: () => import('./modules/room-details/room-information.module').then(m => m.RoomInformationModule)
       },
       {
+        path: 'project',
+        loadChildren: () => import('./modules/project/project.module').then(m => m.ProjectModule)
+      },
+      {
+        path: 'room-service',
+        loadChildren: () => import('./modules/room-service/room-service.module').then(m => m.RoomServiceModule)
+      },
+      {
+        path: 'asset',
+        loadChildren: () => import('./modules/asset/asset.module').then(m => m.AssetModule)
+      },
+      {
         path: 'maintenance',
         loadChildren: () => import('./modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)
       },

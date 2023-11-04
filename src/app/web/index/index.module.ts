@@ -16,11 +16,13 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
+import { RoomDetailsComponent } from './page/room-details/room-details.component';
 
 @NgModule({
   declarations: [
     IndexComponent,
     ...fromPages.pages,
+    RoomDetailsComponent,
   ],
     imports: [
         CommonModule,
