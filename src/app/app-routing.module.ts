@@ -59,6 +59,14 @@ const routes: Routes = [
       {
         path: 'asset',
         loadChildren: () => import('./modules/asset/asset.module').then(m => m.AssetModule)
+      },
+      {
+        path: 'maintenance',
+        loadChildren: () => import('./modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)
+      },
+      {
+        path: 'partner',
+        loadChildren: () => import('./modules/partner/partner.module').then(m => m.PartnerModule)
       }
     ]
   },
@@ -68,7 +76,6 @@ const routes: Routes = [
     path: '**', // Đây là route wildcard để xử lý tất cả các đường dẫn không khớp
     component: NotFoundComponent,
   },
-
 ];
 
 @NgModule({
