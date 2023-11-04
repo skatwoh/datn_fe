@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RoomInformationModel} from "../../../models/room-information.model";
 import {RoomInformationService} from "../services/room-information.service";
@@ -11,7 +11,7 @@ import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
   templateUrl: './room-information-details.component.html',
   styleUrls: ['./room-information-details.component.scss']
 })
-export class RoomInformationDetailsComponent {
+export class RoomInformationDetailsComponent implements OnInit {
 
   id: number | undefined;
   room!: RoomInformationModel;

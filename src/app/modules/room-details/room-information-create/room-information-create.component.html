@@ -1,48 +1,52 @@
 <div>
   <div class="submit-form">
     <div *ngIf="!submitted">
-      <nz-form-item>
-        <nz-form-label nzFor="tang">Tầng: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập tầng">
-          <input nz-input type="text" id="tang" name="tang" [(ngModel)]="roomInformation.tang"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="tienIch">Tiện ích: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
-          <input nz-input type="text" id="tienIch" name="tienIch" [(ngModel)]="roomInformation.tienIch"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="dichVu">Dịch vụ: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
-          <input nz-input type="text" id="dichVu" name="dichVu" [(ngModel)]="roomInformation.dichVu"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="soLuongNguoi">Số lượng người: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
-          <input nz-input type="number" id="soLuongNguoi" name="soLuongNguoi" [(ngModel)]="roomInformation.soLuongNguoi"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="dienTich">Diện tích: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập diện tích">
-          <input nz-input type="number" id="dienTich" name="dienTich" [(ngModel)]="roomInformation.dienTich"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="idPhong">Mã phòng</nz-form-label>
-        <nz-select id="idPhong" name="idPhong" style="width: 200px" [(ngModel)]="roomInformation.idPhong">
-          <nz-option *ngFor="let data of room" nzLabel="{{ data.ma }}" nzValue="{{ data.id }}"></nz-option>
-        </nz-select>
-      </nz-form-item>
-      <br>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" (click)="saveRoomInformation()">Thêm</button>
-        </nz-form-control>
-      </nz-form-item>
+      <form [formGroup]="roomInformationForm" (ngSubmit)="saveRoomInformation()">
+        <nz-form-item>
+          <nz-form-label nzFor="tang">Tầng: </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập tầng">
+            <input nz-input type="text" id="tang" formControlName="tang"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="tienIch">Tiện ích: </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
+            <input nz-input type="text" id="tienIch" formControlName="tienIch"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="dichVu">Dịch vụ: </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
+            <input nz-input type="text" id="dichVu" formControlName="dichVu"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="soLuongNguoi">Số lượng người: </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
+            <input nz-input type="number" id="soLuongNguoi" formControlName="soLuongNguoi"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="dienTich">Diện tích: </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập diện tích">
+            <input nz-input type="number" id="dienTich" formControlName="dienTich"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="idPhong">Mã phòng</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng chọn mã phòng">
+            <nz-select id="idPhong" formControlName="idPhong" style="width: 200px">
+              <nz-option *ngFor="let data of room" [nzLabel]="data.ma ? data.ma : 'Chọn phòng'" [nzValue]="data.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <br>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" style="width: 100%" [disabled]="roomInformationForm.invalid">Thêm</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </div>
 
     <div *ngIf="submitted">

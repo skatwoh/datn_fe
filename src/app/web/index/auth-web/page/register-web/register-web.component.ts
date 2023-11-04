@@ -40,6 +40,7 @@ export class RegisterWebComponent implements OnInit, OnDestroy {
   private initForm(): void {
     this.registerForm = this.fb.group({
         name: new FormControl(null, Validators.compose([Validators.required, Validators.maxLength(255)])),
+        sdt: new FormControl(null, Validators.compose([Validators.required, Validators.maxLength(10)])),
         email: new FormControl(null, Validators.compose([Validators.email, Validators.required, Validators.maxLength(128)])),
         password: new FormControl(null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(24)])),
         passwordAgain: new FormControl(null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(24)]))

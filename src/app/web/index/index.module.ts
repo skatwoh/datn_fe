@@ -16,13 +16,15 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
-import { RoomDetailsComponent } from './page/room-details/room-details.component';
+import {NzRateModule} from "ng-zorro-antd/rate";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 
 @NgModule({
   declarations: [
     IndexComponent,
     ...fromPages.pages,
-    RoomDetailsComponent,
   ],
     imports: [
         CommonModule,
@@ -41,6 +43,11 @@ import { RoomDetailsComponent } from './page/room-details/room-details.component
         NzModalModule,
         NzFormModule,
         NzInputModule,
+        NzRateModule,
+        ReactiveFormsModule,
+        NzDatePickerModule,
+        NzInputNumberModule,
+        FormsModule,
     ]
 })
 export class IndexModule {

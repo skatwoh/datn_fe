@@ -1,4 +1,65 @@
-<h1>Hello cac cau</h1>
-<div>
+<section style="background-color: #EBE3DB">
+  <div class="breadcrumb-text">
+    <h2>Our Rooms</h2>
+  </div>
+  <div class="main-detail">
+    <div class="grid grid-rows-3 grid-flow-col gap-4" style="border: 1px solid red">
+      <div class="col-span-2">
+        <img src="https://i.pinimg.com/564x/80/90/48/80904842714cf40730d13cec906e6909.jpg" alt="" width="800px"/>
+      </div>
+      <div class="row-span-2 col-span-2">
+        <div style="width: 800px; background-color: #B58863; height: 250px; border-radius: 5px">
+          <div style="display: flex">
+            <h3 style="font-family: 'Lora', serif; font-size: 33px; margin-left: 10px">Room Premium</h3>
+            <nz-rate style="margin-left: 45%" [ngModel]="4.5" nzDisabled></nz-rate>
+          </div>
+          <h5 class="text-room">{{room.maPhong}}</h5>
+          <div class="text-room">
+            <h5>Giá phòng: </h5>
+            <h5 style="margin-left: 10px">1tr/ 1 đêm</h5>
+          </div>
+          <div class="text-room">
+            <h5>Diện tích: </h5>
+            <h5 style="margin-left: 10px">{{room.dienTich}}m2</h5>
+          </div>
+        </div>
+      </div>
+      <div class="row-span-3">
+        <div class="form-order-room" >
+          <div *ngIf="!submitted">
+            <form [formGroup]="roomOrderForm" (ngSubmit)="saveRoomOrder()" *ngIf="user$ | async as userInfo">
+            <nz-form-item>
+              <nz-form-label nzFor="checkIn">Ngày nhận phòng </nz-form-label>
+              <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
+                <nz-date-picker id="checkIn" formControlName="checkIn" ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="checkOut">Ngày trả phòng </nz-form-label>
+              <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
+                <nz-date-picker id="checkOut" formControlName="checkOut" ></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzFor="soNguoi">Số lượng người </nz-form-label>
+              <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
+                <nz-input-number [nzMin]="1" [nzMax]="4" id="soNguoi" formControlName="soNguoi" ></nz-input-number>
+              </nz-form-control>
+            </nz-form-item>
+            <br>
+            <nz-form-item>
+              <nz-form-control>
+                <button nz-button nzType="primary" style="width: 100%" [disabled]="roomOrderForm.invalid" >Đặt phòng</button>
+              </nz-form-control>
+            </nz-form-item>
+            </form>
+          </div>
 
-</div>
+          <div *ngIf="submitted">
+            <h1>Thêm thành công!</h1><br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
