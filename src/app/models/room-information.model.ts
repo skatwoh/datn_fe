@@ -1,4 +1,4 @@
-export class RoomInformationModel {
+export class RoomInformationModel{
   id: number | undefined;
   tang: string | undefined;
   tienIch: string | undefined;
