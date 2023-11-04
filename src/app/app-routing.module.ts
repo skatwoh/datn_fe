@@ -47,6 +47,14 @@ const routes: Routes = [
       {
         path: 'room-information',
         loadChildren: () => import('./modules/room-details/room-information.module').then(m => m.RoomInformationModule)
+      },
+      {
+        path: 'maintenance',
+        loadChildren: () => import('./modules/maintenance/maintenance.module').then(m => m.MaintenanceModule)
+      },
+      {
+        path: 'partner',
+        loadChildren: () => import('./modules/partner/partner.module').then(m => m.PartnerModule)
       }
     ]
   },
