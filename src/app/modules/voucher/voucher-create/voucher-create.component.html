@@ -1,0 +1,55 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <nz-form-item>
+        <nz-form-label nzFor="ma">Mã Voucher: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="voucher.ma"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="moTa">Mô tả: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mô tả">
+          <input nz-input type="text" id="moTa" name="moTa" [(ngModel)]="voucher.moTa"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="giamGia">Giảm giá: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá giảm">
+          <input nz-input type="number" id="giamGia" name="giamGia" [(ngModel)]="voucher.giamGia"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
+          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="voucher.ngayBatDau"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
+          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="voucher.ngayKetThuc"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="soLuong">Số lượng: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng Voucher">
+          <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="voucher.soLuong"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <br>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" (click)="saveVoucher()">Thêm</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div *ngIf="submitted">
+      <h1>Thêm thành công!</h1><br>
+      <button nz-button nzType="primary" (click)="newVoucher()">Add</button><br><br>
+      <a nz-button nzType="primary" routerLink="/admin/voucher">Trở về</a>
+    </div>
+  </div>
+</div>

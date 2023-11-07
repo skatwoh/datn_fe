@@ -1,0 +1,27 @@
+<div *ngIf="voucherModel" class="edit-form">
+  <nz-form-item>
+    <nz-form-label nzFor="ma">Mã Voucher: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="ma" name="ma" [(ngModel)]="voucherModel.ma"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="giaPhong">Giá phòng: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập giá">
+      <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="voucherModel.giamGia"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="giaPhong">Trạng thái: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
+      <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="voucherModel.trangThai"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <br>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" style="width: 100%" (click)="updateVoucher()">Cập nhật</button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
