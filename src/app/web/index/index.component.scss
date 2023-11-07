@@ -1,3 +1,20 @@
 .nav-web{
   background-color: #d3c3b9;
 }
+
+.noti-header{
+  width: 32px;
+  height: 32px;
+  border-radius: 1px;
+  background: rgba(238, 238, 238, 0);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.noti-header:hover {
+  color: #faf9f8;
+}
+
+nz-badge {
+  margin-right: 20px;
+}

@@ -1,0 +1,58 @@
+<div>
+  <div class="edit-form">
+    <div *ngIf="projectModel">
+      <nz-form-item>
+        <nz-form-label nzFor="ma">Mã Dự Án: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="projectModel.ma" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ten">Tên: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên">
+          <input nz-input type="text" id="ten" name="ten" [(ngModel)]="projectModel.ten"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="tienDo">Tiến Độ: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tiến độ">
+          <input nz-input type="number" id="tienDo" name="tienDo" [(ngModel)]="projectModel.tienDo"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="chiPhi">Chi Phí: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập chi phí">
+          <input nz-input type="number" id="chiPhi" name="chiPhi" [(ngModel)]="projectModel.chiPhi"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ngayBatDau">Ngày Bắt Đầu: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
+          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="projectModel.ngayBatDau"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ngayKetThuc">Ngày Kết Thúc: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
+          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="projectModel.ngayKetThuc"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="ghiChu">Ghi Chú: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
+          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="projectModel.ghiChu"/>
+        </nz-form-control>
+      </nz-form-item>
+
+
+
+      <br>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" (click)="updateProject()">Update</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </div>
+</div>

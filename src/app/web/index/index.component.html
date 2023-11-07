@@ -38,7 +38,8 @@
                 <a [routerLink]="['room']"
                    class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Phòng</a>
                 <a [routerLink]="['blog']"
-                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Bài viết</a>
+                   class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Bài
+                  viết</a>
                 <a [routerLink]="['about']"
                    class="hover:underline hover:text-orange-300 text-black hover:text-blue rounded-md px-3 py-2 text-sm font-nunito">Giới
                   thiệu</a>
@@ -46,24 +47,53 @@
             </div>
           </div>
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-<!--            thông báo-->
-            <nz-badge [nzCount]="200">
-              <button type="button"
-                      class="relative rounded-full bg-opacity-10 p-1 text-black hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <span class="absolute -inset-1.5"></span>
-                <span class="sr-only">View notifications</span>
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                     aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
-                </svg>
-              </button>
-            </nz-badge>
+            <!--            thông báo-->
+            <div>
+              <div class="relative inline-block text-left" style="margin-top: 5px">
+                <nz-badge [nzCount]="200">
+                  <span (click)="toggleDropdown()" class="noti-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-bell" viewBox="0 0 16 16"> <path
+                      d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/> </svg>
+                  </span>
+                </nz-badge>
+                <div
+                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
+                  *ngIf="isDropdownOpen">
+                  <!-- Dropdown menu content -->
+                  <div class="py-1" role="none">
+                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-0">Edit</a>
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-1">Duplicate</a>
+                  </div>
+                  <div class="py-1" role="none">
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-2">Archive</a>
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-3">Move</a>
+                  </div>
+                  <div class="py-1" role="none">
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-4">Share</a>
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-5">Add to favorites</a>
+                  </div>
+                  <div class="py-1" role="none">
+                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                       id="menu-item-6">Delete</a>
+                  </div>
+                </div>
+              </div>
 
+            </div>
             <!-- Profile dropdown -->
             <div class="relative ml-3">
               <div>
-                <div class="float-right" style="color: white; margin-left: 10px" *ngIf="(user$ | async) as userInfo; else loginButton">
+                <div class="float-right" style="color: white; margin-left: 10px"
+                     *ngIf="(user$ | async) as userInfo; else loginButton">
                   <a nz-dropdown [nzDropdownMenu]="menu">
                     <ng-container *ngIf="userInfo.imageUrl">
                       <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->

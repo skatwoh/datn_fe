@@ -16,6 +16,10 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzInputModule} from "ng-zorro-antd/input";
+import {NzRateModule} from "ng-zorro-antd/rate";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 
 @NgModule({
   declarations: [
@@ -39,6 +43,11 @@ import {NzInputModule} from "ng-zorro-antd/input";
         NzModalModule,
         NzFormModule,
         NzInputModule,
+        NzRateModule,
+        ReactiveFormsModule,
+        NzDatePickerModule,
+        NzInputNumberModule,
+        FormsModule,
     ]
 })
 export class IndexModule {
