@@ -38,7 +38,6 @@ export class RoomDetailsComponent implements OnInit {
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
       tongGia: [0, Validators.required],
-      idVoucher: 1,
       trangThai: 1
     })
   }

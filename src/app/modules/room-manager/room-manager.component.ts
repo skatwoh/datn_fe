@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {RoomModel} from "../../models/room.model";
 import {RoomTypeDtoModel} from "../../models/room-type-dto.model";
 import {RoomService} from "../room/services/room.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
 import {RoomOrder} from "../../models/room-order";
@@ -13,6 +13,9 @@ import {RoomManagerService} from "./services/room-manager.service";
   selector: 'cons-room-manager',
   templateUrl: './room-manager.component.html',
   styleUrls: ['./room-manager.component.scss']
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class RoomManagerComponent implements OnInit{
   roomOrder: RoomOrder[] = [];
@@ -51,6 +54,7 @@ export class RoomManagerComponent implements OnInit{
     this.roomManagerService.getListRoomManager(1, 50).subscribe(res => {
       if (res && res.content) {
         this.roomOrder= res.content;
+        console.log(this.roomOrder);
       }
     })
   }
@@ -105,5 +109,43 @@ export class RoomManagerComponent implements OnInit{
     //   console.log(data2);
     //   console.log(this.roomType);
     // });
+  }
+
+  // generatePDF() {
+  //   this.http.get('rpc/bds/dat-phong/pdf/generate', {
+  //     responseType: 'blob'
+  //   }).subscribe(response => {
+  //     const pdfBlob = new Blob([response], { type: 'application/pdf' });
+  //     const pdfUrl = URL.createObjectURL(pdfBlob);
+  //
+  //     // Display the PDF in a new window
+  //     const pdfWindow = window.open(pdfUrl, '_blank');
+  //     // @ts-ignore
+  //     pdfWindow.focus();
+  //
+  //     // Optionally, you can download the PDF file
+  //     // const downloadLink = document.createElement('a');
+  //     // downloadLink.href = pdfUrl;
+  //     // downloadLink.download = 'pdf_report.pdf';
+  //     // downloadLink.click();
+  //   });
+  // }
+
+  generatePDF(id: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/pdf',
+      'Charset': 'UTF-8'
+    });
+    const params = {id};
+    this.http.get(`rpc/bds/dat-phong/pdf/generate/`, { headers: headers, responseType: 'blob', params })
+      .subscribe(response => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'hoa_don_dat_phong.pdf';
+        downloadLink.click();
+      });
   }
 }

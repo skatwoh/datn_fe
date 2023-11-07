@@ -35,7 +35,7 @@
         <button
           class="text-white py-2 px-4 rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
           style="border-radius: 10px"
-          (click)="showModal()"
+          (click)="showModal('longhoang0323@gmail.com')"
         >
           <span nz-icon nzType="lock" nzTheme="outline" style="font-size: 24px"></span> Đổi mật khẩu
         </button>
@@ -56,21 +56,28 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal
+          [(nzVisible)]="isVisible"
+          nzTitle="Cập nhật phòng"
+          (nzOnCancel)="handleCancel()"
+          (nzOnOk)="handleOk()"
+          [nzOkLoading]="isOkLoading">
   <ng-container *nzModalContent>
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group nzPrefixIcon="lock">
-          <input type="password" nz-input formControlName="password" placeholder="Password" required/>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group nzPrefixIcon="lock">
-          <input type="password" nz-input formControlName="password" placeholder="Confirm Password" required/>
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
+    <div *ngIf="currentAcount" class="edit-form">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" name="password" nz-input formControlName="password" placeholder="Password" required/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" id="newpass" name="newpass" nz-input formControlName="password" placeholder="Confirm Password" required/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </ng-container>
 </nz-modal>
