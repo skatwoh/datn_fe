@@ -1,0 +1,159 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách dự án"
+  nzSubtitle="Total {{project.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Dự Án </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý dự án</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+<div class="page-content">
+  <div>
+    <div style="float: right">
+      <button
+        class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+        routerLink="/admin/project/project-create"
+      >
+      <span
+        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Thêm mới
+      </span>
+      </button>
+    </div>
+    <div style="float: left">
+      <fieldset class="w-full space-y-1 dark:text-gray-100">
+        <label class="hidden">Search</label>
+        <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getProjectListSearch()">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+          <input type="search" name="Search" placeholder="Search..." id="searchInput"
+                 class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+                 [ngModel]="searchInput"
+                 (ngModelChange)="getProjectListSearch()"
+          >
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="project">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="p-4">
+        <div class="flex items-center">
+          <input id="checkbox-all-search" type="checkbox"
+                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+          <label for="checkbox-all-search" class="sr-only">checkbox</label>
+        </div>
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Id
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Mã
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Tiến Độ
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Chi Phí
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Ngày Bắt Đầu
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Ngày Kết Thúc
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Ghi Chú
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Trạng Thái
+      </th>
+      <th scope="col" class="px-12 py-3">
+        Tác vụ
+      </th>
+      <!--      <th scope="col" class="px-6 py-3">-->
+      <!--      </th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        *ngFor="let data of tableData.data; let i = index">
+      <td class="w-4 p-4">
+        <div class="flex items-center">
+          <input id="checkbox-table-search-1" type="checkbox"
+                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+        </div>
+      </td>
+      <td class="px-6 py-4">
+        {{ data.id }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ma }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.tienDo }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.chiPhi }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ngayBatDau }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ngayKetThuc }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ghiChu }}
+      </td>
+      <td class="px-6 py-4">
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+          Online
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+          Offline
+        </div>
+      </td>
+      <td class="px-12 py-4" style="display: flex">
+        <div>
+          <a href="admin/project/project-details/{{ data.id }}"
+             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
+          </a>
+        </div>
+        <div class="btn-info" (click)="showModal(data.id)">
+          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="btn-status-stop" (click)="updateStatus(data.id, 0)">
+            <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <div class="btn-status-active" (click)="updateStatus(data.id, 1)">
+            <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+

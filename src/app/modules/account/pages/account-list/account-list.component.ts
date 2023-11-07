@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class AccountListComponent implements OnInit {
   readonly APP_DATE_TIME = AppConstants.APP_DATE_TIME;
   accounts: AccountModel[] = [];
+
   isLoading = false;
   constructor(private accountService: AccountService, private router: Router) {
   }
@@ -41,5 +42,4 @@ export class AccountListComponent implements OnInit {
   getDetailAccount(email: any) {
     this.router.navigate([`/detail/${email}`]);
   }
-
 }

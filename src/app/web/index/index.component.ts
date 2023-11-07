@@ -10,6 +10,11 @@ import {AuthService} from "../../auth/services";
 export class IndexComponent {
   isCollapsed = false;
   user$: Observable<any>;
+  isDropdownOpen: boolean = false;
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 
   constructor(private authService: AuthService) {
     this.user$ = this.authService.currentUser$;

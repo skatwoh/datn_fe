@@ -6,6 +6,7 @@ import {AboutComponent} from "./page/about/about.component";
 import {RoomComponent} from "./page/room/room.component";
 import {ProfileComponent} from "./page/profile/profile.component";
 import {BlogComponent} from "./page/blog/blog.component";
+import {RoomDetailsComponent} from "./page/room-details/room-details.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'blog',
         component: BlogComponent
+      },
+      {
+        path: 'room-detail/:id',
+        component: RoomDetailsComponent
       }
     ]
   },

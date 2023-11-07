@@ -14,19 +14,17 @@
   <nz-table #tableData [nzData]="accounts">
     <thead>
     <tr>
-      <th nzLeft>STT</th>
+      <th nzLeft [nzColumnKey]="" [nzSortFn]="true">STT</th>
       <th nzLeft>Name</th>
       <th>Email</th>
       <th>Created At</th>
       <th>Updated At</th>
       <th>Status</th>
-      <th nzRight>Action</th>
-<!--      <th>Tác vụ</th>-->
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let data of tableData.data; let i = index">
-      <th nzLeft>{{ i + 1 }}</th>
+      <td nzLeft>{{ i + 1 }}</td>
       <td nzLeft>{{ data.name }}</td>
       <td nzLeft>{{ data.email }}</td>
       <td nzLeft>{{ data.createdAt | date: APP_DATE_TIME }}</td>
@@ -40,19 +38,6 @@
           <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Activated
         </div>
       </td>
-      <td>
-        <nz-switch
-          [ngModel]="data.emailVerified"
-          [nzControl]="true"
-          (click)="manualUpdateUserStatus(data.email, i, data.emailVerified)"
-          [nzLoading]="isLoading"
-        ></nz-switch>
-      </td>
-<!--      <td>-->
-<!--        <div (click)="getDetailAccount(data.email)">-->
-<!--          <span nz-icon style="font-size: 16px; color: #08c;" nzType="exclamation-circle" nzTheme="outline"></span>-->
-<!--        </div>-->
-<!--      </td>-->
     </tr>
     </tbody>
   </nz-table>
