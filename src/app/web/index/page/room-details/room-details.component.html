@@ -1,62 +1,334 @@
-<section style="background-color: #EBE3DB">
+<section>
   <div class="breadcrumb-text">
     <h2>Our Rooms</h2>
   </div>
   <div class="main-detail">
-    <div class="grid grid-rows-3 grid-flow-col gap-4" style="border: 1px solid red">
+    <!--    style="border: 1px solid red"-->
+    <div class="grid grid-rows-3 grid-flow-col gap-4">
       <div class="col-span-2">
         <img src="https://i.pinimg.com/564x/80/90/48/80904842714cf40730d13cec906e6909.jpg" alt="" width="800px"/>
       </div>
       <div class="row-span-2 col-span-2">
-        <div style="width: 800px; background-color: #B58863; height: 250px; border-radius: 5px">
+        <div style="width: 800px; background-color: rgba(227,209,191); height: 250px; border-radius: 5px">
           <div style="display: flex">
             <h3 style="font-family: 'Lora', serif; font-size: 33px; margin-left: 10px">Room Premium</h3>
             <nz-rate style="margin-left: 45%" [ngModel]="4.5" nzDisabled></nz-rate>
           </div>
-          <h5 class="text-room">{{room.maPhong}}</h5>
+          <h5 class="text-room">Mã số phòng: {{room.maPhong}}</h5>
           <div class="text-room">
             <h5>Giá phòng: </h5>
-            <h5 style="margin-left: 10px">1tr/ 1 đêm</h5>
+            <h5 style="margin-left: 10px">
+              <span
+                style="font-size: 16px; color: aliceblue">{{ room.giaPhong | currency:'VND':'symbol':'1.0-0' }}</span>/
+              1 đêm
+            </h5>
+          </div>
+          <div class="text-room">
+            <h5>Tổng số người: </h5>
+            <h5 style="margin-left: 10px">{{room.soLuongNguoi}} người/ phòng</h5>
           </div>
           <div class="text-room">
             <h5>Diện tích: </h5>
-            <h5 style="margin-left: 10px">{{room.dienTich}}m2</h5>
+            <h5 style="margin-left: 10px">{{room.dienTich}}</h5>
+          </div>
+          <div class="text-room">
+            <h5>Tiện ích: </h5>
+            <h5 style="margin-left: 10px">{{room.tienIch}}</h5>
+          </div>
+          <div class="text-room">
+            <h5>Dịch vụ: </h5>
+            <h5 style="margin-left: 10px">{{room.dichVu}}</h5>
+          </div>
+          <div class="text-room">
+            <h5 style="margin-left: 10px">The Java Naming and Directory Interface (JNDI) is an Application Programming
+              Interface (API) that provides naming and directory services to Java-based applications. We can use this
+              interface to bind objects/resources, look up or query objects, and detect changes on the same
+              objects.</h5>
+          </div>
+        </div>
+        <div class="row-span-2">
+          <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+            <h2
+              class="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl"
+            >
+              Bình luận:
+            </h2>
+
+            <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8" style="margin-left: -40px">
+              <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
+                <div class="flex items-center gap-4">
+                  <img
+                    alt="Man"
+                    src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                    class="h-14 w-14 rounded-full object-cover"
+                  />
+
+                  <div>
+                    <div class="flex justify-center gap-0.5 text-green-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                    </div>
+
+                    <p class="mt-0.5 text-lg font-medium text-gray-900">Paul Starr</p>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-gray-700">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa sit
+                  rerum incidunt, a consequuntur recusandae ab saepe illo est quia
+                  obcaecati neque quibusdam eius accusamus error officiis atque
+                  voluptates magnam!
+                </p>
+              </blockquote>
+
+              <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
+                <div class="flex items-center gap-4">
+                  <img
+                    alt="Man"
+                    src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                    class="h-14 w-14 rounded-full object-cover"
+                  />
+
+                  <div>
+                    <div class="flex justify-center gap-0.5 text-green-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                    </div>
+
+                    <p class="mt-0.5 text-lg font-medium text-gray-900">Paul Starr</p>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-gray-700">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa sit
+                  rerum incidunt, a consequuntur recusandae ab saepe illo est quia
+                  obcaecati neque quibusdam eius accusamus error officiis atque
+                  voluptates magnam!
+                </p>
+              </blockquote>
+
+              <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
+                <div class="flex items-center gap-4">
+                  <img
+                    alt="Man"
+                    src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+                    class="h-14 w-14 rounded-full object-cover"
+                  />
+
+                  <div>
+                    <div class="flex justify-center gap-0.5 text-green-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                        />
+                      </svg>
+                    </div>
+
+                    <p class="mt-0.5 text-lg font-medium text-gray-900">Paul Starr</p>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-gray-700">
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Culpa sit
+                  rerum incidunt, a consequuntur recusandae ab saepe illo est quia
+                  obcaecati neque quibusdam eius accusamus error officiis atque
+                  voluptates magnam!
+                </p>
+              </blockquote>
+            </div>
           </div>
         </div>
       </div>
       <div class="row-span-3">
-        <div class="form-order-room" >
+        <button *ngIf="!user">Booking now</button>
+        <div class="form-order-room">
+          <h2 class="form-text-order">Đặt phòng của bạn</h2>
+          <hr/>
           <div *ngIf="!submitted">
-            <form [formGroup]="roomOrderForm" (ngSubmit)="saveRoomOrder()" *ngIf="user$ | async as userInfo">
-            <nz-form-item>
-              <nz-form-label nzFor="checkIn">Ngày nhận phòng </nz-form-label>
-              <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
-                <nz-date-picker id="checkIn" formControlName="checkIn" ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzFor="checkOut">Ngày trả phòng </nz-form-label>
-              <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
-                <nz-date-picker id="checkOut" formControlName="checkOut" ></nz-date-picker>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzFor="soNguoi">Số lượng người </nz-form-label>
-              <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
-                <nz-input-number [nzMin]="1" [nzMax]="4" id="soNguoi" formControlName="soNguoi" ></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
-            <br>
-            <nz-form-item>
-              <nz-form-control>
-                <button nz-button nzType="primary" style="width: 100%" [disabled]="roomOrderForm.invalid" >Đặt phòng</button>
-              </nz-form-control>
-            </nz-form-item>
+            <form [formGroup]="roomOrderForm" (ngSubmit)="saveRoomOrder()" *ngIf="room">
+              <nz-form-label nzFor="checkIn">Ngày nhận phòng</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
+                  <nz-date-picker class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
+                  <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-label nzFor="soNguoi">Số lượng người</nz-form-label>
+              <nz-form-item>
+                <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+                  <nz-input-number class="form-input-number" [nzMin]="1" [nzMax]="Number(room.soLuongNguoi)"
+                                   id="soNguoi" formControlName="soNguoi"></nz-input-number>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
+              <nz-form-item>
+                <input class="form-input-date" [value]="room.giaPhong + 'VND'" disabled/>
+              </nz-form-item>
+              <br>
+              <nz-form-item>
+                <nz-form-control>
+                  <button
+                    class="group relative inline-block overflow-hidden border border-orange-300 px-8 py-3 focus:outline-none focus:ring cursor-pointer"
+                    style="width: 250px; border-radius: 10px"
+                    [disabled]="roomOrderForm.invalid"
+                  >
+                  <span
+                    class="absolute inset-y-0 left-0 w-[2px] bg-orange-200 transition-all group-hover:w-full group-active:bg-indigo-500"></span>
+                    <span
+                      class="relative text-sm font-medium text-gray-500 transition-colors group-hover:text-black"
+                    >
+                      Đặt phòng
+                    </span>
+                  </button>
+                </nz-form-control>
+              </nz-form-item>
             </form>
-          </div>
-
-          <div *ngIf="submitted">
-            <h1>Thêm thành công!</h1><br>
           </div>
         </div>
       </div>

@@ -8,4 +8,5 @@ export class RoomInformationModel{
   trangThai: number | undefined;
   idPhong: number | undefined;
   maPhong: string | undefined;
+  giaPhong: number | undefined;
 }
