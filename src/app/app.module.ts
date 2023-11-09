@@ -36,7 +36,7 @@ function appInitializer(authService: AuthService) {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
   ],
   providers: [
     {
