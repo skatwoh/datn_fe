@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
@@ -18,8 +17,6 @@ export class VoucherComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
-
-  // detail
   id: number | undefined;
 
 

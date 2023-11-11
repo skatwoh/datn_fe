@@ -167,15 +167,44 @@
   <ng-container *nzModalContent>
     <div *ngIf="currentVoucher" class="edit-form">
       <nz-form-item>
-        <nz-form-label nzFor="ma">Mã phòng </nz-form-label>
+        <nz-form-label nzFor="ma">Mã Voucher </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
           <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentVoucher.ma" disabled/>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="moTa">Mô Tả </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="moTa" name="moTa" [(ngModel)]="currentVoucher.moTa"/>
+        </nz-form-control>
+      </nz-form-item>
+
       <nz-form-item>
         <nz-form-label nzFor="giaPhong" nzRequired>Giá giảm </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
           <input nz-input type="number" min="0" id="giamGia" name="giamGia" [(ngModel)]="currentVoucher.giamGia" required/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
+          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentVoucher.ngayBatDau"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
+          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="currentVoucher.ngayKetThuc"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="soLuong">Số lượng </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+          <input nz-input type="text" id="soLuong" name="soLuong" [(ngModel)]="currentVoucher.soLuong"/>
         </nz-form-control>
       </nz-form-item>
     </div>
