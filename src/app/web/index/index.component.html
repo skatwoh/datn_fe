@@ -49,43 +49,30 @@
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <!--            thông báo-->
             <div>
-              <div class="relative inline-block text-left" style="margin-top: 5px">
-                <nz-badge [nzCount]="200">
+              <div class="relative inline-block text-left" style="margin-top: 12px">
+                <nz-badge [nzCount]="notifications.length">
                   <span (click)="toggleDropdown()" class="noti-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                         class="bi bi-bell" viewBox="0 0 16 16"> <path
-                      d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/> </svg>
+                         class="bi bi-bell" viewBox="0 0 16 16">
+                      <path
+                        d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                    </svg>
                   </span>
+                  <div *ngIf="showDropdown" class="notification-list">
+                    <strong class="block p-2 text-xs font-medium uppercase text-gray-400">
+                      Thông báo
+                    </strong>
+                    <div *ngFor="let notification of notifications">
+                    <a
+                      href="#"
+                      class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      role="menuitem"
+                    >
+                      {{ notification.noiDung }}
+                    </a>
+                    </div>
+                  </div>
                 </nz-badge>
-                <div
-                  class="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                  *ngIf="isDropdownOpen">
-                  <!-- Dropdown menu content -->
-                  <div class="py-1" role="none">
-                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-0">Edit</a>
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-1">Duplicate</a>
-                  </div>
-                  <div class="py-1" role="none">
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-2">Archive</a>
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-3">Move</a>
-                  </div>
-                  <div class="py-1" role="none">
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-4">Share</a>
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-5">Add to favorites</a>
-                  </div>
-                  <div class="py-1" role="none">
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                       id="menu-item-6">Delete</a>
-                  </div>
-                </div>
               </div>
 
             </div>
