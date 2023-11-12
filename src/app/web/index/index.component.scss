@@ -18,3 +18,15 @@
 nz-badge {
   margin-right: 20px;
 }
+
+.notification-list {
+  border-radius: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
