@@ -1,0 +1,57 @@
+<div *ngIf="voucherModel" class="edit-form">
+  <nz-form-item>
+    <nz-form-label nzFor="ma">Mã Voucher </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="ma" name="ma" [(ngModel)]="voucherModel.ma"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="moTa">Mô Tả </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="moTa" name="moTa" [(ngModel)]="voucherModel.moTa"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="giamGia">Giá giảm: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập giá">
+      <input nz-input type="number" id="giamGia" name="giamGia" [(ngModel)]="voucherModel.giamGia"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
+      <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="voucherModel.ngayBatDau"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
+      <input nz-input type="date" id="ngayKetThuc" name="ma" [(ngModel)]="voucherModel.ngayKetThuc"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="soLuong">Số lượng </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+      <input nz-input type="text" id="soLuong" name="soLuong" [(ngModel)]="voucherModel.soLuong"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="trangThai">Trạng thái: </nz-form-label>
+    <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
+      <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="voucherModel.trangThai"/>
+    </nz-form-control>
+  </nz-form-item>
+
+  <br>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" style="width: 100%" (click)="updateVoucher()">Cập nhật</button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
