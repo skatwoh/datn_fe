@@ -8,9 +8,13 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {FormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NgForOf, NgIf} from "@angular/common";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzIconModule} from "ng-zorro-antd/icon";
 
 @NgModule({
-  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule],
+  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NzInputModule, NgIf, NzButtonModule, NgForOf, NzIconModule],
   declarations: [RoomServiceComponent, RoomServiceCreateComponent, RoomServiceDetailComponent],
   exports: [RoomServiceComponent]
 })
