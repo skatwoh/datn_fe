@@ -1,36 +1,26 @@
 <div>
-  <div class="submit-form">
-    <div *ngIf="!submitted">
-      <nz-form-item>
-        <nz-form-label nzFor="ma">Mã phòng: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="room.ma" disabled/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Giá phòng: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="number" id="giaPhong" name="giaPhong" [(ngModel)]="room.giaPhong"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>
-        <nz-select id="idLoaiPhong" name="idLoaiPhong" style="width: 200px" [(ngModel)]="room.idLoaiPhong">
-          <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
-        </nz-select>
-      </nz-form-item>
-      <br>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" (click)="saveRoom()">Thêm</button>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-
-    <div *ngIf="submitted">
-      <h1>Thêm thành công!</h1><br>
-      <button nz-button nzType="primary" (click)="newRoom()">Add</button><br><br>
-      <a nz-button nzType="primary" routerLink="/admin/room">Trở về</a>
-    </div>
+  <div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+       role="alert">
+    {{errorMsg}}
   </div>
+  <form consFormFieldValidation [formGroup]="submitForm" (ngSubmit)="onSubmit(submitForm)">
+    <nz-form-item>
+      <nz-form-label nzFor="giaPhong">Giá phòng</nz-form-label>
+      <nz-form-control nzErrorTip="Vui lòng nhập giá lớn hơn 1000">
+        <input nz-input type="number" id="giaPhong" formControlName="giaPhong"/>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="idLoaiPhong">Loại phòng</nz-form-label>
+      <nz-select id="idLoaiPhong" formControlName="idLoaiPhong" style="width: 200px">
+        <nz-option *ngFor="let data of roomType" [nzLabel]="data.ten_Loai_Phong" [nzValue]="data.id"></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <br>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary" style="width: 100%">Thêm</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </div>

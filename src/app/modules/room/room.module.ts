@@ -7,7 +7,7 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import { RoomRoutingModule } from './room-routing.module';
 import { RoomComponent } from './room.component';
 import { RoomCreateComponent } from './room-create/room-create.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
@@ -16,10 +16,11 @@ import { RoomDetailsComponent } from './room-details/room-details.component';
 import {NzMessageModule} from "ng-zorro-antd/message";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {FormFieldValidationDirective} from "../../shared/directives/form-field-validation";
 
 @NgModule({
     imports: [RoomRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule],
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective],
   declarations: [RoomComponent, RoomCreateComponent, RoomDetailsComponent],
   exports: [RoomComponent]
 })

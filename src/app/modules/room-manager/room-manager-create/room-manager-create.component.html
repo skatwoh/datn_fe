@@ -1,0 +1,108 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách phòng"
+  nzSubtitle="Total {{room.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Quản lý đặt phòng</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Đặt phòng tại quầy</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="page-content">
+  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="room">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="px-6 py-3">
+        Id
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Mã
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Giá phòng
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Loại phòng
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Trạng thái
+      </th>
+      <th scope="col" class="px-12 py-3">
+        Tác vụ
+      </th>
+      <!--      <th scope="col" class="px-6 py-3">-->
+      <!--      </th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        *ngFor="let data of tableData.data; let i = index">
+      <td class="px-6 py-4">
+        {{ data.id }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ma }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.giaPhong | number:'1.0-1'}}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.tenLoaiPhong }}
+      </td>
+      <td class="px-6 py-4">
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+          Online
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+          Offline
+        </div>
+      </td>
+      <td class="px-12 py-4" style="display: flex">
+        <div>
+          <a type="button" href="admin/room-manager/room-manager-details/{{ data.id }}"
+             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+            Đặt phòng
+          </a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<!--<nz-modal-->
+<!--  [(nzVisible)]="isVisible"-->
+<!--  nzTitle="Cập nhật phòng"-->
+<!--  (nzOnCancel)="handleCancel()"-->
+<!--  (nzOnOk)="handleOk()"-->
+<!--  [nzOkLoading]="isOkLoading"-->
+<!--&gt;-->
+<!--  <ng-container *nzModalContent>-->
+<!--    <div *ngIf="currentRoom" class="edit-form">-->
+<!--      <nz-form-item>-->
+<!--        <nz-form-label nzFor="ma">Mã phòng </nz-form-label>-->
+<!--        <nz-form-control nzErrorTip="Vui lòng nhập mã">-->
+<!--          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentRoom.ma" disabled/>-->
+<!--        </nz-form-control>-->
+<!--      </nz-form-item>-->
+<!--      <nz-form-item>-->
+<!--        <nz-form-label nzFor="giaPhong" nzRequired>Giá phòng </nz-form-label>-->
+<!--        <nz-form-control nzErrorTip="Vui lòng nhập giá">-->
+<!--          <input nz-input type="number" min="0" id="giaPhong" name="giaPhong" [(ngModel)]="currentRoom.giaPhong" required/>-->
+<!--        </nz-form-control>-->
+<!--      </nz-form-item>-->
+
+<!--      <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>-->
+<!--      <nz-select nzAllowClear  style="width: 200px" [(ngModel)]="currentRoom.idLoaiPhong" nzPlaceHolder="{{currentRoom.tenLoaiPhong}}">-->
+<!--        <nz-option nzLabel="{{currentRoom.tenLoaiPhong}}"></nz-option>-->
+<!--        <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>-->
+<!--      </nz-select>-->
+<!--    </div>-->
+<!--  </ng-container>-->
+<!--</nz-modal>-->
+
