@@ -45,12 +45,10 @@ export class RoomComponent implements OnInit{
     const soNguoiElement = document.getElementById('soNguoi') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    const giaPhongElement = document.getElementById('giaPhongMax') as HTMLInputElement;
     this.soNguoi = soNguoiElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.giaPhongMax = giaPhongElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut, this.giaPhongMax).subscribe(res => {
+    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
       }

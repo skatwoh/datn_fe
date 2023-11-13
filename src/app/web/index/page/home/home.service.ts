@@ -23,8 +23,8 @@ export class HomeService{
   //   }));
   // }
 
-  getRoomListSearch(page: number, size: number, input: string, checkIn: string, checkOut: string, giaPhong: string): Observable<any> {
-    const params = {page, size, input, checkIn, checkOut, giaPhong};
+  getRoomListSearch(page: number, size: number, input: string, checkIn: string, checkOut: string): Observable<any> {
+    const params = {page, size, input, checkIn, checkOut};
     return this.http.get<any>(`${API_AU_URL}/get-room-by-search`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;

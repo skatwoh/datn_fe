@@ -7,8 +7,7 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {CurrencyPipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
-import {DatePipe} from "@angular/common";
+import {CurrencyPipe, DatePipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
 import {NzTableModule} from "ng-zorro-antd/table";
 import { RoomManagerCreateComponent } from './room-manager-create/room-manager-create.component';
 import {NzIconModule} from "ng-zorro-antd/icon";
@@ -20,7 +19,7 @@ import {NzRateModule} from "ng-zorro-antd/rate";
 
 
 @NgModule({
-  imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule],
+  imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule, DatePipe],
   declarations: [RoomManagerComponent, RoomManagerCreateComponent, RoomManagerDetailsComponent],
   exports: [RoomManagerComponent]
 })

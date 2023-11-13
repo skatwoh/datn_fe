@@ -34,15 +34,6 @@ export class RoomManagerComponent implements OnInit{
   id: number | undefined;
   searchInput : string = '';
 
-  // showModal(id: any): void {
-  //   this.isVisible = true;
-  //   this.id = id;
-  //   this.roomService.get(this.id).subscribe((data: RoomModel) => {
-  //     this.currentRoom = data;
-  //     console.log(this.currentRoom);
-  //   });
-  // }
-
 
   constructor(private roomManagerService : RoomManagerService, private router: Router,
               private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
@@ -61,12 +52,10 @@ export class RoomManagerComponent implements OnInit{
     const soNguoiElement = document.getElementById('soNguoi') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    const giaPhongElement = document.getElementById('giaPhongMax') as HTMLInputElement;
     this.soNguoi = soNguoiElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.giaPhongMax = giaPhongElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut, this.giaPhongMax).subscribe(res => {
+    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
       }
@@ -91,72 +80,14 @@ export class RoomManagerComponent implements OnInit{
       soNguoi: this.soNguoi,
       checkIn: this.checkIn,
       checkOut: this.checkOut,
-      giaPhongMax: this.giaPhongMax
     };
 
     this.router.navigate(['/admin/room-manager/room-manager-create'], { queryParams });
   }
 
-  // updateRoomStatus(id: any, status: number): void {
-  //   this.roomService.get(id).subscribe((data: RoomModel) => {
-  //     this.currentRoom = data;
-  //     console.log(this.currentRoom);
-  //   });
-  //   this.roomService.updateStatus(id, status)
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.message = res.message
-  //         this.currentRoom.trangThai = status
-  //         this.getRooms();
-  //       },
-  //     });
-  // }
-  //
-  // updateRoom(): void {
-  //   this.roomService
-  //     .update(this.currentRoom.id, this.currentRoom)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log(res);
-  //         this.message = res.message
-  //           ? res.message
-  //           : this.messageNoti.success('Update thành công', {
-  //             nzDuration: 5000
-  //           });
-  //         this.getRooms();
-  //       },
-  //       error: (e) => console.error(e)
-  //     });
-  // }
-
   ngOnInit() {
     this.getRoomOrders();
-    // this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
-    //   this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
-    //   console.log(data2);
-    //   console.log(this.roomType);
-    // });
   }
-
-  // generatePDF() {
-  //   this.http.get('rpc/bds/dat-phong/pdf/generate', {
-  //     responseType: 'blob'
-  //   }).subscribe(response => {
-  //     const pdfBlob = new Blob([response], { type: 'application/pdf' });
-  //     const pdfUrl = URL.createObjectURL(pdfBlob);
-  //
-  //     // Display the PDF in a new window
-  //     const pdfWindow = window.open(pdfUrl, '_blank');
-  //     // @ts-ignore
-  //     pdfWindow.focus();
-  //
-  //     // Optionally, you can download the PDF file
-  //     // const downloadLink = document.createElement('a');
-  //     // downloadLink.href = pdfUrl;
-  //     // downloadLink.download = 'pdf_report.pdf';
-  //     // downloadLink.click();
-  //   });
-  // }
 
   generatePDF(id: any) {
     const headers = new HttpHeaders({

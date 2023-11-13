@@ -25,8 +25,8 @@ export class RoomManagerCreateComponent implements OnInit{
   constructor(private roomService: RoomService, private router: Router, private homeService : HomeService,
               private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
 
-  getRooms(soNguoi: string, checkIn: string, checkOut: string, giaPhongMax: string): void {
-    this.homeService.getRoomListSearch(1, 50, soNguoi, checkIn, checkOut, giaPhongMax).subscribe(res => {
+  getRooms(soNguoi: string, checkIn: string, checkOut: string): void {
+    this.homeService.getRoomListSearch(1, 50, soNguoi, checkIn, checkOut).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
       }
@@ -37,9 +37,8 @@ export class RoomManagerCreateComponent implements OnInit{
       const soNguoi = params['soNguoi'];
       const checkIn = params['checkIn'];
       const checkOut = params['checkOut'];
-      const giaPhongMax = params['giaPhongMax'];
 
-      this.getRooms(soNguoi, checkIn, checkOut, giaPhongMax);
+      this.getRooms(soNguoi, checkIn, checkOut);
     });
   }
 
