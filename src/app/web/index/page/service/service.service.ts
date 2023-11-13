@@ -6,6 +6,7 @@ import {environment} from "../../../../../environments/environment";
 
 
 const API_AU_URL = `${environment.apiUrl}/thong-bao`;
+const API_AUTH_URL = `${environment.apiUrl}/auth`;
 @Injectable({
   providedIn: 'root'
 })
@@ -21,5 +22,13 @@ export class ServiceService {
       }
       return null;
     }));
+  }
+
+  sendNotification(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/send-notification`, data);
+  }
+
+  updatePassword(data: any): Observable<any> {
+    return this.http.put(`${API_AUTH_URL}/update-password`, data);
   }
 }

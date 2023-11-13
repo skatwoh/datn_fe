@@ -1,12 +1,12 @@
 <nz-page-header
   class="site-page-header"
   nzBackIcon
-  nzTitle="Danh sách tài khoản"
+  nzTitle="Danh sách khách hàng"
   nzSubtitle="Total {{customer.length || 0}}"
 >
   <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item>Tài khoản</nz-breadcrumb-item>
-    <nz-breadcrumb-item>Quản lý tài khoản</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý khách hàng</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Danh sách khách hàng</nz-breadcrumb-item>
   </nz-breadcrumb>
 </nz-page-header>
 
@@ -17,6 +17,7 @@
 <!--      <th nzLeft>STT</th>-->
       <th nzLeft>Id</th>
       <th>Mã</th>
+      <th>Tên</th>
       <th>Ngày sinh</th>
       <th>Giới tính</th>
       <th>Số điện thoại</th>
@@ -26,8 +27,9 @@
     <tbody>
     <tr *ngFor="let data of tableData.data; let i = index">
 <!--      <th nzLeft>{{ i + 1 }}</th>-->
-      <th nzLeft>{{ data.id }}</th>
+      <td nzLeft>{{ data.id }}</td>
       <td nzLeft>{{ data.ma }}</td>
+      <td nzLeft>{{ data.hoTen }}</td>
       <td nzLeft>{{ data.ngaySinh }}</td>
       <td nzLeft>
         <div class="flex items-center" *ngIf="data.gioiTinh == true">

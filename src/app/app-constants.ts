@@ -1,6 +1,7 @@
 export class AppConstants {
   public static APP_AUTH='auth';
   public static APP_DATE_TIME='dd/MM/yyyy hh:mm';
+  public static APP_DATE='dd/MM/yyyy';
 
 
   public static API_SUCCESS_CODE='200';
