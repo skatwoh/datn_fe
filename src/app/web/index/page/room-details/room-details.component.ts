@@ -7,10 +7,10 @@ import {first, Observable, Subscription} from "rxjs";
 import {AuthService} from "../../../../auth/services";
 import {RoomManagerService} from "../../../../modules/room-manager/services/room-manager.service";
 import {UserModel} from "../../../../auth/models/user.model";
-import {RoomService} from "../../../../modules/room/services/room.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {AppConstants} from "../../../../app-constants";
+import {ServiceService} from "../service/service.service";
 
 @Component({
   selector: 'cons-room-details',
@@ -30,7 +30,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
-              private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
+              private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
@@ -64,6 +64,37 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
+  sendNotification(): void {
+    const data = {
+      userId: this.user?.id,
+      noiDung: 'Đã đặt phòng '+ this.room.maPhong,
+      trangThai: 0
+    }
+    this.service.sendNotification(data).subscribe((res: any) => {
+      console.log(res)
+    })
+  }
+
+  calculateTotalDays(): number {
+    // @ts-ignore
+    const checkInDate = this.roomOrderForm.get('checkIn').value;
+    // @ts-ignore
+    const checkOutDate = this.roomOrderForm.get('checkOut').value;
+
+    if (checkInDate && checkOutDate) {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const startDate = new Date(checkInDate);
+      const endDate = new Date(checkOutDate);
+
+      const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+      const differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
+
+      return differenceInDays;
+    }
+
+    return 0;
+  }
+
   saveRoomOrder(): void {
     if(this.user?.name == null){
       this.router.navigate(['/hotel/login']);
@@ -90,6 +121,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           }
         },
       );
+      this.sendNotification();
       this.unsubscribe.push(sub);
     }
   }
@@ -99,4 +131,5 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   protected readonly Number = Number;
+  protected readonly Math = Math;
 }

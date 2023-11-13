@@ -8,6 +8,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
 import {RoomOrder} from "../../models/room-order";
 import {RoomManagerService} from "./services/room-manager.service";
+import {AppConstants} from "../../app-constants";
 import {HomeService} from "../../web/index/page/home/home.service";
 
 @Component({
@@ -19,6 +20,7 @@ import {HomeService} from "../../web/index/page/home/home.service";
   providedIn: 'root'
 })
 export class RoomManagerComponent implements OnInit{
+  readonly APP_DATE = AppConstants.APP_DATE;
   roomOrder: RoomOrder[] = [];
   message ='';
   isVisible = false;

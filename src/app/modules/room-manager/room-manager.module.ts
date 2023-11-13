@@ -8,6 +8,7 @@ import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CurrencyPipe, DecimalPipe, NgForOf, NgIf} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {NzTableModule} from "ng-zorro-antd/table";
 import { RoomManagerCreateComponent } from './room-manager-create/room-manager-create.component';
 import {NzIconModule} from "ng-zorro-antd/icon";

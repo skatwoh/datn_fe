@@ -53,6 +53,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/project/project.module').then(m => m.ProjectModule)
       },
       {
+        path: 'voucher',
+        loadChildren: () => import('./modules/voucher/voucher.module').then(m => m.VoucherModule)
+      },
+      {
         path: 'room-service',
         loadChildren: () => import('./modules/room-service/room-service.module').then(m => m.RoomServiceModule)
       },
