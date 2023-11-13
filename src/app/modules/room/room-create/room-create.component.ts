@@ -101,6 +101,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
           }
         });
       this.unsubscribe.push(registrationSubScr);
+      this.successMessage();
+      this.router.navigate(['/admin/room']);
     }
   }
 

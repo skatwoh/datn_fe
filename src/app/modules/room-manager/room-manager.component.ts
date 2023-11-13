@@ -8,6 +8,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
 import {RoomOrder} from "../../models/room-order";
 import {RoomManagerService} from "./services/room-manager.service";
+import {HomeService} from "../../web/index/page/home/home.service";
 
 @Component({
   selector: 'cons-room-manager',
@@ -22,9 +23,14 @@ export class RoomManagerComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
-
+  room: RoomModel[] = [];
+  soNguoi :string = '';
+  checkIn :string = '';
+  checkOut :string = '';
+  giaPhongMax :string = '';
   // detail
   id: number | undefined;
+  searchInput : string = '';
 
   // showModal(id: any): void {
   //   this.isVisible = true;
@@ -35,20 +41,10 @@ export class RoomManagerComponent implements OnInit{
   //   });
   // }
 
-  // handleOk(): void {
-  //   this.isOkLoading = true;
-  //   this.updateRoom();
-  //   setTimeout(() => {
-  //     this.isVisible = false;
-  //     this.isOkLoading = false;
-  //   }, 500);
-  // }
 
-  // handleCancel(): void {
-  //   this.isVisible = false;
-  // }
   constructor(private roomManagerService : RoomManagerService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
+              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
+              private homeService : HomeService) { }
 
   private getRoomOrders(): void {
     this.roomManagerService.getListRoomManager(1, 50).subscribe(res => {
@@ -59,16 +55,45 @@ export class RoomManagerComponent implements OnInit{
     })
   }
 
-  searchInput :string = '';
-  // getRoomsSearch(): void {
-  //   const inputElement = document.getElementById('searchInput') as HTMLInputElement;
-  //   this.searchInput = inputElement.value;
-  //   this.roomService.getRoomListSearch(1, 50, this.searchInput).subscribe(res => {
-  //     if (res && res.content) {
-  //       this.room= res.content;
-  //     }
-  //   })
-  // }
+  getRoomsSearch(): void {
+    const soNguoiElement = document.getElementById('soNguoi') as HTMLInputElement;
+    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
+    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    const giaPhongElement = document.getElementById('giaPhongMax') as HTMLInputElement;
+    this.soNguoi = soNguoiElement.value;
+    this.checkIn = checkInElement.value;
+    this.checkOut = checkOutElement.value;
+    this.giaPhongMax = giaPhongElement.value;
+    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut, this.giaPhongMax).subscribe(res => {
+      if (res && res.content) {
+        this.room= res.content;
+      }
+    })
+  }
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    this.getRoomsSearch();
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 500);
+    const queryParams = {
+      soNguoi: this.soNguoi,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut,
+      giaPhongMax: this.giaPhongMax
+    };
+
+    this.router.navigate(['/admin/room-manager/room-manager-create'], { queryParams });
+  }
 
   // updateRoomStatus(id: any, status: number): void {
   //   this.roomService.get(id).subscribe((data: RoomModel) => {
