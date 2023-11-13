@@ -105,11 +105,12 @@
         {{ data.soNguoi }}
       </td>
       <td class="px-6 py-4">
-        {{ data.checkIn }}
+        {{ data.checkIn | date: APP_DATE }}
       </td>
       <td class="px-6 py-4">
-        {{ data.checkOut }}
+        {{ data.checkOut | date: APP_DATE }}
       </td>
+
       <td class="px-6 py-4">
         {{ data.tenPhong }}
       </td>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {interval, Observable} from "rxjs";
 import {AuthService} from "../../auth/services";
 import {NotificationsModel} from "../../models/notifications.model";
 import {environment} from "../../../environments/environment";
@@ -29,15 +29,19 @@ export class IndexComponent implements OnInit{
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
+    this.getNoti();
+
+    interval(30000).subscribe(() => {
+      this.getNoti();
+    });
+    }
+
+  getNoti(): void {
     this.service.getListNoti(1, 50, this.user?.id).subscribe(res => {
       if (res && res.content) {
         this.notifications = res.content;
       }
     })
-    }
-
-  onLogout(): void {
-    this.authService.logout();
   }
 
   onLogout1(): void {

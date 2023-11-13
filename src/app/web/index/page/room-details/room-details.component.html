@@ -305,9 +305,12 @@
                                    id="soNguoi" formControlName="soNguoi"></nz-input-number>
                 </nz-form-control>
               </nz-form-item>
+<!--              <nz-form-item>-->
+<!--                <label>Tổng ngày: {{ calculateTotalDays() }}</label>-->
+<!--              </nz-form-item>-->
               <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
               <nz-form-item>
-                <input class="form-input-date" [value]="room.giaPhong + 'VND'" disabled/>
+                <input class="form-input-date" [value]="(calculateTotalDays() ?? 0) * (room?.giaPhong ?? 0) + 'VND'" disabled/>
               </nz-form-item>
               <br>
               <nz-form-item>
