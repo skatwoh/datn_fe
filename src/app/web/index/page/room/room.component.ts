@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {HomeService} from "../home/home.service";
 import {HomeComponent} from "../home/home.component";
@@ -31,7 +31,8 @@ export class RoomComponent implements OnInit{
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
-  constructor(private roomService: RoomService, private homeService: HomeService, private router: Router) { }
+  constructor(private roomService: RoomService, private homeService: HomeService,
+              private router: Router, private route: ActivatedRoute) { }
 
   private getRooms(): void {
     this.roomService.getRoomList(this.currentPage, this.itemsPerPage).subscribe(res => {
@@ -56,6 +57,14 @@ export class RoomComponent implements OnInit{
   }
   ngOnInit() {
     this.getRooms();
+    this.route.queryParams.subscribe((params) => {
+
+      this.checkIn = params['checkIn'];
+      this.checkOut = params['checkOut'];
+      this.soNguoi = params['soNguoi'];
+
+      this.getRoomsSearch();
+    });
   }
 
   previousPage() {
