@@ -87,9 +87,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       const endDate = new Date(checkOutDate);
 
       const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
-      const differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
-
-      return differenceInDays;
+      return Math.round(differenceInMilliseconds / millisecondsPerDay);
     }
 
     return 0;

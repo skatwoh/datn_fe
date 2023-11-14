@@ -19,17 +19,16 @@ export class HomeComponent implements OnInit{
 
 
   getRoomsSearch(): void {
-    const soNguoiElement = document.getElementById('soNguoi') as HTMLInputElement;
-    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
-    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soNguoi = soNguoiElement.value;
-    this.checkIn = checkInElement.value;
-    this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room= res.content;
-      }
-    })
+    const soNguoiElement = (document.getElementById('soNguoi') as HTMLInputElement).value;
+    const checkInElement = (document.getElementById('checkIn') as HTMLInputElement).value;
+    const checkOutElement = (document.getElementById('checkOut') as HTMLInputElement).value;
+    this.router.navigate(['/room'], {
+      queryParams: {
+        checkIn: checkInElement,
+        checkOut: checkOutElement,
+        soNguoi: soNguoiElement,
+      },
+    });
   }
 
   ngOnInit(): void {
