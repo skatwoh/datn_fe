@@ -4,21 +4,12 @@
   </header>
 </div>
 
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-4 gap-4 ml-5">
   <!-- Search Column -->
   <div class="col-span-1 border border-gray-300 rounded-md p-4">
     <!-- Search Bar -->
     <div class="mb-4">
       <input type="text" placeholder="Search room..." class="w-full px-3 py-2 border rounded-md mb-2">
-    </div>
-
-    <!-- Price Range -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700">Price Range</label>
-      <div class="flex space-x-2">
-        <input type="text" placeholder="Min" class="w-1/2 px-3 py-2 border rounded-md">
-        <input type="text" placeholder="Max" class="w-1/2 px-3 py-2 border rounded-md">
-      </div>
     </div>
 
     <div class="mb-4">
@@ -33,8 +24,6 @@
 
     <div class="hidden space-y-4 lg:block">
       <div>
-        <p class="block text-xs font-medium text-gray-700">Filters</p>
-
         <div class="mt-1 space-y-2">
           <details
             class="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
@@ -157,10 +146,6 @@
 
             <div class="border-t border-gray-200 bg-white">
               <header class="flex items-center justify-between p-4">
-                  <span class="text-sm text-gray-700">
-                    The highest price is $600
-                  </span>
-
                 <button
                   type="button"
                   class="text-sm text-gray-900 underline underline-offset-4"
@@ -346,7 +331,7 @@
         </div>
       </div>
     </div>
-    <button class="bg-indigo-500 text-white px-4 py-2 rounded-md" (click)="getRoomsSearch()">Search</button>
+    <button class="bg-indigo-500 text-white px-4 py-2 rounded-md mt-5" (click)="getRoomsSearch()">Search</button>
   </div>
 
   <!-- Room List Columns -->

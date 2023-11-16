@@ -58,12 +58,14 @@ export class RoomComponent implements OnInit{
   ngOnInit() {
     this.getRooms();
     this.route.queryParams.subscribe((params) => {
+      if (params['soNguoi'] || params['checkIn'] || params['checkOut']) {
+        this.checkIn = params['checkIn'];
+        this.checkOut = params['checkOut'];
+        this.soNguoi = params['soNguoi'];
 
-      this.checkIn = params['checkIn'];
-      this.checkOut = params['checkOut'];
-      this.soNguoi = params['soNguoi'];
-
-      this.getRoomsSearch();
+        this.getRoomsSearch();
+      }
+      this.getRooms();
     });
   }
 
