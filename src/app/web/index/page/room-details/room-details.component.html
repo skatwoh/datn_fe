@@ -307,7 +307,7 @@
               </nz-form-item>
               <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
               <nz-form-item>
-                <input id="tongGia" formControlName="tongGia" class="form-input-date" [value]="(calculateTotalDays()) * (room.giaPhong ?? 0) + phiDichVu"/>
+                <input id="tongGia" formControlName="tongGia" class="form-input-total" [value]="calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu" readonly/>
               </nz-form-item>
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>
@@ -406,3 +406,11 @@
     </div>
   </div>
 </section>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <nz-segmented [nzOptions]="options" (nzValueChange)="handleIndexChange($event)"></nz-segmented>
+    <br/>
+    <nz-qrcode nzValue="https://github.com/NG-ZORRO/ng-zorro-antd/issues" [nzLevel]="errorLevel"></nz-qrcode>
+  </ng-container>
+</nz-modal>
