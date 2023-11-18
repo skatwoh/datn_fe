@@ -7,7 +7,7 @@
 
 .main-detail{
   width: 1180px;
-  margin-left: 355px;
+  margin-left: 20px;
 }
 
 .text-room{
@@ -45,19 +45,3 @@
   background-color: #faf9f8
 }
 
-.form-input-total{
-  width: 250px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: rgba(250, 249, 248, 0)
-}
-
-:host {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-}
-
-nz-qrcode {
-  margin-bottom: 12px;
-}

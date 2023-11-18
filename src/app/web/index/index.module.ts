@@ -20,6 +20,8 @@ import {NzRateModule} from "ng-zorro-antd/rate";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzQRCodeModule} from "ng-zorro-antd/qr-code";
+import {NzSegmentedModule} from "ng-zorro-antd/segmented";
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
     NzDatePickerModule,
     NzInputNumberModule,
     FormsModule,
+    NzQRCodeModule,
+    NzSegmentedModule,
   ]
 })
 export class IndexModule {

@@ -18,6 +18,7 @@ import {ServiceService} from "../service/service.service";
   styleUrls: ['./room-details.component.scss']
 })
 export class RoomDetailsComponent implements OnInit, OnDestroy {
+  isVisible = false;
   user$: Observable<any>;
   idPhong: number | undefined;
   room!: RoomInformationModel;
@@ -87,12 +88,33 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       const endDate = new Date(checkOutDate);
 
       const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
-      const differenceInDays = Math.round(differenceInMilliseconds / millisecondsPerDay);
-
-      return differenceInDays;
+      return Math.round(differenceInMilliseconds / millisecondsPerDay);
     }
 
     return 0;
+  }
+
+  options: Array<'L' | 'M' | 'Q' | 'H'> = ['L', 'M', 'Q', 'H'];
+  errorLevel: 'L' | 'M' | 'Q' | 'H' = 'L';
+
+  handleIndexChange(e: number): void {
+    this.errorLevel = this.options[e];
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    this.sendNotification();
+    this.messSuccess();
+    this.router.navigate(['/room']);
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
   saveRoomOrder(): void {
@@ -108,8 +130,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           if (res?.code === AppConstants.API_SUCCESS_CODE){
             this.submitted = true;
-            this.messSuccess();
-            this.router.navigate(['/']);
+            this.showModal();
           } else {
             if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
               const msg: any = res.entityMessages[0];
@@ -121,7 +142,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           }
         },
       );
-      this.sendNotification();
       this.unsubscribe.push(sub);
     }
   }

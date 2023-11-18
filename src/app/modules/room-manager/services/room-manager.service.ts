@@ -56,4 +56,9 @@ export class RoomManagerService {
   delete(id: any): Observable<any> {
     return this.http.delete(`${API_AU_URL}/${id}`);
   }
+
+  exportPDF(id:any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/pdf/generate`, {params});
+  }
 }

@@ -3,6 +3,7 @@ import {environment} from '../../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {AuthModel} from "../../../auth/models/auth.model";
 
 const API_USER_URL = `${environment.apiUrl}/user`;
 
@@ -42,5 +43,15 @@ export class AccountService {
 
   getUsersDetail(email: string): Observable<any> {
     return this.http.get<any>(`${API_USER_URL}/detail/${email}`, {});
+  }
+
+  updatePassWord(email: any, data: any): Observable<any> {
+    const params = {email};
+    return this.http.post(`${environment.apiUrl}/auth/update-pass`, data, {params});
+  }
+
+  updatePass(email: string, password: string): Observable<any> {
+    const payload = {email, password};
+    return this.http.post<AuthModel>(`${environment.apiUrl}/auth/update-pass`, payload);
   }
 }
