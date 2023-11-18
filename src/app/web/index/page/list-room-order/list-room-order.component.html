@@ -1,0 +1,196 @@
+<!--<div style="width: 1000px;padding: 20px">-->
+<!--<div class="overflow-x-auto">-->
+<!--  <table  class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">-->
+<!--    <thead class="ltr:text-left rtl:text-right">-->
+<!--    <tr>-->
+<!--      <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        STT-->
+<!--      </th>-->
+<!--      <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        Mã phòng-->
+<!--      </th>-->
+<!--      <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        Ngày nhận-->
+<!--      </th>-->
+<!--      <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        Ngày trả-->
+<!--      </th>-->
+<!--      <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        Tổng tiền-->
+<!--      </th>-->
+<!--      <th class="px-4 py-2"></th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody class="divide-y divide-gray-200">-->
+<!--    <tr>-->
+<!--      <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">-->
+<!--        John Doe-->
+<!--      </td>-->
+<!--      <td class="whitespace-nowrap px-4 py-2 text-gray-700">24/05/1995</td>-->
+<!--      <td class="whitespace-nowrap px-4 py-2 text-gray-700">Web Developer</td>-->
+<!--      <td class="whitespace-nowrap px-4 py-2 text-gray-700">$120,000</td>-->
+<!--      <td class="whitespace-nowrap px-4 py-2">-->
+<!--        <a-->
+<!--          href="#"-->
+<!--          class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"-->
+<!--        >-->
+<!--          View-->
+<!--        </a>-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+<!--</div>-->
+<!--</div>-->
+<!-- component -->
+<div class="flex flex-col justify-center items-center h-[60vh]">
+  <div
+    class="relative flex max-w-[1200px] h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none"
+  >
+    <div
+      class="flex h-fit w-full items-center justify-between rounded-t-2xl bg-white px-4 pb-[20px] pt-4 shadow-2xl shadow-gray-100 dark:!bg-navy-700 dark:shadow-none"
+    >
+      <h4 class="text-lg font-bold text-navy-700 dark:text-white">
+        Danh sách đặt phòng
+      </h4>
+      <button
+        class="linear rounded-[20px] bg-lightPrimary px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-gray-100 active:bg-gray-200 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
+      >
+        See all
+      </button>
+    </div>
+    <div class="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
+      <nz-table #tableData [nzData]="room"  role="table" class="w-full min-w-[500px] overflow-x-scroll">
+        <thead>
+        <tr role="row">
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Stt
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Mã phòng
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày nhận
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày trả
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Tổng thanh toán
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Hành động
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody role="rowgroup" class="px-4">
+        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{i + 1}}
+            </p>
+
+
+
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tenPhong}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkIn | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkOut | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tongGia}} VND
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <div>
+              <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzOkText]="'Đồng ý'"
+  [nzCancelText]="'Trở về'"
+
+>
+  <ng-container *nzModalContent>
+    <div>
+    <p style="font-size: large">Bạn có chắc muốn hủy phòng này không?</p>
+    </div>
+  </ng-container>
+</nz-modal>

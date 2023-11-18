@@ -9,6 +9,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {first, Observable, Subscription} from "rxjs";
 import {AppConstants} from "../../../app-constants";
 import {Router} from "@angular/router";
+import {RoomTypeModel} from "../../../models/room-type.model";
 
 @Component({
   selector: 'cons-room-create',
@@ -26,7 +27,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
     idLoaiPhong: 0,
     tenLoaiPhong: ''
   };
-  roomType: RoomTypeDtoModel[] = [];
+  roomType: RoomTypeModel[] = [];
+  roomList: RoomModel[] = [];
   submitted = false;
   // @ts-ignore
   submitForm: FormGroup;
@@ -39,6 +41,14 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
               private message: NzMessageService,
               private fb: FormBuilder,
               private router: Router) {
+  }
+
+  private getRooms(): void {
+    this.roomService.getRoomList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.roomList= res.content;
+      }
+    })
   }
 
   ngOnInit() {
@@ -102,6 +112,7 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
         });
       this.unsubscribe.push(registrationSubScr);
       this.successMessage();
+      this.getRooms();
       this.router.navigate(['/admin/room']);
     }
   }

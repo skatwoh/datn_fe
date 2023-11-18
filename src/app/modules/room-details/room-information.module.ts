@@ -16,10 +16,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RoomInformationDetailsComponent } from './room-information-details/room-information-details.component';
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 @NgModule({
     imports: [RoomInformationRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule, NzTableModule,
-        NzButtonModule, NzFormModule, NzGridModule, NzInputModule, NzWaveModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzIconModule],
+        NzButtonModule, NzFormModule, NzGridModule, NzInputModule, NzWaveModule, ReactiveFormsModule, FormsModule, NzSelectModule, NzIconModule, NzModalModule],
   declarations: [RoomInformationComponent, RoomInformationCreateComponent, RoomInformationDetailsComponent],
   exports: [RoomInformationComponent]
 })

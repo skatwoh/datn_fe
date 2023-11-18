@@ -1,42 +1,21 @@
-import {environment} from "../../../../environments/environment";
+import {environment} from "../../../../../environments/environment";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {RoomModel} from "../../../models/room.model";
 
-const API_AU_URL = `${environment.apiUrl}/phong`;
+const API_AU_URL = `${environment.apiUrl}/dat-phong`;
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomService{
+export class ListRoomOrderService{
   constructor(private http: HttpClient) {
   }
 
-  getRoomList(page: number, size: number): Observable<any> {
-    const params = {page, size};
-    return this.http.get<any>(`${API_AU_URL}/list`, {params}).pipe(map(res => {
-      if (res.body && res.body) {
-        return res.body;
-      }
-      return null;
-    }));
-  }
-
-  getRoomListOrder(page: number, size: number): Observable<any> {
-    const params = {page, size};
-    return this.http.get<any>(`${API_AU_URL}/list-room`, {params}).pipe(map(res => {
-      if (res.body && res.body) {
-        return res.body;
-      }
-      return null;
-    }));
-  }
-
-  getRoomListSearch(page: number, size: number, input: string): Observable<any> {
-    const params = {page, size, input};
-    return this.http.get<any>(`${API_AU_URL}/search`, {params}).pipe(map(res => {
+  getListRoomOrder(page: number, size: number, id: any, trangThai: any): Observable<any> {
+    const params = {page, size, id, trangThai};
+    return this.http.get<any>(`${API_AU_URL}/list-room-order-by-user`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;
       }
@@ -60,7 +39,7 @@ export class RoomService{
 
   updateStatus(id: any, data: number): Observable<any> {
     const params = {id};
-    return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
+    return this.http.put<any>(`${API_AU_URL}/update-status`, data, {params});
   }
 
   delete(id: any): Observable<any> {

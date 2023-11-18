@@ -50,6 +50,23 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  calculateTotalDays(): number {
+    // @ts-ignore
+    const checkInDate = this.roomOrderForm.get('checkIn').value;
+    // @ts-ignore
+    const checkOutDate = this.roomOrderForm.get('checkOut').value;
+
+    if (checkInDate && checkOutDate) {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const startDate = new Date(checkInDate);
+      const endDate = new Date(checkOutDate);
+
+      const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+      return Math.round(differenceInMilliseconds / millisecondsPerDay);
+    }
+
+    return 0;
+  }
 
   ngOnInit() {
     this.idPhong = this.route.snapshot.params['id'];
@@ -76,7 +93,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     this.hasError = false;
     if (this.roomOrderForm.valid) {
       const data = this.roomOrderForm.value;
-
+      data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
       const sub = this.roomManagerService.create(data)
         .pipe(first())
         .subscribe((res) => {

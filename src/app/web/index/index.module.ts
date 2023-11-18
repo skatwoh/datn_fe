@@ -20,35 +20,39 @@ import {NzRateModule} from "ng-zorro-antd/rate";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
+import {NzTableModule} from "ng-zorro-antd/table";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 @NgModule({
   declarations: [
     IndexComponent,
     ...fromPages.pages,
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    IndexRoutingModule,
-    NzDropDownModule,
-    NzAvatarModule,
-    FirstCharPipe,
-    NzImageModule,
-    NgOptimizedImage,
-    NzTypographyModule,
-    NzButtonModule,
-    NzCarouselModule,
-    NzBadgeModule,
-    NzIconModule,
-    NzModalModule,
-    NzFormModule,
-    NzInputModule,
-    NzRateModule,
-    ReactiveFormsModule,
-    NzDatePickerModule,
-    NzInputNumberModule,
-    FormsModule,
-  ]
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        IndexRoutingModule,
+        NzDropDownModule,
+        NzAvatarModule,
+        FirstCharPipe,
+        NzImageModule,
+        NgOptimizedImage,
+        NzTypographyModule,
+        NzButtonModule,
+        NzCarouselModule,
+        NzBadgeModule,
+        NzIconModule,
+        NzModalModule,
+        NzFormModule,
+        NzInputModule,
+        NzRateModule,
+        ReactiveFormsModule,
+        NzDatePickerModule,
+        NzInputNumberModule,
+        FormsModule,
+        NzTableModule,
+        NzSelectModule,
+    ]
 })
 export class IndexModule {
 }

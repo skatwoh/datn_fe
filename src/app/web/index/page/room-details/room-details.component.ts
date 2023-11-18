@@ -27,8 +27,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   roomOrderForm: FormGroup;
   hasError = false;
   submitted = false;
+  phiDichVu : number = 0 ;
   private unsubscribe: Subscription[] = [];
-
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService) {
@@ -43,6 +43,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       tongGia: [0, Validators.required],
       trangThai: 1
     })
+    // (document.getElementById('tongGia') as HTMLInputElement).value
   }
 
   ngOnInit() {
@@ -75,6 +76,14 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  dichVuMienPhi(): void {
+    this.phiDichVu = 0;
+  }
+
+  dichVuDayDu(): void {
+    this.phiDichVu = 500000;
+  }
+
   calculateTotalDays(): number {
     // @ts-ignore
     const checkInDate = this.roomOrderForm.get('checkIn').value;
@@ -100,7 +109,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.hasError = false;
     if (this.roomOrderForm.valid) {
       const data = this.roomOrderForm.value;
-
+      data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
       const sub = this.roomManagerService.create(data)
         .pipe(first())
         .subscribe((res) => {

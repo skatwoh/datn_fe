@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {RoomTypeDtoModel} from "../../models/room-type-dto.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {RoomTypeModel} from "../../models/room-type.model";
 
 @Component({
   selector: 'cons-room',
@@ -22,7 +23,7 @@ export class RoomComponent implements OnInit{
   // detail
   id: number | undefined;
   // roomModel!: RoomModel;
-  roomType : RoomTypeDtoModel[] = [];
+  roomType : RoomTypeModel[] = [];
 
   showModal(id: any): void {
     this.isVisible = true;
@@ -77,7 +78,7 @@ export class RoomComponent implements OnInit{
         next: (res) => {
           this.message = res.message
           this.currentRoom.trangThai = status
-          this.getRooms();
+          this.getRoomsSearch();
         },
       });
   }

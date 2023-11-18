@@ -5,6 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {HomeService} from "../home/home.service";
 import {HomeComponent} from "../home/home.component";
+import {environment} from "../../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {RoomTypeModel} from "../../../../models/room-type.model";
 
 @Component({
   selector: 'cons-room',
@@ -21,21 +24,21 @@ import {HomeComponent} from "../home/home.component";
 })
 export class RoomComponent implements OnInit{
   room: RoomModel[] = [];
+  roomType: RoomTypeModel[] = [];
   currentPage = 1;
   itemsPerPage = 9;
   animationState: string = 'initial';
-  soNguoi :string = '';
+  tenLoaiPhong :string = '';
   checkIn :string = '';
   checkOut :string = '';
-  giaPhongMax :string = '';
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
   constructor(private roomService: RoomService, private homeService: HomeService,
-              private router: Router, private route: ActivatedRoute) { }
+              private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
 
   private getRooms(): void {
-    this.roomService.getRoomList(this.currentPage, this.itemsPerPage).subscribe(res => {
+    this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
       }
@@ -43,25 +46,27 @@ export class RoomComponent implements OnInit{
   }
 
   getRoomsSearch(): void {
-    const soNguoiElement = document.getElementById('soNguoi') as HTMLInputElement;
+    const soNguoiElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soNguoi = soNguoiElement.value;
+    this.tenLoaiPhong = soNguoiElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soNguoi, this.checkIn, this.checkOut).subscribe(res => {
+    this.homeService.getRoomListSearch(1, 50, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
       }
     })
   }
   ngOnInit() {
-    this.getRooms();
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
+      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
+    });
     this.route.queryParams.subscribe((params) => {
-      if (params['soNguoi'] || params['checkIn'] || params['checkOut']) {
+      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut']) {
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
-        this.soNguoi = params['soNguoi'];
+        this.tenLoaiPhong = params['tenLoaiPhong'];
 
         this.getRoomsSearch();
       }
