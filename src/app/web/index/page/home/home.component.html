@@ -19,8 +19,10 @@
             </label>
 
             <label class="text-lg">
-              Số người:
-              <input class="border rounded-md py-2 px-3 w-16" type="number" id="soNguoi" value="0">
+              Loại phòng:
+              <select id="tenLoaiPhong" style="width: 200px;height: 40px">
+                <option style="height: 40px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
+              </select>
             </label>
 
             <button (click)="getRoomsSearch()" style="margin-left: 50px"

@@ -7,19 +7,19 @@
     <nz-form-item>
       <nz-form-label nzFor="giaPhong">Giá phòng</nz-form-label>
       <nz-form-control nzErrorTip="Vui lòng nhập giá lớn hơn 1000">
-        <input nz-input type="number" id="giaPhong" formControlName="giaPhong"/>
+        <input style="width: 1400px;margin-left: 5px" nz-input type="number" id="giaPhong" formControlName="giaPhong"/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzFor="idLoaiPhong">Loại phòng</nz-form-label>
-      <nz-select id="idLoaiPhong" formControlName="idLoaiPhong" style="width: 200px">
-        <nz-option *ngFor="let data of roomType" [nzLabel]="data.ten_Loai_Phong" [nzValue]="data.id"></nz-option>
+      <nz-select id="idLoaiPhong" formControlName="idLoaiPhong" style="width: 1400px;">
+        <nz-option *ngFor="let data of roomType" [nzLabel]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [nzValue]="data.id"></nz-option>
       </nz-select>
     </nz-form-item>
     <br>
     <nz-form-item>
       <nz-form-control>
-        <button nz-button nzType="primary" style="width: 100%">Thêm</button>
+        <button nz-button nzType="primary" style="width: 98%">Thêm</button>
       </nz-form-control>
     </nz-form-item>
   </form>

@@ -64,7 +64,7 @@
             </nz-form-item>
             <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
             <nz-form-item>
-              <input class="form-input-date" [value]="room.giaPhong + 'VND'" disabled/>
+              <input id="tongGia" formControlName="tongGia" class="form-input-date" [value]="(calculateTotalDays()) * (room.giaPhong ?? 0)"/>
             </nz-form-item>
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>

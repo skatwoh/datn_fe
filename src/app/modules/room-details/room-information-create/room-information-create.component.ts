@@ -5,6 +5,8 @@ import { RoomModel } from "../../../models/room.model";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {NzMessageService} from "ng-zorro-antd/message";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-room-information-create',
@@ -14,11 +16,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RoomInformationCreateComponent implements OnInit {
   roomInformationForm: FormGroup;
   room: RoomModel[] = [];
+  roomInforList: RoomInformationModel[] = [];
   submitted = false;
 
   constructor(
     private roomInformationService: RoomInformationService,
     private http: HttpClient,
+    private message: NzMessageService,
+    private router: Router,
     private formBuilder: FormBuilder
   ) {
     this.roomInformationForm = this.formBuilder.group({
@@ -30,6 +35,18 @@ export class RoomInformationCreateComponent implements OnInit {
       trangThai: 1,
       idPhong: ['', Validators.required]
     });
+  }
+
+  private getRooms(): void {
+    this.roomInformationService.getRoomInformationList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.roomInforList= res.content;
+      }
+    })
+  }
+
+  successMessage(): void {
+    this.message.success('Thêm thành công');
   }
 
   ngOnInit() {
@@ -46,14 +63,11 @@ export class RoomInformationCreateComponent implements OnInit {
         next: (res) => {
           console.log(res);
           this.submitted = true;
+          this.successMessage();
+          this.router.navigate(['/admin/room-information']);
         },
         error: (e) => console.error(e)
       });
     }
-  }
-
-  newRoomInformation(): void {
-    this.submitted = false;
-    this.roomInformationForm.reset();
   }
 }

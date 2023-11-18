@@ -58,7 +58,7 @@
         </div>
       </th>
       <th scope="col" class="px-6 py-3">
-        Id
+        STT
       </th>
       <th scope="col" class="px-6 py-3">
         Mã
@@ -90,7 +90,7 @@
         </div>
       </td>
       <td class="px-6 py-4">
-        {{ data.id }}
+        {{i + 1}}
       </td>
       <td class="px-6 py-4">
         {{ data.ma }}
@@ -113,15 +113,8 @@
         </div>
       </td>
       <td class="px-12 py-4" style="display: flex">
-        <div>
-          <a href="admin/room/room-details/{{ data.id }}"
-             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-          </a>
-        </div>
         <div class="btn-info" (click)="showModal(data.id)">
-          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
-        </div>
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>        </div>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="btn-status-stop" (click)="updateRoomStatus(data.id, 0)">
             <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>
@@ -149,22 +142,22 @@
   <ng-container *nzModalContent>
   <div *ngIf="currentRoom" class="edit-form">
     <nz-form-item>
-      <nz-form-label nzFor="ma">Mã phòng </nz-form-label>
+      <nz-form-label nzFor="ma" style="width: 100px">Mã phòng </nz-form-label>
       <nz-form-control nzErrorTip="Vui lòng nhập mã">
         <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentRoom.ma" disabled/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzFor="giaPhong" nzRequired>Giá phòng </nz-form-label>
+      <nz-form-label nzFor="giaPhong" style="width: 100px">Giá phòng </nz-form-label>
       <nz-form-control nzErrorTip="Vui lòng nhập giá">
         <input nz-input type="number" min="0" id="giaPhong" name="giaPhong" [(ngModel)]="currentRoom.giaPhong" required/>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>
+    <nz-form-label nzFor="idloaiPhong" style="width: 100px">Loại phòng</nz-form-label>
     <nz-select nzAllowClear  style="width: 200px" [(ngModel)]="currentRoom.idLoaiPhong" nzPlaceHolder="{{currentRoom.tenLoaiPhong}}">
       <nz-option nzLabel="{{currentRoom.tenLoaiPhong}}"></nz-option>
-      <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>
+      <nz-option *ngFor="let data of roomType" [nzLabel]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" nzValue="{{ data.id }}"></nz-option>
     </nz-select>
   </div>
   </ng-container>

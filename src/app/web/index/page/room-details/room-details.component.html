@@ -305,13 +305,13 @@
                                    id="soNguoi" formControlName="soNguoi"></nz-input-number>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
+              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
               <nz-form-item>
-                <input class="form-input-total" [value]="calculateTotalDays() * (room.giaPhong ?? 0) | currency:'VND':true:'1.0-0'" disabled/>
+                <input id="tongGia" formControlName="tongGia" class="form-input-total" [value]="calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu" readonly/>
               </nz-form-item>
-
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>
+
                 <div>
                   <input
                     type="radio"
@@ -325,8 +325,8 @@
                   <label
                     for="DeliveryStandard"
                     class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                  >
-                    <div class="flex items-center justify-between">
+                    (click)="dichVuMienPhi()" >
+                    <div class="flex items-center justify-between" >
                       <p class="text-gray-700">Bữa sáng</p>
 
                       <svg
@@ -359,8 +359,8 @@
                   <label
                     for="DeliveryPriority"
                     class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                  >
-                    <div class="flex items-center justify-between">
+                    (click)="dichVuDayDu()">
+                    <div class="flex items-center justify-between" >
                       <p class="text-gray-700">Đầy đủ</p>
 
                       <svg
