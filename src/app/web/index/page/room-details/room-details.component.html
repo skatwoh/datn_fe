@@ -19,7 +19,7 @@
             <h5>Giá phòng: </h5>
             <h5 style="margin-left: 10px">
               <span
-                style="font-size: 16px; color: aliceblue">{{ room.giaPhong | currency:'VND':'symbol':'1.0-0' }}</span>/
+                style="font-size: 16px; color: aliceblue">{{ Number(room.giaPhong) | currencyFormat }}</span>/
               1 đêm
             </h5>
           </div>
@@ -298,16 +298,16 @@
                   <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="soNguoi">Số lượng người</nz-form-label>
+              <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
               <nz-form-item>
-                <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+                <nz-form-control>
                   <nz-input-number class="form-input-number" [nzMin]="1" [nzMax]="Number(room.soLuongNguoi)"
                                    id="soNguoi" formControlName="soNguoi"></nz-input-number>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
+              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label> <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu) | currencyFormat}}</span>
               <nz-form-item>
-                <input id="tongGia" formControlName="tongGia" class="form-input-total" [value]="calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu" readonly/>
+                <input id="tongGia" formControlName="tongGia" class="form-input-total" [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
               </nz-form-item>
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>
