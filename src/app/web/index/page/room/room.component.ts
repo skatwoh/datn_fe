@@ -34,6 +34,24 @@ export class RoomComponent implements OnInit{
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
+
+  selectedCount = 0;
+
+  updateSelectedCount(event: any) {
+    if (event.target.checked) {
+      this.selectedCount++;
+    } else {
+      this.selectedCount--;
+    }
+  }
+
+  resetSelection() {
+    this.selectedCount = 0;
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox: any) => {
+      checkbox.checked = false;
+    });
+  }
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -46,10 +64,10 @@ export class RoomComponent implements OnInit{
   }
 
   getRoomsSearch(): void {
-    const soNguoiElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
+    const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.tenLoaiPhong = soNguoiElement.value;
+    this.tenLoaiPhong = loaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
     this.homeService.getRoomListSearch(1, 50, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
@@ -85,4 +103,6 @@ export class RoomComponent implements OnInit{
     this.currentPage++;
     this.getRooms();
   }
+
+  protected readonly Number = Number;
 }

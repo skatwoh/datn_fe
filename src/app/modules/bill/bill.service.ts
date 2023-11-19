@@ -33,4 +33,8 @@ export class BillService{
     return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
   }
 
+  create(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create`, data);
+  }
+
 }
