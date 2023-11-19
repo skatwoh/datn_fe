@@ -67,7 +67,6 @@ export class RoomComponent implements OnInit{
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
-
         this.getRoomsSearch();
       }
       this.getRooms();
