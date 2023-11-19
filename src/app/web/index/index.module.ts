@@ -24,11 +24,13 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzQRCodeModule} from "ng-zorro-antd/qr-code";
 import {NzSegmentedModule} from "ng-zorro-antd/segmented";
+import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
 
 @NgModule({
   declarations: [
     IndexComponent,
     ...fromPages.pages,
+    CurrencyFormatPipe,
   ],
   imports: [
     CommonModule,

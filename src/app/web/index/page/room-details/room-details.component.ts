@@ -11,6 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {AppConstants} from "../../../../app-constants";
 import {ServiceService} from "../service/service.service";
+import {BillService} from "../../../../modules/bill/bill.service";
 
 @Component({
   selector: 'cons-room-details',
@@ -32,7 +33,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
-              private formBuilder: FormBuilder, private notification: NzNotificationService) {
+              private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -126,6 +127,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.isVisible = false;
   }
 
+  createBill(): void{
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: this.user?.id
+    }
+    this.billService.create(data).subscribe((res: any) => {
+      console.log(res)
+    })
+  }
+
   saveRoomOrder(): void {
     if(this.user?.name == null){
       this.router.navigate(['/hotel/login']);
@@ -139,6 +151,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           if (res?.code === AppConstants.API_SUCCESS_CODE){
             this.submitted = true;
+            this.createBill();
             this.showModal();
           } else {
             if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
