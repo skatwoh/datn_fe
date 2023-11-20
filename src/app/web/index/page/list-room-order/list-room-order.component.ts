@@ -15,10 +15,14 @@ import {NzMessageService} from "ng-zorro-antd/message";
 })
 export class ListRoomOrderComponent implements OnInit, OnDestroy {
   room: RoomOrder[] = [];
+  room1: RoomModel[] = [];
+
   currentRoom!: RoomOrder;
   user: UserModel | undefined;
   isVisible = false;
   isOkLoading = false;
+  isVisible1 = false;
+  isOkLoading1 = false;
   id : number | undefined;
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
@@ -33,6 +37,14 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
       this.currentRoom = data;
       console.log(this.currentRoom);
     });
+  }
+  showRoomUpperPrice(giaPhong: number | undefined): void {
+    this.isVisible1 = true;
+    this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong ).subscribe(res => {
+      if (res && res.content) {
+        this.room1 = res.content;
+      }
+    })
   }
 
   handleOk(): void {
@@ -81,4 +93,5 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
   }
 
     protected readonly formatNumber = formatNumber;
+  protected readonly Number = Number;
 }
