@@ -4,7 +4,7 @@ import { RoomInformationService } from "../services/room-information.service";
 import { RoomModel } from "../../../models/room.model";
 import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Router} from "@angular/router";
 
@@ -31,7 +31,7 @@ export class RoomInformationCreateComponent implements OnInit {
       tienIch: ['', Validators.required],
       dichVu: ['', Validators.required],
       soLuongNguoi: [0, Validators.required],
-      dienTich: [0, Validators.required],
+      dienTich: new FormControl(null, Validators.compose([Validators.nullValidator, Validators.min(1000), Validators.max(100000000000)])),
       trangThai: 1,
       idPhong: ['', Validators.required]
     });

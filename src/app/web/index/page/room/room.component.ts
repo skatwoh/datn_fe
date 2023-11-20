@@ -28,9 +28,12 @@ export class RoomComponent implements OnInit{
   currentPage = 1;
   itemsPerPage = 9;
   animationState: string = 'initial';
+  soLuongNguoi: string = '';
   tenLoaiPhong :string = '';
   checkIn :string = '';
   checkOut :string = '';
+  message :string = '';
+  hasError : boolean = false;
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
@@ -64,31 +67,54 @@ export class RoomComponent implements OnInit{
   }
 
   getRoomsSearch(): void {
+    const soLuongNguoiElement = document.getElementById('soLuongNguoi') as HTMLInputElement;
     const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    this.soLuongNguoi = soLuongNguoiElement.value;
     this.tenLoaiPhong = loaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room= res.content;
-      }
-    })
+      this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+        if (res && res.content) {
+          this.room = res.content;
+          // this.updateUrlWithSearchParams();
+        }
+      })
   }
+    private updateUrlWithSearchParams(): void {
+        const queryParams = {
+          soLuongNguoi: this.soLuongNguoi,
+          tenLoaiPhong: this.tenLoaiPhong,
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
+        };
+        // Update URL without triggering a navigation
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams,
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+      }
+
+
+
   ngOnInit() {
+
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.route.queryParams.subscribe((params) => {
-      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut']) {
+      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi']) {
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
-
+        this.soLuongNguoi = params['soLuongNguoi'];
         this.getRoomsSearch();
+      } else {
+        this.getRooms();
       }
-      this.getRooms();
     });
   }
 

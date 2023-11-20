@@ -66,9 +66,6 @@
         Số điện thoại
       </th>
       <th scope="col" class="px-6 py-3">
-        Tổng người
-      </th>
-      <th scope="col" class="px-6 py-3">
         Ngày nhận phòng
       </th>
       <th scope="col" class="px-6 py-3">
@@ -103,9 +100,6 @@
       </td>
       <td class="px-6 py-4">
         {{ data.sdt }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.soNguoi }}
       </td>
       <td class="px-6 py-4">
         {{ data.checkIn | date: APP_DATE }}
@@ -155,7 +149,7 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
-  nzWidth="60%"
+  nzWidth="65%"
   [nzOkText]="'Tìm kiếm'"
 >
   <ng-container *nzModalContent style="width: 100%">
@@ -171,7 +165,20 @@
       </label>
       <label class="text-lg" style="margin-left: 30px">
         Số người:
-        <input style="border-radius: 10px;width: 100px" type="number" id="soNguoi">
+        <select
+          id="soLuongNguoi"
+          style="width: 150px;height: 40px"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </label>
+      <label class="text-lg" style="margin-left: 30px"> Loại phòng:
+        <select id="tenLoaiPhong" style="width: 200px;height: 40px">
+          <option style="height: 40px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
+        </select>
       </label>
     </div>
   </ng-container>

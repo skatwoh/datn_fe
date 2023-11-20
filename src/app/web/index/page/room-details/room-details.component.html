@@ -40,11 +40,14 @@
             <h5 style="margin-left: 10px">{{room.dichVu}}</h5>
           </div>
           <div class="text-room">
-            <h5 style="margin-left: 10px">The Java Naming and Directory Interface (JNDI) is an Application Programming
-              Interface (API) that provides naming and directory services to Java-based applications. We can use this
-              interface to bind objects/resources, look up or query objects, and detect changes on the same
-              objects.</h5>
+            <h5 style="margin-left: 10px">Tọa lạc tại thành phố Hà Nội, cách Trung tâm Vincom Nguyễn Chí Thanh 2,6 km,
+              Căn hộ D'capitale 119 Trần Duy Hưng cung cấp chỗ nghỉ với phòng tập thể dục. Chỗ nghỉ có quầy lễ tân 24 giờ, thang máy và dịch vụ thu đổi
+              ngoại tệ cho khách. Với phòng tắm riêng, các phòng tại khu chung cư cũng cung cấp cho khách Wi-Fi miễn phí
+              trong khi một số phòng tại đây có sân hiên</h5>
           </div>
+        </div>
+        <div>
+<!--          phong tuong tu-->
         </div>
         <div class="row-span-2">
           <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -305,9 +308,11 @@
                                    id="soNguoi" formControlName="soNguoi"></nz-input-number>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label> <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu) | currencyFormat}}</span>
+              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
+              <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu) | currencyFormat}}</span>
               <nz-form-item>
-                <input id="tongGia" formControlName="tongGia" class="form-input-total" [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
+                <input id="tongGia" formControlName="tongGia" class="form-input-total"
+                       [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
               </nz-form-item>
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>
@@ -325,8 +330,8 @@
                   <label
                     for="DeliveryStandard"
                     class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    (click)="dichVuMienPhi()" >
-                    <div class="flex items-center justify-between" >
+                    (click)="dichVuMienPhi()">
+                    <div class="flex items-center justify-between">
                       <p class="text-gray-700">Bữa sáng</p>
 
                       <svg
@@ -360,7 +365,7 @@
                     for="DeliveryPriority"
                     class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
                     (click)="dichVuDayDu()">
-                    <div class="flex items-center justify-between" >
+                    <div class="flex items-center justify-between">
                       <p class="text-gray-700">Đầy đủ</p>
 
                       <svg

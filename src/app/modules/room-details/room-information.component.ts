@@ -48,7 +48,7 @@ export class RoomInformationComponent implements OnInit{
   constructor(private roomInformationService: RoomInformationService, private router: Router, private http: HttpClient, private messageNoti: NzMessageService) { }
 
   private getRoomInformation(): void {
-    this.roomInformationService.getRoomInformationList(1, 15).subscribe(res => {
+    this.roomInformationService.getRoomInformationList(1, 50).subscribe(res => {
       if (res && res.content) {
         this.roomDetails= res.content;
       }

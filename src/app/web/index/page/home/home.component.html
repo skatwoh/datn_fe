@@ -5,45 +5,13 @@
         KKKKK A Luxury Hotel
       </div>
       <div class="form-booking">
-<!--        <div style="margin-top: 40px; margin-left: 10%">-->
-
-<!--          <div class="flex items-center space-x-4 mb-4">-->
-<!--            <label class="text-lg">-->
-<!--              Ngày nhận:-->
-<!--              <input class="border rounded-md py-2 px-3" type="date" id="checkIn">-->
-<!--            </label>-->
-
-<!--            <label class="text-lg">-->
-<!--              Ngày trả:-->
-<!--              <input class="border rounded-md py-2 px-3" type="date" id="checkOut">-->
-<!--            </label>-->
-
-<!--            <label class="text-lg">-->
-<!--              Loại phòng:-->
-<!--              <select id="tenLoaiPhong" style="width: 200px;height: 40px">-->
-<!--                <option style="height: 40px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>-->
-<!--              </select>-->
-<!--            </label>-->
-
-<!--            <button (click)="getRoomsSearch()" style="margin-left: 50px"-->
-<!--                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium-->
-<!--              text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500-->
-<!--              group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"-->
-<!--            >-->
-<!--            <span-->
-<!--              class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">-->
-<!--                Tìm kiếm-->
-<!--            </span>-->
-<!--            </button>-->
-<!--          </div>-->
-
-<!--        </div>-->
         <div class="flex flex-col">
           <div class="bg-white p-6 rounded-xl shadow-lg">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <div class="flex flex-col">
                 <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
                 <input class="border rounded-md py-2 px-3" type="date" id="checkIn">
+                <span style="color: red" *ngIf="hasError">{{message}}</span>
               </div>
 
               <div class="flex flex-col">
@@ -52,15 +20,15 @@
               </div>
 
               <div class="flex flex-col">
-                <label for="soNguoi" class="font-medium text-sm text-stone-600">Số người</label>
+                <label for="soLuongNguoi" class="font-medium text-sm text-stone-600">Số người</label>
                 <select
-                  id="soNguoi"
+                  id="soLuongNguoi"
                   style="width: 200px;height: 40px"
                 >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4+</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4+</option>
                 </select>
               </div>
 
