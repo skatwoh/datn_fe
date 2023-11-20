@@ -1,12 +1,12 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {AuthService} from "../../../../auth/services";
-import {NzNotificationService} from "ng-zorro-antd/notification";
 import {UpdatePasswordModel} from "../../../../models/update-password.model";
 import {ServiceService} from "../service/service.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MustMatch} from "../../../../shared/utils";
 import {UserModel} from "../../../../auth/models/user.model";
+import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
 
 @Component({
   selector: 'cons-profile',
@@ -22,10 +22,13 @@ export class ProfileComponent implements OnInit{
   message: string | undefined = '';
   update: UpdatePasswordModel | undefined;
   user: UserModel | undefined;
+  countRoom: number | undefined;
 
-  constructor(private authService: AuthService, private service: ServiceService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private service: ServiceService, private fb: FormBuilder,
+              private roomOrderService: ListRoomOrderService) {
     this.user$ = this.authService.currentUser$;
   }
+
 
   ngOnInit(): void {
         this.initForm();
@@ -33,6 +36,15 @@ export class ProfileComponent implements OnInit{
 
   showModal(): void {
     this.isVisible = true;
+  }
+
+  private getRooms(): void {
+    const id = this.user?.id;
+    this.roomOrderService.getListRoomOrder(1, 50, id, 1).subscribe(res => {
+      if (res && res.content) {
+        this.countRoom = res.content.length;
+      }
+    });
   }
 
   private initForm(): void {
@@ -49,6 +61,7 @@ export class ProfileComponent implements OnInit{
           {name: 'passwordAgain', label: 'Xác nhận mật khẩu'}
         ),}
       );
+    this.getRooms();
   }
 
   handleOk(form: FormGroup): void {
