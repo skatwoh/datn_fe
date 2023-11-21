@@ -12,6 +12,8 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {AppConstants} from "../../../../app-constants";
 import {ServiceService} from "../service/service.service";
 import {BillService} from "../../../../modules/bill/bill.service";
+import {RoomModel} from "../../../../models/room.model";
+import {RoomService} from "../../../../modules/room/services/room.service";
 
 @Component({
   selector: 'cons-room-details',
@@ -23,6 +25,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   user$: Observable<any>;
   idPhong: number | undefined;
   room!: RoomInformationModel;
+  roomList : RoomModel[] = [];
   roomType: RoomTypeDtoModel[] = [];
   message = '';
   user: UserModel | undefined;
@@ -31,7 +34,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
   phiDichVu : number = 0 ;
   private unsubscribe: Subscription[] = [];
-  constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
+  constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService) {
     this.user$ = this.authService.currentUser$;
@@ -50,6 +53,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.idPhong = this.route.snapshot.params['id'];
+    this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
+      if (res && res.content) {
+        this.roomList = res.content;
+      }
+    })
     this.roomService.getRoom(this.idPhong).subscribe((data: RoomInformationModel) => {
       this.room = data;
     });

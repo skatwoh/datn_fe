@@ -9,4 +9,5 @@ export class RoomInformationModel{
   idPhong: number | undefined;
   maPhong: string | undefined;
   giaPhong: number | undefined;
+  idLoaiPhong: number | undefined;
 }
