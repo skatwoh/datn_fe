@@ -200,9 +200,12 @@
 <nz-modal
   [(nzVisible)]="isVisible1"
   [nzOkLoading]="isOkLoading1"
+  (nzOnCancel)="handleCancel()"
+  nzWidth="50%"
 >
+
   <ng-container *nzModalContent>
-    <div>
+    <div class="col-span-2 grid grid-cols-2 gap-4">
       <div *ngFor="let data of room1" class="bg-white p-4 rounded-md">
         <!-- Room Information -->
         <div class="relative mx-auto w-full">
