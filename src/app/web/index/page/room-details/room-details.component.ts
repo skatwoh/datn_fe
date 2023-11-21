@@ -15,6 +15,7 @@ import {BillService} from "../../../../modules/bill/bill.service";
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
 
+declare var KeenSlider: any;
 @Component({
   selector: 'cons-room-details',
   templateUrl: './room-details.component.html',
@@ -61,6 +62,33 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.roomService.getRoom(this.idPhong).subscribe((data: RoomInformationModel) => {
       this.room = data;
     });
+
+    // check
+    const keenSlider = new KeenSlider('#keen-slider', {
+      loop: true,
+      slides: {
+        origin: 'center',
+        perView: 1.25,
+        spacing: 16,
+      },
+      breakpoints: {
+        '(min-width: 1024px)': {
+          slides: {
+            origin: 'auto',
+            perView: 2.5,
+            spacing: 32,
+          },
+        },
+      },
+    });
+
+    const keenSliderPrevious = document.getElementById('keen-slider-previous');
+    const keenSliderNext = document.getElementById('keen-slider-next');
+
+    // @ts-ignore
+    keenSliderPrevious.addEventListener('click', () => keenSlider.prev());
+    // @ts-ignore
+    keenSliderNext.addEventListener('click', () => keenSlider.next());
   }
 
   messSuccess(): void {
