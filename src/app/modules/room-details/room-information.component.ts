@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {RoomInformationModel} from '../../models/room-information.model';
 import {RoomInformationService} from './services/room-information.service';
-import {RoomTypeDtoModel} from "../../models/room-type-dto.model";
 import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
@@ -23,7 +22,7 @@ export class RoomInformationComponent implements OnInit{
   // detail
   id: number | undefined;
   // roomModel!: RoomModel;
-  roomType : RoomTypeDtoModel[] = [];
+  room: RoomModel[] = [];
 
   showModal(id: any): void {
     this.isVisible = true;
@@ -49,7 +48,7 @@ export class RoomInformationComponent implements OnInit{
   constructor(private roomInformationService: RoomInformationService, private router: Router, private http: HttpClient, private messageNoti: NzMessageService) { }
 
   private getRoomInformation(): void {
-    this.roomInformationService.getRoomInformationList(1, 15).subscribe(res => {
+    this.roomInformationService.getRoomInformationList(1, 50).subscribe(res => {
       if (res && res.content) {
         this.roomDetails= res.content;
       }
@@ -101,10 +100,8 @@ export class RoomInformationComponent implements OnInit{
 
   ngOnInit() {
     this.getRoomInformation();
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
-      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
-      console.log(data2);
-      console.log(this.roomType);
+    this.http.get<any>(`${environment.apiUrl}/chi-tiet-phong/single-list-room`).subscribe((dataRoom) => {
+      this.room = dataRoom; // Assign the retrieved data to the room array
     });
   }
 }

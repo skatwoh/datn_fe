@@ -1,0 +1,94 @@
+<div class="main-detail">
+  <!--    style="border: 1px solid red"-->
+  <div class="grid grid-rows-1 grid-flow-col gap-3">
+    <div class="col-span-3">
+      <img src="https://i.pinimg.com/564x/80/90/48/80904842714cf40730d13cec906e6909.jpg" alt="" width="900px"/>
+    </div>
+    <div class="row-span-2 col-span-2">
+      <div style="width: 900px; background-color: rgba(227,209,191); height: 180px; border-radius: 5px">
+        <div style="display: flex">
+          <h3 style="font-family: 'Lora', serif; font-size: 33px; margin-left: 10px">Mã số phòng: {{room.maPhong}}</h3>
+          <nz-rate style="margin-left: 45%" [ngModel]="4.5" nzDisabled></nz-rate>
+        </div>
+        <div class="text-room">
+          <h5>Giá phòng: </h5>
+          <h5 style="margin-left: 10px">
+              <span
+                style="font-size: 16px; color: aliceblue">{{ room.giaPhong | currency:'VND':'symbol':'1.0-0' }}</span>/
+            1 đêm
+          </h5>
+        </div>
+        <div class="text-room">
+          <h5>Tổng số người: </h5>
+          <h5 style="margin-left: 10px">{{room.soLuongNguoi}} người/ phòng</h5>
+        </div>
+        <div class="text-room">
+          <h5>Diện tích: </h5>
+          <h5 style="margin-left: 10px">{{room.dienTich}}</h5>
+        </div>
+        <div class="text-room">
+          <h5>Tiện ích: </h5>
+          <h5 style="margin-left: 10px">{{room.tienIch}}</h5>
+        </div>
+        <div class="text-room">
+          <h5>Dịch vụ: </h5>
+          <h5 style="margin-left: 10px">{{room.dichVu}}</h5>
+        </div>
+      </div>
+
+    </div>
+    <div class="row-span-3" style="margin-left: 90px">
+      <div class="form-order-room">
+        <h2 class="form-text-order">Thông tin đặt phòng</h2>
+        <hr/>
+        <div *ngIf="!submitted">
+          <form [formGroup]="roomOrderForm" (ngSubmit)="saveRoomOrder()" *ngIf="room">
+            <nz-form-label nzFor="checkIn">Ngày nhận phòng</nz-form-label>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
+                <nz-date-picker class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
+            <nz-form-item>
+              <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
+                <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
+            <nz-form-item>
+              <input id="tongGia" formControlName="tongGia" class="form-input-date" [value]="(calculateTotalDays()) * (room.giaPhong ?? 0)"/>
+            </nz-form-item>
+            <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
+            <nz-form-item>
+              <nz-select style="width: 200px" id="userId" formControlName="userId">
+                <nz-option *ngFor="let option of accounts" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+                <nz-option nzLabel="Chọn khách hàng" nzValue="0" nzHide></nz-option>
+              </nz-select>
+            </nz-form-item>
+            <br>
+            <nz-form-item>
+              <nz-form-control>
+                <button
+                  class="group relative inline-block overflow-hidden border border-orange-300 px-8 py-3 focus:outline-none focus:ring cursor-pointer"
+                  style="width: 250px; border-radius: 10px"
+                  [disabled]="roomOrderForm.invalid"
+                >
+                  <span
+                    class="absolute inset-y-0 left-0 w-[2px] bg-orange-200 transition-all group-hover:w-full group-active:bg-indigo-500"></span>
+                  <span
+                    class="relative text-sm font-medium text-gray-500 transition-colors group-hover:text-black"
+                  >
+                      Đặt phòng
+                    </span>
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

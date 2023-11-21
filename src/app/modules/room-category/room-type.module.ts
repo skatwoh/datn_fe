@@ -12,10 +12,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RoomTypeComponent} from "./room-type.component";
 import {RoomTypeCreateComponent} from "./room-type-create/room-type-create.component";
 import { RoomTypeDetailsComponent } from './room-type-details/room-type-details.component';
+import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 
 @NgModule({
-  imports: [RoomTypeRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, ReactiveFormsModule, FormsModule],
+    imports: [RoomTypeRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, ReactiveFormsModule, FormsModule, NzIconModule, NzModalModule, NzSelectModule],
   declarations: [RoomTypeComponent, RoomTypeCreateComponent, RoomTypeDetailsComponent],
   exports: [RoomTypeComponent]
 })

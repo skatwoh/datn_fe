@@ -24,9 +24,29 @@ export class RoomService{
     }));
   }
 
+  getRoomListOrder(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-room`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   getRoomListSearch(page: number, size: number, input: string): Observable<any> {
     const params = {page, size, input};
     return this.http.get<any>(`${API_AU_URL}/search`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getListRoomSame(page: number, size: number, idPhong: any): Observable<any> {
+    const params = {page, size, idPhong};
+    return this.http.get<any>(`${API_AU_URL}/list-room-same`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;
       }

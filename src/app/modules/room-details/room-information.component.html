@@ -51,7 +51,6 @@
     <thead>
     <tr>
       <th nzLeft>STT</th>
-      <th nzLeft>Id</th>
       <th>Tầng</th>
       <th>Dịch vụ</th>
       <th>Diện tích</th>
@@ -65,7 +64,6 @@
     <tbody>
     <tr *ngFor="let data of tableData.data; let i = index">
       <th nzLeft>{{ i + 1 }}</th>
-      <th nzLeft>{{ data.id }}</th>
       <td nzLeft>{{ data.tang }}</td>
       <td nzLeft>{{ data.dichVu }}</td>
       <td nzLeft>{{ data.dienTich }}</td>
@@ -81,19 +79,76 @@
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Ngừng hoạt động
         </div>
       </td>
-      <td>
-        <a href="admin/room-information/room-information-details/{{ data.id }}">Xem</a>
-      </td>
-      <td>
+      <td class="px-12 py-4" style="display: flex">
+        <div class="btn-info" (click)="showModal(data.id)" >
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
+        </div>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
-          <button nz-button nzType="primary" nzDanger (click)="updateStatus(data.id, 0)">Tắt hoạt động</button>
+          <div class="btn-status-stop" (click)="updateStatus(data.id, 0)">
+            <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
         </div>
 
         <div class="flex items-center" *ngIf="data.trangThai == 0">
-          <button nz-button nzType="primary" (click)="updateStatus(data.id, 1)">Bật hoạt động</button>
+          <div class="btn-status-active" (click)="updateStatus(data.id, 1)">
+            <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
         </div>
       </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Cập nhật phòng"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <div *ngIf="currentRoom" class="edit-form">
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="tang">Tầng </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tầng">
+          <input nz-input type="text" id="tang" name="tang" [(ngModel)]="currentRoom.tang"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="tienIch">Tiện ích </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
+          <input nz-input type="text" id="tienIch" name="tienIch" [(ngModel)]="currentRoom.tienIch"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="dichVu">Dịch vụ </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
+          <input nz-input type="text" id="dichVu" name="dichVu" [(ngModel)]="currentRoom.dichVu"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="soLuongNguoi">Số lượng người </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
+          <input nz-input type="number" id="soLuongNguoi" name="soLuongNguoi" [(ngModel)]="currentRoom.soLuongNguoi"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="dienTich">Diện tích </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập diện tích">
+          <input nz-input type="number" id="dienTich" name="dienTich" [(ngModel)]="currentRoom.dienTich"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 110px" nzFor="dienTich">Trạng thái </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
+          <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="currentRoom.trangThai"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-label style="width: 110px" nzFor="phong">Mã phòng </nz-form-label>
+        <nz-select id="idPhong" formControlName="idPhong" style="width: 360px">
+          <nz-option *ngFor="let data of room" [nzLabel]="data.ma ? data.ma : 'Chọn phòng'" [nzValue]="data.id"></nz-option>
+        </nz-select>
+    </div>
+  </ng-container>
+</nz-modal>

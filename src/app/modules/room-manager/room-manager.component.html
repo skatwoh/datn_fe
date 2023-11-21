@@ -17,7 +17,7 @@
         class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
       text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
       group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-        routerLink="/admin/room/room-create"
+        (click)="showModal()"
       >
       <span
         class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
@@ -60,13 +60,10 @@
         Mã
       </th>
       <th scope="col" class="px-6 py-3">
-        Tên khách hàng
+        Mã phòng
       </th>
       <th scope="col" class="px-6 py-3">
         Số điện thoại
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Tổng người
       </th>
       <th scope="col" class="px-6 py-3">
         Ngày nhận phòng
@@ -75,7 +72,10 @@
         Ngày trả phòng
       </th>
       <th scope="col" class="px-6 py-3">
-        Phòng
+        Tên khách hàng
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Tổng thanh toán
       </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
@@ -96,89 +96,91 @@
         {{ data.ma }}
       </td>
       <td class="px-6 py-4">
-        {{ data.name }}
+        {{ data.tenPhong }}
       </td>
       <td class="px-6 py-4">
         {{ data.sdt }}
       </td>
       <td class="px-6 py-4">
-        {{ data.soNguoi }}
+        {{ data.checkIn | date: APP_DATE }}
       </td>
       <td class="px-6 py-4">
-        {{ data.checkIn }}
+        {{ data.checkOut | date: APP_DATE }}
       </td>
-      <td class="px-6 py-4">
-        {{ data.checkOut }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.tenPhong }}
-      </td>
-<!--      <td class="px-6 py-4">-->
-<!--        <div class="flex items-center" *ngIf="data.trangThai == 1">-->
-<!--          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>-->
-<!--          Online-->
-<!--        </div>-->
 
-<!--        <div class="flex items-center" *ngIf="data.trangThai == 0">-->
-<!--          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>-->
-<!--          Offline-->
-<!--        </div>-->
-<!--      </td>-->
+      <td class="px-6 py-4">
+        {{ data.name }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.tongGia }} VNĐ
+      </td>
+      <!--      <td class="px-6 py-4">-->
+      <!--        <div class="flex items-center" *ngIf="data.trangThai == 1">-->
+      <!--          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>-->
+      <!--          Online-->
+      <!--        </div>-->
+
+      <!--        <div class="flex items-center" *ngIf="data.trangThai == 0">-->
+      <!--          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>-->
+      <!--          Offline-->
+      <!--        </div>-->
+      <!--      </td>-->
       <td class="px-12 py-4" style="display: flex">
-        <div>
-          <a href="admin/room/room-details/{{ data.id }}"
-             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-          </a>
+        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+          <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                  fill="blue"></path>
+            <path fill-rule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                  fill="blue"></path>
+          </svg>
         </div>
-<!--        <div class="btn-info" (click)="showModal(data.id)">-->
-<!--          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>-->
-<!--        </div>-->
-<!--        <div class="flex items-center" *ngIf="data.trangThai == 1">-->
-<!--          <div class="btn-status-stop" (click)="updateRoomStatus(data.id, 0)">-->
-<!--            <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="flex items-center" *ngIf="data.trangThai == 0">-->
-<!--          <div class="btn-status-active" (click)="updateRoomStatus(data.id, 1)">-->
-<!--            <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>-->
-<!--          </div>-->
-<!--        </div>-->
       </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
 
-<!--<nz-modal-->
-<!--  [(nzVisible)]="isVisible"-->
-<!--  nzTitle="Cập nhật phòng"-->
-<!--  (nzOnCancel)="handleCancel()"-->
-<!--  (nzOnOk)="handleOk()"-->
-<!--  [nzOkLoading]="isOkLoading"-->
-<!--&gt;-->
-<!--  <ng-container *nzModalContent>-->
-<!--    <div *ngIf="currentRoom" class="edit-form">-->
-<!--      <nz-form-item>-->
-<!--        <nz-form-label nzFor="ma">Mã phòng </nz-form-label>-->
-<!--        <nz-form-control nzErrorTip="Vui lòng nhập mã">-->
-<!--          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentRoom.ma" disabled/>-->
-<!--        </nz-form-control>-->
-<!--      </nz-form-item>-->
-<!--      <nz-form-item>-->
-<!--        <nz-form-label nzFor="giaPhong" nzRequired>Giá phòng </nz-form-label>-->
-<!--        <nz-form-control nzErrorTip="Vui lòng nhập giá">-->
-<!--          <input nz-input type="number" min="0" id="giaPhong" name="giaPhong" [(ngModel)]="currentRoom.giaPhong" required/>-->
-<!--        </nz-form-control>-->
-<!--      </nz-form-item>-->
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Tìm kiếm phòng"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  nzWidth="65%"
+  [nzOkText]="'Tìm kiếm'"
+>
+  <ng-container *nzModalContent style="width: 100%">
+    <div style="margin-top: 40px">
 
-<!--      <nz-form-label nzFor="idloaiPhong">Loại phòng</nz-form-label>-->
-<!--      <nz-select nzAllowClear  style="width: 200px" [(ngModel)]="currentRoom.idLoaiPhong" nzPlaceHolder="{{currentRoom.tenLoaiPhong}}">-->
-<!--        <nz-option nzLabel="{{currentRoom.tenLoaiPhong}}"></nz-option>-->
-<!--        <nz-option *ngFor="let data of roomType" nzLabel="{{ data.ten_Loai_Phong }}" nzValue="{{ data.id }}"></nz-option>-->
-<!--      </nz-select>-->
-<!--    </div>-->
-<!--  </ng-container>-->
-<!--</nz-modal>-->
+      <label class="col-auto text-lg font-nunito" style="margin-left: 20px;">
+        Ngày đặt:
+        <input style="border-radius: 10px" type="date" id="checkIn">
+      </label>
+      <label class="col-auto text-lg" style="margin-left: 30px">
+        Ngày nhận:
+        <input style="border-radius: 10px" type="date" id="checkOut">
+      </label>
+      <label class="text-lg" style="margin-left: 30px">
+        Số người:
+        <select
+          id="soLuongNguoi"
+          style="width: 150px;height: 40px"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4+</option>
+        </select>
+      </label>
+      <label class="text-lg" style="margin-left: 30px"> Loại phòng:
+        <select id="tenLoaiPhong" style="width: 200px;height: 40px">
+          <option style="height: 40px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
+        </select>
+      </label>
+    </div>
+  </ng-container>
+</nz-modal>
 

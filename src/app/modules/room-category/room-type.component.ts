@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { RoomTypeModel } from '../../models/room-type.model';
-import { RoomTypeService } from './services/room-type.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {RoomTypeModel} from '../../models/room-type.model';
+import {RoomTypeService} from './services/room-type.service';
+import {Router} from '@angular/router';
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-room-type',
@@ -10,7 +11,37 @@ import { Router } from '@angular/router';
 })
 export class RoomTypeComponent implements OnInit{
   roomType: RoomTypeModel[] = [];
-  constructor(private roomTypeService: RoomTypeService, private router: Router) { }
+  message ='';
+  isVisible = false;
+  isOkLoading = false;
+  currentRoomType!: RoomTypeModel;
+  // detail
+  id: number | undefined;
+  constructor(private roomTypeService: RoomTypeService, private router: Router,
+              private messageNoti: NzMessageService) { }
+
+  showModal(id: any): void {
+    this.isVisible = true;
+    this.id = id;
+    this.roomTypeService.get(this.id).subscribe((data: RoomTypeModel) => {
+      this.currentRoomType = data;
+      console.log(this.currentRoomType);
+    });
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    this.updateRoomType();
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 500);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
 
   private getRoomTypes(): void {
     this.roomTypeService.getRoomTypeList(1, 30).subscribe(res => {
@@ -19,6 +50,24 @@ export class RoomTypeComponent implements OnInit{
       }
     })
   }
+
+  updateRoomType(): void {
+    this.roomTypeService
+      .updateRoomType(this.currentRoomType.id, this.currentRoomType)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.message = res.message
+            ? res.message
+            : this.messageNoti.success('Update thành công', {
+              nzDuration: 5000
+            });
+          this.getRoomTypes();
+        },
+        error: (e) => console.error(e)
+      });
+  }
+
   ngOnInit() {
     this.getRoomTypes();
   }
