@@ -54,7 +54,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.idPhong = this.route.snapshot.params['id'];
-    this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
+    this.roomService2.getListRoomSame(1, 5, this.idPhong).subscribe(res => {
       if (res && res.content) {
         this.roomList = res.content;
       }
