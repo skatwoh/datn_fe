@@ -7,6 +7,8 @@ import {AuthService} from "../../../../auth/services";
 import {formatNumber} from "@angular/common";
 import {RoomModel} from "../../../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {AppConstants} from "../../../../app-constants";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'cons-list-room-order',
@@ -24,9 +26,12 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
   isVisible1 = false;
   isOkLoading1 = false;
   id : number | undefined;
+  message2 : string = '';
+  hasError = false;
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
-              private authService: AuthService,) {
+              private authService: AuthService,
+              private notification: NzNotificationService) {
     this.user = authService.currentUserValue;
   }
 
