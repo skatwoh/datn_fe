@@ -68,9 +68,14 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
     this.roomOrderService.updateStatus(this.currentRoom.id, 0)
       .subscribe({
         next: (res) => {
-          this.currentRoom.trangThai = 0
-          this.successMessage();
-          this.getRooms();
+          console.log(res);
+          if(res.body.code == "Failed") {
+            this.message.error(res.body.message);
+          } else {
+            this.currentRoom.trangThai = 0
+            this.successMessage();
+            this.getRooms();
+          }
         },
       });
   }
