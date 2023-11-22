@@ -7,6 +7,8 @@ import {AuthService} from "../../../../auth/services";
 import {formatNumber} from "@angular/common";
 import {RoomModel} from "../../../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {AppConstants} from "../../../../app-constants";
+import {NzNotificationService} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'cons-list-room-order',
@@ -24,9 +26,12 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
   isVisible1 = false;
   isOkLoading1 = false;
   id : number | undefined;
+  message2 : string = '';
+  hasError = false;
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
-              private authService: AuthService,) {
+              private authService: AuthService,
+              private notification: NzNotificationService) {
     this.user = authService.currentUserValue;
   }
 
@@ -68,10 +73,22 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
     this.roomOrderService.updateStatus(this.currentRoom.id, 0)
       .subscribe({
         next: (res) => {
-          this.currentRoom.trangThai = 0
-          this.successMessage();
-          this.getRooms();
+          if(res?.code === AppConstants.API_SUCCESS_CODE){
+            this.currentRoom.trangThai = 0
+            this.successMessage();
+            this.getRooms();
+          }else {
+            if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+              const msg: any = res.entityMessages[0];
+              this.notification.warning(`${msg.errorMessage}`, "");
+            } else {
+              this.message2 = `Error`;
+            }
+            this.hasError = true;
+          }
+
         },
+
       });
   }
 
