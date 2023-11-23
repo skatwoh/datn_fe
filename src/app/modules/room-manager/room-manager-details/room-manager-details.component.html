@@ -55,16 +55,10 @@
                 <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
-            <nz-form-label nzFor="soNguoi">Số lượng người</nz-form-label>
-            <nz-form-item>
-              <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
-                <nz-input-number class="form-input-number" [nzMin]="1" [nzMax]="Number(room.soLuongNguoi)"
-                                 id="soNguoi" formControlName="soNguoi"></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
+
             <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
             <nz-form-item>
-              <input class="form-input-date" [value]="room.giaPhong + 'VND'" disabled/>
+              <input id="tongGia" formControlName="tongGia" class="form-input-date" [value]="(calculateTotalDays()) * (room.giaPhong ?? 0)"/>
             </nz-form-item>
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>

@@ -1,36 +1,26 @@
 <div>
   <div class="submit-form">
     <div *ngIf="!submitted">
+      <form [formGroup]="roomTypeForm" (ngSubmit)="saveRoom()">
       <nz-form-item>
-        <nz-form-label nzFor="maLoaiPhong">Mã loại phòng: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="maLoaiPhong" name="maLoaiPhong" [(ngModel)]="roomType.maLoaiPhong"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="maLoaiPhong">Tên loại phòng: </nz-form-label>
+        <nz-form-label style="width: 100px" nzFor="maLoaiPhong">Tên loại phòng </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên loại phòng">
-          <input nz-input type="text" id="tenLoaiPhong" name="tenLoaiPhong" [(ngModel)]="roomType.tenLoaiPhong"/>
+          <input nz-input type="text" id="tenLoaiPhong" name="tenLoaiPhong" formControlName="tenLoaiPhong"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="ghiChu">Ghi chú: </nz-form-label>
+        <nz-form-label style="width: 100px" nzFor="ghiChu">Ghi chú </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi Chú">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomType.ghiChu"/>
+          <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
         </nz-form-control>
       </nz-form-item>
       <br>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" (click)="saveRoom()">Thêm</button>
+          <button nz-button nzType="primary" style="width: 100%" [disabled]="roomTypeForm.invalid">Thêm</button>
         </nz-form-control>
       </nz-form-item>
-    </div>
-
-    <div *ngIf="submitted">
-      <h1>Thêm thành công!</h1><br>
-      <button nz-button nzType="primary" (click)="newRoomType()">Add</button><br><br>
-      <a nz-button nzType="primary" routerLink="/admin/room-type">Trở về</a>
+      </form>
     </div>
   </div>
 </div>

@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RoomService} from "../../room/services/room.service";
 import {RoomTypeModel} from "../../../models/room-type.model";
 import {RoomTypeService} from "../services/room-type.service";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-room-type-create',
@@ -9,40 +12,37 @@ import {RoomTypeService} from "../services/room-type.service";
   styleUrls: ['./room-type-create.component.scss']
 })
 export class RoomTypeCreateComponent {
-  roomType : RoomTypeModel = {
-    id: 0,
-    maLoaiPhong: '',
-    tenLoaiPhong: '',
-    ghiChu: ''
-  };
+  roomTypeForm : FormGroup;
   submitted = false;
 
-  constructor(private roomTypeService: RoomTypeService) {}
-
-  saveRoom(): void {
-    const data = {
-      maLoaiPhong : this.roomType.maLoaiPhong,
-      tenLoaiPhong: this.roomType.tenLoaiPhong,
-      ghiChu: this.roomType.ghiChu,
-    };
-
-    this.roomTypeService.create(data).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.submitted = true;
-      },
-      error: (e) => console.error(e)
+  constructor(private roomTypeService: RoomTypeService,
+              private router: Router,
+              private message: NzMessageService,
+              private formBuilder: FormBuilder) {
+    this.roomTypeForm = this.formBuilder.group({
+      tenLoaiPhong: ['', Validators.required],
+      ghiChu: ['', Validators.required]
     });
   }
 
-  newRoomType(): void {
-    this.submitted = false;
-    this.roomType = {
-      id: 0,
-      maLoaiPhong: '',
-      tenLoaiPhong: '',
-      ghiChu: ''
-    };
+  successMessage(): void {
+    this.message.success('Thêm thành công');
+  }
+
+  saveRoom(): void {
+    if (this.roomTypeForm.valid) {
+      const data = this.roomTypeForm.value;
+
+      this.roomTypeService.create(data).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+          this.successMessage();
+          this.router.navigate(['/admin/room-type']);
+        },
+        error: (e) => console.error(e)
+      });
+    }
   }
 
   protected readonly RoomTypeModel = RoomTypeModel;
