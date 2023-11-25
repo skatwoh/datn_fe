@@ -168,7 +168,7 @@
             <div>
               <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
 
-              <button (click)="showRoomUpperPrice(300000)" class="btn-red ml-3" >Đổi phòng</button>
+              <button (click)="showRoomUpperPrice(300000, data.id)" class="btn-red ml-3" >Đổi phòng</button>
             </div>
 
 
@@ -200,16 +200,17 @@
 <nz-modal
   [(nzVisible)]="isVisible1"
   [nzOkLoading]="isOkLoading1"
-  (nzOnCancel)="handleCancel()"
+  (nzOnCancel)="handleCancel1()"
   nzWidth="50%"
 >
 
   <ng-container *nzModalContent>
     <div class="col-span-2 grid grid-cols-2 gap-4">
+      <div *ngIf="currentRoom">Đổi phòng {{currentRoom.tenPhong}}</div>
       <div *ngFor="let data of room1" class="bg-white p-4 rounded-md">
         <!-- Room Information -->
         <div class="relative mx-auto w-full">
-          <a href="/room-detail/{{data.id}}" class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
+          <a href="/room-order-change/{{currentRoom.id}}/{{data.id}}" class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
             <div class="shadow p-4 rounded-lg bg-white">
               <div class="flex justify-center relative rounded-lg overflow-hidden h-52">
                 <div class="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
