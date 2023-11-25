@@ -84,3 +84,17 @@
     </div>
   </div>
 </section>
+
+<div>
+  <h2>Thông tin người truy cập</h2>
+  <table>
+    <tr>
+      <th>Trang</th>
+      <th>Số người truy cập duy nhất</th>
+    </tr>
+    <tr *ngFor="let page of pages">
+      <td>{{ page }}</td>
+      <td>{{ getUniqueVisitorsCount(page) }}</td>
+    </tr>
+  </table>
+</div>
