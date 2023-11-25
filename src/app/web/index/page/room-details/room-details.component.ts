@@ -188,7 +188,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           if (res?.code === AppConstants.API_SUCCESS_CODE){
             this.submitted = true;
             this.createBill();
-            this.showModal();
+            this.sendNotification();
+            this.messSuccess();
+            this.router.navigate(['/room']);
+            // this.showModal();
           } else {
             if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
               const msg: any = res.entityMessages[0];

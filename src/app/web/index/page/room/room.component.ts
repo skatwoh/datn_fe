@@ -8,6 +8,7 @@ import {HomeComponent} from "../home/home.component";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {RoomTypeModel} from "../../../../models/room-type.model";
+import {ServiceService} from "../service/service.service";
 
 @Component({
   selector: 'cons-room',
@@ -17,8 +18,8 @@ import {RoomTypeModel} from "../../../../models/room-type.model";
     trigger('rotateAnimation', [
       state('initial', style({ transform: 'rotate(0deg)' })),
       state('rotated', style({ transform: 'rotate(360deg)' })),
-      transition('initial => rotated', animate('500ms ease-out')),
-      transition('rotated => initial', animate('500ms ease-in')),
+      transition('initial => rotated', animate('5000ms ease-out')),
+      transition('rotated => initial', animate('5000ms ease-in')),
     ]),
   ],
 })
@@ -56,7 +57,8 @@ export class RoomComponent implements OnInit{
     });
   }
   constructor(private roomService: RoomService, private homeService: HomeService,
-              private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
+              private router: Router, private route: ActivatedRoute, private http: HttpClient,
+              private service: ServiceService) { }
 
   private getRooms(): void {
     this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {

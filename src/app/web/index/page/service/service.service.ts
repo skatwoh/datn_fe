@@ -3,9 +3,11 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {environment} from "../../../../../environments/environment";
+import {VisitorModel} from "../../../../models/visitor.model";
 
 
 const API_AU_URL = `${environment.apiUrl}/thong-bao`;
+const API_RES = `${environment.apiUrl}/api`;
 const API_AUTH_URL = `${environment.apiUrl}/auth`;
 @Injectable({
   providedIn: 'root'
@@ -30,5 +32,18 @@ export class ServiceService {
 
   updatePassword(data: any): Observable<any> {
     return this.http.put(`${API_AUTH_URL}/update-password`, data);
+  }
+
+  recordVisit(page: string, ipAddress: string) {
+    const visitorRequest: VisitorModel = { page, ipAddress };
+    return this.http.post(`${API_RES}/record-visit`, visitorRequest);
+  }
+
+  getUniqueVisitorsCount(page: string) {
+    return this.http.get<number>(`${API_RES}/get-unique-visitors-count?page=${page}`);
+  }
+
+  getVisitCount(page: string) {
+    return this.http.get<number>(`${API_RES}/get-visit-count?page=${page}`);
   }
 }

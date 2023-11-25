@@ -3,6 +3,6 @@ export class NotificationsModel {
   userId: number | undefined;
   maDatPhong: string | undefined;
   noiDung: number | undefined;
-  timeStamp: number | undefined;
+  timestamp: string | undefined;
   trangThai: number | undefined;
 }
