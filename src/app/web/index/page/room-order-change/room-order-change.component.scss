@@ -1,0 +1,64 @@
+.breadcrumb-text h2{
+  font-size: 44px;
+  color: #19191a;
+  font-family: "Lora", serif;
+  text-align: center;
+}
+
+.main-detail{
+  width: 1180px;
+  margin-left: 355px;
+}
+
+.text-room{
+  margin-left: 20px;
+  font-family: "Lora", serif;
+  display: flex;
+}
+
+.row-span-3{
+}
+.form-order-room{
+  margin-top: 10px;
+  margin-right: 30px;
+  font-family: "Lora", serif;
+}
+
+.form-text-order{
+  font-family: "Lora", serif;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.form-input-date{
+  width: 250px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #faf9f8
+}
+
+.form-input-number{
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #faf9f8
+}
+
+.form-input-total{
+  width: 250px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(250, 249, 248, 0);
+  border: none;
+}
+
+:host {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+nz-qrcode {
+  margin-bottom: 12px;
+}
