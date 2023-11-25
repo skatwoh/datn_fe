@@ -33,7 +33,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   roomOrderForm: FormGroup;
   hasError = false;
   submitted = false;
-  phiDichVu : number = 0 ;
+  phiDichVu : number = 0;
+  idHD: number | undefined;
   private unsubscribe: Subscription[] = [];
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
@@ -54,7 +55,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.idPhong = this.route.snapshot.params['id'];
-    this.roomService2.getListRoomSame(1, 5, this.idPhong).subscribe(res => {
+    this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
       if (res && res.content) {
         this.roomList = res.content;
       }
@@ -165,12 +166,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   createBill(): void{
     const data = {
+      id: this.user?.id,
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
       idKhachHang: this.user?.id
     }
-    this.billService.create(data).subscribe((res: any) => {
-      console.log(res)
+    this.billService.createOrUpdate(data).subscribe((res: any) => {
+      console.log(res);
     })
   }
 
