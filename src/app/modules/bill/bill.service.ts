@@ -37,4 +37,13 @@ export class BillService{
     return this.http.post(`${API_AU_URL}/create`, data);
   }
 
+  createOrUpdate(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create-or-update`, data);
+  }
+
+  exportPDF(id:any): Observable<any> {
+    const params = {id};
+
+    return this.http.get(`${API_AU_URL}/generate-hoa-don`, {params});
+  }
 }

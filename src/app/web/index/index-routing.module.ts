@@ -8,6 +8,7 @@ import {ProfileComponent} from "./page/profile/profile.component";
 import {BlogComponent} from "./page/blog/blog.component";
 import {RoomDetailsComponent} from "./page/room-details/room-details.component";
 import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
+import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-change.component";
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'room-detail/:id',
         component: RoomDetailsComponent
+      },
+      {
+        path: 'room-order-change/:id1/:id',
+        component: RoomOrderChangeComponent
       },
 
     ]

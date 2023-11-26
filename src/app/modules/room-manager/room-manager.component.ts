@@ -122,7 +122,7 @@ export class RoomManagerComponent implements OnInit {
       'Charset': 'UTF-8'
     });
     const params = {id};
-    this.http.get(`rpc/bds/dat-phong/pdf/generate/`, {headers: headers, responseType: 'blob', params})
+    this.http.get(`rpc/bds/dat-phong/generate-bill?id=${id}`, {headers: headers, responseType: 'blob'})
       .subscribe(response => {
         const blob = new Blob([response], {type: 'application/pdf'});
         const url = window.URL.createObjectURL(blob);
@@ -133,4 +133,6 @@ export class RoomManagerComponent implements OnInit {
         downloadLink.click();
       });
   }
+
+
 }
