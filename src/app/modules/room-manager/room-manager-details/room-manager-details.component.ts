@@ -14,6 +14,7 @@ import {AppConstants} from "../../../app-constants";
 import {HttpClient} from "@angular/common/http";
 import {AccountService} from "../../account/services/account.service";
 import {AccountModel} from "../../account/models/account.model";
+import {BillService} from "../../bill/bill.service";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -36,7 +37,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http : HttpClient) {
+              private http : HttpClient, private billService: BillService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -86,10 +87,22 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  createBill(): void{
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value
+    }
+    this.billService.createOrUpdate(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   saveRoomOrder(): void {
     if(this.user?.name == null){
       this.router.navigate(['/hotel/login']);
     }
+    this.createBill();
     this.hasError = false;
     if (this.roomOrderForm.valid) {
       const data = this.roomOrderForm.value;
