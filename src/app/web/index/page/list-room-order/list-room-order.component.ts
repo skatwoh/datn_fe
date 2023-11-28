@@ -7,6 +7,9 @@ import {AuthService} from "../../../../auth/services";
 import {formatNumber} from "@angular/common";
 import {RoomModel} from "../../../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {AppConstants} from "../../../../app-constants";
+import {NzNotificationService} from "ng-zorro-antd/notification";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-list-room-order',
@@ -18,15 +21,21 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
   room1: RoomModel[] = [];
 
   currentRoom!: RoomOrder;
+  currentRoom2!: RoomOrder;
   user: UserModel | undefined;
   isVisible = false;
   isOkLoading = false;
   isVisible1 = false;
   isOkLoading1 = false;
   id : number | undefined;
+  id2 : number | undefined;
+  message2 : string = '';
+  hasError = false;
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
-              private authService: AuthService,) {
+              private authService: AuthService,
+              private notification: NzNotificationService,
+              private router: Router) {
     this.user = authService.currentUserValue;
   }
 
@@ -38,8 +47,13 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
       console.log(this.currentRoom);
     });
   }
-  showRoomUpperPrice(giaPhong: number | undefined): void {
+  showRoomUpperPrice(giaPhong: number | undefined, id: any): void {
     this.isVisible1 = true;
+    this.id = id;
+    this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
+      this.currentRoom = data;
+      console.log(this.currentRoom);
+    });
     this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong ).subscribe(res => {
       if (res && res.content) {
         this.room1 = res.content;
@@ -68,9 +82,14 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
     this.roomOrderService.updateStatus(this.currentRoom.id, 0)
       .subscribe({
         next: (res) => {
-          this.currentRoom.trangThai = 0
-          this.successMessage();
-          this.getRooms();
+          console.log(res);
+          if(res.body.code == "Failed") {
+            this.message.error(res.body.message);
+          } else {
+            this.currentRoom.trangThai = 0
+            this.successMessage();
+            this.getRooms();
+          }
         },
       });
   }
@@ -86,6 +105,14 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
           this.room = res.content;
         }
       })
+  }
+
+  // getRoom2(id: any) {
+  //   this.router.navigate([`/room-order-change/${id}`]);
+  // }
+
+  handleCancel1(): void {
+    this.isVisible1 = false;
   }
 
   ngOnInit(): void {

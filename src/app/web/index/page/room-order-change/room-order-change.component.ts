@@ -1,30 +1,34 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RoomTypeDtoModel} from "../../../../models/room-type-dto.model";
-import {ActivatedRoute, Router} from "@angular/router";
-import {RoomInformationModel} from "../../../../models/room-information.model";
-import {RoomInformationService} from "../../../../modules/room-details/services/room-information.service";
 import {first, Observable, Subscription} from "rxjs";
-import {AuthService} from "../../../../auth/services";
-import {RoomManagerService} from "../../../../modules/room-manager/services/room-manager.service";
+import {RoomInformationModel} from "../../../../models/room-information.model";
+import {RoomModel} from "../../../../models/room.model";
+import {RoomTypeDtoModel} from "../../../../models/room-type-dto.model";
 import {UserModel} from "../../../../auth/models/user.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {NzNotificationService} from "ng-zorro-antd/notification";
-import {AppConstants} from "../../../../app-constants";
-import {ServiceService} from "../service/service.service";
-import {BillService} from "../../../../modules/bill/bill.service";
-import {RoomModel} from "../../../../models/room.model";
+import {RoomInformationService} from "../../../../modules/room-details/services/room-information.service";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RoomService} from "../../../../modules/room/services/room.service";
+import {ServiceService} from "../service/service.service";
+import {AuthService} from "../../../../auth/services";
+import {RoomManagerService} from "../../../../modules/room-manager/services/room-manager.service";
+import {NzNotificationService} from "ng-zorro-antd/notification";
+import {BillService} from "../../../../modules/bill/bill.service";
+import {AppConstants} from "../../../../app-constants";
+import {RoomOrder} from "../../../../models/room-order";
+import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
 
 declare var KeenSlider: any;
 @Component({
-  selector: 'cons-room-details',
-  templateUrl: './room-details.component.html',
-  styleUrls: ['./room-details.component.scss']
+  selector: 'cons-room-order-change',
+  templateUrl: './room-order-change.component.html',
+  styleUrls: ['./room-order-change.component.scss']
 })
-export class RoomDetailsComponent implements OnInit, OnDestroy {
+export class RoomOrderChangeComponent implements OnInit, OnDestroy{
   isVisible = false;
   user$: Observable<any>;
   idPhong: number | undefined;
+  idOrder: number | undefined;
+  roomOrder!: RoomOrder;
   room!: RoomInformationModel;
   roomList : RoomModel[] = [];
   roomType: RoomTypeDtoModel[] = [];
@@ -33,12 +37,12 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   roomOrderForm: FormGroup;
   hasError = false;
   submitted = false;
-  phiDichVu : number = 0;
-  idHD: number | undefined;
+  phiDichVu : number = 0 ;
   private unsubscribe: Subscription[] = [];
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
-              private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService) {
+              private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
+              private roomOrderService: ListRoomOrderService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -63,7 +67,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.roomService.getRoom(this.idPhong).subscribe((data: RoomInformationModel) => {
       this.room = data;
     });
-
+    this.idOrder = this.route.snapshot.params['id1'];
+    this.roomOrderService.get(this.idOrder).subscribe((data: RoomOrder) => {
+      this.roomOrder = data;
+      console.log(this.roomOrder);
+    });
     // check
     const keenSlider = new KeenSlider('#keen-slider', {
       loop: true,
@@ -125,14 +133,15 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   calculateTotalDays(): number {
     // @ts-ignore
-    const checkInDate = this.roomOrderForm.get('checkIn').value;
-    // @ts-ignore
-    const checkOutDate = this.roomOrderForm.get('checkOut').value;
-
-    if (checkInDate && checkOutDate) {
+    // const checkInDate = this.roomOrderForm.get('checkIn').value;
+    // // @ts-ignore
+    // const checkOutDate = this.roomOrderForm.get('checkOut').value;
+    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
+    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    if (checkInElement.value && checkOutElement.value) {
       const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const startDate = new Date(checkInDate);
-      const endDate = new Date(checkOutDate);
+      const startDate = new Date(checkInElement.value);
+      const endDate = new Date(checkOutElement.value);
 
       const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
       return Math.round(differenceInMilliseconds / millisecondsPerDay);
@@ -170,8 +179,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
       idKhachHang: this.user?.id
     }
-    this.billService.createOrUpdate(data).subscribe((res: any) => {
-      console.log(res);
+    this.billService.create(data).subscribe((res: any) => {
+      console.log(res)
     })
   }
 
@@ -179,32 +188,28 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     if(this.user?.name == null){
       this.router.navigate(['/hotel/login']);
     }
-    this.createBill();
     this.hasError = false;
-
     if (this.roomOrderForm.valid) {
       const data = this.roomOrderForm.value;
       data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
       const sub = this.roomManagerService.create(data)
         .pipe(first())
         .subscribe((res) => {
-          if (res?.code === AppConstants.API_SUCCESS_CODE){
-            this.submitted = true;
-            this.sendNotification();
-            this.messSuccess();
-            this.router.navigate(['/room']);
-            // this.showModal();
-          } else {
-            if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-              const msg: any = res.entityMessages[0];
-              this.notification.warning(`${msg.errorMessage}`, "");
+            if (res?.code === AppConstants.API_SUCCESS_CODE){
+              this.submitted = true;
+              this.createBill();
+              this.showModal();
             } else {
-              this.message = `Error`;
+              if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+                const msg: any = res.entityMessages[0];
+                this.notification.warning(`${msg.errorMessage}`, "");
+              } else {
+                this.message = `Error`;
+              }
+              this.hasError = true;
             }
-            this.hasError = true;
-          }
-        },
-      );
+          },
+        );
       this.unsubscribe.push(sub);
     }
   }

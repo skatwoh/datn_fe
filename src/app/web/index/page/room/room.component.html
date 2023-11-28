@@ -1,3 +1,4 @@
+<div>
 <div class="flex flex-col space-y-5 justify-center items-center">
   <header class="w-96 text-center mt-5">
     <h1 style="font-size: 32px; font-family:'Arvo', serif">Phòng</h1>
@@ -25,14 +26,14 @@
       <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="w-full px-3 py-2 border rounded-md mb-2">
     </div>
     <div class="mb-4">
-        <select id="tenLoaiPhong" style="width: 200px;height: 40px; border-bottom: 1px solid gray">
+        <select id="tenLoaiPhong" style="width: 200px;height: 40px; border-bottom: 1px solid rgb(128,128,128)">
           <option style="height: 50px" value="{{null}}" label="Chọn loại phòng"></option>
           <option style="height: 50px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
         </select>
 
     </div>
     <div class="mb-4">
-      <select id="soLuongNguoi" style="width: 200px;height: 40px; border-bottom: 1px solid gray">
+      <select id="soLuongNguoi" style="width: 200px;height: 40px; border-bottom: 1px solid rgb(128,128,128)">
         <option style="height: 50px" value="0" label="Chọn số người"></option>
         <option style="height: 50px" value="1">1</option>
         <option style="height: 50px" value="2">2</option>
@@ -483,5 +484,5 @@
     </div>
   </div>
 </div>
-
+</div>
 
