@@ -62,10 +62,9 @@
             </nz-form-item>
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>
-              <nz-select style="width: 200px" id="userId" formControlName="userId">
-                <nz-option *ngFor="let option of accounts" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-                <nz-option nzLabel="Chọn khách hàng" nzValue="0" nzHide></nz-option>
-              </nz-select>
+              <select style="width: 200px" id="userId" formControlName="userId">
+                <option style="height: 40px" *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'" [value]="data.id"></option>
+              </select>
             </nz-form-item>
             <br>
             <nz-form-item>

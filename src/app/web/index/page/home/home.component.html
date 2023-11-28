@@ -6,11 +6,11 @@
       </div>
       <div class="form-booking">
         <div class="flex flex-col">
-          <div class="bg-white p-6 rounded-xl shadow-lg">
+          <div style="width: 1200px;" class="bg-white p-6 rounded-xl shadow-lg">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <div class="flex flex-col">
                 <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
-                <input class="border rounded-md py-2 px-3" type="date" id="checkIn">
+                <input class="border rounded-md py-2 px-3" type="date" id="checkIn" min="<?= date('Y-m-d') ?>">
                 <span style="color: red" *ngIf="hasError">{{message}}</span>
               </div>
 
@@ -587,3 +587,9 @@
     </div>
   </section>
 </div>
+<script>
+  const checkInInput = document.getElementById('checkIn');
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  checkInInput.min = todayStr;
+</script>

@@ -166,7 +166,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   createBill(): void{
     const data = {
-      id: this.user?.id,
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
       idKhachHang: this.user?.id
@@ -180,7 +179,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     if(this.user?.name == null){
       this.router.navigate(['/hotel/login']);
     }
+    this.createBill();
     this.hasError = false;
+
     if (this.roomOrderForm.valid) {
       const data = this.roomOrderForm.value;
       data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
@@ -189,7 +190,6 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           if (res?.code === AppConstants.API_SUCCESS_CODE){
             this.submitted = true;
-            this.createBill();
             this.sendNotification();
             this.messSuccess();
             this.router.navigate(['/room']);
