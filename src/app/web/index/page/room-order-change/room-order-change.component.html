@@ -287,7 +287,7 @@
       </div>
       <div class="row-span-3">
         <div class="form-order-room">
-          <h2 class="form-text-order">Đặt phòng của bạn</h2>
+          <h2 class="form-text-order">Đổi phòng của bạn</h2>
           <hr/>
           <div *ngIf="!submitted">
             <form [formGroup]="roomOrderForm" (ngSubmit)="saveRoomOrder()" *ngIf="room">
@@ -295,21 +295,16 @@
               <nz-form-item *ngIf="roomOrder">
                 <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
 <!--                  <nz-date-picker  class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>-->
-                  <input style="padding-left: 10px" id="checkIn" [value]="roomOrder.checkIn | date : 'yyyy-MM-dd'" class="form-input-date" readonly/>
+                  <input style="padding-left: 10px" id="checkIn" [value]="roomOrder.checkIn" class="form-input-date" hidden="hidden"/>
+                  <input style="padding-left: 10px"  [value]="roomOrder.checkIn | date : 'yyyy-MM-dd'" class="form-input-date"/>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
               <nz-form-item>
                 <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
 <!--                  <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>-->
-                  <input style="padding-left: 10px" id="checkOut" [value]="roomOrder.checkOut | date : 'yyyy-MM-dd'" class="form-input-date" readonly/>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
-              <nz-form-item>
-                <nz-form-control>
-                  <nz-input-number class="form-input-number" [nzMin]="1" [nzMax]="Number(room.soLuongNguoi)"
-                                   id="soNguoi" formControlName="soNguoi"></nz-input-number>
+                  <input style="padding-left: 10px" id="checkOut" [value]="roomOrder.checkOut" class="form-input-date" hidden="hidden"/>
+                  <input style="padding-left: 10px" [value]="roomOrder.checkOut | date : 'yyyy-MM-dd'" class="form-input-date"/>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
@@ -318,92 +313,91 @@
                 <input id="tongGia" formControlName="tongGia" class="form-input-total"
                        [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
               </nz-form-item>
-              <fieldset class="grid grid-cols-2 gap-4">
-                <legend class="sr-only">Delivery</legend>
+<!--              <fieldset class="grid grid-cols-2 gap-4">-->
+<!--                <legend class="sr-only">Delivery</legend>-->
 
-                <div>
-                  <input
-                    type="radio"
-                    name="DeliveryOption"
-                    value="DeliveryStandard"
-                    id="DeliveryStandard"
-                    class="peer hidden [&:checked_+_label_svg]:block"
-                    checked
-                  />
+<!--                <div>-->
+<!--                  <input-->
+<!--                    type="radio"-->
+<!--                    name="DeliveryOption"-->
+<!--                    value="DeliveryStandard"-->
+<!--                    id="DeliveryStandard"-->
+<!--                    class="peer hidden [&:checked_+_label_svg]:block"-->
+<!--                    checked-->
+<!--                  />-->
 
-                  <label
-                    for="DeliveryStandard"
-                    class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    (click)="dichVuMienPhi()">
-                    <div class="flex items-center justify-between">
-                      <p class="text-gray-700">Bữa sáng</p>
+<!--                  <label-->
+<!--                    for="DeliveryStandard"-->
+<!--                    class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"-->
+<!--                    (click)="dichVuMienPhi()">-->
+<!--                    <div class="flex items-center justify-between">-->
+<!--                      <p class="text-gray-700">Bữa sáng</p>-->
 
-                      <svg
-                        class="hidden h-5 w-5 text-blue-600"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
+<!--                      <svg-->
+<!--                        class="hidden h-5 w-5 text-blue-600"-->
+<!--                        xmlns="http://www.w3.org/2000/svg"-->
+<!--                        viewBox="0 0 20 20"-->
+<!--                        fill="currentColor"-->
+<!--                      >-->
+<!--                        <path-->
+<!--                          fill-rule="evenodd"-->
+<!--                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"-->
+<!--                          clip-rule="evenodd"-->
+<!--                        />-->
+<!--                      </svg>-->
+<!--                    </div>-->
 
-                    <p class="mt-1 text-gray-900">Miễn phí</p>
-                  </label>
-                </div>
+<!--                    <p class="mt-1 text-gray-900">Miễn phí</p>-->
+<!--                  </label>-->
+<!--                </div>-->
 
-                <div>
-                  <input
-                    type="radio"
-                    name="DeliveryOption"
-                    value="DeliveryPriority"
-                    id="DeliveryPriority"
-                    class="peer hidden [&:checked_+_label_svg]:block"
-                  />
+<!--                <div>-->
+<!--                  <input-->
+<!--                    type="radio"-->
+<!--                    name="DeliveryOption"-->
+<!--                    value="DeliveryPriority"-->
+<!--                    id="DeliveryPriority"-->
+<!--                    class="peer hidden [&:checked_+_label_svg]:block"-->
+<!--                  />-->
 
-                  <label
-                    for="DeliveryPriority"
-                    class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"
-                    (click)="dichVuDayDu()">
-                    <div class="flex items-center justify-between">
-                      <p class="text-gray-700">Đầy đủ</p>
+<!--                  <label-->
+<!--                    for="DeliveryPriority"-->
+<!--                    class="block cursor-pointer rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500"-->
+<!--                    (click)="dichVuDayDu()">-->
+<!--                    <div class="flex items-center justify-between">-->
+<!--                      <p class="text-gray-700">Đầy đủ</p>-->
 
-                      <svg
-                        class="hidden h-5 w-5 text-blue-600"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </div>
+<!--                      <svg-->
+<!--                        class="hidden h-5 w-5 text-blue-600"-->
+<!--                        xmlns="http://www.w3.org/2000/svg"-->
+<!--                        viewBox="0 0 20 20"-->
+<!--                        fill="currentColor"-->
+<!--                      >-->
+<!--                        <path-->
+<!--                          fill-rule="evenodd"-->
+<!--                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"-->
+<!--                          clip-rule="evenodd"-->
+<!--                        />-->
+<!--                      </svg>-->
+<!--                    </div>-->
 
-                    <p class="mt-1 text-gray-900">500.000 VND</p>
-                  </label>
-                </div>
-              </fieldset>
+<!--                    <p class="mt-1 text-gray-900">500.000 VND</p>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </fieldset>-->
               <br>
               <nz-form-item>
                 <nz-form-control>
                   <button
                     class="group relative inline-block overflow-hidden border border-orange-300 px-8 py-3 focus:outline-none focus:ring cursor-pointer"
                     style="width: 250px; border-radius: 10px"
-                    [disabled]="roomOrderForm.invalid"
                   >
                   <span
                     class="absolute inset-y-0 left-0 w-[2px] bg-orange-200 transition-all group-hover:w-full group-active:bg-indigo-500"></span>
                     <span
                       class="relative text-sm font-medium text-gray-500 transition-colors group-hover:text-black"
                     >
-                      Đặt phòng
+                      Xác nhận
                     </span>
                   </button>
                 </nz-form-control>

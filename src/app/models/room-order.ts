@@ -4,6 +4,7 @@ export class RoomOrder {
   name: string | undefined;
   userId: number | null | undefined;
   idPhong: number | undefined;
+  giaPhong: number | undefined;
   idVourcher: number | undefined;
   checkIn: string | undefined;
   checkOut: string | undefined;

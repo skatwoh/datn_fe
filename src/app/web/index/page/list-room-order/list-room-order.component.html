@@ -123,7 +123,7 @@
             <div>
               <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
 
-              <button (click)="showRoomUpperPrice(300000, data.id)" class="btn-red ml-3" >Đổi phòng</button>
+              <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-red ml-3" >Đổi phòng</button>
             </div>
 
 
@@ -156,12 +156,11 @@
   [(nzVisible)]="isVisible1"
   [nzOkLoading]="isOkLoading1"
   (nzOnCancel)="handleCancel1()"
-  nzWidth="50%"
+  nzWidth="80%"
 >
 
   <ng-container *nzModalContent>
-    <div class="col-span-2 grid grid-cols-2 gap-4">
-      <div *ngIf="currentRoom">Đổi phòng {{currentRoom.tenPhong}}</div>
+    <div class="col-span-3 grid grid-cols-3 gap-6">
       <div *ngFor="let data of room1" class="bg-white p-4 rounded-md">
         <!-- Room Information -->
         <div class="relative mx-auto w-full">
