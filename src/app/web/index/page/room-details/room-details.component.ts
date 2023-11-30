@@ -183,6 +183,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.hasError = false;
 
     if (this.roomOrderForm.valid) {
+      setTimeout(() => {
       const data = this.roomOrderForm.value;
       data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
       const sub = this.roomManagerService.create(data)
@@ -206,6 +207,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         },
       );
       this.unsubscribe.push(sub);
+      }, 1000)
     }
   }
 
