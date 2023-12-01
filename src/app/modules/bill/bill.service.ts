@@ -41,6 +41,10 @@ export class BillService{
     return this.http.post(`${API_AU_URL}/create-or-update`, data);
   }
 
+  updateTongTien(data: any): Observable<any> {
+    return this.http.put(`${API_AU_URL}/update-tong-tien`, data);
+  }
+
   exportPDF(id:any): Observable<any> {
     const params = {id};
 

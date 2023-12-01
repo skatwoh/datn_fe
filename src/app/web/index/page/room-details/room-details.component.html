@@ -247,16 +247,16 @@
               </nz-form-item>
               <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
               <nz-form-item>
-                <nz-form-control>
-                  <nz-input-number class="form-input-number" [nzMin]="1" [nzMax]="Number(room.soLuongNguoi)"
-                                   id="soNguoi" formControlName="soNguoi"></nz-input-number>
-                </nz-form-control>
+                  <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher" style="width: 250px;height: 25px;font-size: 18px" >
+                    <option style="width: 250px;height: 25px;font-size: 18px;display: block" hidden="hidden" value="1" selected>Chọn mã giảm giá</option>
+                    <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList" [label]="data.ma + '(' + data.moTa + ')'" [value]="data.id" ></option>
+                  </select>
               </nz-form-item>
               <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
-              <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu) | currencyFormat}}</span>
+              <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu - (calculateTotalDays() * (giamGia ?? 0))) | currencyFormat}}</span>
               <nz-form-item>
                 <input id="tongGia" formControlName="tongGia" class="form-input-total"
-                       [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
+                       [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu - (calculateTotalDays() * (giamGia ?? 0)))" type="hidden"/>
               </nz-form-item>
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>

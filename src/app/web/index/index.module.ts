@@ -27,38 +27,41 @@ import {NzSegmentedModule} from "ng-zorro-antd/segmented";
 import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
 
 @NgModule({
-  declarations: [
-    IndexComponent,
-    ...fromPages.pages,
-    CurrencyFormatPipe,
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    IndexRoutingModule,
-    NzDropDownModule,
-    NzAvatarModule,
-    FirstCharPipe,
-    NzImageModule,
-    NgOptimizedImage,
-    NzTypographyModule,
-    NzButtonModule,
-    NzCarouselModule,
-    NzBadgeModule,
-    NzIconModule,
-    NzModalModule,
-    NzFormModule,
-    NzInputModule,
-    NzRateModule,
-    ReactiveFormsModule,
-    NzDatePickerModule,
-    NzInputNumberModule,
-    FormsModule,
-    NzTableModule,
-    NzSelectModule,
-    NzQRCodeModule,
-    NzSegmentedModule,
-  ]
+    declarations: [
+        IndexComponent,
+        ...fromPages.pages,
+        CurrencyFormatPipe,
+    ],
+    exports: [
+        CurrencyFormatPipe
+    ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        IndexRoutingModule,
+        NzDropDownModule,
+        NzAvatarModule,
+        FirstCharPipe,
+        NzImageModule,
+        NgOptimizedImage,
+        NzTypographyModule,
+        NzButtonModule,
+        NzCarouselModule,
+        NzBadgeModule,
+        NzIconModule,
+        NzModalModule,
+        NzFormModule,
+        NzInputModule,
+        NzRateModule,
+        ReactiveFormsModule,
+        NzDatePickerModule,
+        NzInputNumberModule,
+        FormsModule,
+        NzTableModule,
+        NzSelectModule,
+        NzQRCodeModule,
+        NzSegmentedModule,
+    ]
 })
 export class IndexModule {
 }
