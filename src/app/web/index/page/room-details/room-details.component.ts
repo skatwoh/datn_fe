@@ -14,6 +14,8 @@ import {ServiceService} from "../service/service.service";
 import {BillService} from "../../../../modules/bill/bill.service";
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
+import {VoucherService} from "../../../../modules/voucher/services/voucher.service";
+import {VoucherModel} from "../../../../models/voucher.model";
 
 declare var KeenSlider: any;
 @Component({
@@ -25,12 +27,15 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   isVisible = false;
   user$: Observable<any>;
   idPhong: number | undefined;
+  voucher!: VoucherModel;
   room!: RoomInformationModel;
   roomList : RoomModel[] = [];
   roomType: RoomTypeDtoModel[] = [];
   message = '';
+  voucherList: VoucherModel[] = [];
   user: UserModel | undefined;
   roomOrderForm: FormGroup;
+  giamGia: number | undefined;
   hasError = false;
   submitted = false;
   phiDichVu : number = 0;
@@ -38,7 +43,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
-              private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService) {
+              private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
+              private voucherService: VoucherService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -47,6 +53,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
+      idVoucher: [1, Validators.required],
       tongGia: [0, Validators.required],
       trangThai: 1
     })
@@ -54,6 +61,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getListVouchers();
     this.idPhong = this.route.snapshot.params['id'];
     this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
       if (res && res.content) {
@@ -123,6 +131,15 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.phiDichVu = 500000;
   }
 
+  tinhGiamGia(): void {
+    this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
+      this.voucher = data;
+      this.giamGia = data.giamGia;
+      console.log(this.voucher);
+    });
+  }
+
+
   calculateTotalDays(): number {
     // @ts-ignore
     const checkInDate = this.roomOrderForm.get('checkIn').value;
@@ -174,6 +191,15 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       console.log(res);
     })
   }
+  updateTongTien(): void{
+    const data = {
+      idKhachHang: this.user?.id,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    }
+    this.billService.updateTongTien(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
 
   saveRoomOrder(): void {
     if(this.user?.name == null){
@@ -181,11 +207,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
     this.createBill();
     this.hasError = false;
-
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
       const data = this.roomOrderForm.value;
       data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+      data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
       const sub = this.roomManagerService.create(data)
         .pipe(first())
         .subscribe((res) => {
@@ -193,10 +219,12 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
             this.submitted = true;
             this.sendNotification();
             this.messSuccess();
+
             this.router.navigate(['/room']);
             // this.showModal();
           } else {
             if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+              this.updateTongTien();
               const msg: any = res.entityMessages[0];
               this.notification.warning(`${msg.errorMessage}`, "");
             } else {
@@ -208,7 +236,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       );
       this.unsubscribe.push(sub);
       }, 1000)
+
     }
+  }
+
+  getListVouchers(): void {
+    this.voucherService.getVoucherList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.voucherList= res.content;
+      }
+    })
   }
 
   ngOnDestroy() {
