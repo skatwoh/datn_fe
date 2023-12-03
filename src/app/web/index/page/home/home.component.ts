@@ -17,6 +17,7 @@ import {first} from "rxjs";
 })
 export class HomeComponent implements OnInit{
   room: RoomModel[] = [];
+  roomBooking: RoomModel[] = [];
   soLuongNguoi: string = '';
   tenLoaiPhong :string = '';
   checkIn :string = '';
@@ -61,10 +62,18 @@ export class HomeComponent implements OnInit{
       }
 
     })
+  }
 
+  getListTopRoomBooking(): void {
+    this.homeService.getListTopRoomBooking(1, 4).subscribe(res => {
+      if (res && res.content) {
+        this.roomBooking= res.content;
+      }
+    })
   }
 
   ngOnInit(): void {
+    this.getListTopRoomBooking();
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });

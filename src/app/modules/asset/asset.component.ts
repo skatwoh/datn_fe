@@ -20,7 +20,7 @@ export class AssetComponent implements OnInit{
     })
   }
   ngOnInit() {
-    this.getAsset;
+    this.getAsset();
   }
 
 }
