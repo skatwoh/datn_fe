@@ -27,6 +27,8 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
   isVisible = false;
   user$: Observable<any>;
   idPhong: number | undefined;
+  checkIn: string | undefined;
+  checkOut: string | undefined;
   idOrder: number | undefined;
   roomOrder!: RoomOrder;
   room!: RoomInformationModel;
@@ -45,12 +47,13 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
               private roomOrderService: ListRoomOrderService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
+    this.idOrder = this.route.snapshot.params['id1'];
     this.roomOrderForm = this.formBuilder.group({
       userId: this.user?.id,
-      idPhong: this.idPhong = this.route.snapshot.params['id'],
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
-      soNguoi: [0, Validators.required],
+      idPhong: this.idPhong = this.route.snapshot.params['id'],
+      soNguoi: 0,
       tongGia: [0, Validators.required],
       trangThai: 1
     })
@@ -101,12 +104,12 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
   }
 
   messSuccess(): void {
-    this.notification.blank('Bạn đã đặt phòng '+ this.room.maPhong , 'Thành công.', {
+    this.notification.blank('Bạn đã đổi phòng '+ this.room.maPhong , 'Thành công.', {
       nzKey: 'key'
     });
 
     setTimeout(() => {
-      this.notification.blank('Chúc bạn ngày mới', 'tốt lành.', {
+      this.notification.blank('Chúc bạn có trải nghiêm', 'vui vẻ.', {
         nzKey: 'key'
       });
     }, 1000);
@@ -115,7 +118,7 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
   sendNotification(): void {
     const data = {
       userId: this.user?.id,
-      noiDung: 'Đã đặt phòng '+ this.room.maPhong,
+      noiDung: 'Đã đổi phòng '+ this.room.maPhong,
       trangThai: 0
     }
     this.service.sendNotification(data).subscribe((res: any) => {
@@ -189,16 +192,18 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
       this.router.navigate(['/hotel/login']);
     }
     this.hasError = false;
-    if (this.roomOrderForm.valid) {
+
       const data = this.roomOrderForm.value;
       data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
-      const sub = this.roomManagerService.create(data)
+      data.checkIn = (document.getElementById('checkIn') as HTMLInputElement).value;
+      data.checkOut = (document.getElementById('checkOut') as HTMLInputElement).value;
+      const sub = this.roomManagerService.updateRoomOrder(this.idOrder, data)
         .pipe(first())
         .subscribe((res) => {
             if (res?.code === AppConstants.API_SUCCESS_CODE){
               this.submitted = true;
-              this.createBill();
-              this.showModal();
+              this.messSuccess();
+              this.router.navigate(['/profile/list-room-order'])
             } else {
               if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                 const msg: any = res.entityMessages[0];
@@ -211,7 +216,7 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
           },
         );
       this.unsubscribe.push(sub);
-    }
+
   }
 
   ngOnDestroy() {

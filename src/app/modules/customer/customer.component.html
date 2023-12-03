@@ -18,8 +18,8 @@
       <th nzLeft>Id</th>
       <th>Mã</th>
       <th>Tên</th>
-      <th>Ngày sinh</th>
-      <th>Giới tính</th>
+<!--      <th>Ngày sinh</th>-->
+<!--      <th>Giới tính</th>-->
       <th>Số điện thoại</th>
       <th>Địa chỉ</th>
     </tr>
@@ -30,16 +30,16 @@
       <td nzLeft>{{ data.id }}</td>
       <td nzLeft>{{ data.ma }}</td>
       <td nzLeft>{{ data.hoTen }}</td>
-      <td nzLeft>{{ data.ngaySinh }}</td>
-      <td nzLeft>
-        <div class="flex items-center" *ngIf="data.gioiTinh == true">
-          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Nam
-        </div>
+<!--      <td nzLeft>{{ data.ngaySinh }}</td>-->
+<!--      <td nzLeft>-->
+<!--        <div class="flex items-center" *ngIf="data.gioiTinh == true">-->
+<!--          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Nam-->
+<!--        </div>-->
 
-        <div class="flex items-center" *ngIf="data.gioiTinh == false">
-          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Nữ
-        </div>
-      </td>
+<!--        <div class="flex items-center" *ngIf="data.gioiTinh == false">-->
+<!--          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Nữ-->
+<!--        </div>-->
+<!--      </td>-->
       <td nzLeft>{{ data.sdt }}</td>
       <td nzLeft>{{ data.diaChi }}</td>
     </tr>

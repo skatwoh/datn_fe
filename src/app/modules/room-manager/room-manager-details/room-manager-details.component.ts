@@ -15,6 +15,8 @@ import {HttpClient} from "@angular/common/http";
 import {AccountService} from "../../account/services/account.service";
 import {AccountModel} from "../../account/models/account.model";
 import {BillService} from "../../bill/bill.service";
+import {VoucherModel} from "../../../models/voucher.model";
+import {VoucherService} from "../../voucher/services/voucher.service";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -33,11 +35,14 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
   private unsubscribe: Subscription[] = [];
   accounts: AccountModel[] = [];
+  voucher!: VoucherModel;
+  voucherList: VoucherModel[] = [];
+  giamGia: number | undefined;
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http : HttpClient, private billService: BillService) {
+              private http : HttpClient, private billService: BillService, private voucherService: VoucherService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -46,6 +51,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
+      idVoucher: [1, Validators.required],
       tongGia: [0, Validators.required],
       trangThai: 1
     })
@@ -69,7 +75,26 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     return 0;
   }
 
+  tinhGiamGia(): void {
+    this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
+      this.voucher = data;
+      this.giamGia = data.giamGia;
+      console.log(this.voucher);
+    });
+  }
+
+  updateTongTien(): void{
+    const data = {
+      idKhachHang: this.user?.id,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    }
+    this.billService.updateTongTien(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   ngOnInit() {
+    this.getListVouchers();
     this.idPhong = this.route.snapshot.params['id'];
     this.accountService.getUserList(1, 15).subscribe(res => {
       if (res && res.content) {
@@ -105,28 +130,43 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     this.createBill();
     this.hasError = false;
     if (this.roomOrderForm.valid) {
-      const data = this.roomOrderForm.value;
-      data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
-      const sub = this.roomManagerService.create(data)
-        .pipe(first())
-        .subscribe((res) => {
-            if (res?.code === AppConstants.API_SUCCESS_CODE){
-              this.submitted = true;
-              this.messSuccess();
-              this.router.navigate(['/admin/room-manager']);
-            } else {
-              if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-                const msg: any = res.entityMessages[0];
-                this.notification.warning(`${msg.errorMessage}`, "");
+      setTimeout(() => {
+        const data = this.roomOrderForm.value;
+        data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+        const sub = this.roomManagerService.create(data)
+          .pipe(first())
+          .subscribe((res) => {
+              if (res?.code === AppConstants.API_SUCCESS_CODE){
+                this.submitted = true;
+                this.messSuccess();
+
+                this.router.navigate(['/admin/room-manager']);
+                // this.showModal();
               } else {
-                this.message = `Error`;
+                if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+                  this.updateTongTien();
+                  const msg: any = res.entityMessages[0];
+                  this.notification.warning(`${msg.errorMessage}`, "");
+                } else {
+                  this.message = `Error`;
+                }
+                this.hasError = true;
               }
-              this.hasError = true;
-            }
-          },
-        );
-      this.unsubscribe.push(sub);
+            },
+          );
+        this.unsubscribe.push(sub);
+      }, 1000)
+
     }
+  }
+
+  getListVouchers(): void {
+    this.voucherService.getVoucherList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.voucherList= res.content;
+      }
+    })
   }
 
   ngOnDestroy() {
