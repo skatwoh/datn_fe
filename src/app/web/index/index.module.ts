@@ -25,6 +25,9 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzQRCodeModule} from "ng-zorro-antd/qr-code";
 import {NzSegmentedModule} from "ng-zorro-antd/segmented";
 import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
+import {CommentModule} from "./comment/comment/comment.module";
 
 @NgModule({
     declarations: [
@@ -61,6 +64,9 @@ import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
         NzSelectModule,
         NzQRCodeModule,
         NzSegmentedModule,
+        NzTabsModule,
+        PaymentModuleModule,
+        CommentModule,
     ]
 })
 export class IndexModule {

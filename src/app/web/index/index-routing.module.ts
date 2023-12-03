@@ -28,17 +28,12 @@ const routes: Routes = [
         component: RoomComponent
       },
       {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            component: ProfileComponent
-          },
-          {
-            path: 'list-room-order',
-            component: ListRoomOrderComponent
-          }
-        ]
+        path: 'profile/me',
+        component: ProfileComponent
+      },
+      {
+        path: 'profile/me/list-room-order',
+        component: ListRoomOrderComponent
       },
       {
         path: 'blog',
@@ -52,7 +47,6 @@ const routes: Routes = [
         path: 'room-order-change/:id1/:id',
         component: RoomOrderChangeComponent
       },
-
     ]
   },
   {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
@@ -62,4 +56,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class IndexRoutingModule { }
+export class IndexRoutingModule {
+}
