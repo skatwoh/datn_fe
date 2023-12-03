@@ -2,12 +2,12 @@
   "name": "fe",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
-    "watch": "ng build --watch --configuration dev"
+    "build": "ng build",
+    "deploy": "ng build --prod && netlify deploy"
   },
-  "private": true,
+
+"private": true,
   "dependencies": {
     "@angular/animations": "^16.1.0",
     "@angular/common": "^16.1.0",
