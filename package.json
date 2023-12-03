@@ -4,7 +4,8 @@
   "scripts": {
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "npm run build && netlify deploy --dir=dist/tools-fe"
   },
 
 "private": true,
