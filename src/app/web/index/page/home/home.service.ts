@@ -33,4 +33,14 @@ export class HomeService{
     }));
   }
 
+  getListTopRoomBooking(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-top-room-booking`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
 }
