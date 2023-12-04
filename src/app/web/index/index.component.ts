@@ -37,7 +37,7 @@ export class IndexComponent implements OnInit{
     }
 
   getNoti(): void {
-    this.service.getListNoti(1, 50, this.user?.id).subscribe(res => {
+    this.service.getListNoti(1, 5, this.user?.id).subscribe(res => {
       if (res && res.content) {
         this.notifications = res.content;
       }

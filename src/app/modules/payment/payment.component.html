@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <label>
+    Amount:
+    <input formControlName="amount" type="number"/>
+  </label>
+  <label>
+    AddInfo:
+    <input formControlName="addInfo" type="text" />
+  </label>
+  <label>
+    AccountName:
+    <input formControlName="accountName" type="text" />
+  </label>
+  <img [src]="imageUrl" alt="Image">
+  <button (click)="sendDataToApi()">OK</button>
+</form>

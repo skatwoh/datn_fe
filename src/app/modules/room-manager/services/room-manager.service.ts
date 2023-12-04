@@ -70,4 +70,9 @@ export class RoomManagerService {
         catchError((error: any) => throwError(error))
       );
   }
+
+  updateRoomOrder(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-dat-phong`, data, {params});
+  }
 }

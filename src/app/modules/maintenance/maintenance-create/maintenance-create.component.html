@@ -3,32 +3,32 @@
     <div *ngIf="!submitted">
       <form [formGroup]="maintenanceForm" (ngSubmit)="saveMaintenance()">
       <nz-form-item>
-        <nz-form-label nzFor="ma">Ngày bắt đầu: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ma">Ngày bắt đầu: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
           <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" formControlName="ngayBatDau"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Ngày kết thúc: </nz-form-label>
+        <nz-form-label  style="width: 120px" nzFor="giaPhong">Ngày kết thúc: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
           <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" formControlName="ngayKetThuc"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Chi phí bảo trì: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="giaPhong">Chi phí bảo trì: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập chi phí">
           <input nz-input type="number" id="chiPhiBaoTri" name="chiPhiBaoTri" formControlName="chiPhiBaoTri"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Ghi chú: </nz-form-label>
+        <nz-form-label  style="width: 120px" nzFor="giaPhong">Ghi chú: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
           <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="idChiTietPhong">Chi Tiết Phòng</nz-form-label>
-        <nz-select id="idChiTietPhong" name="idChiTietPhong" style="width: 200px" formControlName="idChiTietPhong">
+        <nz-form-label style="width: 120px" nzFor="idChiTietPhong">Chi Tiết Phòng</nz-form-label>
+        <nz-select  id="idChiTietPhong" name="idChiTietPhong" style="width: 200px" formControlName="idChiTietPhong">
           <nz-option *ngFor="let data of roomInfor" nzLabel="{{ data.id }}" nzValue="{{ data.id }}"></nz-option>
         </nz-select>
       </nz-form-item>

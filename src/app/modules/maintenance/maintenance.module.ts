@@ -15,6 +15,7 @@ import {NzModalModule} from "ng-zorro-antd/modal";
 import {MaintenanceComponent} from "./maintenance.component";
 import {MaintenanceRoutingModule} from "./maintenance-routing.module";
 import { MaintenanceCreateComponent } from './maintenance-create/maintenance-create.component';
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 @NgModule({
     imports: [MaintenanceRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,

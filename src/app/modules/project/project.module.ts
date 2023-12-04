@@ -15,11 +15,12 @@ import {ProjectCreateComponent} from "./project-create/project-create.component"
 import {ProjectComponent} from "./project.component";
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 
 @NgModule({
-  imports: [ProjectRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule],
+    imports: [ProjectRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzDatePickerModule],
   declarations: [ProjectComponent, ProjectCreateComponent, ProjectDetailComponent],
   exports: [ProjectComponent]
 })

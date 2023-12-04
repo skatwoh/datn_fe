@@ -53,12 +53,13 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
     this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
       this.currentRoom = data;
       console.log(this.currentRoom);
+      this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.idPhong ).subscribe(res => {
+        if (res && res.content) {
+          this.room1 = res.content;
+        }
+      })
     });
-    this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong ).subscribe(res => {
-      if (res && res.content) {
-        this.room1 = res.content;
-      }
-    })
+
   }
 
   handleOk(): void {
