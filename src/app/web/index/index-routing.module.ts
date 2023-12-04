@@ -9,6 +9,7 @@ import {BlogComponent} from "./page/blog/blog.component";
 import {RoomDetailsComponent} from "./page/room-details/room-details.component";
 import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
 import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-change.component";
+import {RoomOrderHistoryComponent} from "./page/room-order-history/room-order-history.component";
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
         path: 'room-order-change/:id1/:id',
         component: RoomOrderChangeComponent
       },
+      {
+        path: 'profile/me/room-order-history',
+        component: RoomOrderHistoryComponent
+      }
     ]
   },
   {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},

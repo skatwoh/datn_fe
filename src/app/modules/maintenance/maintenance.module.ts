@@ -18,8 +18,8 @@ import { MaintenanceCreateComponent } from './maintenance-create/maintenance-cre
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 @NgModule({
-  imports: [MaintenanceRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, NzDatePickerModule],
+    imports: [MaintenanceRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule],
   declarations: [MaintenanceComponent, MaintenanceCreateComponent],
   exports: [MaintenanceComponent]
 })
