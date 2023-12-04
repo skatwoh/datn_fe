@@ -57,7 +57,7 @@
             </nz-form-item>
             <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
             <nz-form-item>
-              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher" style="width: 250px;height: 25px;font-size: 18px" >
+              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher" style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: darkgray;" >
                 <option style="width: 250px;height: 25px;font-size: 18px;display: block" hidden="hidden" value="1" selected>Chọn mã giảm giá</option>
                 <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList" [label]="data.ma + '(' + data.moTa + ')'" [value]="data.id" ></option>
               </select>
@@ -71,8 +71,8 @@
 
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>
-              <select style="width: 200px" id="userId" formControlName="userId">
-                <option style="height: 40px" *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'" [value]="data.id"></option>
+              <select style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: darkgray;padding: 3px" id="userId" formControlName="userId">
+                <option *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'" [value]="data.id"></option>
               </select>
             </nz-form-item>
             <br>
