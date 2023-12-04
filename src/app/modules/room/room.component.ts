@@ -41,6 +41,7 @@ export class RoomComponent implements OnInit{
       this.isVisible = false;
       this.isOkLoading = false;
     }, 500);
+    this.getRooms();
   }
 
   handleCancel(): void {
