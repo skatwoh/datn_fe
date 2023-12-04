@@ -6,6 +6,7 @@ import {environment} from "../../../environments/environment";
 import {MaintenanceModel} from "../../models/maintenance.model";
 import {RoomInformationModel} from "../../models/room-information.model";
 import {MaintenanceService} from "./service/maintenance.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'cons-maintenance',
@@ -13,6 +14,7 @@ import {MaintenanceService} from "./service/maintenance.service";
   styleUrls: ['./maintenance.component.scss']
 })
 export class MaintenanceComponent implements OnInit{
+
   maintenance: MaintenanceModel[] = [];
   currentMaintenance!: MaintenanceModel;
   message ='';
@@ -46,7 +48,9 @@ export class MaintenanceComponent implements OnInit{
     this.isVisible = false;
   }
   constructor(private maintenanceService: MaintenanceService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
+              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService ) {
+
+  }
 
   private getMaintenance(): void {
     this.maintenanceService.getMaintenanceList(1, 50).subscribe(res => {
