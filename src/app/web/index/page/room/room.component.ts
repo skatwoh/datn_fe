@@ -9,6 +9,8 @@ import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {RoomTypeModel} from "../../../../models/room-type.model";
 import {ServiceService} from "../service/service.service";
+import {SaleModel} from "../../../../models/sale.model";
+import {SaleService} from "../../../../modules/sale/sale.service";
 
 @Component({
   selector: 'cons-room',
@@ -26,6 +28,7 @@ import {ServiceService} from "../service/service.service";
 export class RoomComponent implements OnInit{
   room: RoomModel[] = [];
   roomType: RoomTypeModel[] = [];
+  sale!: SaleModel;
   currentPage = 1;
   itemsPerPage = 9;
   animationState: string = 'initial';
@@ -58,12 +61,20 @@ export class RoomComponent implements OnInit{
   }
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient,
-              private service: ServiceService) { }
+              private service: ServiceService, private saleService: SaleService) { }
 
   private getRooms(): void {
     this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
+      }
+    })
+  }
+
+  private getSale(): void {
+    this.saleService.get(1).subscribe(res => {
+      if (res) {
+        this.sale = res;
       }
     })
   }
@@ -118,6 +129,8 @@ export class RoomComponent implements OnInit{
         this.getRooms();
       }
     });
+
+    this.getSale();
   }
 
   previousPage() {
