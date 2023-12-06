@@ -80,7 +80,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getSale(): void {
-    this.saleService.get(1).subscribe(res => {
+    this.saleService.getSale().subscribe(res => {
       if (res) {
         this.sale = res;
       }

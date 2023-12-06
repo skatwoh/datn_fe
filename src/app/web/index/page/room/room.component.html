@@ -455,7 +455,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                  <p *ngIf="sale.trangThai === 0" class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
+                  <p *ngIf="!sale" class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
                     <span class="text-lg">{{ Number(data.giaPhong) | currencyFormat}}
                     </span>/ đêm
                   </p>

@@ -41,13 +41,13 @@
           <h5 class="text-room">Mã số phòng: {{ room.maPhong }}</h5>
           <div class="text-room">
             <h5>Giá phòng:</h5>
-            <h5 *ngIf="sale.trangThai === 0" style="margin-left: 10px">
+            <h5 *ngIf="!sale" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">{{
                 Number(room.giaPhong) | currencyFormat
               }}</span
               >/ 1 đêm
             </h5>
-            <h5 *ngIf="sale.trangThai === 1" style="margin-left: 10px">
+            <h5 *ngIf="sale && sale.trangThai === 1" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">
                 {{ Number(- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) | currencyFormat }}
               </span
@@ -160,24 +160,24 @@
                   ></option>
                 </select>
               </nz-form-item>
-              <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
-              <span *ngIf="sale.trangThai === 1">{{
+              <nz-form-label>Tổng tiền</nz-form-label>
+                <span *ngIf="!sale">{{
+                  calculateTotalDays() * (room.giaPhong ?? 0) +
+                  phiDichVu -
+                  calculateTotalDays() * (giamGia ?? 0) | currencyFormat
+                  }}</span>
+              <span *ngIf="sale && sale.trangThai === 1">{{
                 calculateTotalDays() * (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
                   phiDichVu -
                   calculateTotalDays() * (giamGia ?? 0) | currencyFormat
               }}</span>
-              <span *ngIf="sale.trangThai === 0">{{
-                calculateTotalDays() * (room.giaPhong ?? 0) +
-                phiDichVu -
-                calculateTotalDays() * (giamGia ?? 0) | currencyFormat
-                }}</span>
               <nz-form-item>
                 <input
                   id="tongGia"
                   formControlName="tongGia"
                   class="form-input-total"
                   [value]="
-                    calculateTotalDays() * (sale.trangThai === 1 ? (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) : (room.giaPhong || 0)) +
+                    calculateTotalDays() * (sale ? (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) : (room.giaPhong || 0)) +
                     phiDichVu -
                     calculateTotalDays() * (giamGia ?? 0)
                   "
