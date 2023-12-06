@@ -147,7 +147,6 @@
                       font-size: 18px;
                       display: block;
                     "
-                    hidden="hidden"
                     value="null"
                     selected
                   >
@@ -156,7 +155,7 @@
                   <option
                     style="width: 250px; height: 25px; font-size: 18px"
                     *ngFor="let data of voucherList"
-                    [label]="data.ma + '(' + data.moTa + ')'"
+                    [label]="data.ma + ' - ' + data.moTa"
                     [value]="data.id"
                   ></option>
                 </select>
