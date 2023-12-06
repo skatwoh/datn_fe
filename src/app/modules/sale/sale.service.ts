@@ -31,4 +31,8 @@ export class SaleService {
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/get`, {params});
   }
+
+  getSale(): Observable<any> {
+    return this.http.get<any>(`${API_AU_URL}/get-sale`);
+  }
 }
