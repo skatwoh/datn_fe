@@ -41,10 +41,16 @@
           <h5 class="text-room">Mã số phòng: {{ room.maPhong }}</h5>
           <div class="text-room">
             <h5>Giá phòng:</h5>
-            <h5 style="margin-left: 10px">
+            <h5 *ngIf="sale.trangThai === 0" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">{{
                 Number(room.giaPhong) | currencyFormat
               }}</span
+              >/ 1 đêm
+            </h5>
+            <h5 *ngIf="sale.trangThai === 1" style="margin-left: 10px">
+              <span style="font-size: 16px; color: aliceblue">
+                {{ Number(- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) | currencyFormat }}
+              </span
               >/ 1 đêm
             </h5>
           </div>
@@ -156,18 +162,23 @@
                 </select>
               </nz-form-item>
               <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
-              <span>{{
-                calculateTotalDays() * (room.giaPhong ?? 0) +
+              <span *ngIf="sale.trangThai === 1">{{
+                calculateTotalDays() * (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
                   phiDichVu -
                   calculateTotalDays() * (giamGia ?? 0) | currencyFormat
               }}</span>
+              <span *ngIf="sale.trangThai === 0">{{
+                calculateTotalDays() * (room.giaPhong ?? 0) +
+                phiDichVu -
+                calculateTotalDays() * (giamGia ?? 0) | currencyFormat
+                }}</span>
               <nz-form-item>
                 <input
                   id="tongGia"
                   formControlName="tongGia"
                   class="form-input-total"
                   [value]="
-                    calculateTotalDays() * (room.giaPhong ?? 0) +
+                    calculateTotalDays() * (sale.trangThai === 1 ? (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) : (room.giaPhong || 0)) +
                     phiDichVu -
                     calculateTotalDays() * (giamGia ?? 0)
                   "
@@ -547,7 +558,7 @@
     <nz-tabset>
       <nz-tab nzTitle="Thanh toán toàn bộ">
         <form [formGroup]="form">
-          <label>
+          <label style="display: none">
             Amount:
             <input formControlName="amount" type="number"
                    ngModel="{{
@@ -556,11 +567,11 @@
                     calculateTotalDays() * (giamGia ?? 0)}}
                   "/>
           </label>
-          <label>
+          <label style="display: none">
             AddInfo:
             <input formControlName="addInfo" type="text" ngModel="{{room.maPhong}}"/>
           </label>
-          <label>
+          <label style="display: none">
             AccountName:
             <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
           </label>
