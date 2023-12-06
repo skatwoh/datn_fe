@@ -72,7 +72,7 @@ export class RoomComponent implements OnInit{
   }
 
   private getSale(): void {
-    this.saleService.get(1).subscribe(res => {
+    this.saleService.getSale().subscribe(res => {
       if (res) {
         this.sale = res;
       }
