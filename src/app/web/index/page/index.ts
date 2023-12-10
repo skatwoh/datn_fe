@@ -7,6 +7,7 @@ import {RoomDetailsComponent} from "./room-details/room-details.component";
 import {ListRoomOrderComponent} from "./list-room-order/list-room-order.component";
 import {RoomOrderChangeComponent} from "./room-order-change/room-order-change.component";
 import {RoomOrderHistoryComponent} from "./room-order-history/room-order-history.component";
+import {CommingSoonComponent} from "./comming-soon/comming-soon.component";
 
 
 export const pages: any[] = [
@@ -18,7 +19,8 @@ export const pages: any[] = [
   RoomDetailsComponent,
   ListRoomOrderComponent,
   RoomOrderChangeComponent,
-  RoomOrderHistoryComponent
+  RoomOrderHistoryComponent,
+  CommingSoonComponent
 ];
 
 export * from './home/home.component';

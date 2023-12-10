@@ -75,7 +75,7 @@
             <div
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
             >
-              Tổng thanh toán
+              Thành tiền
             </div>
           </th>
           <th
@@ -123,15 +123,24 @@
             <div>
               <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
 
-              <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-red ml-3" >Đổi phòng</button>
+              <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-change ml-3" >Đổi phòng</button>
             </div>
-
-
-
           </td>
         </tr>
         </tbody>
       </nz-table>
+      <h2 class="total">Tổng tiền:</h2>
+      <div style="margin-top: 60px; margin-left: 1040px">
+        <a
+          class="group inline-block rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+        >
+          <span
+            class="block rounded-full bg-white px-10 text-sm font-medium group-hover:bg-transparent"
+          >
+            Thanh toán
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 </div>

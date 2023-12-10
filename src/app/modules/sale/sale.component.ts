@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SaleModel} from "../../models/sale.model";
 import {SaleService} from "./sale.service";
-import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
@@ -28,7 +27,7 @@ export class SaleComponent implements OnInit{
     })
   }
 
-  updateStatus(id: any, status: number): void {
+  updateStatus(id: any, index: number,status: number): void {
     this.saleService.get(id).subscribe((data: SaleModel) => {
       this.saleModel = data;
     });
