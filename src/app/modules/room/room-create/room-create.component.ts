@@ -25,7 +25,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
     giaPhong: 0,
     trangThai: 0,
     idLoaiPhong: 0,
-    tenLoaiPhong: ''
+    tenLoaiPhong: '',
+    image: '',
   };
   roomType: RoomTypeModel[] = [];
   roomList: RoomModel[] = [];
@@ -129,7 +130,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
       giaPhong: 0,
       trangThai: 0,
       idLoaiPhong: 0,
-      tenLoaiPhong: ''
+      tenLoaiPhong: '',
+      image: ''
     };
   }
 

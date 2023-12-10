@@ -10,6 +10,7 @@ import {RoomDetailsComponent} from "./page/room-details/room-details.component";
 import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
 import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-change.component";
 import {RoomOrderHistoryComponent} from "./page/room-order-history/room-order-history.component";
+import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'profile/me/room-order-history',
         component: RoomOrderHistoryComponent
+      },
+      {
+        path: 'comming-soon',
+        component: CommingSoonComponent
       }
     ]
   },

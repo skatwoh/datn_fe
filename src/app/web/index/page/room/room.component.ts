@@ -9,6 +9,9 @@ import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {RoomTypeModel} from "../../../../models/room-type.model";
 import {ServiceService} from "../service/service.service";
+import {SaleModel} from "../../../../models/sale.model";
+import {SaleService} from "../../../../modules/sale/sale.service";
+import {ImageService} from "../../image/image.service";
 
 @Component({
   selector: 'cons-room',
@@ -26,6 +29,7 @@ import {ServiceService} from "../service/service.service";
 export class RoomComponent implements OnInit{
   room: RoomModel[] = [];
   roomType: RoomTypeModel[] = [];
+  sale!: SaleModel;
   currentPage = 1;
   itemsPerPage = 9;
   animationState: string = 'initial';
@@ -35,6 +39,7 @@ export class RoomComponent implements OnInit{
   checkOut :string = '';
   message :string = '';
   hasError : boolean = false;
+  avatarUrls: any[] = [];
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
@@ -58,12 +63,33 @@ export class RoomComponent implements OnInit{
   }
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient,
-              private service: ServiceService) { }
+              private service: ServiceService, private saleService: SaleService, private imageService: ImageService) { }
 
   private getRooms(): void {
     this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;
+      }
+    })
+  }
+
+  private image(): void {
+    this.imageService.getAvatarUrls().subscribe(
+      (res: any[]) => {
+        if (res) {
+          this.avatarUrls = res.map(item => item.userImageURL);
+        }
+      },
+      error => {
+        console.error('Error fetching avatar URLs', error);
+      }
+    );
+  }
+
+  private getSale(): void {
+    this.saleService.getSale().subscribe(res => {
+      if (res) {
+        this.sale = res;
       }
     })
   }
@@ -118,6 +144,9 @@ export class RoomComponent implements OnInit{
         this.getRooms();
       }
     });
+
+    this.getSale();
+    this.image();
   }
 
   previousPage() {

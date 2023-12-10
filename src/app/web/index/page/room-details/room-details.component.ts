@@ -17,6 +17,8 @@ import {RoomService} from "../../../../modules/room/services/room.service";
 import {VoucherService} from "../../../../modules/voucher/services/voucher.service";
 import {VoucherModel} from "../../../../models/voucher.model";
 import {HttpClient} from '@angular/common/http';
+import {SaleService} from "../../../../modules/sale/sale.service";
+import {SaleModel} from "../../../../models/sale.model";
 
 declare var KeenSlider: any;
 
@@ -43,12 +45,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   phiDichVu: number = 0;
   imageUrl: string | undefined;
   form: FormGroup;
+  sale!: SaleModel;
   private unsubscribe: Subscription[] = [];
 
-  constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
+  constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private saleService: SaleService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
-              private voucherService: VoucherService, private http: HttpClient) {
+              private voucherService: VoucherService, private http: HttpClient, private roomService2: RoomService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -74,6 +77,14 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+  }
+
+  private getSale(): void {
+    this.saleService.getSale().subscribe(res => {
+      if (res) {
+        this.sale = res;
+      }
+    })
   }
 
   generateImageUrl(amount: number, addInfo: string, accountName: string): string {
@@ -112,6 +123,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.roomService.getRoom(this.idPhong).subscribe((data: RoomInformationModel) => {
       this.room = data;
     });
+    this.getSale();
 
     // check
     const keenSlider = new KeenSlider('#keen-slider', {
@@ -285,6 +297,5 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   protected readonly Number = Number;
   protected readonly Math = Math
-
 
 }
