@@ -11,6 +11,7 @@ import {RoomTypeModel} from "../../../../models/room-type.model";
 import {ServiceService} from "../service/service.service";
 import {SaleModel} from "../../../../models/sale.model";
 import {SaleService} from "../../../../modules/sale/sale.service";
+import {ImageService} from "../../image/image.service";
 
 @Component({
   selector: 'cons-room',
@@ -38,6 +39,7 @@ export class RoomComponent implements OnInit{
   checkOut :string = '';
   message :string = '';
   hasError : boolean = false;
+  avatarUrls: any[] = [];
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
@@ -61,7 +63,7 @@ export class RoomComponent implements OnInit{
   }
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient,
-              private service: ServiceService, private saleService: SaleService) { }
+              private service: ServiceService, private saleService: SaleService, private imageService: ImageService) { }
 
   private getRooms(): void {
     this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
@@ -69,6 +71,19 @@ export class RoomComponent implements OnInit{
         this.room= res.content;
       }
     })
+  }
+
+  private image(): void {
+    this.imageService.getAvatarUrls().subscribe(
+      (res: any[]) => {
+        if (res) {
+          this.avatarUrls = res.map(item => item.userImageURL);
+        }
+      },
+      error => {
+        console.error('Error fetching avatar URLs', error);
+      }
+    );
   }
 
   private getSale(): void {
@@ -131,6 +146,7 @@ export class RoomComponent implements OnInit{
     });
 
     this.getSale();
+    this.image();
   }
 
   previousPage() {

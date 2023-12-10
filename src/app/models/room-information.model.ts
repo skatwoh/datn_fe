@@ -10,4 +10,5 @@ export class RoomInformationModel{
   maPhong: string | undefined;
   giaPhong: number | undefined;
   idLoaiPhong: number | undefined;
+  image: string | undefined;
 }

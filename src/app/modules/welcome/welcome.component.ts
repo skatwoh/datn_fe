@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { RoomModel } from "../../models/room.model";
-import { RoomService } from "../room/services/room.service";
-import { Router } from "@angular/router";
-import { RoomOrder } from "../../models/room-order";
-import { RoomManagerService } from "../room-manager/services/room-manager.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {RoomModel} from "../../models/room.model";
+import {RoomService} from "../room/services/room.service";
+import {Router} from "@angular/router";
+import {RoomOrder} from "../../models/room-order";
+import {RoomManagerService} from "../room-manager/services/room-manager.service";
 import {count, forkJoin} from 'rxjs';
 import {ServiceService} from "../../web/index/page/service/service.service";
+import {AccountModel} from "../account/models/account.model";
+import {AccountService} from "../account/services/account.service";
+import {CommentService} from "../../web/index/comment/comment.service";
 
 @Component({
   selector: 'app-welcome',
@@ -16,11 +19,13 @@ export class WelcomeComponent implements OnInit {
 
   @Input() roomOrder: RoomOrder[] = [];
   room: RoomModel[] = [];
+  accounts: AccountModel[] = [];
+  comments: any[] = [];
 
   pages: string[] = ['room', 'room-detail', 'about'];
 
   constructor(private roomService: RoomService, private router: Router, private roomOrderService: RoomManagerService,
-              private service: ServiceService ) { }
+              private service: ServiceService, private accountService: AccountService, private commentService: CommentService ) { }
 
   getRooms() {
     return this.roomService.getRoomList(1, 50);
@@ -30,11 +35,22 @@ export class WelcomeComponent implements OnInit {
     return this.roomOrderService.getListRoomManager(1, 50);
   }
 
+  getAccounts() {
+    return this.accountService.getUserList(1, 50);
+  }
+
+  loadComments(): void {
+    this.commentService.getComments().subscribe((data) => {
+      this.comments = data;
+    });
+  }
+
   ngOnInit() {
     forkJoin([
       this.getRooms(),
-      this.getRoomOrders()
-    ]).subscribe(([roomsResponse, roomOrdersResponse]) => {
+      this.getRoomOrders(),
+      this.getAccounts(),
+    ]).subscribe(([roomsResponse, roomOrdersResponse, accountsResponse]) => {
       if (roomsResponse && roomsResponse.content) {
         this.room = roomsResponse.content;
       }
@@ -42,15 +58,13 @@ export class WelcomeComponent implements OnInit {
       if (roomOrdersResponse && roomOrdersResponse.content) {
         this.roomOrder = roomOrdersResponse.content;
       }
+
+      if (accountsResponse && accountsResponse.content) {
+        this.accounts = accountsResponse.content;
+      }
     });
 
-    this.pages.forEach(page => {
-      this.service.recordVisit(page, 'dummyIpAddress').subscribe(() => {
-        // Có thể thực hiện các hành động khác sau khi ghi nhận
-      });
-    });
-
-    this.getVisitCount();
+    this.loadComments();
   }
 
   getVisitCount() {
