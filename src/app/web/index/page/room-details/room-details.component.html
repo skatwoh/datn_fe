@@ -154,8 +154,9 @@
                     Chọn mã giảm giá
                   </option>
                   <option
-                    style="width: 250px; height: 25px; font-size: 18px"
-                    *ngFor="let data of voucherList"
+                    style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
+
+                  *ngFor="let data of voucherList"
                     [label]="data.ma + ' - ' + data.moTa"
                     [value]="data.id"
                   ></option>
@@ -165,12 +166,12 @@
                 <span *ngIf="!sale">{{
                   calculateTotalDays() * (room.giaPhong ?? 0) +
                   phiDichVu -
-                  calculateTotalDays() * (giamGia ?? 0) | currencyFormat
+                  (giamGia ?? 0) | currencyFormat
                   }}</span>
               <span *ngIf="sale && sale.trangThai === 1">{{
                 calculateTotalDays() * (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
                   phiDichVu -
-                  calculateTotalDays() * (giamGia ?? 0) | currencyFormat
+                  (giamGia ?? 0) | currencyFormat
               }}</span>
               <nz-form-item>
                 <input
@@ -180,7 +181,7 @@
                   [value]="
                     calculateTotalDays() * (sale ? (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) : (room.giaPhong || 0)) +
                     phiDichVu -
-                    calculateTotalDays() * (giamGia ?? 0)
+                    (giamGia ?? 0)
                   "
                   type="hidden"
                 />
@@ -548,37 +549,3 @@
   </div>
 </section>
 
-<nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="Xác nhận thanh toán"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
->
-  <ng-container *nzModalContent>
-    <nz-tabset>
-      <nz-tab nzTitle="Thanh toán toàn bộ">
-        <form [formGroup]="form">
-          <label style="display: none">
-            Amount:
-            <input formControlName="amount" type="number"
-                   ngModel="{{
-                    calculateTotalDays() * (room.giaPhong ?? 0) +
-                    phiDichVu -
-                    calculateTotalDays() * (giamGia ?? 0)}}
-                  "/>
-          </label>
-          <label style="display: none">
-            AddInfo:
-            <input formControlName="addInfo" type="text" ngModel="{{room.maPhong}}"/>
-          </label>
-          <label style="display: none">
-            AccountName:
-            <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
-          </label>
-          <img [src]="imageUrl" alt="Image">
-        </form>
-      </nz-tab>
-      <nz-tab nzTitle="Thanh toán tiền cọc">Content of Tab Pane 2</nz-tab>
-    </nz-tabset>
-  </ng-container>
-</nz-modal>

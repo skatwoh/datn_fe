@@ -203,7 +203,8 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
             if (res?.code === AppConstants.API_SUCCESS_CODE){
               this.submitted = true;
               this.messSuccess();
-              this.router.navigate(['/profile/list-room-order'])
+
+              this.router.navigate(['/profile/me/list-room-order'])
             } else {
               if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                 const msg: any = res.entityMessages[0];
@@ -217,6 +218,15 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
         );
       this.unsubscribe.push(sub);
 
+  }
+  updateTongTien(): void {
+    const data = {
+      idKhachHang: this.user?.id,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    }
+    this.billService.updateTongTien(data).subscribe((res: any) => {
+      console.log(res);
+    })
   }
 
   ngOnDestroy() {

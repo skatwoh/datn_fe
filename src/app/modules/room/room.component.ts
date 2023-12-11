@@ -50,7 +50,7 @@ export class RoomComponent implements OnInit{
   constructor(private roomService: RoomService, private router: Router,
               private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
 
-  private getRooms(): void {
+  getRooms(): void {
     this.roomService.getRoomList(1, 50).subscribe(res => {
       if (res && res.content) {
         this.room= res.content;

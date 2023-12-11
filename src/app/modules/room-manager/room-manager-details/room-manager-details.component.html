@@ -57,22 +57,40 @@
             </nz-form-item>
             <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
             <nz-form-item>
-              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher" style="width: 250px;height: 25px;font-size: 18px" >
-                <option style="width: 250px;height: 25px;font-size: 18px;display: block" hidden="hidden" value="1" selected>Chọn mã giảm giá</option>
-                <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList" [label]="data.ma + '(' + data.moTa + ')'" [value]="data.id" ></option>
+              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher"
+                      style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">
+                <option
+                  style="
+                      width: 250px;
+                      height: 25px;
+                      font-size: 18px;
+                      display: block;
+                    "
+                  value="null"
+                  selected
+                >
+                  Chọn mã giảm giá
+                </option>
+                <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList"
+                        [label]="data.ma + ' - ' + data.moTa" [value]="data.id"></option>
               </select>
             </nz-form-item>
             <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
-            <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) - (calculateTotalDays() * (giamGia ?? 0))) | currencyFormat}}</span>
+            <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0)) | currencyFormat}}</span>
             <nz-form-item>
               <input id="tongGia" formControlName="tongGia" class="form-input-total"
-                     [value]="(calculateTotalDays() * (room.giaPhong ?? 0) - (calculateTotalDays() * (giamGia ?? 0)))" type="hidden"/>
+                     [value]="(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0))"
+                     type="hidden"/>
             </nz-form-item>
 
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>
-              <select style="width: 200px" id="userId" formControlName="userId">
-                <option style="height: 40px" *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'" [value]="data.id"></option>
+              <select
+                style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">
+
+              id="userId" formControlName="userId">
+                <option *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'"
+                        [value]="data.id"></option>
               </select>
             </nz-form-item>
             <br>
