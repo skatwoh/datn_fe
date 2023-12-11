@@ -1,6 +1,6 @@
 {
   "/rpc/bds": {
-    "target": "http://localhost:8080",
+    "target": "https://4178-113-23-44-25.ngrok-free.app",
     "secure": false
   }
 }
