@@ -13,6 +13,7 @@ import {HomeService} from "../../web/index/page/home/home.service";
 import {RoomTypeModel} from "../../models/room-type.model";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
+import {first} from "rxjs";
 
 @Component({
   selector: 'cons-room-manager',
@@ -41,7 +42,7 @@ export class RoomManagerComponent implements OnInit {
   // detail
   id: number | undefined;
   searchInput: string = '';
-
+  hasError = false;
 
   pdfSrc: SafeResourceUrl | undefined;
 
@@ -87,10 +88,24 @@ export class RoomManagerComponent implements OnInit {
     this.tenLoaiPhong = tenLoaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
+    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
+      if (res != null){
+        const queryParams = {
+          soLuongNguoi: this.soLuongNguoi,
+          tenLoaiPhong: this.tenLoaiPhong,
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
+        };
+        if (res && res.content) {
+          this.room= res.content;
+        }
+        console.log('abc');
+        this.router.navigate(['/admin/room-manager/room-manager-create'], { queryParams });
+      } else {
+        this.message = 'Ngày nhận không hợp lệ';
+        this.hasError = true;
       }
+
     })
   }
 
@@ -105,18 +120,25 @@ export class RoomManagerComponent implements OnInit {
   handleOk(): void {
     this.isOkLoading = true;
     this.getRoomsSearch();
-    setTimeout(() => {
-      this.isVisible = false;
+    if(this.hasError === false){
+      this.isVisible = true;
       this.isOkLoading = false;
-    }, 500);
-    const queryParams = {
-      soLuongNguoi: this.soLuongNguoi,
-      tenLoaiPhong: this.tenLoaiPhong,
-      checkIn: this.checkIn,
-      checkOut: this.checkOut,
-    };
+    }
+    else{
+      setTimeout(() => {
+        this.isVisible = false;
+        this.isOkLoading = false;
+        const queryParams = {
+          soLuongNguoi: this.soLuongNguoi,
+          tenLoaiPhong: this.tenLoaiPhong,
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
+        };
 
-    this.router.navigate(['/admin/room-manager/room-manager-create'], {queryParams});
+        this.router.navigate(['/admin/room-manager/room-manager-create'], {queryParams});
+      }, 500);
+    }
+
   }
 
 

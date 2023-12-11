@@ -174,6 +174,7 @@
       <label class="col-auto text-lg font-nunito" style="margin-left: 20px;">
         Ngày đặt:
         <input style="border-radius: 10px" type="date" id="checkIn">
+        <span style="color: red" *ngIf="hasError">{{message}}</span>
       </label>
       <label class="col-auto text-lg" style="margin-left: 30px">
         Ngày nhận:

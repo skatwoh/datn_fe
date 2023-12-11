@@ -51,7 +51,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
-      idVoucher: [1, Validators.required],
+      idVoucher: [null],
       tongGia: [0, Validators.required],
       trangThai: 1
     })
@@ -76,11 +76,16 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   tinhGiamGia(): void {
-    this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
-      this.voucher = data;
-      this.giamGia = data.giamGia;
-      console.log(this.voucher);
-    });
+    if((document.getElementById('voucher') as HTMLInputElement).value == 'null'){
+      this.giamGia = 0;
+    }
+    else{
+      this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
+        this.voucher = data;
+        this.giamGia = data.giamGia;
+        console.log(this.voucher);
+      });
+    }
   }
 
   updateTongTien(): void{
@@ -156,7 +161,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
             },
           );
         this.unsubscribe.push(sub);
-      }, 1000)
+      }, 500)
 
     }
   }

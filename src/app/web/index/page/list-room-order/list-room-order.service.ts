@@ -69,4 +69,14 @@ export class ListRoomOrderService{
       return null;
     }));
   }
+
+  getRoomOfBill(page: number, size: number, userId: any): Observable<any> {
+    const params = {page, size, userId};
+    return this.http.get<any>(`${API_AU_URL}/list-room-of-bill`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }

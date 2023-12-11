@@ -12,25 +12,31 @@ import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {ReactiveFormsModule} from "@angular/forms";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NzWaveModule} from "ng-zorro-antd/core/wave";
 
 
 
 @NgModule({
   declarations: [BillComponent],
-  imports: [
-    BillRoutingModule,
-    CommonModule,
-    NzBreadCrumbModule,
-    NzFormModule,
-    NzGridModule,
-    NzIconModule,
-    NzInputModule,
-    NzModalModule,
-    NzPageHeaderModule,
-    NzSelectModule,
-    NzTableModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BillRoutingModule,
+        CommonModule,
+        NzBreadCrumbModule,
+        NzFormModule,
+        NzGridModule,
+        NzIconModule,
+        NzInputModule,
+        NzModalModule,
+        NzPageHeaderModule,
+        NzSelectModule,
+        NzTableModule,
+        ReactiveFormsModule,
+        NzButtonModule,
+        NzDropDownModule,
+        NzWaveModule
+    ],
   exports: [
     BillComponent
   ]

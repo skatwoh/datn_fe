@@ -8,10 +8,11 @@
       <h4 class="text-lg font-bold text-navy-700 dark:text-white">
         Danh sách đặt phòng
       </h4>
-      <button
-        class="linear rounded-[20px] bg-lightPrimary px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-gray-100 active:bg-gray-200 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
+      <h4 class="total" *ngIf="bill">Tổng tiền: {{bill.tongTien}}</h4>
+      <button (click)="showModalThanhToan()"
+        class="linear rounded-[20px] bg-green-500 px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-green-100 active:bg-green-500 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
       >
-        See all
+        Thanh toán
       </button>
     </div>
     <div class="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
@@ -129,18 +130,6 @@
         </tr>
         </tbody>
       </nz-table>
-      <h2 class="total">Tổng tiền:</h2>
-      <div style="margin-top: 60px; margin-left: 1040px">
-        <a
-          class="group inline-block rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
-        >
-          <span
-            class="block rounded-full bg-white px-10 text-sm font-medium group-hover:bg-transparent"
-          >
-            Thanh toán
-          </span>
-        </a>
-      </div>
     </div>
   </div>
 </div>
@@ -268,5 +257,37 @@
         </div>
       </div>
     </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleTT"
+  nzTitle="Xác nhận thanh toán"
+  (nzOnCancel)="handleCancelThanhToan()"
+  (nzOnOk)="handleOkThanhToan()"
+>
+  <ng-container *nzModalContent>
+    <nz-tabset>
+      <nz-tab nzTitle="Thanh toán toàn bộ">
+        <form [formGroup]="form">
+          <label style="display: none">
+            Amount:
+            <input formControlName="amount" type="number" id="amount"
+                ngModel="{{bill.tongTien}}"
+            />
+          </label>
+          <label style="display: none">
+            AddInfo:
+            <input formControlName="addInfo" type="text" ngModel="{{bill.id}}"/>
+          </label>
+          <label style="display: none">
+            AccountName:
+            <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
+          </label>
+          <img [src]="imageUrl" alt="Image">
+        </form>
+      </nz-tab>
+      <nz-tab nzTitle="Thanh toán tiền cọc">Content of Tab Pane 2</nz-tab>
+    </nz-tabset>
   </ng-container>
 </nz-modal>

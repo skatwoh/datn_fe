@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BillModel} from "../../models/bill.model";
 import {BillService} from "./bill.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {RoomModel} from "../../models/room.model";
 
 @Component({
   selector: 'cons-bill',
@@ -10,7 +11,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 })
 export class BillComponent implements OnInit{
   bill: BillModel[] = [];
-
+  currentBill!: BillModel;
 
   constructor(private billService: BillService, private http: HttpClient) {
   }
@@ -25,6 +26,34 @@ export class BillComponent implements OnInit{
 
   ngOnInit(): void {
     this.getBills();
+  }
+
+  updateStatus(id: any){
+    this.billService.get(id).subscribe((data: BillModel) => {
+      this.currentBill = data;
+      console.log(this.currentBill);
+    });
+    this.billService.updateStatus(id, 0).subscribe({
+      next: (res) => {
+        this.currentBill.trangThai = 0;
+        this.getBills();
+        console.log(res);
+      },
+    })
+  }
+
+  huyHoaDon(id: any){
+    this.billService.get(id).subscribe((data: BillModel) => {
+      this.currentBill = data;
+      console.log(this.currentBill);
+    });
+    this.billService.updateStatus(id, 4).subscribe({
+      next: (res) => {
+        this.currentBill.trangThai = 4;
+        this.getBills();
+        console.log(res);
+      },
+    })
   }
 
   generatePDF(id: any) {

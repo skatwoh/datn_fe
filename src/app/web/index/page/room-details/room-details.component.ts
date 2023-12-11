@@ -185,11 +185,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   tinhGiamGia(): void {
-    this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
-      this.voucher = data;
-      this.giamGia = data.giamGia;
-      console.log(this.voucher);
-    });
+    if((document.getElementById('voucher') as HTMLInputElement).value == 'null'){
+      this.giamGia = 0;
+    }
+    else{
+      this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
+        this.voucher = data;
+        this.giamGia = data.giamGia;
+        console.log(this.voucher);
+      });
+    }
   }
 
 
@@ -264,7 +269,9 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
                 this.submitted = true;
-                this.showModal();
+                this.sendNotification();
+                this.messSuccess();
+                this.router.navigate(['/room']);
               } else {
                 if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                   this.updateTongTien();
