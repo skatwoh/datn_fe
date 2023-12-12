@@ -96,6 +96,7 @@ export class VoucherComponent implements OnInit{
       });
   }
 
+
   ngOnInit() {
     this.getVouchers();
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-voucher-type`).subscribe((data2)  => {

@@ -145,10 +145,12 @@
           <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="currentRoom.trangThai"/>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
       <nz-form-label style="width: 110px" nzFor="phong">Mã phòng </nz-form-label>
-        <nz-select id="idPhong" formControlName="idPhong" style="width: 360px">
-          <nz-option *ngFor="let data of room" [nzLabel]="data.ma ? data.ma : 'Chọn phòng'" [nzValue]="data.id"></nz-option>
-        </nz-select>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+      <input nz-input type="text" id="idPhong" name="idPhong" [(ngModel)]="currentRoom.maPhong" readonly/>
+        </nz-form-control>
+      </nz-form-item>
     </div>
   </ng-container>
 </nz-modal>

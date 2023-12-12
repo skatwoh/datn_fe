@@ -101,23 +101,35 @@ export class RoomComponent implements OnInit{
     const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    const minGiaElement = document.getElementById('minGia') as HTMLInputElement;
-    const maxGiaElement = document.getElementById('maxGia') as HTMLInputElement;
     this.soLuongNguoi = soLuongNguoiElement.value;
     this.tenLoaiPhong = loaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.minGia = minGiaElement.value;
-    this.maxGia = maxGiaElement.value;
     console.log(this.minGia);
     console.log(this.maxGia);
-      this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut, this.minGia, this.maxGia).subscribe(res => {
+      this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
           // this.updateUrlWithSearchParams();
         }
       })
   }
+
+  searchByPrice(): void {
+    const minGiaElement = document.getElementById('minGia') as HTMLInputElement;
+    const maxGiaElement = document.getElementById('maxGia') as HTMLInputElement;
+    this.minGia = minGiaElement.value;
+    this.maxGia = maxGiaElement.value;
+    console.log(this.minGia);
+    console.log(this.maxGia);
+    this.homeService.getListByPrice(1, 50, this.minGia, this.maxGia).subscribe(res => {
+      if (res && res.content) {
+        this.room = res.content;
+        // this.updateUrlWithSearchParams();
+      }
+    })
+  }
+
     private updateUrlWithSearchParams(): void {
         const queryParams = {
           soLuongNguoi: this.soLuongNguoi,
