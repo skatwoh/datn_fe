@@ -38,10 +38,13 @@ export class RoomComponent implements OnInit{
     this.isOkLoading = true;
     this.updateRoom();
     setTimeout(() => {
+      this.messageNoti.success('Cập nhật thành công', {
+        nzDuration: 5000
+      });
       this.isVisible = false;
       this.isOkLoading = false;
+      this.getRooms();
     }, 500);
-    this.getRooms();
   }
 
   handleCancel(): void {
