@@ -19,13 +19,13 @@
       <br/>
       <p class="date-input">Loại phòng: </p>
         <select id="tenLoaiPhong" class="select-input">
-          <option class="option" value="{{null}}" label="Chọn loại phòng"></option>
+          <option class="option" value="" label="Chọn loại phòng"></option>
           <option class="option" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
         </select>
       <br/>
       <p class="date-input">Số người:</p>
       <select id="soLuongNguoi" class="select-input">
-        <option class="option" value="0" label="Chọn số người"></option>
+        <option class="option" value="" label="Chọn số người"></option>
         <option class="option" value="1">1</option>
         <option class="option" value="2">2</option>
         <option class="option" value="3">3</option>
@@ -66,23 +66,23 @@
 
               <div class="border-t border-gray-200 p-4">
                 <div class="flex justify-between gap-4">
-                  <label for="FilterPriceFrom" class="flex items-center gap-2">
+                  <label for="minGia" class="flex items-center gap-2">
                     <span class="text-sm text-gray-600">$</span>
 
                     <input
                       type="number"
-                      id="FilterPriceFrom"
+                      id="minGia"
                       placeholder="From"
                       class="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
                     />
                   </label>
 
-                  <label for="FilterPriceTo" class="flex items-center gap-2">
+                  <label for="maxGia" class="flex items-center gap-2">
                     <span class="text-sm text-gray-600">$</span>
 
                     <input
                       type="number"
-                      id="FilterPriceTo"
+                      id="maxGia"
                       placeholder="To"
                       class="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
                     />

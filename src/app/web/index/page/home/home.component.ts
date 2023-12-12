@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit{
     this.tenLoaiPhong = tenLoaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
+    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut, 10, 10000000).pipe(first()).subscribe(res => {
       console.log(res, 'hihihi');
       if (res != null){
         console.log('Hello');

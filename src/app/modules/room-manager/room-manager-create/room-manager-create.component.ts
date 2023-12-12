@@ -26,7 +26,7 @@ export class RoomManagerCreateComponent implements OnInit{
               private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
 
   getRooms(soLuongNguoi: string, tenLoaiPhong: string, checkIn: string, checkOut: string): void {
-    this.homeService.getRoomListSearch(1, 50, soLuongNguoi, tenLoaiPhong, checkIn, checkOut).subscribe(res => {
+    this.homeService.getRoomListSearch(1, 50, soLuongNguoi, tenLoaiPhong, checkIn, checkOut, 10, 10000000).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
       }
