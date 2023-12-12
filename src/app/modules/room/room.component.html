@@ -156,7 +156,6 @@
 
     <nz-form-label nzFor="idloaiPhong" style="width: 100px">Loại phòng</nz-form-label>
     <nz-select nzAllowClear  style="width: 200px" [(ngModel)]="currentRoom.idLoaiPhong" nzPlaceHolder="{{currentRoom.tenLoaiPhong}}">
-      <nz-option nzLabel="{{currentRoom.tenLoaiPhong}}"></nz-option>
       <nz-option *ngFor="let data of roomType" [nzLabel]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" nzValue="{{ data.id }}"></nz-option>
     </nz-select>
   </div>
