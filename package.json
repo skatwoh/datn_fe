@@ -7,8 +7,7 @@
     "test": "ng test",
     "deploy": "npm run build && netlify deploy --dir=dist/tools-fe"
   },
-
-"private": true,
+  "private": true,
   "dependencies": {
     "@angular/animations": "^16.1.0",
     "@angular/common": "^16.1.0",
@@ -25,9 +24,11 @@
     "apexcharts": "^3.44.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
+    "chart.js": "^4.4.1",
     "exceljs": "^4.3.0",
     "gh-pages": "^6.0.0",
     "ng-zorro-antd": "^16.2.2",
+    "ng2-charts": "^5.0.4",
     "primeicons": "6.0.1",
     "qrcode": "^1.5.3",
     "rxjs": "~7.8.0",

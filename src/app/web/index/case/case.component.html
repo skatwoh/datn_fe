@@ -1,0 +1,11 @@
+<!-- case.component.html -->
+<div class="room-container">
+    <div *ngFor="let room of rooms" nz-tooltip nzTooltipTitle="{{room.giaPhong}}" class="room-card" [ngClass]="'floor-' + room.tang" [routerLink]="['/room-detail', room.id]">
+      <h3>{{ room.ma }}</h3>
+      <br/>
+      <h3>{{ room.tenLoaiPhong }}</h3>
+      <br/>
+      <h3>{{ room.soLuong }}</h3>
+    </div>
+</div>
+
