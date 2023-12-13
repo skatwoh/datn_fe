@@ -93,6 +93,7 @@
           </div>
         </details>
       </div>
+      <button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
     </div>
     <button style="width: 250px" class="bg-indigo-500 text-white px-4 py-2 rounded-md mt-5" (click)="getRoomsSearch()">Search</button>
   </div>
@@ -231,4 +232,10 @@
   </div>
 </div>
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <cons-case></cons-case>
+  </ng-container>
+</nz-modal>
 

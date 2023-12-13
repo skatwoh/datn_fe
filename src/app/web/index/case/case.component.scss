@@ -1,0 +1,26 @@
+/* case.component.scss */
+.room-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.room-card {
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.floor-1 {
+  background-color: #ff9999; /* Color for floor 1 */
+}
+
+.floor-2 {
+  background-color: #99ff99; /* Color for floor 2 */
+}
+
+/* Add more styles for other floors as needed */

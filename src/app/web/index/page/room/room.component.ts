@@ -47,6 +47,7 @@ export class RoomComponent implements OnInit{
   }
 
   selectedCount = 0;
+  isVisible = false;
 
   updateSelectedCount(event: any) {
     if (event.target.checked) {
@@ -73,6 +74,20 @@ export class RoomComponent implements OnInit{
         this.room= res.content;
       }
     })
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
   private image(): void {
