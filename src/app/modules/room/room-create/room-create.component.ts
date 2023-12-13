@@ -3,7 +3,6 @@ import {RoomModel} from "../../../models/room.model";
 import {RoomService} from "../services/room.service";
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {RoomTypeDtoModel} from "../../../models/room-type-dto.model";
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {first, Observable, Subscription} from "rxjs";
