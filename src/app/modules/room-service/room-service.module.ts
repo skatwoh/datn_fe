@@ -5,16 +5,17 @@ import {RoomServiceCreateComponent} from './room-service-create/room-service-cre
 import {RoomServiceDetailComponent} from './room-service-detail/room-service-detail.component';
 import {RoomServiceComponent} from "./room-service.component";
 import {NzTableModule} from "ng-zorro-antd/table";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NgForOf, NgIf} from "@angular/common";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {FormFieldValidationDirective} from "../../shared/directives/form-field-validation";
 
 @NgModule({
-  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NzInputModule, NgIf, NzButtonModule, NgForOf, NzIconModule],
+  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NzInputModule, NgIf, NzButtonModule, NgForOf, NzIconModule, FormFieldValidationDirective, ReactiveFormsModule],
   declarations: [RoomServiceComponent, RoomServiceCreateComponent, RoomServiceDetailComponent],
   exports: [RoomServiceComponent]
 })

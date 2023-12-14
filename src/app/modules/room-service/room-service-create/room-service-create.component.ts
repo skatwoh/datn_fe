@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectService} from "../../project/service/project.service";
 import {RoomServiceModel} from "../../../models/room-service.model";
 import {RoomServiceService} from "../service/room-service.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'cons-room-service-create',
@@ -18,29 +18,34 @@ export class RoomServiceCreateComponent implements OnInit{
     trangThai: 0
   };
   submitted = false;
+  // @ts-ignore
+  submitForm: FormGroup;
 
-  constructor(private roomSerivceSerivce: RoomServiceService) {}
+  constructor(private roomSerivceSerivce: RoomServiceService, private fb: FormBuilder) {
+    this.submitForm = this.fb.group({
+      tenDichVu: ['',Validators.required],
+      ghiChu: ['', Validators.required],
+      giaDichVu: new FormControl(null, Validators.compose([ Validators.nullValidator, Validators.min(1000), Validators.max(100000000000)])),
+    });
+  }
 
   ngOnInit() {
     console.log(this.roomservice);
   }
 
 
-  saveRoomSerivce(): void {
-    const data = {
-      ma: this.roomservice.ma,
-      tenDichVu: this.roomservice.tenDichVu,
-      ghiChu: this.roomservice.ghiChu,
-      giaDichVu: this.roomservice.giaDichVu,
-      trangThai: 1
-    };
+  saveRoomService(): void {
+    if (this.submitForm.valid) {
+      const data = this.submitForm.value;
 
-    this.roomSerivceSerivce.create(data).subscribe({
-      next: (res) => {
-        this.submitted = true;
-      },
-      error: (e) => console.error(e)
-    });
+      this.roomSerivceSerivce.create(data).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+        },
+        error: (e) => console.error(e)
+      });
+    }
   }
 
   newRoomService(): void {

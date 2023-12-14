@@ -4,7 +4,7 @@ import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {NzTableModule} from "ng-zorro-antd/table";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzFormModule} from "ng-zorro-antd/form";
@@ -15,11 +15,12 @@ import {ProjectCreateComponent} from "./project-create/project-create.component"
 import {ProjectComponent} from "./project.component";
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {FormFieldValidationDirective} from "../../shared/directives/form-field-validation";
 
 
 @NgModule({
   imports: [ProjectRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule],
+    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, FormFieldValidationDirective, ReactiveFormsModule],
   declarations: [ProjectComponent, ProjectCreateComponent, ProjectDetailComponent],
   exports: [ProjectComponent]
 })

@@ -1,63 +1,51 @@
 <div>
-  <div class="submit-form">
-    <div *ngIf="!submitted">
-      <nz-form-item>
-        <nz-form-label nzFor="ma">Mã Dự Án: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="project.ma" />
-        </nz-form-control>
-      </nz-form-item>
+    <form consFormFieldValidation [formGroup]="submitForm" (ngSubmit)="saveProject()">
       <nz-form-item>
         <nz-form-label nzFor="ten">Tên: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên">
-          <input nz-input type="text" id="ten" name="ten" [(ngModel)]="project.ten"/>
+          <input nz-input type="text" id="ten" name="ten" formControlName="ten"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="tienDo">Tiến Độ: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tiến độ">
-          <input nz-input type="number" id="tienDo" name="tienDo" [(ngModel)]="project.tienDo"/>
+          <input nz-input type="number" id="tienDo" name="tienDo" formControlName="tienDo"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="chiPhi">Chi Phí: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập chi phí">
-          <input nz-input type="number" id="chiPhi" name="chiPhi" [(ngModel)]="project.chiPhi"/>
+        <nz-form-control nzErrorTip="Chi phi phai lon hon 0">
+          <input nz-input type="number" id="chiPhi" name="chiPhi" formControlName="chiPhi"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
       <nz-form-label nzFor="ngayBatDau">Ngày Bắt Đầu: </nz-form-label>
       <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
-        <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="project.ngayBatDau"/>
+        <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" formControlName="ngayBatDau"/>
       </nz-form-control>
     </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="ngayKetThuc">Ngày Kết Thúc: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
-          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="project.ngayKetThuc"/>
+          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" formControlName="ngayKetThuc"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzFor="ghiChu">Ghi Chú: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="project.ghiChu"/>
+          <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
         </nz-form-control>
       </nz-form-item>
-
-
-
       <br>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" (click)="saveProject()">Thêm</button>
+          <button nz-button nzType="primary" style="width: 100%">Thêm</button>
         </nz-form-control>
       </nz-form-item>
-    </div>
-
-    <div *ngIf="submitted">
-      <h1>Thêm thành công!</h1><br>
-      <button nz-button nzType="primary" (click)="newProject()">Add</button><br><br>
-      <a nz-button nzType="primary" routerLink="/admin/project">Trở về</a>
-    </div>
-  </div>
+      <div *ngIf="submitted">
+        <h1>Thêm thành công!</h1><br>
+        <button nz-button nzType="primary" (click)="newProjectService">Add</button><br><br>
+        <a nz-button nzType="primary" routerLink="/admin/room-service">Trở về</a>
+      </div>
+    </form>
 </div>
