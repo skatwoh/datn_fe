@@ -20,7 +20,7 @@ export class MaintenanceComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
-
+  form: FormGroup;
   // detail
   id: number | undefined;
   // roomModel!: RoomModel;
@@ -36,6 +36,9 @@ export class MaintenanceComponent implements OnInit{
   }
 
   handleOk(): void {
+    if (!this.form.valid) {
+      return;
+    }
     this.isOkLoading = true;
     this.updateRoom();
     setTimeout(() => {
@@ -48,8 +51,14 @@ export class MaintenanceComponent implements OnInit{
     this.isVisible = false;
   }
   constructor(private maintenanceService: MaintenanceService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService ) {
-
+              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
+              private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      ngayBatDau: [''],
+      ngayKetThuc: [''],
+      chiPhiBaoTri: [0],
+      ghiChu: ['']
+    })
   }
 
   private getMaintenance(): void {

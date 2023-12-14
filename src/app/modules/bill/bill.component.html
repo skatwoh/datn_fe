@@ -120,7 +120,7 @@
         {{ data.tenKhachHang }}
       </td>
       <td class="px-12 py-4" style="display: flex">
-        <div class="btn-info">
+        <div *ngIf="data.trangThai != 4" class="btn-info">
           <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
           <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
@@ -129,6 +129,9 @@
             <ul nz-menu>
               <li *ngIf="data.trangThai != 0" (click)="updateStatus(data.id)" nz-menu-item class="hover:bg-blue-400">
                 Xác nhận thanh toán
+              </li>
+              <li nz-menu-item  *ngIf="data.trangThai != 3" (click)="huyHoaDon(data.id)" class="hover:bg-yellow-500">
+                Thanh toán sau
               </li>
               <li nz-menu-item  *ngIf="data.trangThai != 4" (click)="huyHoaDon(data.id)" class="hover:bg-red-500">
                 Hủy hóa đơn

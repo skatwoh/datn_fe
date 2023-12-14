@@ -17,6 +17,7 @@ import {AccountModel} from "../../account/models/account.model";
 import {BillService} from "../../bill/bill.service";
 import {VoucherModel} from "../../../models/voucher.model";
 import {VoucherService} from "../../voucher/services/voucher.service";
+import {BillModel} from "../../../models/bill.model";
 
 @Component({
   selector: 'cons-room-manager-details',

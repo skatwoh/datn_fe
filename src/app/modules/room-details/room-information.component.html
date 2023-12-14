@@ -106,49 +106,44 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzOkDisabled]="form.invalid"
 >
   <ng-container *nzModalContent>
-    <div *ngIf="currentRoom" class="edit-form">
+    <div *ngIf="currentRoom" [formGroup]="form" class="edit-form">
       <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="tang">Tầng </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tầng">
-          <input nz-input type="text" id="tang" name="tang" [(ngModel)]="currentRoom.tang"/>
+          <input nz-input type="text" formControlName="tang" id="tang" name="tang" [(ngModel)]="currentRoom.tang" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="tienIch">Tiện ích </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
-          <input nz-input type="text" id="tienIch" name="tienIch" [(ngModel)]="currentRoom.tienIch"/>
+          <input nz-input type="text" formControlName="tienIch" id="tienIch" name="tienIch" [(ngModel)]="currentRoom.tienIch" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="dichVu">Dịch vụ </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
-          <input nz-input type="text" id="dichVu" name="dichVu" [(ngModel)]="currentRoom.dichVu"/>
+          <input nz-input type="text" formControlName="dichVu" id="dichVu" name="dichVu" [(ngModel)]="currentRoom.dichVu" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="soLuongNguoi">Số lượng người </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
-          <input nz-input type="number" id="soLuongNguoi" name="soLuongNguoi" [(ngModel)]="currentRoom.soLuongNguoi"/>
+          <input nz-input type="number" formControlName="soLuongNguoi" id="soLuongNguoi" name="soLuongNguoi" [(ngModel)]="currentRoom.soLuongNguoi" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="dienTich">Diện tích </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập diện tích">
-          <input nz-input type="number" id="dienTich" name="dienTich" [(ngModel)]="currentRoom.dienTich"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label style="width: 110px" nzFor="dienTich">Trạng thái </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập trạng thái">
-          <input nz-input type="number" id="trangThai" name="trangThai" [(ngModel)]="currentRoom.trangThai"/>
+          <input nz-input type="number" formControlName="dienTich" id="dienTich" name="dienTich" [(ngModel)]="currentRoom.dienTich" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
       <nz-form-label style="width: 110px" nzFor="phong">Mã phòng </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-      <input nz-input type="text" id="idPhong" name="idPhong" [(ngModel)]="currentRoom.maPhong" readonly/>
+      <input nz-input type="text" value="{{currentRoom.maPhong}}" readonly/>
         </nz-form-control>
       </nz-form-item>
     </div>
