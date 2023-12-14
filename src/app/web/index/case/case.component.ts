@@ -24,4 +24,13 @@ export class CaseComponent implements OnInit{
       }
     })
   }
+
+  getTooltipContent(room: RoomMappingCtpModel): string {
+    return `
+      Số lượng người: ${room.soLuong} -
+      Giá phòng: ${room.giaPhong} VND -
+      ${room.tenLoaiPhong}
+   `;
+  }
+
 }
