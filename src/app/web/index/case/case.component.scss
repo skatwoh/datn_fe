@@ -6,13 +6,18 @@
 
 .room-card {
   width: 100px; /* Adjust the width as needed */
-  height: 100px; /* Adjust the height as needed */
+  height: 120px; /* Adjust the height as needed */
   margin: 5px;
-  display: flex;
+  border-radius: 20px;
   align-items: center;
+  text-align: center;
   justify-content: center;
   border: 1px solid #ccc;
   cursor: pointer;
+}
+
+.room-card:hover {
+  scale: 1.1;
 }
 
 .floor-1 {
@@ -23,4 +28,26 @@
   background-color: #99ff99; /* Color for floor 2 */
 }
 
-/* Add more styles for other floors as needed */
+.floor-3 {
+  background-color: #99e0ff;
+}
+
+.floor-4 {
+  background-color: #9999ff;
+}
+
+.floor-5 {
+  background-color: #ff99ff;
+}
+
+.floor-6 {
+  background-color: #99ffff;
+}
+
+.floor-7 {
+  background-color: #ffc499;
+}
+
+.floor-8 {
+  background-color: #ffdf99;
+}

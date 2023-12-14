@@ -8,12 +8,12 @@
     <div class="sidebar-logo">
 <!--      <a href="" target="_blank">-->
       <a href="/admin/dashboard">
-        <img src="assets/logo.png" alt="logo">
-        <h1>Éternel Hotel</h1>
+        <img src="assets/logo-main.png" alt="logo">
+        <h1>Neljä viisi</h1>
       </a>
     </div>
     <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed" *ngIf="(user$ | async) as user">
-      <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard">
+      <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/dashboard">Thống kê</a>
@@ -35,7 +35,7 @@
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room-manager">Đặt phòng</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
+          <li nz-menu-item nzMatchRouter *ngIf="user.role === 'admin'">
             <a routerLink="/admin/voucher">Voucher</a>
           </li>
         </ul>
@@ -47,7 +47,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý phòng" nzIcon="database">
+      <li nz-submenu nzTitle="Quản lý phòng" nzIcon="database" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room">Phòng</a>
@@ -70,7 +70,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý bảo trì" nzIcon="database">
+      <li nz-submenu nzTitle="Quản lý bảo trì" nzIcon="database" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/maintenance">Bảo trì</a>
@@ -78,7 +78,7 @@
 
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý đối tác" nzIcon="database">
+      <li nz-submenu nzTitle="Quản lý đối tác" nzIcon="database" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/partner">Đối tác</a>
@@ -86,14 +86,14 @@
 
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý Dự Án" nzIcon="customer-service">
+      <li nz-submenu nzTitle="Quản lý Dự Án" nzIcon="customer-service" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/project"> Dự Án </a>
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý dịch vụ và tài sản" nzIcon="customer-service">
+      <li nz-submenu nzTitle="Quản lý dịch vụ và tài sản" nzIcon="customer-service" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room-service"> Dịch Vụ </a>
@@ -103,7 +103,7 @@
           </li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Quản lý sự kiện" nzIcon="schedule">
+      <li nz-submenu nzTitle="Quản lý sự kiện" nzIcon="schedule" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/sale"> Sự kiện </a>
