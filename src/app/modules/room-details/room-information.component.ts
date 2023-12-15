@@ -6,6 +6,7 @@ import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'cons-room-details',
@@ -18,6 +19,7 @@ export class RoomInformationComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
+  form: FormGroup;
 
   // detail
   id: number | undefined;
@@ -34,6 +36,9 @@ export class RoomInformationComponent implements OnInit{
   }
 
   handleOk(): void {
+    if (!this.form.valid) {
+      return;
+    }
     this.isOkLoading = true;
     this.updateRoomInformation();
     setTimeout(() => {
@@ -45,7 +50,19 @@ export class RoomInformationComponent implements OnInit{
   handleCancel(): void {
     this.isVisible = false;
   }
-  constructor(private roomInformationService: RoomInformationService, private router: Router, private http: HttpClient, private messageNoti: NzMessageService) { }
+  constructor(private roomInformationService: RoomInformationService,
+              private router: Router,
+              private http: HttpClient,
+              private messageNoti: NzMessageService,
+              private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      tang: [''],
+      tienIch: [''],
+      dichVu: [''],
+      soLuongNguoi: [0],
+      dienTich: [0]
+    })
+  }
 
   private getRoomInformation(): void {
     this.roomInformationService.getRoomInformationList(1, 50).subscribe(res => {

@@ -28,6 +28,7 @@ import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
+import {CaseModule} from "./case/case.module";
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import {CommentModule} from "./comment/comment/comment.module";
         NzTabsModule,
         PaymentModuleModule,
         CommentModule,
+        CaseModule,
     ]
 })
 export class IndexModule {

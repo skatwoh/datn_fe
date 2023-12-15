@@ -85,26 +85,27 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzOkDisabled]="form.invalid"
 >
   <ng-container *nzModalContent>
-    <div *ngIf="currentRoomType" class="edit-form">
+    <div *ngIf="currentRoomType" [formGroup]="form" class="edit-form">
       <nz-form-item>
         <nz-form-label nzFor="maLoaiPhong" style="width: 100px">Mã loại phòng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="maLoaiPhong" name="maLoaiPhong" [(ngModel)]="currentRoomType.maLoaiPhong"
+          <input nz-input type="text" value="{{currentRoomType.maLoaiPhong}}"
                  disabled/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 100px" nzFor="tenLoaiPhong">Tên loại phòng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên loại phòng">
-          <input nz-input type="text" id="tenLoaiPhong" name="tenLoaiPhong" [(ngModel)]="currentRoomType.tenLoaiPhong"/>
+          <input nz-input type="text" formControlName="tenLoaiPhong" id="tenLoaiPhong" name="tenLoaiPhong" [(ngModel)]="currentRoomType.tenLoaiPhong" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label style="width: 100px" nzFor="ghiChu">Ghi chú</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi Chú">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="currentRoomType.ghiChu"/>
+          <input nz-input type="text" formControlName="ghiChu" id="ghiChu" name="ghiChu" [(ngModel)]="currentRoomType.ghiChu" required/>
         </nz-form-control>
       </nz-form-item>
     </div>

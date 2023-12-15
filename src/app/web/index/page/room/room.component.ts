@@ -35,6 +35,8 @@ export class RoomComponent implements OnInit{
   animationState: string = 'initial';
   soLuongNguoi: string = '';
   tenLoaiPhong :string = '';
+  minGia : string = '';
+  maxGia : string = '';
   checkIn :string = '';
   checkOut :string = '';
   message :string = '';
@@ -45,6 +47,7 @@ export class RoomComponent implements OnInit{
   }
 
   selectedCount = 0;
+  isVisible = false;
 
   updateSelectedCount(event: any) {
     if (event.target.checked) {
@@ -71,6 +74,20 @@ export class RoomComponent implements OnInit{
         this.room= res.content;
       }
     })
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 
   private image(): void {
@@ -103,6 +120,8 @@ export class RoomComponent implements OnInit{
     this.tenLoaiPhong = loaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
+    console.log(this.minGia);
+    console.log(this.maxGia);
       this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
@@ -110,12 +129,30 @@ export class RoomComponent implements OnInit{
         }
       })
   }
+
+  searchByPrice(): void {
+    const minGiaElement = document.getElementById('minGia') as HTMLInputElement;
+    const maxGiaElement = document.getElementById('maxGia') as HTMLInputElement;
+    this.minGia = minGiaElement.value;
+    this.maxGia = maxGiaElement.value;
+    console.log(this.minGia);
+    console.log(this.maxGia);
+    this.homeService.getListByPrice(1, 50, this.minGia, this.maxGia).subscribe(res => {
+      if (res && res.content) {
+        this.room = res.content;
+        // this.updateUrlWithSearchParams();
+      }
+    })
+  }
+
     private updateUrlWithSearchParams(): void {
         const queryParams = {
           soLuongNguoi: this.soLuongNguoi,
           tenLoaiPhong: this.tenLoaiPhong,
           checkIn: this.checkIn,
           checkOut: this.checkOut,
+          minGia: this.minGia,
+          maxGia: this.maxGia,
         };
         // Update URL without triggering a navigation
         this.router.navigate([], {
@@ -134,11 +171,13 @@ export class RoomComponent implements OnInit{
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.route.queryParams.subscribe((params) => {
-      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi']) {
+      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi'] || params['minGia'] || params['maxGia']) {
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
         this.soLuongNguoi = params['soLuongNguoi'];
+        this.minGia = params['minGia'];
+        this.maxGia = params['maxGia'];
         this.getRoomsSearch();
       } else {
         this.getRooms();

@@ -28,10 +28,10 @@ export class BillService{
     return this.http.get<any>(`${API_AU_URL}/detail`, {params});
   }
 
-  updateStatus(id: any, data: number): Observable<any> {
-    const params = {id};
-    return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
-  }
+  // updateStatus(id: any, data: number): Observable<any> {
+  //   const params = {id};
+  //   return this.http.put<any>(`${API_AU_URL}/delete`, data, {params});
+  // }
 
   create(data: any): Observable<any> {
     return this.http.post(`${API_AU_URL}/create`, data);
@@ -43,6 +43,11 @@ export class BillService{
 
   updateTongTien(data: any): Observable<any> {
     return this.http.put(`${API_AU_URL}/update-tong-tien`, data);
+  }
+
+  updateStatus(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put<any>(`${API_AU_URL}/update-status`, data, {params});
   }
 
   exportPDF(id:any): Observable<any> {
