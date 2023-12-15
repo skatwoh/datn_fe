@@ -131,14 +131,8 @@
         </div>
       </td>
       <td class="px-12 py-4" style="display: flex">
-        <div>
-          <a href="admin/voucher/voucher-details/{{ data.id }}"
-             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-          </a>
-        </div>
-        <div class="btn-info" (click)="showModal(data.id)">
-          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)">
+          <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
         </div>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="btn-status-stop" (click)="updateVoucherStatus(data.id, 0)">
@@ -163,49 +157,49 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
-
+  [nzOkDisabled]="form.invalid"
 >
   <ng-container *nzModalContent>
-    <div *ngIf="currentVoucher" class="edit-form">
+    <div *ngIf="currentVoucher" [formGroup]="form" class="edit-form">
       <nz-form-item>
         <nz-form-label nzFor="ma">Mã Voucher </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentVoucher.ma" disabled/>
+          <input nz-input type="text" value="{{currentVoucher.ma}}" readonly/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="moTa">Mô Tả </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="moTa" name="moTa" [(ngModel)]="currentVoucher.moTa" required/>
+          <input nz-input type="text" formControlName="moTa" id="moTa" name="moTa" [(ngModel)]="currentVoucher.moTa" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="giaPhong">Giá giảm </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="number" min="0" id="giamGia" name="giamGia" [(ngModel)]="currentVoucher.giamGia" required/>
+          <input nz-input type="number" formControlName="giamGia" min="0" id="giamGia" name="giamGia" [(ngModel)]="currentVoucher.giamGia" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="ngayBatDau">Ngày bắt đầu </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
-          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentVoucher.ngayBatDau" required/>
+          <input nz-input type="date" id="ngayBatDau" formControlName="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentVoucher.ngayBatDau" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="ngayKetThuc">Ngày kết thúc </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
-          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="currentVoucher.ngayKetThuc" required/>
+          <input nz-input type="date" id="ngayKetThuc" formControlName="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="currentVoucher.ngayKetThuc" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="soLuong">Số lượng </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
-          <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="currentVoucher.soLuong" required/>
+          <input nz-input type="number" id="soLuong" formControlName="soLuong" name="soLuong" [(ngModel)]="currentVoucher.soLuong" required/>
         </nz-form-control>
       </nz-form-item>
     </div>

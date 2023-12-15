@@ -7,6 +7,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MustMatch} from "../../../../shared/utils";
 import {UserModel} from "../../../../auth/models/user.model";
 import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-profile',
@@ -25,7 +26,7 @@ export class ProfileComponent implements OnInit{
   countRoom: number | undefined;
 
   constructor(private authService: AuthService, private service: ServiceService, private fb: FormBuilder,
-              private roomOrderService: ListRoomOrderService) {
+              private roomOrderService: ListRoomOrderService, private mess : NzMessageService) {
     this.user$ = this.authService.currentUser$;
   }
 
@@ -69,7 +70,8 @@ export class ProfileComponent implements OnInit{
     if(form.valid) {
       const data: UpdatePasswordModel = form.value;
       this.service.updatePassword(data).subscribe((res) => {
-          this.isVisible = false;
+          this.mess.success('Bạn đã đổi mật khẩu thành công');
+        this.isVisible = false;
       })
     }
   }

@@ -3,6 +3,7 @@ import {RoomTypeModel} from '../../models/room-type.model';
 import {RoomTypeService} from './services/room-type.service';
 import {Router} from '@angular/router';
 import {NzMessageService} from "ng-zorro-antd/message";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'cons-room-type',
@@ -15,10 +16,17 @@ export class RoomTypeComponent implements OnInit{
   isVisible = false;
   isOkLoading = false;
   currentRoomType!: RoomTypeModel;
+  form: FormGroup;
   // detail
   id: number | undefined;
   constructor(private roomTypeService: RoomTypeService, private router: Router,
-              private messageNoti: NzMessageService) { }
+              private messageNoti: NzMessageService,
+              private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+      tenLoaiPhong: [''],
+      ghiChu: ['']
+    })
+  }
 
   showModal(id: any): void {
     this.isVisible = true;
@@ -30,6 +38,9 @@ export class RoomTypeComponent implements OnInit{
   }
 
   handleOk(): void {
+    if (!this.form.valid) {
+      return;
+    }
     this.isOkLoading = true;
     this.updateRoomType();
     setTimeout(() => {

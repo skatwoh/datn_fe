@@ -18,10 +18,12 @@ import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzRateModule} from "ng-zorro-antd/rate";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {IndexModule} from "../../web/index/index.module";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzWaveModule} from "ng-zorro-antd/core/wave";
 
 
 @NgModule({
-  imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule, DatePipe, NzToolTipModule, IndexModule],
+    imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule, DatePipe, NzToolTipModule, IndexModule, NzButtonModule, NzWaveModule],
   declarations: [RoomManagerComponent, RoomManagerCreateComponent, RoomManagerDetailsComponent],
   exports: [RoomManagerComponent]
 })
