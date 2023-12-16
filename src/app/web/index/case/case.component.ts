@@ -1,6 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {CaseService} from "./case.service";
 import {RoomMappingCtpModel} from "../../../models/room-mapping-ctp.model";
+import {RoomListModel} from "../../../models/room-list.model";
+import {AuthService} from "../../../auth/services";
+import {UserModel} from "../../../auth/models/user.model";
+import {BillService} from "../../../modules/bill/bill.service";
+import * as moment from 'moment';
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-case',
@@ -10,11 +16,25 @@ import {RoomMappingCtpModel} from "../../../models/room-mapping-ctp.model";
 export class CaseComponent implements OnInit{
 
   rooms: RoomMappingCtpModel[] = [];
+  bookings: RoomListModel[] = [];
+  user: UserModel | undefined;
+  checkInDate: string = '';
+  checkOutDate: string = '';
+  show = true;
 
-  constructor(private caseService: CaseService) {}
+  constructor(private caseService: CaseService, private authService: AuthService, private billService: BillService,
+              private message: NzMessageService) {
+    this.user = this.authService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.getRoomOfFloar();
+  }
+
+  test() {
+    if (this.checkInDate !== '') {
+      console.log(this.checkInDate);
+    }
   }
 
   getRoomOfFloar(): void {
@@ -33,4 +53,67 @@ export class CaseComponent implements OnInit{
    `;
   }
 
+  addToBookingList(room: any): void {
+    const checkInDate = new Date(this.checkInDate);
+    const checkOutDate = new Date(this.checkOutDate);
+
+    const oneDay = 24 * 60 * 60 * 1000;
+    const numberOfDays = Math.round(Math.abs((checkOutDate.getTime() - checkInDate.getTime()) / oneDay));
+
+    const booking: RoomListModel = {
+      userId: this.user?.id,
+      idPhong: room.id,
+      checkIn: checkInDate.toISOString(),
+      checkOut: checkOutDate.toISOString(),
+      soNguoi: 0,
+      tongGia: room.giaPhong * numberOfDays,
+      trangThai: 1
+    };
+
+    this.bookings.push(booking);
+  }
+
+
+
+  removeFromBookingList(index: number): void {
+    this.bookings.splice(index, 1);
+  }
+
+  createBill(): void {
+    const data = {
+      tongTien: this.getTotalTongGia(),
+      idKhachHang: this.user?.id
+    }
+    this.billService.createOrUpdate(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
+  getTotalTongGia(): number {
+    return this.bookings.reduce((total, booking) => total + (booking.tongGia || 0), 0);
+  }
+
+  onSubmit(): void {
+    if (this.checkInDate > this.checkOutDate) {
+      this.message.warning("Ngày nhận phòng phải nhỏ hơn ngày trả phòng");
+    } else if (this.bookings.length === 0) {
+      this.message.warning("Vui lòng chọn phòng");
+    } else {
+      this.createBookingsAPI();
+    }
+  }
+
+  createBookingsAPI(): void {
+    this.createBill();
+    setTimeout(() => {
+      console.log('Calling createBookings API...');
+      console.log('Bookings:', this.bookings);
+
+      this.caseService.createBookings(this.bookings)
+          .subscribe(
+              response => console.log('API Response:', response),
+              error => console.error('API Error:', error)
+          );
+    }, 500);
+  }
 }
