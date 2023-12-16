@@ -56,22 +56,19 @@
         Mã phòng
       </th>
       <th scope="col" class="px-6 py-3">
-        Số điện thoại
-      </th>
-      <th scope="col" class="px-6 py-3">
         Ngày nhận phòng
       </th>
       <th scope="col" class="px-6 py-3">
         Ngày trả phòng
       </th>
       <th scope="col" class="px-6 py-3">
-        Tên khách hàng
+        Khách hàng
       </th>
       <th scope="col" class="px-6 py-3">
         Trạng thái
       </th>
       <th scope="col" class="px-6 py-3">
-        Tổng thanh toán
+        Tổng tiền
       </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
@@ -86,9 +83,6 @@
       </td>
       <td class="px-6 py-4">
         {{ data.tenPhong }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.sdt }}
       </td>
       <td class="px-6 py-4">
         {{ data.checkIn | date: APP_DATE }}
