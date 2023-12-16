@@ -27,6 +27,7 @@
     "chart.js": "^4.4.1",
     "exceljs": "^4.3.0",
     "gh-pages": "^6.0.0",
+    "moment": "^2.29.4",
     "ng-zorro-antd": "^16.2.2",
     "ng2-charts": "^5.0.4",
     "primeicons": "6.0.1",

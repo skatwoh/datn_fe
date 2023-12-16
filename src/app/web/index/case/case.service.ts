@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 const API_AU_URL = `${environment.apiUrl}/phong`;
+const API = `${environment.apiUrl}/dat-phong`;
 @Injectable({
   providedIn: 'root'
 })
@@ -20,5 +21,17 @@ export class CaseService {
       }
       return null;
     }));
+  }
+
+  createBookings(datPhongDTOList: any[]): Observable<any> {
+    return this.http.post<any>(`${API}/create-list-room-order`, datPhongDTOList)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred', error);
+    return new Observable<never>();
   }
 }
