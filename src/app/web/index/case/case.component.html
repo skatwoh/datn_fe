@@ -2,7 +2,7 @@
   <div>
     <input type="date" placeholder="Ngày nhận phòng" id="checkIn1" class="px-3 py-2 border rounded-md" [(ngModel)]="checkInDate" (ngModelChange)="test()">
     -->
-    <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md" [(ngModel)]="checkOutDate">
+    <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md" [(ngModel)]="checkOutDate" (ngModelChange)="test()">
     <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" style="margin-left: 10px">
       <span nz-icon nzType="inbox" style="font-size: 32px;"></span>
     </a>
