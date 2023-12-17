@@ -11,6 +11,7 @@
 </nz-page-header>
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <button nz-button nzType="primary" (click)="open()">Thêm mới</button>
   <nz-table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" #tableData [nzData]="sale">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
@@ -81,3 +82,59 @@
     </tbody>
   </nz-table>
 </div>
+
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Thêm mới sự kiện"
+  [nzFooter]="footerTpl"
+  (nzOnClose)="close()"
+>
+  <form nz-form *nzDrawerContent>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Tên</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" placeholder="Nhập tên" name="ten" [(ngModel)]="sales.ten"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Giá trị</nz-form-label>
+          <nz-form-control>
+              <input type="number" nz-input placeholder="Nhập giá trị" name="giaTri" [(ngModel)]="sales.giaTri" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Ngày bắt đầu</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng chọn ngày bắt đầu">
+            <input type="datetime-local" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="sales.ngayBatDau">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control>
+            <input type="datetime-local" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="sales.ngayKetThuc">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+
+  <ng-template #footerTpl>
+    <div style="float: right">
+      <button nz-button style="margin-right: 8px;" (click)="close()">Cancel</button>
+      <button nz-button nzType="primary" (click)="createSale()">Submit</button>
+    </div>
+  </ng-template>
+</nz-drawer>

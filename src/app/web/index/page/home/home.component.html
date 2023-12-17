@@ -73,6 +73,22 @@
 
   <section class = "py-16 px-3 bg-neutral-50">
     <div class="container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Các phòng đặt nhiều nhất</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
+      </div>
+
+      <div class = "grid sm:grid-cols-2 lg:grid-cols-3 gap-[4px] mt-1">
+        <a *ngFor="let data of roomBooking" href = "/room-detail/{{data.id}}" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
+          <img src = "../assets/images/room-1.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">Phòng {{data.ma}}</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class = "py-16 px-3 bg-neutral-50">
+    <div class="container max-w-[1200px] mx-auto">
       <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Rooms & Suites</h2>
       <div class="flex items-center justify-center">
         <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
@@ -329,22 +345,6 @@
     </div>
   </section>
 </div>
-
-<section class = "py-16 px-3 bg-neutral-50">
-  <div class="container max-w-[1200px] mx-auto">
-    <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Các phòng đặt nhiều nhất</h2>
-    <div class="flex items-center justify-center">
-      <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
-    </div>
-
-    <div class = "grid sm:grid-cols-2 lg:grid-cols-3 gap-[4px] mt-1">
-      <a *ngFor="let data of roomBooking" href = "/room-detail/{{data.id}}" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
-        <img src = "../assets/images/room-1.png" class = "w-full h-full object-cover" alt = "">
-        <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">Phòng {{data.ma}}</div>
-      </a>
-    </div>
-  </div>
-</section>
 
 <script>
   const checkInInput = document.getElementById('checkIn');

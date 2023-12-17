@@ -10,7 +10,7 @@
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu *ngFor="let booking of bookings; let i = index">
         <li nz-menu-item>
-          {{ booking.idPhong }}
+          {{ booking.ma }}
           <button class="inline-flex items-center justify-center w-8 h-8 mr-2 text-pink-100 transition-colors duration-150
           bg-pink-700 rounded-lg focus:shadow-outline hover:bg-pink-800" (click)="removeFromBookingList(i)">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
