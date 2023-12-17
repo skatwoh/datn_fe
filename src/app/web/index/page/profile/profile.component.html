@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" [formGroup]="form" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(form)">
+<nz-modal [(nzVisible)]="isVisible" [formGroup]="form" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(form)" nzWidth="350px">
   <ng-container *nzModalContent>
     <div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
          role="alert">

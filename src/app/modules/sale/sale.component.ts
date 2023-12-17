@@ -11,6 +11,15 @@ import {NzMessageService} from "ng-zorro-antd/message";
 export class SaleComponent implements OnInit{
     sale: SaleModel[] = [];
   saleModel!: SaleModel;
+  sales : SaleModel = {
+    id: 0, ma: undefined, trangThai: undefined,
+    ten: '',
+    giaTri: 0,
+    ngayBatDau: '',
+    ngayKetThuc: ''
+  };
+
+  visible = false;
 
     constructor(private saleService: SaleService, private message: NzMessageService) {
     }
@@ -18,6 +27,14 @@ export class SaleComponent implements OnInit{
     ngOnInit() {
       this.listSale();
     }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
 
    listSale(): void {
     this.saleService.listSale(1, 50).subscribe(res => {
@@ -46,4 +63,25 @@ export class SaleComponent implements OnInit{
         },
       });
   }
+
+  createSale(): void {
+      const data = {
+        ten: this.sales.ten,
+        giaTri: this.sales.giaTri,
+        ngayBatDau: this.sales.ngayBatDau,
+        ngayKetThuc: this.sales.ngayKetThuc,
+      }
+    this.saleService.create(data).subscribe({
+      next: (res) => {
+        this.message.success("Sự kiện " + data.ten + " đã được tạo!");
+        this.listSale();
+        this.visible = false;
+      },
+      error: (error) => {
+        this.message.error("Đã xảy ra lỗi khi tạo sự kiện.");
+        console.error(error);
+      },
+    });
+  }
+
 }

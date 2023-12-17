@@ -77,6 +77,16 @@ export class RoomService{
     return this.http.delete(`${API_AU_URL}/${id}`);
   }
 
+  getRoomBySearch(page: number, size: number, searchInput: string): Observable<any> {
+    const params = {page, size, searchInput};
+    return this.http.get<any>(`${API_AU_URL}/get-room-by-string`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   // singleListRoomType() {
   //   this.http.get<any>(`${API_AU_URL}`).subscribe(data => {
   //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType

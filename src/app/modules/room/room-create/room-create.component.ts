@@ -60,8 +60,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.submitForm = this.fb.group({
-      giaPhong: new FormControl(null, Validators.compose([Validators.nullValidator, Validators.min(1000), Validators.max(100000000000)])),
-      idLoaiPhong: new FormControl(null, Validators.compose([Validators.nullValidator])),
+      giaPhong: new FormControl('', Validators.compose([Validators.min(100000), Validators.max(100000000000)])),
+      idLoaiPhong: ['']
 
     })
   }

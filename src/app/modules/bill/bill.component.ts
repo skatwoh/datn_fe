@@ -3,6 +3,9 @@ import {BillModel} from "../../models/bill.model";
 import {BillService} from "./bill.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {RoomModel} from "../../models/room.model";
+import {RoomOrder} from "../../models/room-order";
+import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'cons-bill',
@@ -12,8 +15,13 @@ import {RoomModel} from "../../models/room.model";
 export class BillComponent implements OnInit{
   bill: BillModel[] = [];
   currentBill!: BillModel;
-
-  constructor(private billService: BillService, private http: HttpClient) {
+  roomOrder: RoomOrder[] = [];
+  roomOrderModel!: RoomOrder;
+  billModel!: BillModel;
+  isVisible = false;
+  date : Date = new Date();
+  check = false;
+  constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService) {
   }
 
   private getBills(): void {
@@ -42,6 +50,33 @@ export class BillComponent implements OnInit{
     })
   }
 
+  updateStatusRoomOrder(id: any, trangThai: any){
+    this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+      this.roomOrderModel = data;
+      this.checkDate();
+      this.billService.updateStatusRoomOrder(id, trangThai).subscribe({
+        next: (res) => {
+          this.roomOrderModel.trangThai = trangThai;
+          this.billService.getDatPhongByHoaDon(1, 50, this.roomOrderModel.idHoaDon).subscribe(res => {
+            if (res && res.content) {
+              this.roomOrder = res.content;
+            }
+          })
+          console.log(res);
+        },
+      })
+    });
+
+  }
+
+  checkDate(){
+    if ((this.roomOrderModel.checkIn ?? '') > this.date.toISOString()){
+      this.check = true;
+    }else{
+      this.check = false;
+    }
+  }
+
   huyHoaDon(id: any){
     this.billService.get(id).subscribe((data: BillModel) => {
       this.currentBill = data;
@@ -50,6 +85,20 @@ export class BillComponent implements OnInit{
     this.billService.updateStatus(id, 4).subscribe({
       next: (res) => {
         this.currentBill.trangThai = 4;
+        this.getBills();
+        console.log(res);
+      },
+    })
+  }
+
+  thanhToanSau(id: any){
+    this.billService.get(id).subscribe((data: BillModel) => {
+      this.currentBill = data;
+      console.log(this.currentBill);
+    });
+    this.billService.updateStatus(id, 3).subscribe({
+      next: (res) => {
+        this.currentBill.trangThai = 3;
         this.getBills();
         console.log(res);
       },
@@ -71,6 +120,22 @@ export class BillComponent implements OnInit{
         downloadLink.download = 'hoa_don_dat_phong.pdf';
         downloadLink.click();
       });
+  }
+
+  showChiTiet(id: any){
+    this.isVisible = true;
+    this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
+      if (res && res.content) {
+        // this.billService.get(res.content[0].idHoaDon).subscribe(data => {
+        //   this.billModel = data;
+        // })
+        this.roomOrder = res.content;
+      }
+    })
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
   }
 
 }

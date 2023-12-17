@@ -1,7 +1,31 @@
-
+<nav style="width: 100%; height: 60px; border-bottom: 1px solid #DA5447">
+  <div>
+    <input type="date" placeholder="Ngày nhận phòng" id="checkIn1" class="px-3 py-2 border rounded-md" [(ngModel)]="checkInDate" (ngModelChange)="test()">
+    -->
+    <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md" [(ngModel)]="checkOutDate" (ngModelChange)="test()">
+    <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" style="margin-left: 10px">
+      <span nz-icon nzType="inbox" style="font-size: 32px;"></span>
+    </a>
+    <nz-badge nzStandalone [nzCount]="show ? bookings.length : 0" [nzStyle]="{ backgroundColor: '#52c41a' }"></nz-badge>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu *ngFor="let booking of bookings; let i = index">
+        <li nz-menu-item>
+          {{ booking.ma }}
+          <button class="inline-flex items-center justify-center w-8 h-8 mr-2 text-pink-100 transition-colors duration-150
+          bg-pink-700 rounded-lg focus:shadow-outline hover:bg-pink-800" (click)="removeFromBookingList(i)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </nz-dropdown-menu>
+    <button style="float: right" (click)="onSubmit()" [ngClass]="{'hidden': bookings.length === 0}" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium rounded-full">Đặt phòng</button>
+  </div>
+</nav>
 <div class="grid grid-cols-5 gap-4">
-    <div *ngFor="let room of rooms" nz-tooltip [nzTooltipTitle]="getTooltipContent(room)" class="room-card" [ngClass]="'floor-' + room.tang" [routerLink]="['/room-detail', room.id]">
-      <img src="assets/online-reservation.png" alt="room door" />
+    <div *ngFor="let room of rooms" nz-tooltip [nzTooltipTitle]="getTooltipContent(room)" class="room-card" [ngClass]="'floor-' + room.tang" (click)="addToBookingList(room)">
+      <img src="assets/suite.png" alt="room door" />
       <h3>{{ room.ma }}</h3>
     </div>
 </div>

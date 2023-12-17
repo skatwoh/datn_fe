@@ -35,4 +35,8 @@ export class SaleService {
   getSale(): Observable<any> {
     return this.http.get<any>(`${API_AU_URL}/get-sale`);
   }
+
+  create(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create`, data);
+  }
 }

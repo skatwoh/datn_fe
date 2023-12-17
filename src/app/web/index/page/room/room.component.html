@@ -11,7 +11,11 @@
     <!-- Search Bar -->
     <div>
       <button nz-button [nzType]="'primary'" style="border-radius: 10px; background-color: #87C9B6" (click)="showModal()"><span>Nâng cao</span></button>
-      <br/>
+      <br/><br/>
+      <div>
+        <input id="searchInput" name="searchInput" style="border-radius: 4px;width: 250px;height: 35px;border: 2px solid #4b505e;padding: 5px" placeholder="Nhập để tìm kiếm"/>
+        <button class="bg-indigo-500" style="border-radius: 4px;width: 80px;height: 35px;margin-left: 4px;color: white" (click)="getRoomByString()">Tìm kiếm</button>
+      </div>
       <p class="date-input">Ngày nhận - Ngày trả:</p>
       <input type="date" placeholder="Ngày nhận phòng" id="checkIn" class="px-3 py-2 border rounded-md" >
         -->
@@ -19,13 +23,11 @@
       <br/>
       <p class="date-input">Loại phòng: </p>
         <select id="tenLoaiPhong" class="select-input">
-          <option class="option" value="" label="Chọn loại phòng"></option>
           <option class="option" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
         </select>
       <br/>
       <p class="date-input">Số người:</p>
       <select id="soLuongNguoi" class="select-input">
-        <option class="option" value="" label="Chọn số người"></option>
         <option class="option" value="1">1</option>
         <option class="option" value="2">2</option>
         <option class="option" value="3">3</option>

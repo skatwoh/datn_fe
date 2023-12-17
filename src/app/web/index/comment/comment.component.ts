@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommentService } from './comment.service';
+import {Component, OnInit} from '@angular/core';
+import {CommentService} from './comment.service';
 import {UserModel} from "../../../auth/models/user.model";
 import {AuthService} from "../../../auth/services";
+import {ActivatedRoute} from "@angular/router";
+import {CommentModel} from "../../../models/comment.model";
 
 @Component({
   selector: 'cons-comment',
@@ -9,30 +11,32 @@ import {AuthService} from "../../../auth/services";
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-  comments: any[] = [];
+  comments: CommentModel[] = [];
   newComment: string = '';
   newRating: number = 0;
-  userName: string = '';
   user: UserModel | undefined;
+  id: string | null | undefined;
 
-  constructor(private commentService: CommentService, private authService: AuthService ) {}
+  constructor(private commentService: CommentService, private authService: AuthService, private route: ActivatedRoute ) {}
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.loadComments();
     this.user = this.authService.currentUserValue;
   }
 
   loadComments(): void {
-    this.commentService.getComments().subscribe((data) => {
-      this.comments = data;
+    this.commentService.getComments(1, 50, this.id).subscribe((data) => {
+      this.comments = data.content;
     });
   }
 
   addComment(): void {
     const newCommentObject = {
-      text: this.newComment,
-      rating: this.newRating,
-      userName: this.user?.name
+      moTa: this.newComment,
+      trangThai: this.newRating,
+      idKhachHang: this.user?.id,
+      idChiTietPhong: this.id,
     };
     this.commentService.addComment(newCommentObject).subscribe(() => {
       this.loadComments();
