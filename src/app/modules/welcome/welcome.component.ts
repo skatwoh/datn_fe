@@ -20,7 +20,7 @@ export class WelcomeComponent implements OnInit {
   @Input() roomOrder: RoomOrder[] = [];
   room: RoomModel[] = [];
   accounts: AccountModel[] = [];
-  comments: any[] = [];
+  count: number | undefined;
 
   pages: string[] = ['room', 'room-detail', 'about'];
 
@@ -40,8 +40,8 @@ export class WelcomeComponent implements OnInit {
   }
 
   loadComments(): void {
-    this.commentService.getComments().subscribe((data) => {
-      this.comments = data;
+    this.commentService.count().subscribe(res => {
+      this.count = res;
     });
   }
 
@@ -85,5 +85,4 @@ export class WelcomeComponent implements OnInit {
     return count;
   }
 
-  protected readonly count = count;
 }

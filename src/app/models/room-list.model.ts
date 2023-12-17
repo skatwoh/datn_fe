@@ -1,4 +1,5 @@
 export class RoomListModel {
+  ma: string | undefined;
   userId: number | null | undefined;
   idPhong: number | undefined;
   checkIn: string | undefined;

@@ -71,7 +71,8 @@ export class CaseComponent implements OnInit{
       checkOut: checkOutDate.toISOString(),
       soNguoi: 0,
       tongGia: room.giaPhong * numberOfDays,
-      trangThai: 1
+      trangThai: 1,
+      ma: room.ma
     };
 
     this.bookings.push(booking);

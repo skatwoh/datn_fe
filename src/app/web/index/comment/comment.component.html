@@ -7,13 +7,13 @@
                            border-2 border-emerald-400  shadow-emerald-400
                             ">
           <h3 class="font-bold">
-            {{comment.userName}}
+            {{comment.tenKhachHang}}
           </h3>
         </div>
         <p class="text-gray-600 mt-2">
-          {{comment.text}}
+          {{comment.moTa}}
         </p>
-        <nz-rate [ngModel]="comment.rating" nzDisabled></nz-rate>
+        <nz-rate [ngModel]="comment.trangThai" nzDisabled></nz-rate>
       </div>
     </div>
 </div>
@@ -32,5 +32,5 @@
 </div>
 
 <div class="w-full flex justify-end px-3">
-  <input type='submit' class="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500" value='Bình luận' (click)="addComment()">
+  <input type='submit' class="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500" value='Bình luận' [disabled]="newComment.length === 0 || newRating === 0" (click)="addComment()">
 </div>

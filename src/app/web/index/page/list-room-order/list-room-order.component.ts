@@ -20,7 +20,7 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: './list-room-order.component.html',
   styleUrls: ['./list-room-order.component.scss']
 })
-export class ListRoomOrderComponent implements OnInit, OnDestroy {
+export class ListRoomOrderComponent implements OnInit {
   room: RoomOrder[] = [];
   room1: RoomModel[] = [];
   bill!: BillModel;
@@ -116,10 +116,6 @@ export class ListRoomOrderComponent implements OnInit, OnDestroy {
           }
         },
       });
-  }
-
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
   }
 
   // private getRooms(): void {
