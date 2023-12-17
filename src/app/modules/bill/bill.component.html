@@ -311,7 +311,7 @@
               </button>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li *ngIf="data.trangThai === 1" (click)="updateStatusRoomOrder(data.id, 2)" nz-menu-item class="hover:bg-blue-400">
+                  <li [ngClass]="{'hidden' : check === false}" *ngIf="data.trangThai === 1" (click)="updateStatusRoomOrder(data.id, 2)" nz-menu-item class="hover:bg-blue-400">
                     Đã check-in
                   </li>
                   <li nz-menu-item  *ngIf="data.trangThai === 2" (click)="updateStatusRoomOrder(data.id, 3)" class="hover:bg-yellow-500">

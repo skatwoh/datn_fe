@@ -7,6 +7,7 @@ import {UserModel} from "../../../auth/models/user.model";
 import {BillService} from "../../../modules/bill/bill.service";
 import * as moment from 'moment';
 import {NzMessageService} from "ng-zorro-antd/message";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-case',
@@ -21,9 +22,8 @@ export class CaseComponent implements OnInit{
   checkInDate: string = '';
   checkOutDate: string = '';
   show = true;
-
   constructor(private caseService: CaseService, private authService: AuthService, private billService: BillService,
-              private message: NzMessageService) {
+              private message: NzMessageService, private router : Router) {
     this.user = this.authService.currentUserValue;
   }
 
@@ -105,6 +105,7 @@ export class CaseComponent implements OnInit{
       this.message.warning("Vui lòng chọn phòng");
     } else {
       this.createBookingsAPI();
+      this.message.success("Bạn đã đặt phòng thành công!");
     }
   }
 

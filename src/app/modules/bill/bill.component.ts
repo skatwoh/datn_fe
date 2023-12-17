@@ -5,6 +5,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {RoomModel} from "../../models/room.model";
 import {RoomOrder} from "../../models/room-order";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'cons-bill',
@@ -18,6 +19,8 @@ export class BillComponent implements OnInit{
   roomOrderModel!: RoomOrder;
   billModel!: BillModel;
   isVisible = false;
+  date : Date = new Date();
+  check = false;
   constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService) {
   }
 
@@ -50,18 +53,28 @@ export class BillComponent implements OnInit{
   updateStatusRoomOrder(id: any, trangThai: any){
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
+      this.checkDate();
+      this.billService.updateStatusRoomOrder(id, trangThai).subscribe({
+        next: (res) => {
+          this.roomOrderModel.trangThai = trangThai;
+          this.billService.getDatPhongByHoaDon(1, 50, this.roomOrderModel.idHoaDon).subscribe(res => {
+            if (res && res.content) {
+              this.roomOrder = res.content;
+            }
+          })
+          console.log(res);
+        },
+      })
     });
-    this.billService.updateStatusRoomOrder(id, trangThai).subscribe({
-      next: (res) => {
-        this.roomOrderModel.trangThai = trangThai;
-        this.billService.getDatPhongByHoaDon(1, 50, this.roomOrderModel.idHoaDon).subscribe(res => {
-          if (res && res.content) {
-            this.roomOrder = res.content;
-          }
-        })
-        console.log(res);
-      },
-    })
+
+  }
+
+  checkDate(){
+    if ((this.roomOrderModel.checkIn ?? '') > this.date.toISOString()){
+      this.check = true;
+    }else{
+      this.check = false;
+    }
   }
 
   huyHoaDon(id: any){
@@ -124,4 +137,5 @@ export class BillComponent implements OnInit{
   handleCancel(): void {
     this.isVisible = false;
   }
+
 }
