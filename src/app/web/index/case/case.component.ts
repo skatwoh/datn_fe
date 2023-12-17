@@ -32,8 +32,12 @@ export class CaseComponent implements OnInit{
   }
 
   test() {
-    if (this.checkInDate !== '') {
-      console.log(this.checkInDate);
+    if (this.checkOutDate !== '' && this.checkInDate !== '') {
+      this.caseService.getRoomActive(1, 50, this.checkInDate, this.checkOutDate).subscribe(res => {
+        if (res && res.content) {
+          this.rooms = res.content;
+        }
+      })
     }
   }
 

@@ -179,7 +179,8 @@ export class RoomComponent implements OnInit{
         this.minGia = params['minGia'];
         this.maxGia = params['maxGia'];
         this.getRoomsSearch();
-      } else {
+      }
+      else {
         this.getRooms();
       }
     });
@@ -193,6 +194,22 @@ export class RoomComponent implements OnInit{
       this.currentPage--;
       this.getRooms();
     }
+  }
+
+  searchInput : string = '';
+
+  getRoomByString(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.roomService.getRoomBySearch(1, 50, this.searchInput).subscribe(res => {
+      const queryParams = {
+        searchInput: this.searchInput
+      };
+      if (res && res.content) {
+        this.room= res.content;
+      }
+      // this.router.navigate(['/room'], { queryParams });
+    })
   }
 
   nextPage() {

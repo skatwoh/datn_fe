@@ -304,7 +304,7 @@
             </div>
           </td>
           <td class="py-3 text-sm" role="cell">
-            <div *ngIf="data.trangThai !== 0" class="btn-info">
+            <div *ngIf="data.trangThai !== (0||3)" class="btn-info">
               <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
           <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>

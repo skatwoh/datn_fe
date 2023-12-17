@@ -34,4 +34,14 @@ export class CaseService {
     console.error('An error occurred', error);
     return new Observable<never>();
   }
+
+  getRoomActive(page: number, size: number, checkIn: any, checkOut: any): Observable<any> {
+    const params = {page, size, checkIn, checkOut};
+    return this.http.get<any>(`${API_AU_URL}/list-room-active`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }
