@@ -5,6 +5,8 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {RoomServiceModel} from "../../models/room-service.model";
 import {RoomService} from "../room/services/room.service";
 import {RoomServiceService} from "./service/room-service.service";
+import {environment} from "../../../environments/environment";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 
 @Component({
@@ -19,7 +21,11 @@ export class RoomServiceComponent implements OnInit{
   isVisible = false;
   isOkLoading = false;
   id : number | undefined;
-  constructor(private roomSerivceService: RoomServiceService, private router: Router,private messageNoti: NzMessageService) { }
+  constructor(private roomSerivceService: RoomServiceService,
+              private router: Router,
+              private messageNoti: NzMessageService,
+              private http : HttpClient
+              ) { }
 
   private getRoomSerivces(): void {
     this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
@@ -96,4 +102,20 @@ export class RoomServiceComponent implements OnInit{
     this.getRoomSerivces();
   }
 
+  generatePDF(id: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/pdf',
+      'Charset': 'UTF-8'
+    });
+    this.http.get(`rpc/bds/dich-vu/generate-hoa-don-dv?id=${id}`, {headers: headers, responseType: 'blob'})
+      .subscribe(response => {
+        const blob = new Blob([response], {type: 'application/pdf'});
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'hoa_don_dich_vu.pdf';
+        downloadLink.click();
+      });
+  }
 }
