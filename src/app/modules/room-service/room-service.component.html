@@ -46,16 +46,9 @@
       </fieldset>
     </div>
   </div>
-  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="roomservice">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <nz-table #tableData [nzData]="roomservice">
+    <thead>
     <tr>
-      <th scope="col" class="p-4">
-        <div class="flex items-center">
-          <input id="checkbox-all-search" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-all-search" class="sr-only">checkbox</label>
-        </div>
-      </th>
       <th scope="col" class="px-6 py-3">
         Id
       </th>
@@ -82,15 +75,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    <tr
         *ngFor="let data of tableData.data; let i = index">
-      <td class="w-4 p-4">
-        <div class="flex items-center">
-          <input id="checkbox-table-search-1" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-        </div>
-      </td>
       <td class="px-6 py-4">
         {{ data.id }}
       </td>
@@ -118,14 +104,8 @@
         </div>
       </td>
       <td class="px-12 py-4" style="display: flex">
-        <div>
-          <a href="admin/room-service/room-service-details/{{ data.id }}"
-             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-            <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-          </a>
-        </div>
-        <div class="btn-info" (click)="showModal(data.id)">
-          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+        <div (click)="showModal(data.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+          <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
         </div>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
           <div class="btn-status-stop" (click)="updateStatus(data.id, 0)">
@@ -137,6 +117,18 @@
           <div class="btn-status-active" (click)="updateStatus(data.id, 1)">
             <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>
           </div>
+        </div>
+        <div *ngIf="data.trangThai === 1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
+          <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
+               height="25" fill="currentColor"
+               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                  fill="blue"></path>
+            <path fill-rule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                  fill="blue"></path>
+          </svg>
         </div>
       </td>
     </tr>
