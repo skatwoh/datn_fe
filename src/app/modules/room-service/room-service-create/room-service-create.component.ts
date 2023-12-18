@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ProjectService} from "../../project/service/project.service";
 import {RoomServiceModel} from "../../../models/room-service.model";
 import {RoomServiceService} from "../service/room-service.service";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'cons-room-service-create',
@@ -18,13 +20,22 @@ export class RoomServiceCreateComponent implements OnInit{
     trangThai: 0
   };
   submitted = false;
-
-  constructor(private roomSerivceSerivce: RoomServiceService) {}
+  roomList: RoomServiceModel[] = [];
+  constructor(private roomSerivceSerivce: RoomServiceService,
+              private message: NzMessageService,
+              private router: Router) {}
 
   ngOnInit() {
     console.log(this.roomservice);
   }
 
+  getRooms(): void {
+    this.roomSerivceSerivce.getRoomSerivceList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.roomList= res.content;
+      }
+    })
+  }
 
   saveRoomSerivce(): void {
     const data = {
@@ -37,10 +48,18 @@ export class RoomServiceCreateComponent implements OnInit{
 
     this.roomSerivceSerivce.create(data).subscribe({
       next: (res) => {
+        console.log(res);
         this.submitted = true;
+        this.successMessage();
+        this.getRooms();
+        this.router.navigate(['/admin/room-service']);
       },
       error: (e) => console.error(e)
     });
+  }
+
+  successMessage(): void {
+    this.message.success('Thêm thành công');
   }
 
   newRoomService(): void {
@@ -55,6 +74,5 @@ export class RoomServiceCreateComponent implements OnInit{
     };
   }
 
-  protected readonly RoomServiceModel = RoomServiceModel;
 
 }

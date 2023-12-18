@@ -2,12 +2,6 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ma">Mã Dịch Vụ: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="roomservice.ma" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
         <nz-form-label style="width: 120px" nzFor="ten">Tên Dịch Vụ: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên dịch vụ">
           <input nz-input type="text" id="tenDichVu" name="tenDichVu" [(ngModel)]="roomservice.tenDichVu"/>
