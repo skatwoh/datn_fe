@@ -43,7 +43,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http : HttpClient, private billService: BillService, private voucherService: VoucherService) {
+              private http: HttpClient, private billService: BillService, private voucherService: VoucherService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -54,6 +54,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       soNguoi: [0, Validators.required],
       idVoucher: [null],
       tongGia: [0, Validators.required],
+      ghiChu: [''],
       trangThai: 1
     })
   }
@@ -77,10 +78,9 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   tinhGiamGia(): void {
-    if((document.getElementById('voucher') as HTMLInputElement).value == 'null'){
+    if ((document.getElementById('voucher') as HTMLInputElement).value == 'null') {
       this.giamGia = 0;
-    }
-    else{
+    } else {
       this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
         this.voucher = data;
         this.giamGia = data.giamGia;
@@ -89,7 +89,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateTongTien(): void{
+  updateTongTien(): void {
     const data = {
       idKhachHang: this.user?.id,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
@@ -113,12 +113,12 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   messSuccess(): void {
-    this.notification.blank('Bạn đã đặt phòng '+ this.room.maPhong , 'Thành công.', {
+    this.notification.blank('Bạn đã đặt phòng ' + this.room.maPhong, 'Thành công.', {
       nzKey: 'key'
     });
   }
 
-  createBill(): void{
+  createBill(): void {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
@@ -130,7 +130,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveRoomOrder(): void {
-    if(this.user?.name == null){
+    if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
     }
     this.createBill();
@@ -140,10 +140,11 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
         const data = this.roomOrderForm.value;
         data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
         data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+        data.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.create(data)
           .pipe(first())
           .subscribe((res) => {
-              if (res?.code === AppConstants.API_SUCCESS_CODE){
+              if (res?.code === AppConstants.API_SUCCESS_CODE) {
                 this.submitted = true;
                 this.messSuccess();
 
@@ -170,7 +171,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   getListVouchers(): void {
     this.voucherService.getVoucherList(1, 50).subscribe(res => {
       if (res && res.content) {
-        this.voucherList= res.content;
+        this.voucherList = res.content;
       }
     })
   }
