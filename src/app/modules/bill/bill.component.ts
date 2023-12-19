@@ -6,6 +6,7 @@ import {RoomModel} from "../../models/room.model";
 import {RoomOrder} from "../../models/room-order";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
 import * as moment from "moment";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-bill',
@@ -21,7 +22,7 @@ export class BillComponent implements OnInit{
   isVisible = false;
   date : Date = new Date();
   check = false;
-  constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService) {
+  constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService) {
   }
 
   private getBills(): void {
@@ -53,6 +54,10 @@ export class BillComponent implements OnInit{
   updateStatusRoomOrder(id: any, trangThai: any){
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
+      if((data.checkIn??0) > this.date.toISOString() && data.trangThai == 1){
+        this.message.warning('Chưa đến ngày check-in!');
+        return;
+      }
       // this.checkDate();
       this.billService.updateStatusRoomOrder(id, trangThai).subscribe({
         next: (res) => {

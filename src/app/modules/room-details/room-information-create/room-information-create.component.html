@@ -2,12 +2,7 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <form [formGroup]="roomInformationForm" (ngSubmit)="saveRoomInformation()">
-        <nz-form-item>
-          <nz-form-label style="width: 70px" nzFor="tang">Tầng </nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập tầng">
-            <input nz-input type="number" id="tang" formControlName="tang"/>
-          </nz-form-control>
-        </nz-form-item>
+
         <nz-form-item>
           <nz-form-label style="width: 70px" nzFor="tienIch">Tiện ích </nz-form-label>
           <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
@@ -28,7 +23,7 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-label style="width: 70px" nzFor="dienTich">Diện tích </nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập diện tích">
+          <nz-form-control nzErrorTip="Vui lòng nhập diện tích lớn hơn 10">
             <input nz-input type="number" id="dienTich" formControlName="dienTich"/>
           </nz-form-control>
         </nz-form-item>

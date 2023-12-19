@@ -113,7 +113,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getListVouchers();
+    this.getListVouchersActive();
     this.idPhong = this.route.snapshot.params['id'];
     this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
       if (res && res.content) {
@@ -302,8 +302,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getListVouchers(): void {
-    this.voucherService.getVoucherList(1, 50).subscribe(res => {
+  getListVouchersActive(): void {
+    this.voucherService.getVoucherActive(1, 50).subscribe(res => {
       if (res && res.content) {
         this.voucherList = res.content;
       }

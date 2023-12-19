@@ -23,6 +23,16 @@ export class VoucherService{
     }));
   }
 
+  getVoucherActive(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-active`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
   getVoucherListSearch(page: number, size: number, input: string): Observable<any> {
     const params = {page, size, input};
     return this.http.get<any>(`${API_AU_URL}/search`, {params}).pipe(map(res => {
