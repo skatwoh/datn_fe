@@ -254,6 +254,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  deleteBill() {
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: this.user?.id
+    }
+    this.billService.deleteBill(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   saveRoomOrder(): void {
     if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
@@ -275,6 +286,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
               } else {
                 if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                   this.updateTongTien();
+                  this.deleteBill();
                   const msg: any = res.entityMessages[0];
                   this.notification.warning(`${msg.errorMessage}`, "");
                 } else {

@@ -53,7 +53,7 @@ export class BillComponent implements OnInit{
   updateStatusRoomOrder(id: any, trangThai: any){
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
-      this.checkDate();
+      // this.checkDate();
       this.billService.updateStatusRoomOrder(id, trangThai).subscribe({
         next: (res) => {
           this.roomOrderModel.trangThai = trangThai;
@@ -138,4 +138,18 @@ export class BillComponent implements OnInit{
     this.isVisible = false;
   }
 
+  searchInput: string = '';
+  getBillByString(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.billService.getBillsBySearch(1, 50, this.searchInput).subscribe(res => {
+      const queryParams = {
+        searchInput: this.searchInput
+      };
+      if (res && res.content) {
+        this.bill= res.content;
+      }
+      // this.router.navigate(['/room'], { queryParams });
+    })
+  }
 }

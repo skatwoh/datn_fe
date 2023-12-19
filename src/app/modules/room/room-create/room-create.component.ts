@@ -43,7 +43,7 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
               private router: Router) {
   }
 
-  private getRooms(): void {
+  getRooms(): void {
     this.roomService.getRoomList(1, 50).subscribe(res => {
       if (res && res.content) {
         this.roomList= res.content;
@@ -112,8 +112,8 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
         });
       this.unsubscribe.push(registrationSubScr);
       this.successMessage();
-      this.getRooms();
       this.router.navigate(['/admin/room']);
+      this.getRooms();
     }
   }
 
