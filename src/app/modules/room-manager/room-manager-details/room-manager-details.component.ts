@@ -91,7 +91,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
 
   updateTongTien(): void {
     const data = {
-      idKhachHang: this.user?.id,
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
     }
     this.billService.updateTongTien(data).subscribe((res: any) => {
@@ -122,7 +122,8 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
+      ghiChu: (document.getElementById('ghiChu') as HTMLInputElement).value
     }
     this.billService.createOrUpdate(data).subscribe((res: any) => {
       console.log(res);
@@ -153,6 +154,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
               } else {
                 if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                   this.updateTongTien();
+                  this.deleteBill();
                   const msg: any = res.entityMessages[0];
                   this.notification.warning(`${msg.errorMessage}`, "");
                 } else {
@@ -166,6 +168,17 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       }, 500)
 
     }
+  }
+
+  deleteBill() {
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value
+    }
+    this.billService.deleteBill(data).subscribe((res: any) => {
+      console.log(res);
+    })
   }
 
   getListVouchers(): void {

@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit{
   }
 
   getListTopRoomBooking(): void {
-    this.homeService.getListTopRoomBooking(1, 4).subscribe(res => {
+    this.homeService.getListTopRoomBooking(1, 3).subscribe(res => {
       if (res && res.content) {
         this.roomBooking= res.content;
       }

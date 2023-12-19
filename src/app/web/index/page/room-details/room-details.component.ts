@@ -113,7 +113,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getListVouchers();
+    this.getListVouchersActive();
     this.idPhong = this.route.snapshot.params['id'];
     this.roomService2.getListRoomSame(1, 3, this.idPhong).subscribe(res => {
       if (res && res.content) {
@@ -254,6 +254,17 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
+  deleteBill() {
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: this.user?.id
+    }
+    this.billService.deleteBill(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   saveRoomOrder(): void {
     if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
@@ -275,6 +286,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
               } else {
                 if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                   this.updateTongTien();
+                  this.deleteBill();
                   const msg: any = res.entityMessages[0];
                   this.notification.warning(`${msg.errorMessage}`, "");
                 } else {
@@ -290,8 +302,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getListVouchers(): void {
-    this.voucherService.getVoucherList(1, 50).subscribe(res => {
+  getListVouchersActive(): void {
+    this.voucherService.getVoucherActive(1, 50).subscribe(res => {
       if (res && res.content) {
         this.voucherList = res.content;
       }
