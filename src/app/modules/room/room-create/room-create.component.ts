@@ -87,34 +87,54 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: FormGroup): void {
-    const {valid, value} = form;
+    const { valid, value } = form;
     this.hasError = false;
     this.errorMsg = '';
 
     if (valid) {
       const payload: RoomModel = value;
-      const registrationSubScr = this.roomService
-        .create(payload)
-        .pipe(first())
-        .subscribe((res: any) => {
-          if (res?.code === AppConstants.API_SUCCESS_CODE) {
-            this.router.navigate(['admin/room/room-create']);
-          } else {
-            if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-              const msg: any = res.entityMessages[0];
-              this.errorMsg = `[${msg.key}] ${msg.errorMessage}`;
-            } else {
-              this.errorMsg = `Vui long nhap thong tin hop le`;
-            }
 
-            this.hasError = true;
-          }
-        });
-      this.unsubscribe.push(registrationSubScr);
-      this.successMessage();
-      this.getRooms();
-      this.router.navigate(['/admin/room']);
+      // Lấy file hình ảnh từ input type="file"
+      const fileInput: HTMLInputElement = document.getElementById('image') as HTMLInputElement;
+      const file: File | null = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0] : null;
+
+      if (file) {
+        // Đọc file thành chuỗi Base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          payload.image = reader.result as string; // Thêm trường base64Image vào payload
+          this.createRoom(payload);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.createRoom(payload);
+      }
     }
+  }
+
+  private createRoom(payload: RoomModel): void {
+    const registrationSubScr = this.roomService
+      .create(payload)
+      .pipe(first())
+      .subscribe((res: any) => {
+        if (res?.code === AppConstants.API_SUCCESS_CODE) {
+          this.router.navigate(['admin/room/room-create']);
+        } else {
+          if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+            const msg: any = res.entityMessages[0];
+            this.errorMsg = `[${msg.key}] ${msg.errorMessage}`;
+          } else {
+            this.errorMsg = `Vui lòng nhập thông tin hợp lệ`;
+          }
+
+          this.hasError = true;
+        }
+      });
+
+    this.unsubscribe.push(registrationSubScr);
+    this.successMessage();
+    this.getRooms();
+    this.router.navigate(['/admin/room']);
   }
 
   ngOnDestroy() {
