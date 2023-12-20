@@ -268,7 +268,13 @@
 >
   <ng-container *nzModalContent>
     <nz-tabset>
-      <nz-tab nzTitle="Thanh toán toàn bộ">
+      <nz-tab nzTitle="Thanh toán">
+        <div class="bg-indigo-600 px-4 py-3 text-white">
+          <p class="text-center text-sm font-medium">
+            Thanh toán toàn bộ giảm 5%
+            <a href="#" class="inline-block underline">Hot</a>
+          </p>
+        </div>
         <form [formGroup]="form">
           <label style="display: none">
             Amount:
@@ -286,9 +292,6 @@
           </label>
           <img [src]="imageUrl" alt="Image">
         </form>
-      </nz-tab>
-      <nz-tab nzTitle="Thanh toán tiền cọc">
-        <cons-payment></cons-payment>
       </nz-tab>
     </nz-tabset>
   </ng-container>

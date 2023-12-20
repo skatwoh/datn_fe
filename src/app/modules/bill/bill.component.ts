@@ -54,7 +54,7 @@ export class BillComponent implements OnInit{
   updateStatusRoomOrder(id: any, trangThai: any){
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
-      if((data.checkIn??0) > this.date.toISOString() && data.trangThai == 1){
+      if((data.checkIn?.split('T')[0] ?? 0) > this.date.toISOString().split('T')[0] && data.trangThai == 1){
         this.message.warning('Chưa đến ngày check-in!');
         return;
       }
