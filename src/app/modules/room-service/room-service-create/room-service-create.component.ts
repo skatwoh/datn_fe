@@ -74,5 +74,15 @@ export class RoomServiceCreateComponent implements OnInit{
     };
   }
 
+  handleChangService(value: any) {
+    if(value == null && value == undefined){
+      this.roomservice.giaDichVu = 500000;
+    }
+    if(value == "Massage"){
+      this.roomservice.giaDichVu = 500000;
+    } else if (value == "Do an"){
+      this.roomservice.giaDichVu = 100000;
+    }
+  }
 
 }
