@@ -21,7 +21,7 @@
 <!--      <th>Ngày sinh</th>-->
 <!--      <th>Giới tính</th>-->
       <th>Số điện thoại</th>
-      <th>Địa chỉ</th>
+      <th>Tác vụ</th>
     </tr>
     </thead>
     <tbody>
@@ -41,9 +41,43 @@
 <!--        </div>-->
 <!--      </td>-->
       <td nzLeft>{{ data.sdt }}</td>
-      <td nzLeft>{{ data.diaChi }}</td>
+      <td nzLeft>
+        <div class="btn-info">
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>        </div>
+      </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Cập nhật khách hàng"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <div *ngIf="currentCustomer" class="edit-form">
+      <nz-form-item>
+        <nz-form-label nzFor="ma" style="width: 100px">Mã khách hàng </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentCustomer.ma" disabled/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="giaPhong" style="width: 100px">Họ tên </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập họ tên">
+          <input nz-input type="text" id="hoTen" name="hoTen" [(ngModel)]="currentCustomer.hoTen" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="giaPhong" style="width: 100px">Số điện thoại </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số điện thoại">
+          <input nz-input type="text" id="sdt" name="sdt" [(ngModel)]="currentCustomer.sdt" required/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>
 

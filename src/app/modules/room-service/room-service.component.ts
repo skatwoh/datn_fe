@@ -99,7 +99,9 @@ export class RoomServiceComponent implements OnInit{
     this.isVisible = false;
   }
   ngOnInit() {
-    this.getRoomSerivces();
+    setTimeout(() => {
+      this.getRoomSerivces();
+    }, 10);
   }
 
   generatePDF(id: any) {

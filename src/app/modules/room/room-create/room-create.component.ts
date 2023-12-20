@@ -9,6 +9,7 @@ import {first, Observable, Subscription} from "rxjs";
 import {AppConstants} from "../../../app-constants";
 import {Router} from "@angular/router";
 import {RoomTypeModel} from "../../../models/room-type.model";
+import {da_DK} from "ng-zorro-antd/i18n";
 
 @Component({
   selector: 'cons-room-create',
@@ -30,7 +31,6 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
   roomType: RoomTypeModel[] = [];
   roomList: RoomModel[] = [];
   submitted = false;
-  // @ts-ignore
   submitForm: FormGroup;
   hasError: boolean = false;
   errorMsg = '';
@@ -41,30 +41,27 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
               private message: NzMessageService,
               private fb: FormBuilder,
               private router: Router) {
+    this.submitForm = this.fb.group({
+      giaPhong: new FormControl('', Validators.compose([Validators.min(100000), Validators.max(100000000000)])),
+      idLoaiPhong: ['']
+    })
   }
 
-  private getRooms(): void {
+  getRooms(): void {
     this.roomService.getRoomList(1, 50).subscribe(res => {
       if (res && res.content) {
-        this.roomList= res.content;
+        this.roomList = res.content;
       }
     })
   }
 
   ngOnInit() {
-    this.initForm();
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((dataRoom) => {
       this.roomType = dataRoom; // Gán dữ liệu lấy được vào biến roomType
     });
   }
 
-  private initForm(): void {
-    this.submitForm = this.fb.group({
-      giaPhong: new FormControl('', Validators.compose([Validators.min(100000), Validators.max(100000000000)])),
-      idLoaiPhong: ['']
 
-    })
-  }
 
   successMessage(): void {
     this.message.success('Thêm thành công');
@@ -93,29 +90,61 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
 
     if (valid) {
       const payload: RoomModel = value;
-      const registrationSubScr = this.roomService
-        .create(payload)
-        .pipe(first())
-        .subscribe((res: any) => {
-          if (res?.code === AppConstants.API_SUCCESS_CODE) {
-            this.router.navigate(['admin/room/room-create']);
-          } else {
-            if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-              const msg: any = res.entityMessages[0];
-              this.errorMsg = `[${msg.key}] ${msg.errorMessage}`;
-            } else {
-              this.errorMsg = `Vui long nhap thong tin hop le`;
-            }
 
-            this.hasError = true;
-          }
-        });
-      this.unsubscribe.push(registrationSubScr);
-      this.successMessage();
-      this.getRooms();
-      this.router.navigate(['/admin/room']);
+      // Lấy file hình ảnh từ input type="file"
+      const fileInput: HTMLInputElement = document.getElementById('image') as HTMLInputElement;
+      const file: File | null = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0] : null;
+
+      if (file) {
+        // Đọc file thành chuỗi Base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          payload.image = reader.result as string; // Thêm trường base64Image vào payload
+          this.createRoom(payload);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.createRoom(payload);
+      }
     }
   }
+
+  createRoom(payload: RoomModel): void {
+    // const registrationSubScr = this.roomService
+    //   .create(payload)
+    //   .pipe(first())
+    //   .subscribe((res: any) => {
+    //     if (res?.code === AppConstants.API_SUCCESS_CODE) {
+    //       this.router.navigate(['admin/room/room-create']);
+    //     } else {
+    //       if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+    //         const msg: any = res.entityMessages[0];
+    //         this.errorMsg = `[${msg.key}] ${msg.errorMessage}`;
+    //       } else {
+    //         this.errorMsg = `Vui lòng nhập thông tin hợp lệ`;
+    //       }
+    //
+    //       this.hasError = true;
+    //     }
+    //   });
+    // this.unsubscribe.push(registrationSubScr);
+    // this.successMessage();
+
+    if (this.submitForm.valid) {
+      // const data = this.submitForm.value;
+
+      this.roomService.create(payload).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+          this.successMessage();
+          this.router.navigate(['/admin/room']);
+        },
+        error: (e) => console.error(e)
+      });
+    }
+  }
+
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

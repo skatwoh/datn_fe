@@ -26,7 +26,7 @@ export class RoomServiceCreateComponent implements OnInit{
               private router: Router) {}
 
   ngOnInit() {
-    console.log(this.roomservice);
+
   }
 
   getRooms(): void {
@@ -51,8 +51,8 @@ export class RoomServiceCreateComponent implements OnInit{
         console.log(res);
         this.submitted = true;
         this.successMessage();
-        this.getRooms();
         this.router.navigate(['/admin/room-service']);
+        this.getRooms();
       },
       error: (e) => console.error(e)
     });
@@ -74,5 +74,15 @@ export class RoomServiceCreateComponent implements OnInit{
     };
   }
 
+  handleChangService(value: any) {
+    if(value == null && value == undefined){
+      this.roomservice.giaDichVu = 500000;
+    }
+    if(value == "Massage"){
+      this.roomservice.giaDichVu = 500000;
+    } else if (value == "Do an"){
+      this.roomservice.giaDichVu = 100000;
+    }
+  }
 
 }

@@ -2,21 +2,24 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ten">Tên Dịch Vụ: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập tên dịch vụ">
-          <input nz-input type="text" id="tenDichVu" name="tenDichVu" [(ngModel)]="roomservice.tenDichVu"/>
+        <nz-form-label style="width: 120px" nzFor="tenDichVu">Tên Dịch Vụ </nz-form-label>
+        <nz-form-control >
+          <nz-select [(ngModel)]="roomservice.tenDichVu" (ngModelChange)="handleChangService(roomservice.tenDichVu)">
+            <nz-option nzValue="Massage" nzLabel="Massage"></nz-option>
+            <nz-option nzValue="Do an" nzLabel="Do an"></nz-option>
+          </nz-select>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi Chú: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi Chú </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
           <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomservice.ghiChu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ghiChu">Gía dịch vụ: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Giá dịch vụ </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá dịch vụ">
-          <input nz-input type="number" id="" name="giaDichVu" [(ngModel)]="roomservice.giaDichVu"/>
+          <input nz-input type="number" id="giaDichVu" name="giaDichVu" [(ngModel)]="roomservice.giaDichVu"/>
         </nz-form-control>
       </nz-form-item>
       <br>

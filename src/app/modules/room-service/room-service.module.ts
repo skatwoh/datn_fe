@@ -5,16 +5,17 @@ import {RoomServiceCreateComponent} from './room-service-create/room-service-cre
 import {RoomServiceDetailComponent} from './room-service-detail/room-service-detail.component';
 import {RoomServiceComponent} from "./room-service.component";
 import {NzTableModule} from "ng-zorro-antd/table";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NgForOf, NgIf} from "@angular/common";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 @NgModule({
-  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NgIf, NzInputModule, NzButtonModule, NgForOf, NzIconModule],
+  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NgIf, NzInputModule, NzButtonModule, NgForOf, NzIconModule, NzSelectModule, ReactiveFormsModule],
   declarations: [RoomServiceComponent, RoomServiceCreateComponent, RoomServiceDetailComponent],
   exports: [RoomServiceComponent]
 })

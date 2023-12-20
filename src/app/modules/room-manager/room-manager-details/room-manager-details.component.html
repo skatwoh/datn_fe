@@ -2,7 +2,7 @@
   <!--    style="border: 1px solid red"-->
   <div class="grid grid-rows-1 grid-flow-col gap-3">
     <div class="col-span-3">
-      <img src="https://i.pinimg.com/564x/80/90/48/80904842714cf40730d13cec906e6909.jpg" alt="" width="900px"/>
+      <img src="{{room.image}}" alt="" width="900px"/>
     </div>
     <div class="row-span-2 col-span-2">
       <div style="width: 900px; background-color: rgba(227,209,191); height: 180px; border-radius: 5px">
@@ -55,8 +55,8 @@
                 <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
-            <nz-form-label nzFor="soNguoi">Mã giảm giá (nếu có):</nz-form-label>
-            <nz-form-item>
+            <nz-form-label nzFor="soNguoi" hidden="hidden">Mã giảm giá (nếu có):</nz-form-label>
+            <nz-form-item hidden="hidden">
               <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher"
                       style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">
                 <option

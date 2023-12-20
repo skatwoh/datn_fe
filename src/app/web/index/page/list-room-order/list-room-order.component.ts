@@ -113,6 +113,7 @@ export class ListRoomOrderComponent implements OnInit {
             this.currentRoom.trangThai = 0
             this.successMessage();
             this.getRoomsOfBill();
+            this.router.navigate(['/profile/me/list-room-order']);
           }
         },
       });
@@ -187,8 +188,9 @@ export class ListRoomOrderComponent implements OnInit {
   }
 
   generateImageUrl(amount: number, addInfo: string, accountName: string): string {
+    const sale = amount * 0.95;
     const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
-    const urlWithParams = `${baseUrl}?amount=${amount}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
     return urlWithParams;
   }
 

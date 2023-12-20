@@ -22,4 +22,14 @@ export class CustomerService{
       return null;
     }));
   }
+
+  get(id: any): Observable<any> {
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/detail`, {params});
+  }
+
+  update(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update`, data, {params});
+  }
 }

@@ -70,4 +70,18 @@ export class BillService{
     const params = {id};
     return this.http.put<any>(`${environment.apiUrl}/dat-phong/update-stt`, data, {params});
   }
+
+  deleteBill(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/delete`, data);
+  }
+
+  getBillsBySearch(page: number, size: number, input: string): Observable<any> {
+    const params = {page, size, input};
+    return this.http.get<any>(`${API_AU_URL}/list-by-search`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }
