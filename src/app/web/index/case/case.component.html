@@ -24,9 +24,11 @@
   </div>
 </nav>
 <div class="grid grid-cols-5 gap-4">
-    <div *ngFor="let room of rooms" nz-tooltip [nzTooltipTitle]="getTooltipContent(room)" class="room-card" [ngClass]="'floor-' + room.tang" (click)="addToBookingList(room)">
-      <img src="assets/suite.png" alt="room door" />
-      <h3>{{ room.ma }}</h3>
+    <div *ngFor="let room of rooms" nz-tooltip [nzTooltipTitle]="getTooltipContent(room)" class="room-card" [ngClass]="'floor-' + room.tang">
+      <div (click)="addToBookingList(room)" *ngIf="!checkToRoom(room)">
+        <img src="assets/suite.png" alt="room door" />
+        <h3>{{ room.ma }}</h3>
+      </div>
     </div>
 </div>
 
