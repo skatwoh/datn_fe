@@ -78,7 +78,9 @@ export class CaseComponent implements OnInit{
     this.bookings.push(booking);
   }
 
-
+checkToRoom(room: any) {
+    return this.bookings.some(booking => booking.ma === room.ma)
+}
 
   removeFromBookingList(index: number): void {
     this.bookings.splice(index, 1);
