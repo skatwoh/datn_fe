@@ -34,10 +34,6 @@ export class IndexComponent implements OnInit{
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
     this.getNoti();
-
-    interval(30000).subscribe(() => {
-      this.getNoti();
-    });
     }
 
   getNoti(): void {
