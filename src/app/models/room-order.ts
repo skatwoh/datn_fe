@@ -1,7 +1,7 @@
 export class RoomOrder {
   id: number | undefined ;
   ma: string | undefined;
-  name: string | undefined;
+  maKhachHang: string | undefined;
   userId: number | null | undefined;
   idPhong: number | undefined;
   giaPhong: number | undefined;
