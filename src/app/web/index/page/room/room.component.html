@@ -33,6 +33,26 @@
           </div>
         </fieldset>
       </div>
+      <br>
+      <br>
+      <br>
+
+      <div>
+        <p>Filter</p>
+        <nz-checkbox-wrapper style="width: 500px;">
+
+            <div  nz-col nzSpan="8"><label id="cb1" nz-checkbox nzValue="View hướng biển" (change)="getRoomByTienIch('View hướng biển',$event)"  >View hướng ra biển</label></div>
+
+            <div nz-col nzSpan="8"><label nz-checkbox nzValue="B">Tắm bùn</label></div>
+
+            <div nz-col nzSpan="8"><label nz-checkbox nzValue="C">Massage</label></div>
+
+            <div nz-col nzSpan="8"><label nz-checkbox nzValue="D"></label></div>
+
+            <div  nz-col nzSpan="8"><label id="cb5" nz-checkbox nzValue="Có thư viện" (change)="getRoomByTienIch('Có thư viện',$event)">Có thư viện</label></div>
+
+        </nz-checkbox-wrapper>
+      </div>
       <p class="date-input">Ngày nhận - Ngày trả:</p>
       <input type="date" placeholder="Ngày nhận phòng" id="checkIn" class="px-3 py-2 border rounded-md" >
         -->

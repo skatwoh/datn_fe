@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {ServiceService} from "../service/service.service";
 import {SaleModel} from "../../../../models/sale.model";
 import {SaleService} from "../../../../modules/sale/sale.service";
 import {ImageService} from "../../image/image.service";
+import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
 
 @Component({
   selector: 'cons-room',
@@ -19,14 +20,17 @@ import {ImageService} from "../../image/image.service";
   styleUrls: ['./room.component.scss'],
   animations: [
     trigger('rotateAnimation', [
-      state('initial', style({ transform: 'rotate(0deg)' })),
-      state('rotated', style({ transform: 'rotate(360deg)' })),
+      state('initial', style({transform: 'rotate(0deg)'})),
+      state('rotated', style({transform: 'rotate(360deg)'})),
       transition('initial => rotated', animate('5000ms ease-out')),
       transition('rotated => initial', animate('5000ms ease-in')),
     ]),
   ],
 })
-export class RoomComponent implements OnInit{
+export class RoomComponent implements OnInit {
+
+  // @ViewChild('checkboxes') checkboxes: NzCheckboxComponent[] = [];
+  // selectedValues: string[] = [];
   room: RoomModel[] = [];
   roomType: RoomTypeModel[] = [];
   sale!: SaleModel;
@@ -34,14 +38,16 @@ export class RoomComponent implements OnInit{
   itemsPerPage = 9;
   animationState: string = 'initial';
   soLuongNguoi: string = '';
-  tenLoaiPhong :string = '';
-  minGia : string = '';
-  maxGia : string = '';
-  checkIn :string = '';
-  checkOut :string = '';
-  message :string = '';
-  hasError : boolean = false;
+  tenLoaiPhong: string = '';
+  minGia: string = '';
+  maxGia: string = '';
+  checkIn: string = '';
+  checkOut: string = '';
+  message: string = '';
+  hasError: boolean = false;
   avatarUrls: any[] = [];
+  data: any[] = [];
+
   rotate() {
     this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
   }
@@ -64,14 +70,16 @@ export class RoomComponent implements OnInit{
       checkbox.checked = false;
     });
   }
+
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient,
-              private service: ServiceService, private saleService: SaleService, private imageService: ImageService) { }
+              private service: ServiceService, private saleService: SaleService, private imageService: ImageService,) {
+  }
 
   private getRooms(): void {
     this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
       if (res && res.content) {
-        this.room= res.content;
+        this.room = res.content;
       }
     })
   }
@@ -122,12 +130,12 @@ export class RoomComponent implements OnInit{
     this.checkOut = checkOutElement.value;
     console.log(this.minGia);
     console.log(this.maxGia);
-      this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-        if (res && res.content) {
-          this.room = res.content;
-          // this.updateUrlWithSearchParams();
-        }
-      })
+    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+      if (res && res.content) {
+        this.room = res.content;
+        // this.updateUrlWithSearchParams();
+      }
+    })
   }
 
   searchByPrice(): void {
@@ -145,29 +153,28 @@ export class RoomComponent implements OnInit{
     })
   }
 
-    private updateUrlWithSearchParams(): void {
-        const queryParams = {
-          soLuongNguoi: this.soLuongNguoi,
-          tenLoaiPhong: this.tenLoaiPhong,
-          checkIn: this.checkIn,
-          checkOut: this.checkOut,
-          minGia: this.minGia,
-          maxGia: this.maxGia,
-        };
-        // Update URL without triggering a navigation
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams,
-          queryParamsHandling: 'merge',
-          replaceUrl: true,
-        });
-      }
-
+  private updateUrlWithSearchParams(): void {
+    const queryParams = {
+      soLuongNguoi: this.soLuongNguoi,
+      tenLoaiPhong: this.tenLoaiPhong,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut,
+      minGia: this.minGia,
+      maxGia: this.maxGia,
+    };
+    // Update URL without triggering a navigation
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
 
 
   ngOnInit() {
 
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
+    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.route.queryParams.subscribe((params) => {
@@ -179,8 +186,7 @@ export class RoomComponent implements OnInit{
         this.minGia = params['minGia'];
         this.maxGia = params['maxGia'];
         this.getRoomsSearch();
-      }
-      else {
+      } else {
         this.getRooms();
       }
     });
@@ -196,7 +202,7 @@ export class RoomComponent implements OnInit{
     }
   }
 
-  searchInput : string = '';
+  searchInput: string = '';
 
   getRoomByString(): void {
     const inputElement = document.getElementById('searchInput') as HTMLInputElement;
@@ -206,7 +212,7 @@ export class RoomComponent implements OnInit{
         searchInput: this.searchInput
       };
       if (res && res.content) {
-        this.room= res.content;
+        this.room = res.content;
       }
       // this.router.navigate(['/room'], { queryParams });
     })
@@ -218,4 +224,35 @@ export class RoomComponent implements OnInit{
   }
 
   protected readonly Number = Number;
+
+  getRoomByTienIch(value: any, even: Event): void {
+    const checkbox = even.target as HTMLInputElement;
+    // this.selectedValues = this.checkboxes.filter(checkbox => checkbox.nzChecked).map(checkbox => checkbox.nzValue);
+
+    if (checkbox.checked) {
+      this.data.push(value)
+      console.log(this.data)
+    }
+    if (!checkbox.checked) {
+      this.data.splice(this.data.indexOf(value), 1);
+      console.log(this.data)
+    }
+    if (this.data.length > 0) {
+      this.service.getListByTienIch(1, 50, this.data).subscribe(res => {
+        if (res && res.content) {
+          this.room = res.content;
+        }
+      })
+    }else {
+      this.getRooms();
+    }
+  }
+
+  removecheckbox(even: Event): void {
+    const checkbox = even.target as HTMLInputElement;
+    if (!checkbox.checked) {
+      this.data.splice(this.data.indexOf(checkbox.value), 1);
+    }
+    console.log(this.data)
+  }
 }

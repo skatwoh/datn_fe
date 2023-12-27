@@ -9,6 +9,7 @@ import {VisitorModel} from "../../../../models/visitor.model";
 const API_AU_URL = `${environment.apiUrl}/thong-bao`;
 const API_RES = `${environment.apiUrl}/api`;
 const API_AUTH_URL = `${environment.apiUrl}/auth`;
+const API_URL = `${environment.apiUrl}/phong`;
 @Injectable({
   providedIn: 'root'
 })
@@ -45,5 +46,14 @@ export class ServiceService {
 
   getVisitCount(page: string) {
     return this.http.get<number>(`${API_RES}/get-visit-count?page=${page}`);
+  }
+  getListByTienIch(page: number, size: number, searchInput: any[]): Observable<any> {
+    const params = {page, size, searchInput};
+    return this.http.get<any>(`${API_URL}/get-room-by-tienIch`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
   }
 }

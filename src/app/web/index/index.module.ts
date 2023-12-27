@@ -29,6 +29,7 @@ import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import {CaseModule} from "./case/case.module";
         PaymentModuleModule,
         CommentModule,
         CaseModule,
+        NzCheckboxModule,
     ]
 })
 export class IndexModule {
