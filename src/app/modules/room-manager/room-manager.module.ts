@@ -20,11 +20,13 @@ import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {IndexModule} from "../../web/index/index.module";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzWaveModule} from "ng-zorro-antd/core/wave";
+import { RoomListOrderComponent } from './room-list-order/room-list-order.component';
+import {NzCardModule} from "ng-zorro-antd/card";
 
 
 @NgModule({
-    imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule, DatePipe, NzToolTipModule, IndexModule, NzButtonModule, NzWaveModule],
-  declarations: [RoomManagerComponent, RoomManagerCreateComponent, RoomManagerDetailsComponent],
+    imports: [RoomManagerRoutingModule, NzBreadCrumbModule, NzFormModule, NzSelectModule, NzModalModule, NzPageHeaderModule, FormsModule, NgForOf, NzTableModule, NgIf, NzIconModule, NzInputModule, DecimalPipe, CurrencyPipe, NzDatePickerModule, NzInputNumberModule, NzRateModule, ReactiveFormsModule, DatePipe, NzToolTipModule, IndexModule, NzButtonModule, NzWaveModule, NzCardModule],
+  declarations: [RoomManagerComponent, RoomManagerCreateComponent, RoomManagerDetailsComponent, RoomListOrderComponent],
   exports: [RoomManagerComponent]
 })
 export class RoomManagerModule { }

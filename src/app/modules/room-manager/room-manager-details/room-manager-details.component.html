@@ -5,7 +5,7 @@
       <img src="{{room.image}}" alt="" width="900px"/>
     </div>
     <div class="row-span-2 col-span-2">
-      <div style="width: 900px; background-color: rgba(227,209,191); height: 180px; border-radius: 5px">
+      <div style="width: 900px; background-color: lightskyblue; height: 250px; border-radius: 5px">
         <div style="display: flex">
           <h3 style="font-family: 'Lora', serif; font-size: 33px; margin-left: 10px">Mã số phòng: {{room.maPhong}}</h3>
           <nz-rate style="margin-left: 45%" [ngModel]="4.5" nzDisabled></nz-rate>
@@ -13,8 +13,8 @@
         <div class="text-room">
           <h5>Giá phòng: </h5>
           <h5 style="margin-left: 10px">
-              <span
-                style="font-size: 16px; color: aliceblue">{{ room.giaPhong | currency:'VND':'symbol':'1.0-0' }}</span>/
+    <span
+      style="font-size: 20px;font-weight: bold">{{ room.giaPhong | currency:'VND': '':'1.0-0' }}</span>/
             1 đêm
           </h5>
         </div>
@@ -46,13 +46,13 @@
             <nz-form-label nzFor="checkIn">Ngày nhận phòng</nz-form-label>
             <nz-form-item>
               <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
-                <nz-date-picker class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>
+                <nz-date-picker style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
             <nz-form-item>
               <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
-                <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
+                <nz-date-picker style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-label nzFor="soNguoi" hidden="hidden">Mã giảm giá (nếu có):</nz-form-label>
@@ -83,31 +83,62 @@
                      type="hidden"/>
             </nz-form-item>
 
-            <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
-            <nz-form-item>
-              <select
-                style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
+            <!--            <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>-->
+            <!--            <nz-form-item>-->
+            <!--              <select-->
+            <!--                style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"-->
 
-              id="userId" formControlName="userId">
-                <option *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'"
-                        [value]="data.id"></option>
-              </select>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-control>
-                <input style="border-radius: 5px" nz-input type="text" id="ghiChu" formControlName="ghiChu" placeholder="Ghi chú" [maxLength]="10">
-              </nz-form-control>
-            </nz-form-item>
+            <!--              id="userId" formControlName="userId">-->
+            <!--                <option *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'"-->
+            <!--                        [value]="data.id"></option>-->
+            <!--              </select>-->
+            <!--            </nz-form-item>-->
+            <h2 class="form-text-order">Thông tin khách hàng</h2>
+            <hr/>
+            <br>
+            <nz-card style="width: 300px;border: 1px solid lightskyblue;border-radius: 6px">
+              <nz-form-item>
+                <nz-form-label nzFor="ten">Tên khách hàng</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" id="ten" formControlName="ten" placeholder="Họ tên"
+                         style="border-radius: 5px;border: 1px solid deepskyblue">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzFor="sdt">SĐT Khách hàng</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" id="sdt" formControlName="sdt" placeholder="SĐT" [maxLength]="10"
+                         style="border-radius: 5px;border: 1px solid deepskyblue">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzFor="cccd">Số CCCD</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" id="cccd" formControlName="cccd" placeholder="Số CCCD" [maxLength]="15"
+                         style="border-radius: 5px;border: 1px solid deepskyblue">
+                </nz-form-control>
+              </nz-form-item>
+
+              <nz-form-item>
+                <nz-form-label nzFor="ghiChu">Ghi chú</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" id="ghiChu" formControlName="ghiChu" placeholder="Ghi chú"
+                         style="border-radius: 5px;border: 1px solid deepskyblue">
+                </nz-form-control>
+              </nz-form-item>
+            </nz-card>
             <br>
             <nz-form-item>
               <nz-form-control>
                 <button
-                  class="group relative inline-block overflow-hidden border border-orange-300 px-8 py-3 focus:outline-none focus:ring cursor-pointer"
-                  style="width: 250px; border-radius: 10px"
+                  class="group relative inline-block overflow-hidden border border-blue-500 px-8 py-3 focus:outline-none focus:ring cursor-pointer"
+                  style="width: 300px; border-radius: 10px"
                   [disabled]="roomOrderForm.invalid"
                 >
                   <span
-                    class="absolute inset-y-0 left-0 w-[2px] bg-orange-200 transition-all group-hover:w-full group-active:bg-indigo-500"></span>
+                    class="absolute inset-y-0 left-0 w-[2px] bg-blue-400 transition-all group-hover:w-full group-active:bg-indigo-300"></span>
                   <span
                     class="relative text-sm font-medium text-gray-500 transition-colors group-hover:text-black"
                   >
