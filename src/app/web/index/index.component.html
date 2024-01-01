@@ -98,9 +98,9 @@
                             </div>
                             <div class="ms-3 text-sm font-normal">
                               <div class="text-sm font-semibold text-gray-900 dark:text-white">Hệ thống</div>
-                              <div class="text-sm font-normal"> Bạn {{notification.noiDung}}</div>
+                              <div class="text-sm font-normal"> Bạn {{ notification.noiDung }}</div>
                               <span
-                                class="text-xs font-medium text-blue-600 dark:text-blue-500">{{notification.timestamp | date: 'dd/MM/yyyy HH:mm'}}</span>
+                                class="text-xs font-medium text-blue-600 dark:text-blue-500">{{ notification.timestamp | date: 'dd/MM/yyyy HH:mm' }}</span>
                             </div>
                           </a>
                         </div>
@@ -118,6 +118,18 @@
                   </nz-dropdown-menu>
                 </nz-badge>
               </div>
+              <div class="relative inline-block text-left" style="margin-top: 12px">
+                <nz-badge [nzCount]="cartItems.length">
+                  <span
+                        class="block shrink-0 rounded-lg p-2.5 text-gray-600 shadow-sm hover:text-gray-700"
+                         [routerLink]="['/me/cart']">
+                  <span class="sr-only">Notifications</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-cart2" viewBox="0 0 16 16"> <path
+                      d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/> </svg>
+                  </span>
+                </nz-badge>
+              </div>
 
             </div>
             <!-- Profile dropdown -->
@@ -125,7 +137,7 @@
               <div>
                 <div class="float-right" style="color: white; margin-left: 10px"
                      *ngIf="(user$ | async) as userInfo; else loginButton">
-                  <a nz-dropdown [nzDropdownMenu]="menu">
+                  <a nz-dropdown [nzDropdownMenu]="menu" nzTrigger="click">
                     <ng-container *ngIf="userInfo.imageUrl">
                       <!-- Hiển thị hình ảnh nếu userInfo.urlImage không null -->
                       <nz-avatar [nzSrc]="userInfo.imageUrl"></nz-avatar>
@@ -140,9 +152,9 @@
                         />
 
                         <p class="ms-2 hidden text-left text-xs sm:block">
-                          <strong class="block font-medium">{{userInfo.name}}</strong>
+                          <strong class="block font-medium">{{ userInfo.name }}</strong>
 
-                          <span class="text-gray-500"> {{userInfo.email}} </span>
+                          <span class="text-gray-500"> {{ userInfo.email }} </span>
                         </p>
 
                         <svg
