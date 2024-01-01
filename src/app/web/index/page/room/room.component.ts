@@ -176,8 +176,12 @@ export class RoomComponent implements OnInit{
         this.soLuongNguoi = params['soLuongNguoi'];
         this.minGia = params['minGia'];
         this.maxGia = params['maxGia'];
-        console.log(this.checkIn, "checkIn");
-        this.getRoomsSearch();
+
+        this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+          if (res && res.content) {
+            this.room = res.content;
+          }
+        })
       }
       else {
         this.getRooms();
@@ -185,7 +189,6 @@ export class RoomComponent implements OnInit{
     });
 
     this.getSale();
-    this.image();
   }
 
   previousPage() {
