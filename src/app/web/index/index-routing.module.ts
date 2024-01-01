@@ -11,6 +11,7 @@ import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.com
 import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-change.component";
 import {RoomOrderHistoryComponent} from "./page/room-order-history/room-order-history.component";
 import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
+import {CartComponent} from "./cart/cart.component";
 
 const routes: Routes = [
   {
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path: 'comming-soon',
         component: CommingSoonComponent
+      },
+      {
+        path: 'me/cart',
+        component: CartComponent
       }
     ]
   },
