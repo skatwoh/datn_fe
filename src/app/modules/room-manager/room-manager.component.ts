@@ -12,6 +12,8 @@ import {AppConstants} from "../../app-constants";
 import {HomeService} from "../../web/index/page/home/home.service";
 import {RoomTypeModel} from "../../models/room-type.model";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
+import {first} from "rxjs";
 
 @Component({
   selector: 'cons-room-manager',
@@ -28,22 +30,25 @@ export class RoomManagerComponent implements OnInit {
   message = '';
   isVisible = false;
   isOkLoading = false;
+  isVisible1 = false;
+  isOkLoading1 = false;
   room: RoomModel[] = [];
   soLuongNguoi: string = '';
   tenLoaiPhong: string = '';
   checkIn: string = '';
   checkOut: string = '';
   giaPhongMax: string = '';
+  currentRoom!: RoomOrder;
   // detail
   id: number | undefined;
   searchInput: string = '';
-
+  hasError = false;
 
   pdfSrc: SafeResourceUrl | undefined;
 
   constructor(private roomManagerService: RoomManagerService, private router: Router, private sanitizer: DomSanitizer,
               private route: ActivatedRoute, private http: HttpClient, private messageNoti: NzMessageService,
-              private homeService: HomeService) {
+              private homeService: HomeService, private message2: NzMessageService, private roomOrderService: ListRoomOrderService) {
   }
 
   ngOnInit(): void {
@@ -83,10 +88,24 @@ export class RoomManagerComponent implements OnInit {
     this.tenLoaiPhong = tenLoaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
+    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
+      if (res != null){
+        const queryParams = {
+          soLuongNguoi: this.soLuongNguoi,
+          tenLoaiPhong: this.tenLoaiPhong,
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
+        };
+        if (res && res.content) {
+          this.room= res.content;
+        }
+        console.log('abc');
+        this.router.navigate(['/admin/room-manager/room-manager-create'], { queryParams });
+      } else {
+        this.message = 'Ngày nhận không hợp lệ';
+        this.hasError = true;
       }
+
     })
   }
 
@@ -101,18 +120,25 @@ export class RoomManagerComponent implements OnInit {
   handleOk(): void {
     this.isOkLoading = true;
     this.getRoomsSearch();
-    setTimeout(() => {
-      this.isVisible = false;
+    if(this.hasError === false){
+      this.isVisible = true;
       this.isOkLoading = false;
-    }, 500);
-    const queryParams = {
-      soLuongNguoi: this.soLuongNguoi,
-      tenLoaiPhong: this.tenLoaiPhong,
-      checkIn: this.checkIn,
-      checkOut: this.checkOut,
-    };
+    }
+    else{
+      setTimeout(() => {
+        this.isVisible = false;
+        this.isOkLoading = false;
+        const queryParams = {
+          soLuongNguoi: this.soLuongNguoi,
+          tenLoaiPhong: this.tenLoaiPhong,
+          checkIn: this.checkIn,
+          checkOut: this.checkOut,
+        };
 
-    this.router.navigate(['/admin/room-manager/room-manager-create'], {queryParams});
+        this.router.navigate(['/admin/room-manager/room-manager-create'], {queryParams});
+      }, 500);
+    }
+
   }
 
 
@@ -122,7 +148,7 @@ export class RoomManagerComponent implements OnInit {
       'Charset': 'UTF-8'
     });
     const params = {id};
-    this.http.get(`rpc/bds/dat-phong/pdf/generate/`, {headers: headers, responseType: 'blob', params})
+    this.http.get(`rpc/bds/dat-phong/generate-bill?id=${id}`, {headers: headers, responseType: 'blob'})
       .subscribe(response => {
         const blob = new Blob([response], {type: 'application/pdf'});
         const url = window.URL.createObjectURL(blob);
@@ -133,4 +159,48 @@ export class RoomManagerComponent implements OnInit {
         downloadLink.click();
       });
   }
+
+  handleOk1(): void {
+    this.isOkLoading1 = true;
+    this.deleteRoom();
+    setTimeout(() => {
+      this.isVisible1 = false;
+      this.isOkLoading1 = false;
+    }, 500);
+  }
+
+  handleCancel1(): void {
+    this.isVisible1 = false;
+  }
+
+  showModal2(id: any): void {
+    this.isVisible1 = true;
+    this.id = id;
+    this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
+      this.currentRoom = data;
+      console.log(this.currentRoom);
+    });
+  }
+
+  successMessage(): void {
+    this.message2.success('Hủy phòng thành công');
+  }
+
+  deleteRoom(): void {
+    this.roomOrderService.updateStatus(this.currentRoom.id, 0)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          if(res.body.code == "Failed") {
+            this.message2.error(res.body.message);
+          } else {
+            this.currentRoom.trangThai = 0
+            this.successMessage();
+            this.getRoomOrders();
+          }
+        },
+      });
+  }
+
+
 }

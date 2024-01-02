@@ -1,8 +1,8 @@
 import {environment} from "../../../../environments/environment";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, throwError} from "rxjs";
+import {catchError, map} from "rxjs/operators";
 import {RoomOrder} from "../../../models/room-order";
 
 const API_AU_URL = `${environment.apiUrl}/dat-phong`;
@@ -60,5 +60,19 @@ export class RoomManagerService {
   exportPDF(id:any): Observable<any> {
     const params = {id};
     return this.http.get(`${API_AU_URL}/pdf/generate`, {params});
+  }
+
+  generateInvoice(id: any) {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/generate-bill`, {params})
+      .pipe(
+        map((response: any) => response.data),
+        catchError((error: any) => throwError(error))
+      );
+  }
+
+  updateRoomOrder(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-dat-phong`, data, {params});
   }
 }

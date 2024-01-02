@@ -1,0 +1,140 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách sự kiện"
+  nzSubtitle="Total {{sale.length || 0}}"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Sự kiện</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Quản lý sự kiện</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <button nz-button nzType="primary" (click)="open()">Thêm mới</button>
+  <nz-table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" #tableData [nzData]="sale">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">
+        STT
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Mã
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Tên
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Giá trị
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Ngày bắt đầu
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Ngày kết thúc
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Trạng thái
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Action
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let data of tableData.data; let i = index">
+      <td class="px-6 py-4">
+        {{i + 1}}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ma }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ten }}
+      </td>
+      <td class="px-6 py-4 text-red-500">
+        {{ data.giaTri }}%
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ngayBatDau | date: 'dd/MM/yyyy HH:mm:ss'}}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.ngayKetThuc | date: 'dd/MM/yyyy HH:mm:ss'}}
+      </td>
+      <td class="px-6 py-4">
+        <div class="flex items-center" *ngIf="data.trangThai === 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2" ></div> Online
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai === 0">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
+        </div>
+      </td>
+      <td class="px-6 py-4">
+        <label class="relative inline-flex items-center mr-5 cursor-pointer">
+          <input type="checkbox" [ngModel]="data.trangThai"
+                 (click)="updateStatus(data.id, i,data.trangThai === 1 ? 0 : 1)"
+                 class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+          <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+        </label>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="false"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Thêm mới sự kiện"
+  [nzFooter]="footerTpl"
+  (nzOnClose)="close()"
+>
+  <form nz-form *nzDrawerContent>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Tên</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" placeholder="Nhập tên" name="ten" [(ngModel)]="sales.ten"/>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Giá trị</nz-form-label>
+          <nz-form-control>
+              <input type="number" nz-input placeholder="Nhập giá trị" name="giaTri" [(ngModel)]="sales.giaTri" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Ngày bắt đầu</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng chọn ngày bắt đầu">
+            <input type="datetime-local" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="sales.ngayBatDau">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control>
+            <input type="datetime-local" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="sales.ngayKetThuc">
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+
+  <ng-template #footerTpl>
+    <div style="float: right">
+      <button nz-button style="margin-right: 8px;" (click)="close()">Cancel</button>
+      <button nz-button nzType="primary" (click)="createSale()">Submit</button>
+    </div>
+  </ng-template>
+</nz-drawer>

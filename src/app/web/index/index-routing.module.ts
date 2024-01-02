@@ -8,6 +8,9 @@ import {ProfileComponent} from "./page/profile/profile.component";
 import {BlogComponent} from "./page/blog/blog.component";
 import {RoomDetailsComponent} from "./page/room-details/room-details.component";
 import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
+import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-change.component";
+import {RoomOrderHistoryComponent} from "./page/room-order-history/room-order-history.component";
+import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
 
 const routes: Routes = [
   {
@@ -27,17 +30,12 @@ const routes: Routes = [
         component: RoomComponent
       },
       {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            component: ProfileComponent
-          },
-          {
-            path: 'list-room-order',
-            component: ListRoomOrderComponent
-          }
-        ]
+        path: 'profile/me',
+        component: ProfileComponent
+      },
+      {
+        path: 'profile/me/list-room-order',
+        component: ListRoomOrderComponent
       },
       {
         path: 'blog',
@@ -47,7 +45,18 @@ const routes: Routes = [
         path: 'room-detail/:id',
         component: RoomDetailsComponent
       },
-
+      {
+        path: 'room-order-change/:id1/:id',
+        component: RoomOrderChangeComponent
+      },
+      {
+        path: 'profile/me/room-order-history',
+        component: RoomOrderHistoryComponent
+      },
+      {
+        path: 'comming-soon',
+        component: CommingSoonComponent
+      }
     ]
   },
   {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
@@ -57,4 +66,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class IndexRoutingModule { }
+export class IndexRoutingModule {
+}

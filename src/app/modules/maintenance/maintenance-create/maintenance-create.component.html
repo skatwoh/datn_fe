@@ -1,48 +1,46 @@
 <div>
   <div class="submit-form">
     <div *ngIf="!submitted">
+      <form [formGroup]="maintenanceForm" (ngSubmit)="saveMaintenance()">
       <nz-form-item>
-        <nz-form-label nzFor="ma">Ngày bắt đầu: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="maintenance.ngayBatDau" />
+        <nz-form-label style="width: 120px" nzFor="ma">Ngày bắt đầu: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày bắt đầu">
+          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" formControlName="ngayBatDau"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Ngày kết thúc: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="maintenance.ngayKetThuc"/>
+        <nz-form-label  style="width: 120px" nzFor="giaPhong">Ngày kết thúc: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày kết thúc">
+          <input nz-input type="date" id="ngayKetThuc" name="ngayKetThuc" formControlName="ngayKetThuc"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Chi phí bảo trì: </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="number" id="chiPhiBaoTri" name="chiPhiBaoTri" [(ngModel)]="maintenance.chiPhiBaoTri"/>
+        <nz-form-label style="width: 120px" nzFor="giaPhong">Chi phí bảo trì: </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập chi phí">
+          <input nz-input type="number" id="chiPhiBaoTri" name="chiPhiBaoTri" formControlName="chiPhiBaoTri"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong">Ghi chú: </nz-form-label>
+        <nz-form-label  style="width: 120px" nzFor="giaPhong">Ghi chú: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="maintenance.ghiChu"/>
+          <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="idChiTietPhong">Chi Tiết Phòng</nz-form-label>
-        <nz-select id="idChiTietPhong" name="idChiTietPhong" style="width: 200px" [(ngModel)]="maintenance.idChiTietPhong">
+        <nz-form-label style="width: 120px" nzFor="idChiTietPhong">Chi Tiết Phòng</nz-form-label>
+        <nz-select  id="idChiTietPhong" name="idChiTietPhong" style="width: 200px" formControlName="idChiTietPhong">
           <nz-option *ngFor="let data of roomInfor" nzLabel="{{ data.id }}" nzValue="{{ data.id }}"></nz-option>
         </nz-select>
       </nz-form-item>
       <br>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" (click)="saveMaintenance()">Thêm</button>
-        </nz-form-control>
-      </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" style="width: 100%" [disabled]="maintenanceForm.invalid">Thêm</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </div>
 
-    <div *ngIf="submitted">
-      <h1>Thêm thành công!</h1><br>
-      <button nz-button nzType="primary" (click)="newMaintenance()">Add</button><br><br>
-      <a nz-button nzType="primary" routerLink="/admin/maintenance">Trở về</a>
-    </div>
+
   </div>
 </div>

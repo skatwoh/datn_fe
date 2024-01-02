@@ -21,7 +21,7 @@
       >
       <span
         class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Thêm mới
+          Đặt phòng
       </span>
       </button>
     </div>
@@ -49,21 +49,11 @@
   <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="roomOrder">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th scope="col" class="p-4">
-        <div class="flex items-center">
-          <input id="checkbox-all-search" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-all-search" class="sr-only">checkbox</label>
-        </div>
-      </th>
       <th scope="col" class="px-6 py-3">
         Mã
       </th>
       <th scope="col" class="px-6 py-3">
         Mã phòng
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Số điện thoại
       </th>
       <th scope="col" class="px-6 py-3">
         Ngày nhận phòng
@@ -72,10 +62,13 @@
         Ngày trả phòng
       </th>
       <th scope="col" class="px-6 py-3">
-        Tên khách hàng
+        Khách hàng
       </th>
       <th scope="col" class="px-6 py-3">
-        Tổng thanh toán
+        Trạng thái
+      </th>
+      <th scope="col" class="px-6 py-3">
+        Tổng tiền
       </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
@@ -85,21 +78,11 @@
     <tbody>
     <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         *ngFor="let data of tableData.data; let i = index">
-      <td class="w-4 p-4">
-        <div class="flex items-center">
-          <input id="checkbox-table-search-1" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-        </div>
-      </td>
       <td class="px-6 py-4">
         {{ data.ma }}
       </td>
       <td class="px-6 py-4">
         {{ data.tenPhong }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.sdt }}
       </td>
       <td class="px-6 py-4">
         {{ data.checkIn | date: APP_DATE }}
@@ -110,6 +93,17 @@
 
       <td class="px-6 py-4">
         {{ data.name }}
+      </td>
+      <td class="px-6 py-4">
+        <div class="flex items-center" *ngIf="data.trangThai == 1">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+          Đã đặt
+        </div>
+
+        <div class="flex items-center" *ngIf="data.trangThai == 0">
+          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+          Đã hủy
+        </div>
       </td>
       <td class="px-6 py-4">
         {{ data.tongGia }} VNĐ
@@ -126,16 +120,30 @@
       <!--        </div>-->
       <!--      </td>-->
       <td class="px-12 py-4" style="display: flex">
-        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-          <svg (click)="pdfBill(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <!--        <div class="font-medium text-blue-600 dark:text-blue-500 hover:underline">-->
+        <!--          <svg (click)="pdfBill(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"-->
+        <!--               class="bi bi-box-arrow-right" viewBox="0 0 16 16">-->
+        <!--            <path fill-rule="evenodd"-->
+        <!--                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"-->
+        <!--                  fill="blue"></path>-->
+        <!--            <path fill-rule="evenodd"-->
+        <!--                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"-->
+        <!--                  fill="blue"></path>-->
+        <!--          </svg>-->
+        <!--        </div>-->
+        <div *ngIf="data.trangThai == 1">
+          <div nz-tooltip nzTooltipTitle="Hủy phòng" (click)="showModal2(data.id)">
+          <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+               class="bi bi-trash" viewBox="0 0 16 16">
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+              fill="red"></path>
             <path fill-rule="evenodd"
-                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-                  fill="blue"></path>
-            <path fill-rule="evenodd"
-                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-                  fill="blue"></path>
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  fill="red"></path>
           </svg>
+          </div>
+          <!--          <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-red ml-3" >Đổi phòng</button>-->
         </div>
       </td>
     </tr>
@@ -143,7 +151,7 @@
   </nz-table>
 </div>
 <div *ngIf="pdfSrc">
-  <iframe  [src]="pdfSrc" width="100%" height="600px"></iframe>
+  <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
 </div>
 <nz-modal
   [(nzVisible)]="isVisible"
@@ -160,6 +168,7 @@
       <label class="col-auto text-lg font-nunito" style="margin-left: 20px;">
         Ngày đặt:
         <input style="border-radius: 10px" type="date" id="checkIn">
+        <span style="color: red" *ngIf="hasError">{{message}}</span>
       </label>
       <label class="col-auto text-lg" style="margin-left: 30px">
         Ngày nhận:
@@ -179,10 +188,27 @@
       </label>
       <label class="text-lg" style="margin-left: 30px"> Loại phòng:
         <select id="tenLoaiPhong" style="width: 200px;height: 40px">
-          <option style="height: 40px" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
+          <option style="height: 40px" *ngFor="let data of roomType"
+                  [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
+                  [value]="data.tenLoaiPhong"></option>
         </select>
       </label>
     </div>
   </ng-container>
 </nz-modal>
 
+<nz-modal
+  [(nzVisible)]="isVisible1"
+  (nzOnCancel)="handleCancel1()"
+  (nzOnOk)="handleOk1()"
+  [nzOkLoading]="isOkLoading1"
+  [nzOkText]="'Đồng ý'"
+  [nzCancelText]="'Trở về'"
+
+>
+  <ng-container *nzModalContent>
+    <div>
+      <p style="font-size: large">Bạn có chắc muốn hủy phòng này không?</p>
+    </div>
+  </ng-container>
+</nz-modal>

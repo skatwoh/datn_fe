@@ -75,6 +75,10 @@ const routes: Routes = [
       {
         path: 'bill',
         loadChildren: () => import('./modules/bill/bill.module').then(m => m.BillModule)
+      },
+      {
+        path: 'sale',
+        loadChildren: () => import('./modules/sale/sale.module').then(m => m.SaleModule)
       }
     ]
   },

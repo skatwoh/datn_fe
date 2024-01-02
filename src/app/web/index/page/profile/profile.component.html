@@ -28,7 +28,11 @@
         </div>
       </div>
       <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-        <button routerLink="list-room-order"
+        <button [routerLink]="['/profile/me/room-order-history']"
+                class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+          Lịch sử đặt phòng
+        </button>
+        <button [routerLink]="['/profile/me/list-room-order']"
           class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
           Phòng đã đặt
         </button>
@@ -56,7 +60,7 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" [formGroup]="form" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(form)">
+<nz-modal [(nzVisible)]="isVisible" [formGroup]="form" nzTitle="Đổi mật khẩu" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(form)" nzWidth="350px">
   <ng-container *nzModalContent>
     <div *ngIf="hasError" class="p-3 my-4 text-md text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
          role="alert">
@@ -66,7 +70,7 @@
       <nz-form-control nzErrorTip="Không được để trống">
         <div class="w-72">
           <div class="relative h-10 w-full min-w-[200px]">
-            <input
+            <input nz-input
               type="password"
               class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder=" "
@@ -83,7 +87,7 @@
       <nz-form-control nzErrorTip="Không được để trống">
         <div class="w-72">
           <div class="relative h-10 w-full min-w-[200px]">
-            <input
+            <input nz-input
               type="password"
               class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder=" "
@@ -100,7 +104,7 @@
       <nz-form-control nzErrorTip="Không được để trống">
         <div class="w-72">
           <div class="relative h-10 w-full min-w-[200px]">
-            <input
+            <input nz-input
               type="password"
               class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder=" "

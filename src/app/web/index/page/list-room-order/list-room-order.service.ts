@@ -22,8 +22,8 @@ export class ListRoomOrderService{
       return null;
     }));
   }
-  getListRoomByUpperPrice(page: number, size: number, giaPhong: any): Observable<any> {
-    const params = {page, size, giaPhong};
+  getListRoomByUpperPrice(page: number, size: number, giaPhong: any, id: any): Observable<any> {
+    const params = {page, size, giaPhong, id};
     return this.http.get<any>(`${API_AU_URL}/list-room-order-by-upper-price`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;
@@ -60,4 +60,23 @@ export class ListRoomOrderService{
   //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType
   //   });
   // }
+  getLichSuDatPhong(page: number, size: number, id: any): Observable<any> {
+    const params = {page, size, id};
+    return this.http.get<any>(`${API_AU_URL}/lich-su-dat-phong`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getRoomOfBill(page: number, size: number, userId: any): Observable<any> {
+    const params = {page, size, userId};
+    return this.http.get<any>(`${API_AU_URL}/list-room-of-bill`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }

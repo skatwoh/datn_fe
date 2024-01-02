@@ -2,7 +2,7 @@
   <!--    style="border: 1px solid red"-->
   <div class="grid grid-rows-1 grid-flow-col gap-3">
     <div class="col-span-3">
-      <img src="https://i.pinimg.com/564x/80/90/48/80904842714cf40730d13cec906e6909.jpg" alt="" width="900px"/>
+      <img src="{{room.image}}" alt="" width="900px"/>
     </div>
     <div class="row-span-2 col-span-2">
       <div style="width: 900px; background-color: rgba(227,209,191); height: 180px; border-radius: 5px">
@@ -55,17 +55,48 @@
                 <nz-date-picker class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
-
-            <nz-form-label nzFor="soNguoi">Tổng tiền</nz-form-label>
-            <nz-form-item>
-              <input id="tongGia" formControlName="tongGia" class="form-input-date" [value]="(calculateTotalDays()) * (room.giaPhong ?? 0)"/>
+            <nz-form-label nzFor="soNguoi" hidden="hidden">Mã giảm giá (nếu có):</nz-form-label>
+            <nz-form-item hidden="hidden">
+              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher"
+                      style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">
+                <option
+                  style="
+                      width: 250px;
+                      height: 25px;
+                      font-size: 18px;
+                      display: block;
+                    "
+                  value="null"
+                  selected
+                >
+                  Chọn mã giảm giá
+                </option>
+                <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList"
+                        [label]="data.ma + ' - ' + data.moTa" [value]="data.id"></option>
+              </select>
             </nz-form-item>
+            <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
+            <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0)) | currencyFormat}}</span>
+            <nz-form-item>
+              <input id="tongGia" formControlName="tongGia" class="form-input-total"
+                     [value]="(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0))"
+                     type="hidden"/>
+            </nz-form-item>
+
             <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>
             <nz-form-item>
-              <nz-select style="width: 200px" id="userId" formControlName="userId">
-                <nz-option *ngFor="let option of accounts" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-                <nz-option nzLabel="Chọn khách hàng" nzValue="0" nzHide></nz-option>
-              </nz-select>
+              <select
+                style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
+
+              id="userId" formControlName="userId">
+                <option *ngFor="let data of accounts" [label]="data.name ? data.name : 'Chọn khach hang'"
+                        [value]="data.id"></option>
+              </select>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-control>
+                <input style="border-radius: 5px" nz-input type="text" id="ghiChu" formControlName="ghiChu" placeholder="Ghi chú" [maxLength]="10">
+              </nz-form-control>
             </nz-form-item>
             <br>
             <nz-form-item>

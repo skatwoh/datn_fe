@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {PartnerModel} from "../../models/partner.model";
 import {PartnerService} from "./services/partner.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'cons-partner',
@@ -20,7 +21,7 @@ export class PartnerComponent implements OnInit{
     // detail
     id: number | undefined;
     // roomModel!: RoomModel;
-
+  form: FormGroup;
 
     showModal(id: any): void {
         this.isVisible = true;
@@ -32,6 +33,9 @@ export class PartnerComponent implements OnInit{
     }
 
     handleOk(): void {
+      if (!this.form.valid) {
+        return;
+      }
         this.isOkLoading = true;
         this.updatePartner();
         setTimeout(() => {
@@ -44,7 +48,13 @@ export class PartnerComponent implements OnInit{
         this.isVisible = false;
     }
     constructor(private partnerService: PartnerService, private router: Router,
-                private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
+                private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
+                private formBuilder: FormBuilder) {
+      this.form = this.formBuilder.group({
+        tenCongTy: [''],
+        ghiChu: ['']
+      })
+    }
 
     private getPartners(): void {
         this.partnerService.getPartnerList(1, 50).subscribe(res => {

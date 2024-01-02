@@ -50,13 +50,6 @@
   <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="partner">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th scope="col" class="p-4">
-        <div class="flex items-center">
-          <input id="checkbox-all-search" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-all-search" class="sr-only">checkbox</label>
-        </div>
-      </th>
       <th scope="col" class="px-6 py-3">
         Id
       </th>
@@ -82,13 +75,6 @@
     <tbody>
     <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         *ngFor="let data of tableData.data; let i = index">
-      <td class="w-4 p-4">
-        <div class="flex items-center">
-          <input id="checkbox-table-search-1" type="checkbox"
-                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-          <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-        </div>
-      </td>
       <td class="px-6 py-4">
         {{ data.id }}
       </td>
@@ -145,25 +131,26 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzOkDisabled]="form.invalid"
 >
   <ng-container *nzModalContent>
-    <div *ngIf="currentPartner" class="edit-form">
+    <div *ngIf="currentPartner" [formGroup]="form" class="edit-form">
       <nz-form-item>
-        <nz-form-label nzFor="ma">Mã phòng </nz-form-label>
+        <nz-form-label nzFor="ma" >Mã phòng </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
-          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentPartner.ma" />
+          <input nz-input type="text" value="{{currentPartner.ma}}" readonly/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="tenCongTy" nzRequired>Tên công ty </nz-form-label>
+        <nz-form-label nzFor="tenCongTy" >Tên công ty </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên">
-          <input nz-input type="text" id="tenCongTy" name="tenCongTy" [(ngModel)]="currentPartner.tenCongTy" />
+          <input nz-input type="text" id="tenCongTy" formControlName="tenCongTy" name="tenCongTy" [(ngModel)]="currentPartner.tenCongTy" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="ghiChu" nzRequired>Ghi chú </nz-form-label>
+        <nz-form-label nzFor="ghiChu" >Ghi chú </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
-          <input nz-input type="text" min="0" id="ghiChu" name="ghiChu" [(ngModel)]="currentPartner.tenCongTy" />
+          <input nz-input type="text" min="0" id="ghiChu" formControlName="ghiChu" name="ghiChu" [(ngModel)]="currentPartner.ghiChu" required/>
         </nz-form-control>
       </nz-form-item>
 

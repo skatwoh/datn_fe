@@ -5,6 +5,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {environment} from "../../../environments/environment";
 import {VoucherModel} from "../../models/voucher.model";
 import {VoucherService} from "./services/voucher.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'cons-voucher',
@@ -18,8 +19,7 @@ export class VoucherComponent implements OnInit{
   isVisible = false;
   isOkLoading = false;
   id: number | undefined;
-
-
+  form: FormGroup;
 
   showModal(id: any): void {
     this.isVisible = true;
@@ -31,6 +31,9 @@ export class VoucherComponent implements OnInit{
   }
 
   handleOk(): void {
+    if (!this.form.valid) {
+      return;
+    }
     this.isOkLoading = true;
     this.updateVoucher();
     setTimeout(() => {
@@ -43,7 +46,17 @@ export class VoucherComponent implements OnInit{
     this.isVisible = false;
   }
   constructor(private voucherService: VoucherService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
+              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService,
+              private formBuilder: FormBuilder
+              ) {
+    this.form = this.formBuilder.group({
+      moTa: [''],
+      giamGia: [0],
+      ngayBatDau: [''],
+      ngayKetThuc: [''],
+      soLuong: [0]
+    })
+  }
 
   private getVouchers(): void {
     this.voucherService.getVoucherList(1, 50).subscribe(res => {
@@ -95,6 +108,7 @@ export class VoucherComponent implements OnInit{
         error: (e) => console.error(e)
       });
   }
+
 
   ngOnInit() {
     this.getVouchers();

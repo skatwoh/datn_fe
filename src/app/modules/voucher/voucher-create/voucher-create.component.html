@@ -1,84 +1,60 @@
-<div xmlns="http://www.w3.org/1999/html">
+<div>
   <div class="submit-form">
-  <form nz-form  style="max-width: 850px">
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24">Mã</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <input nz-input type="text" id="ma" name="ma" [(ngModel)]="voucher.ma" disabled/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Mô tả</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <input
-          id="moTa" name="moTa" [(ngModel)]="voucher.moTa"
-          class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-          placeholder=" "
-        />
-        <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-          Mô tả
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Giảm giá</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <input
-          type="number" id="giamGia" name="giamGia" [(ngModel)]="voucher.giamGia"
-          class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-          placeholder=" "
-        />
-        <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-          Giá giảm
-        </label>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Chọn Ngày bắt đầu</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker id="ngayBatDau" name="ngayBatDau" [(ngModel)]="voucher.ngayBatDau"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Chọn ngày kết thúc</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="voucher.ngayKetThuc"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
+    <div *ngIf="!submitted">
+      <nz-form-item>
+        <nz-form-label style="width: 140px" nzFor="ma">Mã Voucher</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="voucher.ma" disabled/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 140px">Mô tả</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mô tả">
+          <input nz-input type="text" id="mota" [(ngModel)]="voucher.moTa">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 140px">Giảm giá</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập Giảm giá">
+          <input nz-input
+                 type="number" id="giamGia" name="giamGia" [(ngModel)]="voucher.giamGia"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 140px">Chọn Ngày bắt đầu</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng chọn ngày bắt đầu">
+          <nz-date-picker id="ngayBatDau" name="ngayBatDau" [(ngModel)]="voucher.ngayBatDau"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 140px">Chọn ngày kết thúc</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng chọn ngày kết thúc">
+          <nz-date-picker id="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="voucher.ngayKetThuc"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Số lượng</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <input
-          type="number" id="soLuong" name="soLuong" [(ngModel)]="voucher.soLuong"
-          class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-          placeholder=" "
-        />
-        <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
-           Số lượng
-        </label>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 140px">Số lượng</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+          <input nz-input
+                 type="number" id="soLuong" name="soLuong" [(ngModel)]="voucher.soLuong"
+          />
 
-    <nz-form-item>
-      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 16, offset: 8 }">
-        <button
-          class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
-      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
-      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-          routerLink="/admin/voucher"
-          (click)="saveVoucher()"
-        >
-      <span
-        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Thêm mới
-      </span>
-        </button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%" routerLink="/admin/voucher"
+                  (click)="saveVoucher()">Thêm
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+
     </div>
-
+  </div>
 
 
 </div>

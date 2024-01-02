@@ -89,7 +89,7 @@ export class AssetComponent implements OnInit{
     this.isVisible = false;
   }
   ngOnInit() {
-    this.getAsset;
+    this.getAsset();
   }
 
 }

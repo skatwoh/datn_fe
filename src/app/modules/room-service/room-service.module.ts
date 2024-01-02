@@ -8,14 +8,14 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
-import {NzInputModule} from "ng-zorro-antd/input";
 import {NgForOf, NgIf} from "@angular/common";
+import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import {FormFieldValidationDirective} from "../../shared/directives/form-field-validation";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 @NgModule({
-  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NzInputModule, NgIf, NzButtonModule, NgForOf, NzIconModule, FormFieldValidationDirective, ReactiveFormsModule],
+  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NgIf, NzInputModule, NzButtonModule, NgForOf, NzIconModule, NzSelectModule, ReactiveFormsModule],
   declarations: [RoomServiceComponent, RoomServiceCreateComponent, RoomServiceDetailComponent],
   exports: [RoomServiceComponent]
 })

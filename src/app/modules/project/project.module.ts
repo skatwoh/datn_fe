@@ -16,11 +16,12 @@ import {ProjectComponent} from "./project.component";
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {FormFieldValidationDirective} from "../../shared/directives/form-field-validation";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 
 @NgModule({
   imports: [ProjectRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, FormFieldValidationDirective, ReactiveFormsModule],
+    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, FormFieldValidationDirective, ReactiveFormsModule,NzDatePickerModule],
   declarations: [ProjectComponent, ProjectCreateComponent, ProjectDetailComponent],
   exports: [ProjectComponent]
 })

@@ -157,39 +157,40 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzOkDisabled]="form.invalid"
 >
   <ng-container *nzModalContent>
-    <div *ngIf="currentMaintenance" class="edit-form">
+    <div *ngIf="currentMaintenance" [formGroup]="form" class="edit-form">
       <nz-form-item>
-        <nz-form-label nzFor="ngayBatDau">Mã phòng </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ngayBatDau">Ngày bắt đầu </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
-          <input nz-input type="date" id="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentMaintenance.ngayBatDau" />
+          <input nz-input type="date" id="ngayBatDau" formControlName="ngayBatDau" name="ngayBatDau" [(ngModel)]="currentMaintenance.ngayBatDau" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="ngayKetThuc" nzRequired>Giá phòng </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ngayKetThuc" >Ngày kết thúc </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
-          <input nz-input type="date" min="0" id="ngayKetThuc" name="giaPhong" [(ngModel)]="currentMaintenance.ngayKetThuc" />
+          <input nz-input type="date"  id="ngayKetThuc" formControlName="ngayKetThuc" name="ngayKetThuc" [(ngModel)]="currentMaintenance.ngayKetThuc" required/>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="chiPhiBaoTri">Chi phí bảo trì: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="chiPhiBaoTri">Chi phí bảo trì: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
-          <input nz-input type="number" id="chiPhiBaoTri" name="chiPhiBaoTri" [(ngModel)]="currentMaintenance.chiPhiBaoTri"/>
+          <input nz-input type="number" id="chiPhiBaoTri" formControlName="chiPhiBaoTri" name="chiPhiBaoTri" [(ngModel)]="currentMaintenance.chiPhiBaoTri" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="ghiChu">Ghi chú: </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi chú: </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="currentMaintenance.ghiChu"/>
+          <input nz-input type="text" id="ghiChu" formControlName="ghiChu" name="ghiChu" [(ngModel)]="currentMaintenance.ghiChu" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="idChiTietPhong">Chi Tiết Phòng</nz-form-label>
-        <nz-select id="idChiTietPhong" name="idChiTietPhong" style="width: 200px" [(ngModel)]="currentMaintenance.idChiTietPhong">
-          <nz-option *ngFor="let data of roomInfor" nzLabel="{{ data.id }}" nzValue="{{ data.id }}"></nz-option>
-        </nz-select>
+        <nz-form-label style="width: 110px" nzFor="phong">Chi Tiết Phòng </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng chọn">
+          <input nz-input type="text" value="{{currentMaintenance.idChiTietPhong}}" readonly/>
+        </nz-form-control>
       </nz-form-item>
     </div>
   </ng-container>

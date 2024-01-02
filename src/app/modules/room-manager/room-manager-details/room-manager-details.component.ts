@@ -14,6 +14,10 @@ import {AppConstants} from "../../../app-constants";
 import {HttpClient} from "@angular/common/http";
 import {AccountService} from "../../account/services/account.service";
 import {AccountModel} from "../../account/models/account.model";
+import {BillService} from "../../bill/bill.service";
+import {VoucherModel} from "../../../models/voucher.model";
+import {VoucherService} from "../../voucher/services/voucher.service";
+import {BillModel} from "../../../models/bill.model";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -32,11 +36,14 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
   private unsubscribe: Subscription[] = [];
   accounts: AccountModel[] = [];
+  voucher!: VoucherModel;
+  voucherList: VoucherModel[] = [];
+  giamGia: number | undefined;
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http : HttpClient) {
+              private http: HttpClient, private billService: BillService, private voucherService: VoucherService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -45,7 +52,9 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
+      idVoucher: [null],
       tongGia: [0, Validators.required],
+      ghiChu: [''],
       trangThai: 1
     })
   }
@@ -68,7 +77,30 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     return 0;
   }
 
+  tinhGiamGia(): void {
+    if ((document.getElementById('voucher') as HTMLInputElement).value == 'null') {
+      this.giamGia = 0;
+    } else {
+      this.voucherService.get((document.getElementById('voucher') as HTMLInputElement).value).subscribe((data: VoucherModel) => {
+        this.voucher = data;
+        this.giamGia = data.giamGia;
+        console.log(this.voucher);
+      });
+    }
+  }
+
+  updateTongTien(): void {
+    const data = {
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    }
+    this.billService.updateTongTien(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   ngOnInit() {
+    this.getListVouchers();
     this.idPhong = this.route.snapshot.params['id'];
     this.accountService.getUserList(1, 15).subscribe(res => {
       if (res && res.content) {
@@ -81,39 +113,80 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   messSuccess(): void {
-    this.notification.blank('Bạn đã đặt phòng '+ this.room.maPhong , 'Thành công.', {
+    this.notification.blank('Bạn đã đặt phòng ' + this.room.maPhong, 'Thành công.', {
       nzKey: 'key'
     });
   }
 
+  createBill(): void {
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
+      ghiChu: (document.getElementById('ghiChu') as HTMLInputElement).value
+    }
+    this.billService.createOrUpdate(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
   saveRoomOrder(): void {
-    if(this.user?.name == null){
+    if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
     }
+    this.createBill();
     this.hasError = false;
     if (this.roomOrderForm.valid) {
-      const data = this.roomOrderForm.value;
-      data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
-      const sub = this.roomManagerService.create(data)
-        .pipe(first())
-        .subscribe((res) => {
-            if (res?.code === AppConstants.API_SUCCESS_CODE){
-              this.submitted = true;
-              this.messSuccess();
-              this.router.navigate(['/admin/room-manager']);
-            } else {
-              if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-                const msg: any = res.entityMessages[0];
-                this.notification.warning(`${msg.errorMessage}`, "");
+      setTimeout(() => {
+        const data = this.roomOrderForm.value;
+        data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+        data.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
+        const sub = this.roomManagerService.create(data)
+          .pipe(first())
+          .subscribe((res) => {
+              if (res?.code === AppConstants.API_SUCCESS_CODE) {
+                this.submitted = true;
+                this.messSuccess();
+
+                this.router.navigate(['/admin/room-manager']);
+                // this.showModal();
               } else {
-                this.message = `Error`;
+                if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+                  this.updateTongTien();
+                  this.deleteBill();
+                  const msg: any = res.entityMessages[0];
+                  this.notification.warning(`${msg.errorMessage}`, "");
+                } else {
+                  this.message = `Error`;
+                }
+                this.hasError = true;
               }
-              this.hasError = true;
-            }
-          },
-        );
-      this.unsubscribe.push(sub);
+            },
+          );
+        this.unsubscribe.push(sub);
+      }, 500)
+
     }
+  }
+
+  deleteBill() {
+    const data = {
+      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value
+    }
+    this.billService.deleteBill(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
+  getListVouchers(): void {
+    this.voucherService.getVoucherList(1, 50).subscribe(res => {
+      if (res && res.content) {
+        this.voucherList = res.content;
+      }
+    })
   }
 
   ngOnDestroy() {

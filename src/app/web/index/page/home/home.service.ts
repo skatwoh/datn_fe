@@ -33,4 +33,24 @@ export class HomeService{
     }));
   }
 
+  getListByPrice(page: number, size: number, minGia: any, maxGia: any): Observable<any> {
+    const params = {page, size, minGia, maxGia};
+    return this.http.get<any>(`${API_AU_URL}/get-room-by-price`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getListTopRoomBooking(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-top-room-booking`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
 }

@@ -2,15 +2,15 @@
   <section>
     <div style="background-image: url('/assets/sasha-kaunas-G6eXUCi8JgA-unsplash.jpg'); height: 770px">
       <div class="text-hero">
-        KKKKK A Luxury Hotel
+        Khách sạn Hotel 45
       </div>
       <div class="form-booking">
         <div class="flex flex-col">
-          <div class="bg-white p-6 rounded-xl shadow-lg">
+          <div style="width: 1200px;" class="bg-white p-6 rounded-xl shadow-lg">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <div class="flex flex-col">
                 <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
-                <input class="border rounded-md py-2 px-3" type="date" id="checkIn">
+                <input class="border rounded-md py-2 px-3" type="date" id="checkIn" min="<?= date('Y-m-d') ?>">
                 <span style="color: red" *ngIf="hasError">{{message}}</span>
               </div>
 
@@ -46,7 +46,7 @@
                 Reset
               </button>
 
-              <button class="px-4 py-2 rounded-lg text-orange-50 bg-orange-400 hover:bg-orange-500 font-bold text-white shadow-lg shadow-orange-200 transition ease-in-out duration-200 translate-10"
+              <button class="px-4 py-2 rounded-lg hover:bg-orange-500 bg-stone-700 font-bold text-white shadow-lg shadow-orange-200 transition ease-in-out duration-200 translate-10"
                       (click)="getRoomsSearch()"
               >
                 Tìm kiếm
@@ -58,532 +58,297 @@
     </div>
   </section>
 </header>
-<div>
+<div style="background-image: url('/assets/images/banner-image.png')">
 
-  <section>
-    <div class="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8">
-      <header class="text-center">
-        <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">
-          New Collection
-        </h2>
-
-        <p class="max-w-md mx-auto mt-4 text-gray-500">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
-          praesentium cumque iure dicta incidunt est ipsam, officia dolor fugit
-          natus?
-        </p>
-      </header>
-
-      <ul class="grid grid-cols-1 gap-4 mt-8 lg:grid-cols-3">
-        <li>
-          <a href="#" class="relative block group">
-            <img
-              src="https://images.unsplash.com/photo-1618898909019-010e4e234c55?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-              class="object-cover w-full transition duration-500 aspect-square group-hover:opacity-90"
-            />
-
-            <div
-              class="absolute inset-0 flex flex-col items-start justify-end p-6"
-            >
-              <h3 class="text-xl font-medium text-white">Casual Trainers</h3>
-
-              <span
-                class="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-              >
-              Shop Now
-            </span>
-            </div>
-          </a>
-        </li>
-
-        <li>
-          <a href="#" class="relative block group">
-            <img
-              src="https://images.unsplash.com/photo-1624623278313-a930126a11c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-              alt=""
-              class="object-cover w-full transition duration-500 aspect-square group-hover:opacity-90"
-            />
-
-            <div
-              class="absolute inset-0 flex flex-col items-start justify-end p-6"
-            >
-              <h3 class="text-xl font-medium text-white">Winter Jumpers</h3>
-
-              <span
-                class="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-              >
-              Shop Now
-            </span>
-            </div>
-          </a>
-        </li>
-
-        <li class="lg:col-span-2 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-          <a href="#" class="relative block group">
-            <img
-              src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
-              alt=""
-              class="object-cover w-full transition duration-500 aspect-square group-hover:opacity-90"
-            />
-
-            <div
-              class="absolute inset-0 flex flex-col items-start justify-end p-6"
-            >
-              <h3 class="text-xl font-medium text-white">Skinny Jeans Blue</h3>
-
-              <span
-                class="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-              >
-              Shop Now
-            </span>
-            </div>
-          </a>
-        </li>
-      </ul>
+  <section class = "min-h-[600px] py-16 flex flex-col items-center justify-center bg-banner-image bg-center bg-cover bg-fixed bg-no-repeat px-3">
+    <div class = "container max-w-[1200px] mx-auto text-white text-center">
+      <h2 class = "font-gilda font-normal text-2xl sm:text-[38px] tracking-[.04em] mb-3">Thư giãn tại phòng ngủ với Hotel 45.</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/decorated-pattern.svg" alt = "">
+      </div>
+      <p class="mt-9 tracking-[.04em] text-lg sm:text-2xl font-barlow font-light max-w-[600px] mx-auto leading-7 sm:leading-9">Tất cả cho một kỳ nghỉ năng động và trải nghiệm sang trọng dành cho người yêu.</p>
+      <a href = "#" class = "bg-lion font-barlow px-4 min-w-[158px] min-h-[48px] inline-flex items-center justify-center uppercase text-white transition duration-300 ease-in-out hover:bg-lion-dark mt-8 tracking-widest">KHÁM PHÁ NGAY</a>
     </div>
   </section>
-</div>
 
-<div class="text-center">
-  <h1 style="font-size: 32px; font-family:'Arvo', serif">----Hot Booking----</h1>
-</div>
-
-<div class="grid w-full grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-  <div class="flex flex-col flex-1 p-6" style=" padding: 20px">
-    <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
-      <img
-        alt="Home"
-        src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        class="h-56 w-full rounded-md object-cover"
-      />
-
-      <div class="mt-2">
-        <dl>
-          <div>
-            <dt class="sr-only">Price</dt>
-
-            <dd class="text-sm text-gray-500">$240,000</dd>
-          </div>
-
-          <div>
-            <dt class="sr-only">Address</dt>
-
-            <dd class="font-medium">123 Wallaby Avenue, Park Road</dd>
-          </div>
-        </dl>
-
-        <div class="mt-6 flex items-center gap-8 text-xs">
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Parking</p>
-
-              <p class="font-medium">2 spaces</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bathroom</p>
-
-              <p class="font-medium">2 rooms</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bedroom</p>
-
-              <p class="font-medium">4 rooms</p>
-            </div>
-          </div>
-        </div>
+  <section class = "py-16 px-3 bg-neutral-50">
+    <div class="container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Các phòng đặt nhiều nhất</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
       </div>
-    </a>
-  </div>
-  <div class="flex flex-col flex-1 p-6" style=" padding: 20px">
-    <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
-      <img
-        alt="Home"
-        src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        class="h-56 w-full rounded-md object-cover"
-      />
 
-      <div class="mt-2">
-        <dl>
-          <div>
-            <dt class="sr-only">Price</dt>
-
-            <dd class="text-sm text-gray-500">$240,000</dd>
-          </div>
-
-          <div>
-            <dt class="sr-only">Address</dt>
-
-            <dd class="font-medium">123 Wallaby Avenue, Park Road</dd>
-          </div>
-        </dl>
-
-        <div class="mt-6 flex items-center gap-8 text-xs">
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Parking</p>
-
-              <p class="font-medium">2 spaces</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bathroom</p>
-
-              <p class="font-medium">2 rooms</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bedroom</p>
-
-              <p class="font-medium">4 rooms</p>
-            </div>
-          </div>
-        </div>
+      <div class = "grid sm:grid-cols-2 lg:grid-cols-3 gap-[4px] mt-1">
+        <a *ngFor="let data of roomBooking" href = "/room-detail/{{data.id}}" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
+          <img src = "../assets/images/room-1.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">Phòng {{data.ma}}</div>
+        </a>
       </div>
-    </a>
-  </div>
-  <div class="flex flex-col flex-1 p-6" style=" padding: 20px">
-    <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
-      <img
-        alt="Home"
-        src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        class="h-56 w-full rounded-md object-cover"
-      />
+    </div>
+  </section>
 
-      <div class="mt-2">
-        <dl>
-          <div>
-            <dt class="sr-only">Price</dt>
-
-            <dd class="text-sm text-gray-500">$240,000</dd>
-          </div>
-
-          <div>
-            <dt class="sr-only">Address</dt>
-
-            <dd class="font-medium">123 Wallaby Avenue, Park Road</dd>
-          </div>
-        </dl>
-
-        <div class="mt-6 flex items-center gap-8 text-xs">
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Parking</p>
-
-              <p class="font-medium">2 spaces</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bathroom</p>
-
-              <p class="font-medium">2 rooms</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bedroom</p>
-
-              <p class="font-medium">4 rooms</p>
-            </div>
-          </div>
-        </div>
+  <section class = "py-16 px-3 bg-neutral-50">
+    <div class="container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Phòng & Dịch vụ</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
       </div>
-    </a>
-  </div>
-  <div class="flex flex-col flex-1 p-6" style=" padding: 20px">
-    <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
-      <img
-        alt="Home"
-        src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-        class="h-56 w-full rounded-md object-cover"
-      />
+      <div class = "grid gap-10 md:grid-cols-2 py-10">
+        <p class = "text-black opacity-60 font-light text-base sm:text-lg font-barlow first-letter:text-4xl first-letter:font-bold first-letter:tracking-[.03em]">Tọa lạc tại thành phố Hà Nội, cách Trung tâm Vincom Nguyễn Chí Thanh 2,6 km, Căn hộ D'capitale 119 Trần Duy Hưng cung cấp chỗ nghỉ với phòng tập thể dục. Chỗ nghỉ có quầy lễ tân 24 giờ, thang máy và dịch vụ thu đổi ngoại tệ cho khách. Với phòng tắm riêng, các phòng tại khu chung cư cũng cung cấp cho khách Wi-Fi miễn phí trong khi một số phòng tại đây có sân hiên.</p>
 
-      <div class="mt-2">
-        <dl>
-          <div>
-            <dt class="sr-only">Price</dt>
-
-            <dd class="text-sm text-gray-500">$240,000</dd>
-          </div>
-
-          <div>
-            <dt class="sr-only">Address</dt>
-
-            <dd class="font-medium">123 Wallaby Avenue, Park Road</dd>
-          </div>
-        </dl>
-
-        <div class="mt-6 flex items-center gap-8 text-xs">
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Parking</p>
-
-              <p class="font-medium">2 spaces</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bathroom</p>
-
-              <p class="font-medium">2 rooms</p>
-            </div>
-          </div>
-
-          <div class="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-            <svg
-              class="h-4 w-4 text-indigo-700"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-
-            <div class="mt-1.5 sm:mt-0">
-              <p class="text-gray-500">Bedroom</p>
-
-              <p class="font-medium">4 rooms</p>
-            </div>
-          </div>
-        </div>
+        <ul class = "bg-lion py-5 sm:py-9 px-7">
+          <li class = "grid items-center grid-cols-[32px_auto] my-1">
+            <img src = "../assets/images/icons/hotel.svg" alt = "">
+            <span class = "text-white font-barlow text-base font-light">The best prices for your relaxing vacation.</span>
+          </li>
+          <li class = "grid items-center grid-cols-[32px_auto] my-1">
+            <img src = "../assets/images/icons/hotel.svg" alt = "">
+            <span class = "text-white font-barlow text-base font-light">Ultimate place to spend time with you loved ones.</span>
+          </li>
+          <li class = "grid items-center grid-cols-[32px_auto] my-1">
+            <img src = "../assets/images/icons/hotel.svg" alt = "">
+            <span class = "text-white font-barlow text-base font-light">Cool place to have entertaining time. </span>
+          </li>
+        </ul>
       </div>
-    </a>
-  </div>
-</div>
 
-<div style="padding: 20px">
-  <section class="bg-orange-200 dark:text-gray-100">
-    <div class="container flex flex-col-reverse mx-auto lg:flex-row">
-      <div
-        class="flex flex-col px-6 py-8 space-y-6 rounded-sm sm:p-8 lg:p-12 lg:w-1/2 xl:w-2/5 dark:bg-violet-400 dark:text-gray-900">
-        <div class="flex space-x-2 sm:space-x-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-               class="flex-shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-          <div class="space-y-2">
-            <p class="text-lg font-medium leadi">Lorem ipsum dolor sit amet</p>
-            <p class="leadi">Praesentium ea et neque distinctio quas eius repudiandae quaerat obcaecati voluptatem
-              similique!</p>
-          </div>
-        </div>
-        <div class="flex space-x-2 sm:space-x-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-               class="flex-shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-          <div class="space-y-2">
-            <p class="text-lg font-medium leadi">Lorem ipsum dolor sit amet</p>
-            <p class="leadi">Praesentium ea et neque distinctio quas eius repudiandae quaerat obcaecati voluptatem
-              similique!</p>
-          </div>
-        </div>
-        <div class="flex space-x-2 sm:space-x-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-               class="flex-shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-          </svg>
-          <div class="space-y-2">
-            <p class="text-lg font-medium leadi">Lorem ipsum dolor sit amet</p>
-            <p class="leadi">Praesentium ea et neque distinctio quas eius repudiandae quaerat obcaecati voluptatem
-              similique!</p>
-          </div>
-        </div>
+      <div class = "grid sm:grid-cols-2 lg:grid-cols-3 gap-[4px]">
+        <a href = "#" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
+          <img src = "../assets/images/room-1.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">Phòng Nghỉ</div>
+        </a>
+
+        <a href = "#" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
+          <img src = "../assets/images/room-2.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">HỘI NGHỊ/PHÒNG HỌP</div>
+        </a>
+
+        <a href = "#" class = "object-cover relative after:absolute after:content-[''] after:top-0 after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-black/25 to-black/75 hover:before  before:absolute before:content-[''] before:top-3 before:left-3 before:right-3 before:bottom-3 before:border-white before:border-2 before:border-solid before:z-10 before:opacity-0 hover:before:opacity-100 before:transition before:duration-300 before:ease-in-out">
+          <img src = "../assets/images/room-3.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "absolute bottom-0 left-2/4 -translate-x-2/4 text-white font-medium uppercase text-xl md:text-2xl font-barlow z-10 px-4 mb-14 text-center w-full tracking-widest">LỄ CƯỚI</div>
+        </a>
       </div>
-      <div class="lg:w-1/2 xl:w-3/5 dark:bg-gray-800">
-        <div class="flex items-center justify-center p-4 md:p-8 lg:p-12">
-          <img src="https://source.unsplash.com/640x480/" alt=""
-               class="rounded-lg shadow-lg dark:bg-gray-500 aspect-video sm:min-h-96">
+    </div>
+  </section>
+
+  <section class = "py-16 px-3 bg-white">
+    <div class="container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3">Sự kiện</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
+      </div>
+
+      <div class = 'grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-10'>
+        <div class = "min-h-[323px] relative">
+          <img src = "../assets/images/events-1.png" class = "w-full h-full object-cover">
+          <div class = 'text-white absolute bottom-2 left-2 right-2 bg-black/50 p-5'>
+            <div class = "w-[70px] h-[70px] bg-lion rounded-full flex items-center justify-center flex-col uppercase font-mont text-sm absolute top-0 right-3 -translate-y-[50%]">
+              <span class = "font-bold tracking-widest text-xl inline-block">03</span>
+              <span class = "tracking-widest inline-block -mt-[3px]">apr</span>
+            </div>
+            <h3 class = "font-gilda text-xl tracking-[.04em] uppercase">decade nights</h3>
+            <p class = "font-normal tracking-[.04em] font-barlow text-lg">Lễ hội âm nhạc thứ bảy - <span class = "font-light">07:00 PM</span></p>
+          </div>
+        </div>
+
+        <div class = "min-h-[323px] relative">
+          <img src = "../assets/images/events-2.png" class = "w-full h-full object-cover">
+          <div class = 'text-white absolute bottom-2 left-2 right-2 bg-black/50 p-5'>
+            <div class = "w-[70px] h-[70px] bg-lion rounded-full flex items-center justify-center flex-col uppercase font-mont text-sm absolute top-0 right-3 -translate-y-[50%]">
+              <span class = "font-bold tracking-widest text-xl inline-block">06</span>
+              <span class = "tracking-widest inline-block -mt-[3px]">may</span>
+            </div>
+            <h3 class = "font-gilda text-xl tracking-[.04em] uppercase">wine tastings</h3>
+            <p class = "font-normal tracking-[.04em] font-barlow text-lg">Bữa tối rượu đặc biệt - <span class = "font-light">09:00 PM</span></p>
+          </div>
+        </div>
+
+        <div class = "min-h-[323px] relative">
+          <img src = "../assets/images/events-3.png" class = "w-full h-full object-cover">
+          <div class = 'text-white absolute bottom-2 left-2 right-2 bg-black/50 p-5'>
+            <div class = "w-[70px] h-[70px] bg-lion rounded-full flex items-center justify-center flex-col uppercase font-mont text-sm absolute top-0 right-3 -translate-y-[50%]">
+              <span class = "font-bold tracking-widest text-xl inline-block">10</span>
+              <span class = "tracking-widest inline-block -mt-[3px]">jun</span>
+            </div>
+            <h3 class = "font-gilda text-xl tracking-[.04em] uppercase">love is in the air</h3>
+            <p class = "font-normal tracking-[.04em] font-barlow text-lg">Đêm cặp đôi lãng mạn - <span class = "font-light">06:00 PM</span></p>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <section class = "py-16 px-3 bg-light-gray bg-gray-100">
+    <div class = "container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl text-[46px] tracking-[.04em] text-coyote text-center mb-3">Phòng trưng bày</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
+      </div>
+      <div class = "grid gap-3 sm:grid-cols-2 md:grid-cols-3 mt-10">
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-1.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-2.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-3.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-4.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-5.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class = "group min-h-[260px] relative after:absolute after:content-[''] after:left-0 after:top-0 after:w-full after:h-full after:bg-gradient-to-t after:from-black/75 after:to-black/5 after:opacity-0 hover:after:opacity-100 after:transition after:duration-300 after:ease-in-out overflow-hidden">
+          <img src = "../assets/images/gallery-6.png" class = "w-full h-full object-cover" alt = "">
+          <div class = "bg-lion text-white py-2 px-4 flex items-center justify-between absolute bottom-3 left-0 z-10 -translate-x-full group-hover:translate-x-0 transition duration-300 ease-in-out w-4/5">
+            <span class = "font-barlow text-lg font-normal">Fancy Sleeping Room</span>
+            <ul class = "flex items-center">
+              <li class = "text-sm"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+              <li class = "text-sm ms-1"><i class = "fas fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class = "py-16 px-3 bg-banner-image bg-center bg-cover bg-fixed bg-no-repeat">
+    <div class = "container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-coyote text-center mb-3" style="color: #80633E">Dịch vụ khách sạn của chúng tôi</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern-2.svg" alt = "">
+      </div>
+
+      <div class = "grid gap-3 mt-10 sm:grid-cols-2 md:grid-cols-3">
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/plane.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Pick Up & Drop</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/vehicle.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Parking Space</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/bed.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Room Service</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/pool.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Swimming Pool</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/wifi.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Fibre Internet</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+
+        <div class = "flex text-center flex-col justify-center items-center bg-black/30 p-10 hover:bg-black/50 transition duration-300 ease-in-out">
+          <img src = "../assets/images/icons/food.svg" class = "w-[54px]">
+          <h4 class = "mt-4 mb-2 text-lion font-gilda text-xl tracking-[.04em] font-normal" style="color: #80633E">Breakfast</h4>
+          <p class = "text-white text-base font-barlow font-light tracking-[.04em]">We’ll pick up from airport while you comfy on your ride, mus nellentesque habitant.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class = "py-16 px-3 bg-nero" style="background-color: #202020">
+    <div class = "container max-w-[1200px] mx-auto">
+      <h2 class = "font-gilda font-normal text-3xl sm:text-[46px] tracking-[.04em] text-center text-white mb-3">Tin tức & Sự kiện</h2>
+      <div class="flex items-center justify-center">
+        <img src = "../assets/images/decorated-pattern.svg" alt = "">
+      </div>
+
+      <div class = "grid mt-10 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-10">
+        <a href = "#" class = "transition duration-300 ease-in-out hover:-translate-y-5">
+          <div class = "min-h-[400px]">
+            <img src = "../assets/images/blogs-1.png" class = "w-full h-full object-cover" alt = "">
+          </div>
+          <div class = "bg-white text-coyote text-center text-lg sm:text-xl font-gilda font-medium tracking-widest uppercase py-6 px-4">CẢI TẠO NHÀ HÀNG LỊCH SỬ</div>
+        </a>
+
+        <a href = "#" class = "transition duration-300 ease-in-out hover:-translate-y-5">
+          <div class = "min-h-[400px]">
+            <img src = "../assets/images/blogs-2.png" class = "w-full h-full object-cover" alt = "">
+          </div>
+          <div class = "bg-white text-coyote text-center text-lg sm:text-xl font-gilda font-medium tracking-widest uppercase py-6 px-4">CẢI TẠO NHÀ HÀNG LỊCH SỬ</div>
+        </a>
+
+        <a href = "#" class = "transition duration-300 ease-in-out hover:-translate-y-5">
+          <div class = "min-h-[400px]">
+            <img src = "../assets/images/blogs-3.png" class = "w-full h-full object-cover" alt = "">
+          </div>
+          <div class = "bg-white text-coyote text-center text-lg sm:text-xl font-gilda font-medium tracking-widest uppercase py-6 px-4">CẢI TẠO NHÀ HÀNG LỊCH SỬ</div>
+        </a>
+      </div>
+    </div>
+  </section>
 </div>
+
+<script>
+  const checkInInput = document.getElementById('checkIn');
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  checkInInput.min = todayStr;
+</script>

@@ -25,40 +25,51 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzQRCodeModule} from "ng-zorro-antd/qr-code";
 import {NzSegmentedModule} from "ng-zorro-antd/segmented";
 import {CurrencyFormatPipe} from "../../shared/pipes/CurrencyFormatPipe";
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
+import {CommentModule} from "./comment/comment/comment.module";
+import {CaseModule} from "./case/case.module";
 
 @NgModule({
-  declarations: [
-    IndexComponent,
-    ...fromPages.pages,
-    CurrencyFormatPipe,
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    IndexRoutingModule,
-    NzDropDownModule,
-    NzAvatarModule,
-    FirstCharPipe,
-    NzImageModule,
-    NgOptimizedImage,
-    NzTypographyModule,
-    NzButtonModule,
-    NzCarouselModule,
-    NzBadgeModule,
-    NzIconModule,
-    NzModalModule,
-    NzFormModule,
-    NzInputModule,
-    NzRateModule,
-    ReactiveFormsModule,
-    NzDatePickerModule,
-    NzInputNumberModule,
-    FormsModule,
-    NzTableModule,
-    NzSelectModule,
-    NzQRCodeModule,
-    NzSegmentedModule,
-  ]
+    declarations: [
+        IndexComponent,
+        ...fromPages.pages,
+        CurrencyFormatPipe,
+    ],
+    exports: [
+        CurrencyFormatPipe
+    ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        IndexRoutingModule,
+        NzDropDownModule,
+        NzAvatarModule,
+        FirstCharPipe,
+        NzImageModule,
+        NgOptimizedImage,
+        NzTypographyModule,
+        NzButtonModule,
+        NzCarouselModule,
+        NzBadgeModule,
+        NzIconModule,
+        NzModalModule,
+        NzFormModule,
+        NzInputModule,
+        NzRateModule,
+        ReactiveFormsModule,
+        NzDatePickerModule,
+        NzInputNumberModule,
+        FormsModule,
+        NzTableModule,
+        NzSelectModule,
+        NzQRCodeModule,
+        NzSegmentedModule,
+        NzTabsModule,
+        PaymentModuleModule,
+        CommentModule,
+        CaseModule,
+    ]
 })
 export class IndexModule {
 }

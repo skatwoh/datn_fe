@@ -1,0 +1,36 @@
+<div *ngFor="let comment of comments">
+    <div class="flex flex-col">
+      <div class="border rounded-md p-3 ml-3 my-3">
+        <div class="flex gap-3 items-center">
+          <img src="https://i.pinimg.com/564x/f8/35/3a/f8353ade9b280a10e44325713a0d6865.jpg"
+               class="object-cover w-8 h-8 rounded-full
+                           border-2 border-emerald-400  shadow-emerald-400
+                            ">
+          <h3 class="font-bold">
+            {{comment.tenKhachHang}}
+          </h3>
+        </div>
+        <p class="text-gray-600 mt-2">
+          {{comment.moTa}}
+        </p>
+        <nz-rate [ngModel]="comment.trangThai" nzDisabled></nz-rate>
+      </div>
+    </div>
+</div>
+
+<div class="w-full px-3 my-2">
+  <textarea
+    class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+    name="body" placeholder='Bình luận' [(ngModel)]="newComment" required>
+  </textarea>
+  <div>
+    <label for="starRating">Star Rating:</label>
+    <select id="starRating" name="starRating" [(ngModel)]="newRating" required>
+      <option *ngFor="let rating of [1, 2, 3, 4, 5]" [ngValue]="rating">{{ rating }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="w-full flex justify-end px-3">
+  <input type='submit' class="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500" value='Bình luận' [disabled]="newComment.length === 0 || newRating === 0" (click)="addComment()">
+</div>
