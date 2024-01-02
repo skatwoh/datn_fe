@@ -14,14 +14,15 @@ import {Router} from "@angular/router";
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit{
+export class IndexComponent implements OnInit {
   user$: Observable<any>;
   user: UserModel | undefined;
   room: RoomModel[] = [];
   notificationCount = 200;
   showDropdown = false;
   notifications: NotificationsModel[] = [];
-  searchInput :string = '';
+  searchInput: string = '';
+
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
   }
@@ -34,11 +35,8 @@ export class IndexComponent implements OnInit{
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
     this.getNoti();
-
-    interval(30000).subscribe(() => {
-      this.getNoti();
-    });
-    }
+    this.loadCartItems();
+  }
 
   getNoti(): void {
     this.service.getListNoti(1, 5, this.user?.id).subscribe(res => {
@@ -53,16 +51,26 @@ export class IndexComponent implements OnInit{
     this.searchInput = inputElement.value;
     this.roomService.getRoomBySearch(1, 50, this.searchInput).subscribe(res => {
       const queryParams = {
-          searchInput: this.searchInput
+        searchInput: this.searchInput
       };
       if (res && res.content) {
-        this.room= res.content;
+        this.room = res.content;
       }
-      this.router.navigate(['/room'], { queryParams });
+      this.router.navigate(['/room'], {queryParams});
     })
   }
 
   onLogout1(): void {
     this.authService.logout1();
+  }
+
+  private cartStorageKey = 'cartItems';
+  cartItems: any[] = [];
+
+  private loadCartItems(): void {
+    const storedCartItems = localStorage.getItem(this.cartStorageKey);
+    if (storedCartItems) {
+      this.cartItems = JSON.parse(storedCartItems);
+    }
   }
 }

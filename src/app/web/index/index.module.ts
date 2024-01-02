@@ -29,12 +29,14 @@ import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
     declarations: [
         IndexComponent,
         ...fromPages.pages,
         CurrencyFormatPipe,
+        CartComponent,
     ],
     exports: [
         CurrencyFormatPipe
