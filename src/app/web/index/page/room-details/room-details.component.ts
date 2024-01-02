@@ -47,6 +47,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   sale!: SaleModel;
   private unsubscribe: Subscription[] = [];
+  test: any;
+  test1: any;
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private saleService: SaleService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
@@ -65,6 +67,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       trangThai: 1
     })
 
+    this.route.queryParams.subscribe(params => {
+        this.test = params['checkIn'];
+        this.test1 = params['checkOut'];
+    });
+
     // qr
     this.form = this.formBuilder.group({
       amount: ['', Validators.required],
@@ -77,6 +84,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+  }
+
+  parseDateString(dateString: string): Date | null {
+    const parsedDate = new Date(dateString);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   private getSale(): void {
@@ -125,6 +137,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     });
     this.getSale();
 
+    const storedCartItems = localStorage.getItem(this.cartStorageKey);
+    if (storedCartItems) {
+      this.cartItems = JSON.parse(storedCartItems);
+    }
     // check
     const keenSlider = new KeenSlider('#keen-slider', {
       loop: true,
@@ -308,6 +324,35 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         this.voucherList = res.content;
       }
     })
+  }
+
+  // Define a key for localStorage
+  private cartStorageKey = 'cartItems';
+
+  // Create an array to store cart items
+  private cartItems: any[] = [];
+  addToCart(): void {
+    const roomDetails = {
+      roomId: this.room.id,
+      roomName: this.room.maPhong,
+      amount: this.room.giaPhong,
+    };
+
+    const isDuplicate = this.cartItems.some(item => item.roomId === roomDetails.roomId);
+
+    if (!isDuplicate) {
+      this.cartItems.push(roomDetails);
+      localStorage.setItem(this.cartStorageKey, JSON.stringify(this.cartItems));
+      this.notification.success('Thêm vào giỏ hàng thành công', '');
+    } else {
+      this.notification.warning('Phòng đã được thêm trong giỏ hàng', '');
+    }
+  }
+
+  navigateBackToRoom() {
+    this.router.navigate(['/room'], {
+      queryParamsHandling: 'merge'
+    });
   }
 
   ngOnDestroy() {

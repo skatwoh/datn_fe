@@ -120,8 +120,6 @@ export class RoomComponent implements OnInit{
     this.tenLoaiPhong = loaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
-    console.log(this.minGia);
-    console.log(this.maxGia);
       this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
@@ -178,7 +176,12 @@ export class RoomComponent implements OnInit{
         this.soLuongNguoi = params['soLuongNguoi'];
         this.minGia = params['minGia'];
         this.maxGia = params['maxGia'];
-        this.getRoomsSearch();
+
+        this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+          if (res && res.content) {
+            this.room = res.content;
+          }
+        })
       }
       else {
         this.getRooms();
@@ -186,7 +189,6 @@ export class RoomComponent implements OnInit{
     });
 
     this.getSale();
-    this.image();
   }
 
   previousPage() {
@@ -216,6 +218,28 @@ export class RoomComponent implements OnInit{
     this.currentPage++;
     this.getRooms();
   }
+
+  // navigateToRoomDetails(id: any): void {
+  //   if (this.tenLoaiPhong || this.checkIn || this.checkOut) {
+  //     const newQueryParams = {
+  //       soLuongNguoi: this.soLuongNguoi,
+  //       tenLoaiPhong: this.tenLoaiPhong,
+  //       checkIn: this.checkIn,
+  //       checkOut: this.checkOut
+  //     };
+  //
+  //     this.router.navigate(['/room-detail', id], { queryParams: newQueryParams });
+  //   } else {
+  //     this.router.navigate(['/room-detail', id]);
+  //   }
+  // }
+
+  navigateToRoomDetails(id: any) {
+    this.router.navigate(['/room-detail', id], {
+      queryParamsHandling: 'merge'
+    });
+  }
+
 
   protected readonly Number = Number;
 }
