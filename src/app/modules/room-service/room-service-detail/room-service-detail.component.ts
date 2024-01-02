@@ -13,6 +13,7 @@ export class RoomServiceDetailComponent implements OnInit{
   id: number | undefined;
   roomServiceModel!: RoomServiceModel;
   message ='';
+
   constructor(public roomServiceService: RoomServiceService, private router: Router,
               private route: ActivatedRoute, private http : HttpClient) {}
 
