@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectModel} from "../../../models/project.model";
 import {ProjectService} from "../service/project.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'cons-project-create',
@@ -20,35 +21,37 @@ export class ProjectCreateComponent implements OnInit{
   trangThai: 0
 };
   submitted = false;
+  // @ts-ignore
+  submitForm: FormGroup;
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService, private fb: FormBuilder) {
+    this.submitForm = this.fb.group({
+      chiPhi: new FormControl(null, Validators.compose([ Validators.nullValidator, Validators.min(1000), Validators.max(100000000000)])),
+      tienDo: new FormControl(null, Validators.compose([ Validators.nullValidator, Validators.min(1000), Validators.max(100000000000)])),
+      ten: ['',Validators.required],
+      ngayBatDau: ['',Validators.required],
+      ngayKetThuc: ['', Validators.required],
+      ghiChu: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
     console.log(this.project);
   }
-
-
   saveProject(): void {
-    const data = {
-      ma: this.project.ma,
-      ten: this.project.ten,
-      tienDo: this.project.tienDo,
-      chiPhi: this.project.chiPhi,
-      ngayBatDau: this.project.ngayBatDau,
-      ngayKetThuc: this.project.ngayKetThuc,
-      ghiChu: this.project.ghiChu,
-      trangThai: 1
-    };
+    if (this.submitForm.valid) {
+      const data = this.submitForm.value;
 
-    this.projectService.create(data).subscribe({
-      next: (res) => {
-        this.submitted = true;
-      },
-      error: (e) => console.error(e)
-    });
+      this.projectService.create(data).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+        },
+        error: (e) => console.error(e)
+      });
+    }
   }
-
-  newProject(): void {
+  newProjectService(): void {
     this.submitted = false;
     this.project = {
       id: 0,
@@ -62,7 +65,6 @@ export class ProjectCreateComponent implements OnInit{
       trangThai: 0
     };
   }
-
   protected readonly ProjectModel = ProjectModel;
 
 }
