@@ -32,4 +32,14 @@ export class CustomerService{
     const params = {id};
     return this.http.put(`${API_AU_URL}/update`, data, {params});
   }
+
+  create(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create`, data);
+  }
+
+  getIdByCCCD(cccd: any): Observable<any>{
+    const params = {cccd};
+    return this.http.get<any>(`${API_AU_URL}/find-by-cccd`, {params});
+  }
+
 }

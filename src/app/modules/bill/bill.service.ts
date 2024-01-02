@@ -84,4 +84,8 @@ export class BillService{
       return null;
     }));
   }
+
+  createOrUpdateTaiQuay(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create-or-update-tai-quay`, data);
+  }
 }

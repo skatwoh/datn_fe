@@ -64,9 +64,6 @@
       <th scope="col" class="px-6 py-3">
         Gía Dịch Vụ
       </th>
-      <th scope="col" class="px-6 py-3">
-        Trạng Thái
-      </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
       </th>
@@ -92,32 +89,7 @@
       <td class="px-6 py-4">
         {{ data.giaDichVu }}
       </td>
-      <td class="px-6 py-4">
-        <div class="flex items-center" *ngIf="data.trangThai == 1">
-          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-          Online
-        </div>
-
-        <div class="flex items-center" *ngIf="data.trangThai == 0">
-          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-          Offline
-        </div>
-      </td>
       <td class="px-12 py-4" style="display: flex">
-        <div (click)="showModal(data.id)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-          <span nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 1">
-          <div class="btn-status-stop" (click)="updateStatus(data.id, 0)">
-            <span nz-icon nzType="close-circle" nzTheme="outline" style="font-size: 24px"></span>
-          </div>
-        </div>
-
-        <div class="flex items-center" *ngIf="data.trangThai == 0">
-          <div class="btn-status-active" (click)="updateStatus(data.id, 1)">
-            <span nz-icon nzType="check-circle" nzTheme="outline" style="font-size: 24px"></span>
-          </div>
-        </div>
         <div *ngIf="data.trangThai === 1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
           <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
                height="25" fill="currentColor"
