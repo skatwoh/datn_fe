@@ -46,35 +46,35 @@
             <nz-form-label nzFor="checkIn">Ngày nhận phòng</nz-form-label>
             <nz-form-item>
               <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
-                <nz-date-picker style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" id="checkIn" formControlName="checkIn"></nz-date-picker>
+                <nz-date-picker *ngIf="checkIn" style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" [ngModel]="checkIn" (ngModelChange)="checkIn = parseDateString($event)" id="checkIn" formControlName="checkIn"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
             <nz-form-item>
               <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
-                <nz-date-picker style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" id="checkOut" formControlName="checkOut"></nz-date-picker>
+                <nz-date-picker *ngIf="checkOut" style="width: 300px;border: 1px solid lightskyblue" class="form-input-date" [ngModel]="checkOut" (ngModelChange)="checkOut = parseDateString($event)" id="checkOut" formControlName="checkOut"></nz-date-picker>
               </nz-form-control>
             </nz-form-item>
-            <nz-form-label nzFor="soNguoi" hidden="hidden">Mã giảm giá (nếu có):</nz-form-label>
-            <nz-form-item hidden="hidden">
-              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher"
-                      style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">
-                <option
-                  style="
-                      width: 250px;
-                      height: 25px;
-                      font-size: 18px;
-                      display: block;
-                    "
-                  value="null"
-                  selected
-                >
-                  Chọn mã giảm giá
-                </option>
-                <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList"
-                        [label]="data.ma + ' - ' + data.moTa" [value]="data.id"></option>
-              </select>
-            </nz-form-item>
+<!--            <nz-form-label nzFor="soNguoi" hidden="hidden">Mã giảm giá (nếu có):</nz-form-label>-->
+<!--            <nz-form-item hidden="hidden">-->
+<!--              <select (click)="tinhGiamGia()" id="voucher" formControlName="idVoucher"-->
+<!--                      style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px">-->
+<!--                <option-->
+<!--                  style="-->
+<!--                      width: 250px;-->
+<!--                      height: 25px;-->
+<!--                      font-size: 18px;-->
+<!--                      display: block;-->
+<!--                    "-->
+<!--                  value="null"-->
+<!--                  selected-->
+<!--                >-->
+<!--                  Chọn mã giảm giá-->
+<!--                </option>-->
+<!--                <option style="width: 250px;height: 25px;font-size: 18px" *ngFor="let data of voucherList"-->
+<!--                        [label]="data.ma + ' - ' + data.moTa" [value]="data.id"></option>-->
+<!--              </select>-->
+<!--            </nz-form-item>-->
             <nz-form-label nzFor="tongGia">Tổng tiền</nz-form-label>
             <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0)) | currencyFormat}}</span>
             <nz-form-item>
@@ -98,9 +98,9 @@
             <br>
             <nz-card style="width: 300px;border: 1px solid lightskyblue;border-radius: 6px">
               <nz-form-item>
-                <nz-form-label nzFor="ten">Tên khách hàng</nz-form-label>
+                <nz-form-label nzFor="hoTen">Tên khách hàng</nz-form-label>
                 <nz-form-control>
-                  <input nz-input type="text" id="ten" formControlName="ten" placeholder="Họ tên"
+                  <input nz-input type="text" id="ten" formControlName="hoTen" placeholder="Họ tên"
                          style="border-radius: 5px;border: 1px solid deepskyblue">
                 </nz-form-control>
               </nz-form-item>

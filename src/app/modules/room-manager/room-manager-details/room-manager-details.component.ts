@@ -18,6 +18,8 @@ import {BillService} from "../../bill/bill.service";
 import {VoucherModel} from "../../../models/voucher.model";
 import {VoucherService} from "../../voucher/services/voucher.service";
 import {BillModel} from "../../../models/bill.model";
+import {CustomerService} from "../../customer/services/customer.service";
+import {CustomerModel} from "../../customer/models/customer.model";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -39,21 +41,27 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   voucher!: VoucherModel;
   voucherList: VoucherModel[] = [];
   giamGia: number | undefined;
-
+  checkIn: any;
+  checkOut: any;
+  customer!: CustomerModel;
+  idKhach: number | undefined;
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http: HttpClient, private billService: BillService, private voucherService: VoucherService) {
+              private http: HttpClient, private billService: BillService, private voucherService: VoucherService, private customerService: CustomerService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
-      userId: [0, Validators.required],
+      // userId: [0, Validators.required],
+      idKhachHang:[0],
       idPhong: this.idPhong = this.route.snapshot.params['id'],
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       soNguoi: [0, Validators.required],
-      idVoucher: [null],
       tongGia: [0, Validators.required],
+      hoTen: ['', Validators.required],
+      sdt: ['', Validators.required],
+      cccd: ['', Validators.required],
       ghiChu: [''],
       trangThai: 1
     })
@@ -100,6 +108,12 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const checkIn = params['checkInDate'];
+      const checkOut = params['checkOutDate'];
+      this.checkIn = checkIn;
+      this.checkOut = checkOut;
+    });
     this.getListVouchers();
     this.idPhong = this.route.snapshot.params['id'];
     this.accountService.getUserList(1, 15).subscribe(res => {
@@ -119,15 +133,32 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   createBill(): void {
-    const data = {
-      ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
-      ghiChu: (document.getElementById('ghiChu') as HTMLInputElement).value
+    const data1 = {
+      hoTen: (document.getElementById('ten') as HTMLInputElement).value,
+      sdt: (document.getElementById('sdt') as HTMLInputElement).value,
+      cccd: (document.getElementById('cccd') as HTMLInputElement).value
     }
-    this.billService.createOrUpdate(data).subscribe((res: any) => {
-      console.log(res);
+    this.customerService.create(data1).subscribe((res: any) => {
+      this.customer = res;
     })
+    setTimeout(() => {
+      this.customerService.getIdByCCCD(data1.cccd).subscribe((res: any) => {
+        this.idKhach = res;
+        console.log(res);
+      })
+      setTimeout(() => {
+        const data = {
+          tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+          idKhachHang: this.idKhach
+        }
+        this.billService.createOrUpdateTaiQuay(data).subscribe((res: any) => {
+          console.log(res);
+        })
+      }, 500)
+
+    }, 500)
+    // this.customerService.get()
+
   }
 
   saveRoomOrder(): void {
@@ -139,10 +170,11 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const data = this.roomOrderForm.value;
+        data.idKhachHang = this.idKhach;
         data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
-        data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+        // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         data.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
-        const sub = this.roomManagerService.create(data)
+        const sub = this.roomManagerService.datPhongTaiQuay(data)
           .pipe(first())
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
@@ -165,7 +197,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
             },
           );
         this.unsubscribe.push(sub);
-      }, 500)
+      }, 1500)
 
     }
   }
@@ -187,6 +219,11 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
         this.voucherList = res.content;
       }
     })
+  }
+
+  parseDateString(dateString: string): Date | null {
+    const parsedDate = new Date(dateString);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   ngOnDestroy() {
