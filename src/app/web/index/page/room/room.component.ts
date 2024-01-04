@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -129,10 +129,11 @@ export class RoomComponent implements OnInit {
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
     console.log(this.minGia);
-    console.log(this.maxGia);
+    console.log(this.maxGia)
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
+
         // this.updateUrlWithSearchParams();
       }
     })
@@ -145,6 +146,7 @@ export class RoomComponent implements OnInit {
     this.maxGia = maxGiaElement.value;
     console.log(this.minGia);
     console.log(this.maxGia);
+
     this.homeService.getListByPrice(1, 50, this.minGia, this.maxGia).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
@@ -170,6 +172,7 @@ export class RoomComponent implements OnInit {
       replaceUrl: true,
     });
   }
+
 
 
   ngOnInit() {
@@ -223,6 +226,28 @@ export class RoomComponent implements OnInit {
     this.getRooms();
   }
 
+  // navigateToRoomDetails(id: any): void {
+  //   if (this.tenLoaiPhong || this.checkIn || this.checkOut) {
+  //     const newQueryParams = {
+  //       soLuongNguoi: this.soLuongNguoi,
+  //       tenLoaiPhong: this.tenLoaiPhong,
+  //       checkIn: this.checkIn,
+  //       checkOut: this.checkOut
+  //     };
+  //
+  //     this.router.navigate(['/room-detail', id], { queryParams: newQueryParams });
+  //   } else {
+  //     this.router.navigate(['/room-detail', id]);
+  //   }
+  // }
+
+  navigateToRoomDetails(id: any) {
+    this.router.navigate(['/room-detail', id], {
+      queryParamsHandling: 'merge'
+    });
+  }
+
+
   protected readonly Number = Number;
 
   getRoomByTienIch(value: any, even: Event): void {
@@ -238,13 +263,14 @@ export class RoomComponent implements OnInit {
       console.log(this.data)
     }
     if (this.data.length > 0) {
+
       this.service.getListByTienIch(1, 50, this.data).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
         }
       })
     }else {
-      this.getRooms();
+      this.getRooms()
     }
   }
 

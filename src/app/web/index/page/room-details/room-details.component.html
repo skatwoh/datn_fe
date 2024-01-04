@@ -45,12 +45,12 @@
             <h5 *ngIf="!sale" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">{{
                 Number(room.giaPhong) | currencyFormat
-              }}</span
+                }}</span
               >/ 1 đêm
             </h5>
             <h5 *ngIf="sale && sale.trangThai === 1" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">
-                {{ Number(- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) | currencyFormat }}
+                {{ Number(-(room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) | currencyFormat }}
               </span
               >/ 1 đêm
             </h5>
@@ -104,7 +104,7 @@
       <div class="row-span-3">
         <div class="form-order-room">
           <h2 class="form-text-order">Đặt phòng của bạn</h2>
-          <hr />
+          <hr/>
           <div *ngIf="!submitted">
             <form
               [formGroup]="roomOrderForm"
@@ -118,6 +118,8 @@
                     class="form-input-date"
                     id="checkIn"
                     formControlName="checkIn"
+                    [(ngModel)]="test"
+                    (ngModelChange)="test = parseDateString($event)"
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -128,11 +130,14 @@
                     class="form-input-date"
                     id="checkOut"
                     formControlName="checkOut"
+                    [(ngModel)]="test1"
+                    (ngModelChange)="test1 = parseDateString($event)"
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-label nzFor="soNguoi"
-                >Mã giảm giá (nếu có):</nz-form-label
+              >Mã giảm giá (nếu có):
+              </nz-form-label
               >
               <nz-form-item>
                 <select
@@ -156,23 +161,23 @@
                   <option
                     style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
 
-                  *ngFor="let data of voucherList"
+                    *ngFor="let data of voucherList"
                     [label]="data.ma + ' - ' + data.moTa"
                     [value]="data.id"
                   ></option>
                 </select>
               </nz-form-item>
               <nz-form-label>Tổng tiền</nz-form-label>
-                <span *ngIf="!sale">{{
-                  calculateTotalDays() * (room.giaPhong ?? 0) +
-                  phiDichVu -
-                  (giamGia ?? 0) | currencyFormat
-                  }}</span>
+              <span *ngIf="!sale">{{
+                calculateTotalDays() * (room.giaPhong ?? 0) +
+                phiDichVu -
+                (giamGia ?? 0) | currencyFormat
+                }}</span>
               <span *ngIf="sale && sale.trangThai === 1">{{
-                calculateTotalDays() * (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
-                  phiDichVu -
-                  (giamGia ?? 0) | currencyFormat
-              }}</span>
+                calculateTotalDays() * (-(room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
+                phiDichVu -
+                (giamGia ?? 0) | currencyFormat
+                }}</span>
               <nz-form-item>
                 <input
                   id="tongGia"
@@ -260,7 +265,7 @@
                   </label>
                 </div>
               </fieldset>
-              <br />
+              <br/>
               <nz-form-item>
                 <nz-form-control>
                   <button
@@ -276,6 +281,22 @@
                     >
                       Đặt phòng
                     </span>
+                  </button>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-control>
+                  <button
+                    class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
+                    type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="currentColor"
+                         class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z">
+                      </path>
+                    </svg>
+                    Add to Bookmark
                   </button>
                 </nz-form-control>
               </nz-form-item>
@@ -529,8 +550,8 @@
                               class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl"
                             >
                               <span class="text-lg"
-                                >{{
-                                  Number(data.giaPhong) | currencyFormat
+                              >{{
+                                Number(data.giaPhong) | currencyFormat
                                 }} </span
                               >/ đêm
                             </p>

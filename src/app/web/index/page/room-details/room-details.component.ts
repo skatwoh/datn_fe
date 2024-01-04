@@ -47,6 +47,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   sale!: SaleModel;
   private unsubscribe: Subscription[] = [];
+  test: any;
+  test1: any;
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private saleService: SaleService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
@@ -65,6 +67,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       trangThai: 1
     })
 
+    this.route.queryParams.subscribe(params => {
+      const soLuongNguoi = params['soLuongNguoi'];
+      const tenLoaiPhong = params['tenLoaiPhong'];
+      this.test = params['checkIn'];
+      this.test1 = params['checkOut'];
+    });
+
     // qr
     this.form = this.formBuilder.group({
       amount: ['', Validators.required],
@@ -77,6 +86,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+  }
+
+  parseDateString(dateString: string): Date | null {
+    const parsedDate = new Date(dateString);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
   }
 
   private getSale(): void {
@@ -308,6 +322,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
         this.voucherList = res.content;
       }
     })
+  }
+
+  addToCart(): void {
+
+  }
+
+  navigateBackToRoom() {
+    this.router.navigate(['/room'], {
+      queryParamsHandling: 'merge'
+    });
   }
 
   ngOnDestroy() {
