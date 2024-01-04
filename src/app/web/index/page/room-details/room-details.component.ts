@@ -68,10 +68,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     })
 
     this.route.queryParams.subscribe(params => {
-      const soLuongNguoi = params['soLuongNguoi'];
-      const tenLoaiPhong = params['tenLoaiPhong'];
-      this.test = params['checkIn'];
-      this.test1 = params['checkOut'];
+        this.test = params['checkIn'];
+        this.test1 = params['checkOut'];
     });
 
     // qr
@@ -139,6 +137,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     });
     this.getSale();
 
+    const storedCartItems = localStorage.getItem(this.cartStorageKey);
+    if (storedCartItems) {
+      this.cartItems = JSON.parse(storedCartItems);
+    }
     // check
     const keenSlider = new KeenSlider('#keen-slider', {
       loop: true,
@@ -324,8 +326,27 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     })
   }
 
-  addToCart(): void {
+  // Define a key for localStorage
+  private cartStorageKey = 'cartItems';
 
+  // Create an array to store cart items
+  private cartItems: any[] = [];
+  addToCart(): void {
+    const roomDetails = {
+      roomId: this.room.id,
+      roomName: this.room.maPhong,
+      amount: this.room.giaPhong,
+    };
+
+    const isDuplicate = this.cartItems.some(item => item.roomId === roomDetails.roomId);
+
+    if (!isDuplicate) {
+      this.cartItems.push(roomDetails);
+      localStorage.setItem(this.cartStorageKey, JSON.stringify(this.cartItems));
+      this.notification.success('Thêm vào giỏ hàng thành công', '');
+    } else {
+      this.notification.warning('Phòng đã được thêm trong giỏ hàng', '');
+    }
   }
 
   navigateBackToRoom() {

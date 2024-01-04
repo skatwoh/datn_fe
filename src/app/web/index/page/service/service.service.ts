@@ -56,4 +56,33 @@ export class ServiceService {
       return null;
     }));
   }
+
+  getDoanhThuByTime(checkIn: string, checkOut: string){
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-day`, {params});
+  }
+
+  getDoanhThuByDay(year: any, month: any, day: any){
+    const params = {year, month, day};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-to-day`, {params});
+  }
+
+  getDoanhThuByMonth(year: any, month: any){
+    const params = {year, month};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-month`, {params});
+  }
+
+  getDoanhThuByYear(year: any){
+    const params = {year};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-year`, {params});
+  }
+
+  getAllDoanhThu(){
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/all-doanh-thu`);
+  }
+
+  getSoPhongDaDat(checkIn: string, checkOut: string){
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat`, {params});
+  }
 }

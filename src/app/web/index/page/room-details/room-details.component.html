@@ -44,7 +44,7 @@
             <h5>Giá phòng:</h5>
             <h5 *ngIf="!sale" style="margin-left: 10px">
               <span style="font-size: 16px; color: aliceblue">{{
-                Number(room.giaPhong) | currencyFormat
+                  Number(room.giaPhong) | currencyFormat
                 }}</span
               >/ 1 đêm
             </h5>
@@ -114,24 +114,34 @@
               <nz-form-label nzFor="checkIn">Ngày nhận phòng</nz-form-label>
               <nz-form-item>
                 <nz-form-control nzErrorTip="Vui lòng chọn ngày nhận">
-                  <nz-date-picker
-                    class="form-input-date"
-                    id="checkIn"
-                    formControlName="checkIn"
-                    [(ngModel)]="test"
-                    (ngModelChange)="test = parseDateString($event)"
+                  <nz-date-picker *ngIf="test"
+                                  class="form-input-date"
+                                  id="checkIn"
+                                  formControlName="checkIn"
+                                  [(ngModel)]="test"
+                                  (ngModelChange)="test = parseDateString($event)"
+                  ></nz-date-picker>
+                  <nz-date-picker *ngIf="!test"
+                                  class="form-input-date"
+                                  id="checkIn"
+                                  formControlName="checkIn"
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-label nzFor="checkOut">Ngày trả phòng</nz-form-label>
               <nz-form-item>
                 <nz-form-control nzErrorTip="Vui lòng chọn ngày trả">
-                  <nz-date-picker
-                    class="form-input-date"
-                    id="checkOut"
-                    formControlName="checkOut"
-                    [(ngModel)]="test1"
-                    (ngModelChange)="test1 = parseDateString($event)"
+                  <nz-date-picker *ngIf="test1"
+                                  class="form-input-date"
+                                  id="checkOut"
+                                  formControlName="checkOut"
+                                  [(ngModel)]="test1"
+                                  (ngModelChange)="test1 = parseDateString($event)"
+                  ></nz-date-picker>
+                  <nz-date-picker *ngIf="!test1"
+                                  class="form-input-date"
+                                  id="checkOut"
+                                  formControlName="checkOut"
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -169,14 +179,14 @@
               </nz-form-item>
               <nz-form-label>Tổng tiền</nz-form-label>
               <span *ngIf="!sale">{{
-                calculateTotalDays() * (room.giaPhong ?? 0) +
-                phiDichVu -
-                (giamGia ?? 0) | currencyFormat
+                  calculateTotalDays() * (room.giaPhong ?? 0) +
+                  phiDichVu -
+                  (giamGia ?? 0) | currencyFormat
                 }}</span>
               <span *ngIf="sale && sale.trangThai === 1">{{
-                calculateTotalDays() * (-(room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
-                phiDichVu -
-                (giamGia ?? 0) | currencyFormat
+                  calculateTotalDays() * (-(room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
+                  phiDichVu -
+                  (giamGia ?? 0) | currencyFormat
                 }}</span>
               <nz-form-item>
                 <input
@@ -288,15 +298,15 @@
                 <nz-form-control>
                   <button
                     class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
-                    type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                         stroke="currentColor"
-                         class="w-5 h-5">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z">
-                      </path>
+                    type="button"
+                    (click)="addToCart()"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-cart2" viewBox="0 0 16 16">
+                      <path
+                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
                     </svg>
-                    Add to Bookmark
+                    Thêm vào giỏ hàng
                   </button>
                 </nz-form-control>
               </nz-form-item>
@@ -551,7 +561,7 @@
                             >
                               <span class="text-lg"
                               >{{
-                                Number(data.giaPhong) | currencyFormat
+                                  Number(data.giaPhong) | currencyFormat
                                 }} </span
                               >/ đêm
                             </p>

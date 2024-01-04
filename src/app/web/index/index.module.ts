@@ -30,12 +30,14 @@ import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
     declarations: [
         IndexComponent,
         ...fromPages.pages,
         CurrencyFormatPipe,
+        CartComponent,
     ],
     exports: [
         CurrencyFormatPipe

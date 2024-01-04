@@ -9,6 +9,8 @@ import {ServiceService} from "../../web/index/page/service/service.service";
 import {AccountModel} from "../account/models/account.model";
 import {AccountService} from "../account/services/account.service";
 import {CommentService} from "../../web/index/comment/comment.service";
+import * as moment from "moment/moment";
+
 
 @Component({
   selector: 'app-welcome',
@@ -21,9 +23,17 @@ export class WelcomeComponent implements OnInit {
   room: RoomModel[] = [];
   accounts: AccountModel[] = [];
   count: number | undefined;
-
+  yearSelect: number[] = [];
+  monthSelect: number[] = [];
+  daySelect: number[] = [];
   pages: string[] = ['room', 'room-detail', 'about'];
-
+  checkInDate: string = '';
+  checkOutDate: string = '';
+  tongDoanhThu: any = 0;
+  tongSoPhong: any = 0;
+  yearNumber: string = '';
+  monthNumber: string = '';
+  luaChon: string = '';
   constructor(private roomService: RoomService, private router: Router, private roomOrderService: RoomManagerService,
               private service: ServiceService, private accountService: AccountService, private commentService: CommentService ) { }
 
@@ -57,14 +67,22 @@ export class WelcomeComponent implements OnInit {
 
       if (roomOrdersResponse && roomOrdersResponse.content) {
         this.roomOrder = roomOrdersResponse.content;
+        this.tongSoPhong = this.roomOrder.length;
       }
 
       if (accountsResponse && accountsResponse.content) {
         this.accounts = accountsResponse.content;
       }
     });
-
+    this.service.getAllDoanhThu().subscribe(res => {
+      this.tongDoanhThu = res.body;
+    });
     this.loadComments();
+    this.getDoanhThuByDay();
+    this.getSoPhongDaDat();
+    this.addYearSelect();
+    this.addMonthSelect();
+    this.getDayByMonthAndYear();
   }
 
   getVisitCount() {
@@ -85,4 +103,72 @@ export class WelcomeComponent implements OnInit {
     return count;
   }
 
+  getDoanhThuByDay() : void{
+    if (this.checkOutDate !== '' && this.checkInDate !== '') {
+      this.service.getDoanhThuByTime(this.checkInDate, this.checkOutDate).subscribe(res => {
+        this.tongDoanhThu = res.body;
+      });
+    }
+    this.getSoPhongDaDat();
+  }
+  getSoPhongDaDat() : void{
+    if (this.checkOutDate !== '' && this.checkInDate !== '') {
+      this.service.getSoPhongDaDat(this.checkInDate, this.checkOutDate).subscribe(res => {
+        this.tongSoPhong = res.body;
+      });
+    }
+  }
+
+  addYearSelect(){
+    for (var x = 2023;x <= 2030;x++){
+      this.yearSelect.push(x);
+    }
+  }
+
+  addMonthSelect(){
+    for (var x = 1;x <= 12;x++){
+      this.monthSelect.push(x);
+    }
+  }
+
+  getDayByMonthAndYear(){
+    const yearInput = document.getElementById('year') as HTMLInputElement;
+    const monthInput = document.getElementById('month') as HTMLInputElement;
+    this.yearNumber = yearInput.value;
+    this.monthNumber = monthInput.value;
+    let date = new Date(Number(this.yearNumber), Number(this.monthNumber), 1);
+    let date2 = moment({ year: Number(this.yearNumber), month: Number(this.monthNumber) - 1 });
+    let daysInMonth = date2.daysInMonth();
+    this.daySelect = [];
+    for (let x = 1;x <= daysInMonth;x++){
+      this.daySelect.push(x);
+    }
+    this.getDoanhThuByYear();
+    console.log(daysInMonth);
+  }
+
+  getDoanhThuByYear() : void{
+    const luaChon = document.getElementById('luaChon') as HTMLInputElement;
+    const yearSl = document.getElementById('year') as HTMLInputElement;
+    const monthSl = document.getElementById('month') as HTMLInputElement;
+    const daySl = document.getElementById('day') as HTMLInputElement;
+    this.luaChon = luaChon.value;
+    if(this.luaChon == '1' && (yearSl.value !== null && yearSl.value !== '')){
+      this.service.getDoanhThuByYear(yearSl.value).subscribe(res => {
+        this.tongDoanhThu = res.body;
+      })
+    }
+    else if(this.luaChon == '2' && yearSl.value !== null && yearSl.value !== '' && monthSl.value !== null && yearSl.value !== ''){
+      this.service.getDoanhThuByMonth(yearSl.value, monthSl.value).subscribe(res => {
+        this.tongDoanhThu = res.body;
+      })
+    }
+    else if(this.luaChon == '3' && yearSl.value !== null && yearSl.value !== ''
+      && monthSl.value !== null && yearSl.value !== '' && daySl.value !== null && daySl.value !== ''){
+      this.service.getDoanhThuByDay(yearSl.value, monthSl.value, daySl.value).subscribe(res => {
+        this.tongDoanhThu = res.body;
+      })
+    }
+    this.getSoPhongDaDat();
+  }
 }

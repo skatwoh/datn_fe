@@ -1,0 +1,134 @@
+<section>
+  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <header class="text-center">
+        <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Xe đẩy hàng của bạn</h1>
+      </header>
+
+      <div class="mt-8">
+        <div *ngIf="cartItems.length === 0">
+          <div
+            class="mt-6 flex flex-col items-center rounded-xl bg-green-50 p-4 text-slate-800 shadow-sm dark:bg-slate-900 dark:text-slate-400 md:p-12">
+            <div class="inline-flex items-center">
+              <svg class="mr-2 h-6 w-6 fill-current text-teal-900 dark:text-teal-400" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 512 512">
+                <path
+                  d="M447.1 0h-384c-35.25 0-64 28.75-64 63.1v287.1c0 35.25 28.75 63.1 64 63.1h96v83.1c0 9.838 11.03 15.55 19.12 9.7l124.9-93.7h144c35.25 0 64-28.75 64-63.1V63.1C511.1 28.75 483.2 0 447.1 0zM480 352c0 17.6-14.4 32-32 32h-144.1c-6.928 0-13.67 2.248-19.21 6.406L192 460v-60c0-8.838-7.164-16-16-16H64c-17.6 0-32-14.4-32-32V64c0-17.6 14.4-32 32-32h384c17.6 0 32 14.4 32 32V352zM432 224h-160C263.2 224 256 231.2 256 240S263.2 256 272 256h160C440.8 256 448 248.8 448 240S440.8 224 432 224zM224 240C224 231.2 216.8 224 208 224h-128C71.16 224 64 231.2 64 240S71.16 256 80 256h128C216.8 256 224 248.8 224 240zM144 288h-32C103.2 288 96 295.2 96 304S103.2 320 112 320h32C152.8 320 160 312.8 160 304S152.8 288 144 288zM400 288h-32C359.2 288 352 295.2 352 304s7.156 16 16 16h32c8.844 0 16-7.156 16-16S408.8 288 400 288zM304 288h-96C199.2 288 192 295.2 192 304S199.2 320 208 320h96c8.844 0 16-7.156 16-16S312.8 288 304 288z"/>
+              </svg>
+              <h2 class="text-teal-900 dark:text-teal-400 text-xl font-semibold">Community Discussion</h2>
+            </div>
+            <p class="mt-6 mb-6 max-w-2xl text-center text-slate-800 dark:text-teal-400">Xe đẩy hàng của quý khách chẳng
+              có gì bên trong
+              <br/>
+              Hãy mua khách sạn, chuyến bay, ô tô và điểm thu hút để lập kế hoạch cho chuyến đi tiếp theo.</p>
+          </div>
+        </div>
+        <ul class="space-y-4" *ngFor="let cartItem of cartItems; let i = index">
+          <li class="flex items-center gap-4 hover:bg-gray-200 rounded" style="cursor: pointer">
+            <img
+              src="https://i.pinimg.com/564x/53/f2/40/53f240b1941a4d5ecfd179c7091d7d1a.jpg"
+              alt=""
+              class="h-16 w-16 rounded object-cover"
+              [routerLink]="['/room-detail', cartItem.roomId]"
+            />
+            <div>
+              <h3 class="text-sm text-gray-900">Phòng: {{ cartItem.roomName }}</h3>
+
+              <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
+                <div>
+                  <dt class="inline">Giá phòng:</dt>
+                  <dd class="inline">{{ cartItem.amount }}</dd>
+                </div>
+
+                <div>
+                  <dt class="inline">Color:</dt>
+                  <dd class="inline">White</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="flex flex-1 items-center justify-end gap-2">
+              <button class="text-gray-600 transition hover:text-red-600" (click)="removeFromCart(i)">
+                <span class="sr-only">Remove item</span>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-4 w-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </button>
+            </div>
+          </li>
+        </ul>
+
+        <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
+          <div class="w-screen max-w-lg space-y-4">
+            <dl class="space-y-0.5 text-sm text-gray-700">
+              <div class="flex justify-between">
+                <dt>Tổng tiền:</dt>
+                <dd>{{ subtotal() | currencyFormat }}</dd>
+              </div>
+
+              <div class="flex justify-between">
+                <dt>VAT</dt>
+                <dd>£25</dd>
+              </div>
+
+              <div class="flex justify-between">
+                <dt>Discount</dt>
+                <dd>-£20</dd>
+              </div>
+
+              <div class="flex justify-between !text-base font-medium">
+                <dt>Total</dt>
+                <dd>£200</dd>
+              </div>
+            </dl>
+
+            <div class="flex justify-end">
+              <span
+                class="inline-flex items-center justify-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-indigo-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="-ms-1 me-1.5 h-4 w-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"
+                  />
+                </svg>
+
+                <p class="whitespace-nowrap text-xs">2 Discounts Applied</p>
+              </span>
+            </div>
+
+            <div class="flex justify-end">
+              <a
+                href="#"
+                class="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
+              >
+                Checkout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

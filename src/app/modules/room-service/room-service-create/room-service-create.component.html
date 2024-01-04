@@ -13,7 +13,7 @@
       <nz-form-item>
         <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi Chú </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomservice.ghiChu"/>
+          <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomservice.ghiChu" [maxLength]="20"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>

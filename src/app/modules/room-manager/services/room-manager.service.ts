@@ -75,4 +75,8 @@ export class RoomManagerService {
     const params = {id};
     return this.http.put(`${API_AU_URL}/update-dat-phong`, data, {params});
   }
+
+  datPhongTaiQuay(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/dat-phong-tai-quay`, data);
+  }
 }

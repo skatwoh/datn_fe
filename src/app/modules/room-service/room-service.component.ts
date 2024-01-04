@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ProjectModel} from "../../models/project.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {RoomServiceModel} from "../../models/room-service.model";
-import {RoomService} from "../room/services/room.service";
 import {RoomServiceService} from "./service/room-service.service";
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -87,8 +85,7 @@ export class RoomServiceComponent implements OnInit{
 
   handleOk(): void {
     this.isOkLoading = true;
-    // @ts-ignore
-    this.updateStatus();
+    this.updateRoomService();
     setTimeout(() => {
       this.isVisible = false;
       this.isOkLoading = false;
