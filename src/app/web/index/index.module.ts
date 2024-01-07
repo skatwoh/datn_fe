@@ -29,6 +29,7 @@ import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import { CartComponent } from './cart/cart.component';
 
 @NgModule({
@@ -71,6 +72,7 @@ import { CartComponent } from './cart/cart.component';
         PaymentModuleModule,
         CommentModule,
         CaseModule,
+        NzCheckboxModule,
     ]
 })
 export class IndexModule {
