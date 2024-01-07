@@ -47,8 +47,8 @@ export class ServiceService {
   getVisitCount(page: string) {
     return this.http.get<number>(`${API_RES}/get-visit-count?page=${page}`);
   }
-  getListByTienIch(page: number, size: number, searchInput: any[]): Observable<any> {
-    const params = {page, size, searchInput};
+  getListByTienIch(page: number, size: number, searchInput: any[], soLuongNguoi: any, input: any , checkIn: any,checkOut: any): Observable<any> {
+    const params = {page, size, searchInput,soLuongNguoi,input,checkIn,checkOut};
     return this.http.get<any>(`${API_URL}/get-room-by-tienIch`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;

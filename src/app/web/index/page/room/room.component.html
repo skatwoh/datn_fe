@@ -39,7 +39,7 @@
         <br>
 
         <div>
-          <p>Filter</p>
+          <p>Chọn phòng có: </p>
           <nz-checkbox-wrapper style="width: 800px;">
 
             <div nz-col nzSpan="8"><label nz-checkbox nzValue="View hướng biển"
@@ -66,14 +66,16 @@
         <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md">
         <br/>
         <p class="date-input">Loại phòng: </p>
-        <select id="tenLoaiPhong" class="select-input">
+        <select id="tenLoaiPhong" class="select-input" >
+          <option class="option" value="">Alls</option>
           <option class="option" *ngFor="let data of roomType"
                   [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
                   [value]="data.tenLoaiPhong"></option>
         </select>
         <br/>
         <p class="date-input">Số người:</p>
-        <select id="soLuongNguoi" class="select-input">
+        <select id="soLuongNguoi" class="select-input" >
+          <option class="option" value="">Alls</option>
           <option class="option" value="1">1</option>
           <option class="option" value="2">2</option>
           <option class="option" value="3">3</option>
@@ -144,7 +146,7 @@
         </div>
       </div>
       <button style="width: 250px" class="bg-indigo-500 text-white px-4 py-2 rounded-md mt-5"
-              (click)="getRoomsSearch()" >Search
+               (click)="searchByAlls()" >Search
       </button>
     </div>
 

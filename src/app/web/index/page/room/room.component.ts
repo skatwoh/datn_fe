@@ -174,7 +174,6 @@ export class RoomComponent implements OnInit {
   }
 
 
-
   ngOnInit() {
 
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
@@ -253,7 +252,6 @@ export class RoomComponent implements OnInit {
   getRoomByTienIch(value: any, even: Event): void {
     const checkbox = even.target as HTMLInputElement;
     // this.selectedValues = this.checkboxes.filter(checkbox => checkbox.nzChecked).map(checkbox => checkbox.nzValue);
-
     if (checkbox.checked) {
       this.data.push(value)
       console.log(this.data)
@@ -263,15 +261,28 @@ export class RoomComponent implements OnInit {
       console.log(this.data)
     }
     if (this.data.length > 0) {
-
-      this.service.getListByTienIch(1, 50, this.data).subscribe(res => {
+      this.service.getListByTienIch(1, 50, this.data,'','','','').subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
         }
       })
-    }else {
+    } else {
       this.getRooms()
     }
+  }
+  searchByAlls(){
+    const soLuongNguoi = document.getElementById('soLuongNguoi') as HTMLInputElement;
+    const tenLoaiPhong = document.getElementById('tenLoaiPhong') as HTMLInputElement;
+    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
+    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    this.soLuongNguoi = soLuongNguoi.value;
+    this.tenLoaiPhong = tenLoaiPhong.value;
+    this.checkIn = checkInElement.value;
+    this.checkOut = checkOutElement.value;
+    this.service.getListByTienIch(1, 50, this.data,this.soLuongNguoi,this.tenLoaiPhong,this.checkIn,this.checkOut).subscribe(res => {
+      if (res && res.content) {
+        this.room = res.content;
+      }})
   }
 
   removecheckbox(even: Event): void {
