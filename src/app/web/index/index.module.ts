@@ -29,7 +29,9 @@ import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {PaymentModuleModule} from "../../modules/payment/payment.module.module";
 import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
-import { CartComponent } from './cart/cart.component';
+import {CartComponent} from './cart/cart.component';
+import {StepModule} from "./step/step.module";
+import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
 
 @NgModule({
     declarations: [
@@ -38,9 +40,10 @@ import { CartComponent } from './cart/cart.component';
         CurrencyFormatPipe,
         CartComponent,
     ],
-    exports: [
-        CurrencyFormatPipe
-    ],
+  exports: [
+    CurrencyFormatPipe,
+    ListRoomOrderComponent
+  ],
     imports: [
         CommonModule,
         HttpClientModule,

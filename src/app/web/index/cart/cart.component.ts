@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../../auth/services";
+import {UserModel} from "../../../auth/models/user.model";
 
 @Component({
   selector: 'cons-cart',
@@ -6,31 +8,34 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+  user: UserModel | undefined;
 
-  constructor() {
+  constructor(private authService: AuthService ) {
   }
 
   private cartStorageKey = 'cartItems';
   cartItems: any[] = [];
 
   ngOnInit(): void {
-    this.loadCartItems();
+    this.user = this.authService.currentUserValue;
+    this.loadCartItems(this.user?.id);
     this.subtotal();
   }
 
-  private loadCartItems(): void {
-    const storedCartItems = localStorage.getItem(this.cartStorageKey);
+  private loadCartItems(userId: any): void {
+    const userCartStorageKey = `${this.cartStorageKey}_${userId}`;
+
+    const storedCartItems = localStorage.getItem(userCartStorageKey);
+
     if (storedCartItems) {
       this.cartItems = JSON.parse(storedCartItems);
     }
   }
 
-  removeFromCart(index: number): void {
-    // Remove the item at the specified index
-    this.cartItems.splice(index, 1);
 
-    // Save the updated cartItems array to localStorage
-    localStorage.setItem(this.cartStorageKey, JSON.stringify(this.cartItems));
+  removeFromCart(index: number): void {
+    this.cartItems.splice(index, 1);
+    localStorage.setItem(`${this.cartStorageKey}_${this.user?.id}`, JSON.stringify(this.cartItems));
   }
 
   subtotal(): number {

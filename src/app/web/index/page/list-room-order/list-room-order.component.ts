@@ -201,6 +201,15 @@ export class ListRoomOrderComponent implements OnInit {
     this.imageUrl = this.generateImageUrl(amount, addInfo, accountName);
   }
 
+  expandSet = new Set<number>();
+  onExpandChange(id: any, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   protected readonly formatNumber = formatNumber;
   protected readonly Number = Number;
 }
