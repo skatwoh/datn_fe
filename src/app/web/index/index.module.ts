@@ -31,6 +31,8 @@ import {CommentModule} from "./comment/comment/comment.module";
 import {CaseModule} from "./case/case.module";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import { CartComponent } from './cart/cart.component';
+import {StepModule} from "./step/step.module";
+import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
 
 @NgModule({
     declarations: [
@@ -39,9 +41,10 @@ import { CartComponent } from './cart/cart.component';
         CurrencyFormatPipe,
         CartComponent,
     ],
-    exports: [
-        CurrencyFormatPipe
-    ],
+  exports: [
+    CurrencyFormatPipe,
+    ListRoomOrderComponent
+  ],
     imports: [
         CommonModule,
         HttpClientModule,
