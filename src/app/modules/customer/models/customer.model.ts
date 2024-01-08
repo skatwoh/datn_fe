@@ -7,4 +7,5 @@ export interface CustomerModel{
   diaChi: string;
   sdt: string;
   cccd: string;
+  rank: string;
 }

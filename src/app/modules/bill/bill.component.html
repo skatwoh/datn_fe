@@ -129,7 +129,7 @@
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3" (click)="updateStatus(data.id)" nz-menu-item class="hover:bg-blue-400">
+              <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3" (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
                 Xác nhận thanh toán
               </li>
               <li nz-menu-item  *ngIf="data.trangThai === 1" (click)="thanhToanSau(data.id)" class="hover:bg-yellow-500">

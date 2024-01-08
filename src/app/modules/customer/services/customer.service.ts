@@ -42,4 +42,8 @@ export class CustomerService{
     return this.http.get<any>(`${API_AU_URL}/find-by-cccd`, {params});
   }
 
+  getKhachHangByUser(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/get-khach-hang-by-user`, {params});
+  }
 }
