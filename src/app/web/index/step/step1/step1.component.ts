@@ -12,6 +12,7 @@ import {UserModel} from "../../../../auth/models/user.model";
 export class Step1Component implements OnInit {
   user: UserModel | undefined;
   isMarketingAccepted: boolean = false;
+  isVisible = false;
   constructor(private router: Router, private accountService: AccountService, private authService: AuthService) {
   }
 
@@ -36,5 +37,19 @@ export class Step1Component implements OnInit {
 
   onMarketingAcceptChange(event: any) {
     this.isMarketingAccepted = event.target.checked;
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }

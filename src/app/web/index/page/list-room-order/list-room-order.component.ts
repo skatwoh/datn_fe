@@ -113,7 +113,7 @@ export class ListRoomOrderComponent implements OnInit {
             this.currentRoom.trangThai = 0
             this.successMessage();
             this.getRoomsOfBill();
-            this.router.navigate(['/profile/me/list-room-order']);
+            this.router.navigate(['/me/step/2']);
           }
         },
       });
@@ -166,6 +166,7 @@ export class ListRoomOrderComponent implements OnInit {
     this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
     this.sendDataToApi();
     this.isVisibleTT = false;
+    this.router.navigate(['/me/step/3']);
   }
 
   handleCancelThanhToan(): void {

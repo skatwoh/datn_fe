@@ -48,7 +48,8 @@
         <li class="flex items-center justify-end sm:gap-1.5">
           <span class="hidden sm:inline"> Xác nhận đặt phòng </span>
 
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle mt-1.5"
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-check-circle mt-1.5"
                viewBox="0 0 24 24">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path
@@ -60,9 +61,62 @@
   </div>
 
   <section class="bg-white">
-<!--    <div class="lg:grid lg:min-h-screen lg:grid-cols-12">-->
-      <cons-list-room-order></cons-list-room-order>
-<!--    </div>-->
+    <!--
+  Heads up! 👋
+
+  Plugins:
+    - @tailwindcss/forms
+-->
+
+    <header class="bg-gray-50">
+      <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+          <div class="text-center sm:text-left">
+            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Hóa đơn của bạn đang được thực hiện.</h1>
+
+            <p class="mt-1.5 text-sm text-gray-500">Vui lòng thanh toán hóa đơn trong 3 phút để xác nhận! 🎉</p>
+          </div>
+
+          <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+            <button
+              class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-white px-5 py-3 text-gray-500 transition hover:text-gray-700 focus:outline-none focus:ring"
+              type="button"
+            >
+              <span class="text-sm font-medium">
+                <span
+                  class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="-ms-1 me-1.5 h-4 w-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+
+                  <p class="whitespace-nowrap text-sm">{{ formatTime(countdown) }}</p>
+                </span>
+              </span>
+            </button>
+
+            <button
+              class="block rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring"
+              type="button"
+            >
+              Create Post
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <cons-list-room-order></cons-list-room-order>
   </section>
 </div>
 
