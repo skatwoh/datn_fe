@@ -43,8 +43,7 @@
           <nz-checkbox-wrapper style="width: 800px;">
 
             <div nz-col nzSpan="8"><label nz-checkbox nzValue="View hướng biển"
-                                          (change)="getRoomByTienIch('View hướng biển',$event)">View hướng ra
-              biển</label></div>
+                                          (change)="getRoomByTienIch('View hướng biển',$event)">View hướng biển</label></div>
 
             <div nz-col nzSpan="8"><label nz-checkbox nzValue="Có ban công"
                                           (change)="getRoomByTienIch('Có ban công',$event)">Có ban công/Sân hiên</label>
@@ -55,8 +54,8 @@
 
             <div nz-col nzSpan="8"><label nz-checkbox nzValue="Có thư viện"
                                           (change)="getRoomByTienIch('Có thư viện',$event)">Có thư viện</label></div>
-            <div nz-col nzSpan="8"><label nz-checkbox nzValue="Được cho thú cưng vào phòng"
-                                          (change)="getRoomByTienIch('Được cho thú cưng vào phòng',$event)">Được phép
+            <div nz-col nzSpan="8"><label nz-checkbox nzValue="Được phép cho thú cưng vào phòng"
+                                          (change)="getRoomByTienIch('Được phép cho thú cưng vào phòng',$event)">Được phép
               cho thú cưng vào phòng</label></div>
           </nz-checkbox-wrapper>
         </div>
@@ -66,21 +65,21 @@
         <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md">
         <br/>
         <p class="date-input">Loại phòng: </p>
-        <select id="tenLoaiPhong" class="select-input" >
+        <select id="tenLoaiPhong" class="select-input" (change)="changeLoaiPhong()">
           <option class="option" value="">Alls</option>
           <option class="option" *ngFor="let data of roomType"
                   [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
                   [value]="data.tenLoaiPhong"></option>
         </select>
         <br/>
-        <p class="date-input">Số người:</p>
-        <select id="soLuongNguoi" class="select-input" >
-          <option class="option" value="">Alls</option>
-          <option class="option" value="1">1</option>
-          <option class="option" value="2">2</option>
-          <option class="option" value="3">3</option>
-          <option class="option" value="4">4+</option>
-        </select>
+<!--        <p class="date-input">Số người:</p>-->
+<!--        <select id="soLuongNguoi" class="select-input" (change)="changeSoLuongNguoi()">-->
+<!--          <option class="option" value="">Alls</option>-->
+<!--          <option class="option" value="1">1</option>-->
+<!--          <option class="option" value="2">2</option>-->
+<!--          <option class="option" value="3">3</option>-->
+<!--          <option class="option" value="4">4+</option>-->
+<!--        </select>-->
         <span *ngIf="hasError">{{message}}</span>
 
         <div class="relative mt-5">

@@ -43,7 +43,7 @@ export class Step1Component implements OnInit {
     const noteElement = document.getElementById('note') as HTMLInputElement;
 
     const data = {
-      name: (document.getElementById('name') as HTMLInputElement).value,
+      hoTen: (document.getElementById('name') as HTMLInputElement).value,
       email: (document.getElementById('email') as HTMLInputElement).value,
       sdt: (document.getElementById('phone') as HTMLInputElement).value,
       ngaySinh: (document.getElementById('birth') as HTMLInputElement).value,

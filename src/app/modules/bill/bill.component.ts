@@ -7,28 +7,44 @@ import {RoomOrder} from "../../models/room-order";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
 import * as moment from "moment";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {RoomServiceModel} from "../../models/room-service.model";
+import {RoomServiceService} from "../room-service/service/room-service.service";
+import {DetailsServiceModel} from "../../models/details-service.model";
 
 @Component({
   selector: 'cons-bill',
   templateUrl: './bill.component.html',
   styleUrls: ['./bill.component.scss']
 })
-export class BillComponent implements OnInit{
+export class BillComponent implements OnInit {
   bill: BillModel[] = [];
   currentBill!: BillModel;
   roomOrder: RoomOrder[] = [];
   roomOrderModel!: RoomOrder;
   billModel!: BillModel;
   isVisible = false;
-  date : Date = new Date();
+  date: Date = new Date();
   check = false;
-  constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService) {
+  isVisibleDichVu = false;
+  isVisibleChiTietDichVu = false;
+  roomservice: RoomServiceModel[] = [];
+  detailsService: DetailsServiceModel[] = [];
+  dataList: any[] = [];
+  listSoLuong: any[] = [];
+  idDP: any;
+  idHD: any;
+  tongTienDichVu: number = 0;
+  tienDichVu: number = 0;
+  inputSoLuong: any[] = [];
+  soLuongCu: any = 1;
+  constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService,
+              private roomSerivceService: RoomServiceService) {
   }
 
   private getBills(): void {
     this.billService.getBillList(1, 50).subscribe(res => {
       if (res && res.content) {
-        this.bill= res.content;
+        this.bill = res.content;
       }
     })
   }
@@ -37,7 +53,7 @@ export class BillComponent implements OnInit{
     this.getBills();
   }
 
-  updateStatus(id: any){
+  updateStatus(id: any) {
     this.billService.get(id).subscribe((data: BillModel) => {
       this.currentBill = data;
       console.log(this.currentBill);
@@ -51,10 +67,10 @@ export class BillComponent implements OnInit{
     })
   }
 
-  updateStatusRoomOrder(id: any, trangThai: any){
+  updateStatusRoomOrder(id: any, trangThai: any) {
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
-      if((data.checkIn?.split('T')[0] ?? 0) > this.date.toISOString().split('T')[0] && data.trangThai == 1){
+      if ((data.checkIn?.split('T')[0] ?? 0) > this.date.toISOString().split('T')[0] && data.trangThai == 1) {
         this.message.warning('Chưa đến ngày check-in!');
         return;
       }
@@ -74,15 +90,15 @@ export class BillComponent implements OnInit{
 
   }
 
-  checkDate(){
-    if ((this.roomOrderModel.checkIn ?? '') > this.date.toISOString()){
+  checkDate() {
+    if ((this.roomOrderModel.checkIn ?? '') > this.date.toISOString()) {
       this.check = true;
-    }else{
+    } else {
       this.check = false;
     }
   }
 
-  huyHoaDon(id: any){
+  huyHoaDon(id: any) {
     this.billService.get(id).subscribe((data: BillModel) => {
       this.currentBill = data;
       console.log(this.currentBill);
@@ -96,7 +112,7 @@ export class BillComponent implements OnInit{
     })
   }
 
-  thanhToanSau(id: any){
+  thanhToanSau(id: any) {
     this.billService.get(id).subscribe((data: BillModel) => {
       this.currentBill = data;
       console.log(this.currentBill);
@@ -127,8 +143,9 @@ export class BillComponent implements OnInit{
       });
   }
 
-  showChiTiet(id: any){
+  showChiTiet(id: any) {
     this.isVisible = true;
+    this.idHD = id;
     this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
       if (res && res.content) {
         // this.billService.get(res.content[0].idHoaDon).subscribe(data => {
@@ -141,9 +158,14 @@ export class BillComponent implements OnInit{
 
   handleCancel(): void {
     this.isVisible = false;
+    this.tongTienDichVu = 0;
+    setTimeout(() => {
+      this.getBills();
+    }, 500)
   }
 
   searchInput: string = '';
+
   getBillByString(): void {
     const inputElement = document.getElementById('searchInput') as HTMLInputElement;
     this.searchInput = inputElement.value;
@@ -152,9 +174,114 @@ export class BillComponent implements OnInit{
         searchInput: this.searchInput
       };
       if (res && res.content) {
-        this.bill= res.content;
+        this.bill = res.content;
       }
       // this.router.navigate(['/room'], { queryParams });
     })
+  }
+
+  showModalChiTietDichVu(id: any) {
+    this.isVisibleChiTietDichVu = true;
+    this.idDP = id;
+    this.billService.getAllChiTietDichVuByDatPhong(1, 15, id).subscribe(res => {
+      if (res && res.content) {
+        this.detailsService = res.content;
+      }
+    })
+  }
+
+  showModalDichVu(id: any) {
+    this.isVisibleDichVu = true;
+    this.idDP = id;
+    this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
+      if (res && res.content) {
+        this.roomservice = res.content;
+      }
+    })
+    // setTimeout(() =>{
+    //   for(let x = 0;x<=this.roomservice.length;x++){
+    //     this.inputSoLuong.push(this.roomservice[x].id);
+    //   }
+    // }, 300)
+  }
+
+  handleCancelDichVu(): void {
+    this.tongTienDichVu = 0;
+    this.tienDichVu = 0;
+    this.dataList = [];
+    this.listSoLuong = [];
+    this.isVisibleDichVu = false;
+  }
+
+  handleCancelChiTietDichVu(): void {
+    this.tongTienDichVu = 0;
+    this.isVisibleChiTietDichVu = false;
+  }
+
+
+  addListDichVu(value: any, event: Event, gia: any): void {
+    const checkbox = event.target as HTMLInputElement;
+    // this.selectedValues = this.checkboxes.filter(checkbox => checkbox.nzChecked).map(checkbox => checkbox.nzValue);
+    const soLuongDV = document.getElementById(value) as HTMLInputElement;
+    if (checkbox.checked) {
+      this.soLuongCu = 1;
+      this.dataList.push(value);
+      this.tongTienDichVu += (gia*Number.parseInt(soLuongDV.value));
+      console.log(this.dataList)
+    }
+    if (!checkbox.checked) {
+      this.dataList.splice(this.dataList.indexOf(value), 1);
+      this.tongTienDichVu -= (gia*Number.parseInt(soLuongDV.value));
+      console.log(this.dataList)
+    }
+  }
+
+  thayDoiTongTien(value: any, gia: any){
+    const soLuong1DV = document.getElementById(value) as HTMLInputElement;
+    if((document.getElementById(value) as HTMLInputElement).value === '' || (document.getElementById(value) as HTMLInputElement).value === null){
+      // soLuong1DV = 1;
+    }
+    this.tienDichVu = 0;
+    this.tienDichVu+= (gia*Number.parseInt(soLuong1DV.value));
+    this.tongTienDichVu = this.tongTienDichVu - (gia*this.soLuongCu) + this.tienDichVu;
+    console.log(this.tienDichVu);
+    setTimeout(() =>{
+      this.soLuongCu = Number.parseInt(soLuong1DV.value);
+    }, 200)
+  }
+
+  addDichVu(id: any) {
+    for (let x = 0; x < this.dataList.length; x++) {
+      const soLuong = document.getElementById(this.dataList[x]) as HTMLInputElement;
+      const data1 = {
+        idDichVu: this.dataList[x],
+        idDatPhong: id,
+        ghiChu: '',
+        trangThai: soLuong.value
+      }
+      this.billService.addDichVu(data1).subscribe((res: any) => {
+        console.log(res)
+      })
+    }
+    this.billService.tinhTienDichVu(this.idHD, this.tongTienDichVu).subscribe((res: any) => {
+      console.log(res)
+    })
+    this.dataList = [];
+    this.successMessage();
+    this.isVisibleDichVu = false;
+    this.isVisibleChiTietDichVu = false;
+    setTimeout(() => {
+      this.isVisibleChiTietDichVu = true;
+      this.idDP = id;
+      this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDP).subscribe(res => {
+        if (res && res.content) {
+          this.detailsService = res.content;
+        }
+      })
+    }, 500)
+  }
+
+  successMessage(): void {
+    this.message.success('Thêm thành công');
   }
 }
