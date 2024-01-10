@@ -44,6 +44,7 @@ export class Step1Component implements OnInit {
       ghiChu: (document.getElementById('note') as HTMLInputElement).value
     }
     this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
+      console.log(res);
       this.router.navigate(['/me/step/2']);
     })
   }
