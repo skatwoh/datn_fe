@@ -30,7 +30,7 @@ export class Step2Component implements OnInit {
       } else if (this.countdown === 0) {
         this.message.error("Hóa đơn quá thời gian!");
         this.huyHoaDon();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       }
     }, 1000);
   }
@@ -53,10 +53,10 @@ export class Step2Component implements OnInit {
     const id = this.user?.id;
     this.roomOrderService.getRoomOfBill(1, 50, id).subscribe(res => {
       if (res && res.content) {
-        this.billService.get(id).subscribe((data: BillModel) => {
+        this.billService.get(res.content[0].idHoaDon).subscribe((data: BillModel) => {
           this.currentBill = data;
         });
-        this.billService.updateStatus(id, 4).subscribe({
+        this.billService.updateStatus(res.content[0].idHoaDon, 4).subscribe({
           next: (res) => {
             this.currentBill.trangThai = 4;
             console.log(res);

@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AccountService} from "../../../../modules/account/services/account.service";
 import {AuthService} from "../../../../auth/services";
 import {UserModel} from "../../../../auth/models/user.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 @Component({
   selector: 'cons-step',
@@ -13,7 +14,8 @@ export class Step1Component implements OnInit {
   user: UserModel | undefined;
   isMarketingAccepted: boolean = false;
   isVisible = false;
-  constructor(private router: Router, private accountService: AccountService, private authService: AuthService) {
+  constructor(private router: Router, private accountService: AccountService, private authService: AuthService,
+              private customerService: CustomerService) {
   }
 
   ngOnInit(): void {
@@ -32,7 +34,18 @@ export class Step1Component implements OnInit {
   }
 
   handleSave() {
-    this.router.navigate(['/me/step/2']);
+    const data = {
+      name: (document.getElementById('name') as HTMLInputElement).value,
+      email: (document.getElementById('email') as HTMLInputElement).value,
+      sdt: (document.getElementById('phone') as HTMLInputElement).value,
+      ngaySinh: (document.getElementById('birth') as HTMLInputElement).value,
+      diaChi: (document.getElementById('address') as HTMLInputElement).value,
+      gioiTinh: (document.querySelector('input[name="gender"]:checked') as HTMLInputElement)?.value === 'true',
+      ghiChu: (document.getElementById('note') as HTMLInputElement).value
+    }
+    this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
+      this.router.navigate(['/me/step/2']);
+    })
   }
 
   onMarketingAcceptChange(event: any) {

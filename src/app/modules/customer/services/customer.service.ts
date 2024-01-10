@@ -42,4 +42,9 @@ export class CustomerService{
     return this.http.get<any>(`${API_AU_URL}/find-by-cccd`, {params});
   }
 
+  updateCustomer(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-customer`, data, {params});
+  }
+
 }
