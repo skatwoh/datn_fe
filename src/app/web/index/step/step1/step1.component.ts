@@ -29,11 +29,19 @@ export class Step1Component implements OnInit {
         (document.getElementById('name') as HTMLInputElement).value = res.body.name;
         (document.getElementById('email') as HTMLInputElement).value = res.body.email;
         (document.getElementById('phone') as HTMLInputElement).value = res.body.sdt;
+        (document.getElementById('birth') as HTMLInputElement).value = res.body.ngaySinh;
+        (document.getElementById('address') as HTMLInputElement).value = res.body.diaChi;
+        const genderInputElement = document.querySelector('input[name="gender"]:checked') as HTMLInputElement;
+        if (genderInputElement) {
+          genderInputElement.value = res.body.gioiTinh;
+        }
       }
     })
   }
 
   handleSave() {
+    const noteElement = document.getElementById('note') as HTMLInputElement;
+
     const data = {
       name: (document.getElementById('name') as HTMLInputElement).value,
       email: (document.getElementById('email') as HTMLInputElement).value,
@@ -41,10 +49,9 @@ export class Step1Component implements OnInit {
       ngaySinh: (document.getElementById('birth') as HTMLInputElement).value,
       diaChi: (document.getElementById('address') as HTMLInputElement).value,
       gioiTinh: (document.querySelector('input[name="gender"]:checked') as HTMLInputElement)?.value === 'true',
-      ghiChu: (document.getElementById('note') as HTMLInputElement).value
+      ghiChu: noteElement ? noteElement.value : ""
     }
     this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
-      console.log(res);
       this.router.navigate(['/me/step/2']);
     })
   }
