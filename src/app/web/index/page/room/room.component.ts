@@ -124,12 +124,10 @@ export class RoomComponent implements OnInit {
     const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soLuongNguoi = soLuongNguoiElement.value;
-    this.tenLoaiPhong = loaiPhongElement.value;
-    this.checkIn = checkInElement.value;
-    this.checkOut = checkOutElement.value;
-    console.log(this.minGia);
-    console.log(this.maxGia)
+    this.soLuongNguoi = soLuongNguoiElement.value ? soLuongNguoiElement.value : this.soLuongNguoi;
+    this.tenLoaiPhong = loaiPhongElement.value ? loaiPhongElement.value : this.tenLoaiPhong;
+    this.checkIn = checkInElement.value ?  checkInElement.value : this.checkIn;
+    this.checkOut = checkOutElement.value ? checkOutElement.value : this.checkOut;
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
@@ -175,21 +173,19 @@ export class RoomComponent implements OnInit {
 
 
   ngOnInit() {
-
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.route.queryParams.subscribe((params) => {
+      console.log(params, "pl")
       if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi'] || params['minGia'] || params['maxGia']) {
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
         this.soLuongNguoi = params['soLuongNguoi'];
-        this.minGia = params['minGia'];
-        this.maxGia = params['maxGia'];
         this.getRoomsSearch();
       } else {
-        this.getRooms();
+        this.router.navigate(['/']);
       }
     });
 
