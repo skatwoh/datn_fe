@@ -15,6 +15,7 @@ import {CartComponent} from "./cart/cart.component";
 import {Step1Component} from "./step/step1/step1.component";
 import {Step2Component} from "./step/step2/step2.component";
 import {Step3Component} from "./step/step3/step3.component";
+import {RoomDefaultComponent} from "./page/room-default/room-default.component";
 
 const routes: Routes = [
   {
@@ -81,7 +82,11 @@ const routes: Routes = [
             component: Step3Component
           }
         ]
-      }
+      },
+      {
+        path: 'room-default',
+        component: RoomDefaultComponent
+      },
     ]
   },
   {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},
