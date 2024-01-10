@@ -43,9 +43,7 @@ export class HomeComponent implements OnInit{
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
-      console.log(res, 'hihihi');
       if (res != null){
-        console.log('Hello');
         const queryParams = {
           soLuongNguoi: this.soLuongNguoi,
           tenLoaiPhong: this.tenLoaiPhong,
