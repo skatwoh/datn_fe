@@ -8,4 +8,5 @@ export interface CustomerModel{
   sdt: string;
   cccd: string;
   rank: string;
+  giamGia: number;
 }

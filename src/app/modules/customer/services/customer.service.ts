@@ -46,4 +46,9 @@ export class CustomerService{
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/get-khach-hang-by-user`, {params});
   }
+  updateCustomer(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-customer`, data, {params});
+  }
+
 }

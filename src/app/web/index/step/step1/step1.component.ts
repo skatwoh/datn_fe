@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AccountService} from "../../../../modules/account/services/account.service";
 import {AuthService} from "../../../../auth/services";
 import {UserModel} from "../../../../auth/models/user.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 @Component({
   selector: 'cons-step',
@@ -13,7 +14,8 @@ export class Step1Component implements OnInit {
   user: UserModel | undefined;
   isMarketingAccepted: boolean = false;
   isVisible = false;
-  constructor(private router: Router, private accountService: AccountService, private authService: AuthService) {
+  constructor(private router: Router, private accountService: AccountService, private authService: AuthService,
+              private customerService: CustomerService) {
   }
 
   ngOnInit(): void {
@@ -27,12 +29,31 @@ export class Step1Component implements OnInit {
         (document.getElementById('name') as HTMLInputElement).value = res.body.name;
         (document.getElementById('email') as HTMLInputElement).value = res.body.email;
         (document.getElementById('phone') as HTMLInputElement).value = res.body.sdt;
+        (document.getElementById('birth') as HTMLInputElement).value = res.body.ngaySinh;
+        (document.getElementById('address') as HTMLInputElement).value = res.body.diaChi;
+        const genderInputElement = document.querySelector('input[name="gender"]:checked') as HTMLInputElement;
+        if (genderInputElement) {
+          genderInputElement.value = res.body.gioiTinh;
+        }
       }
     })
   }
 
   handleSave() {
-    this.router.navigate(['/me/step/2']);
+    const noteElement = document.getElementById('note') as HTMLInputElement;
+
+    const data = {
+      name: (document.getElementById('name') as HTMLInputElement).value,
+      email: (document.getElementById('email') as HTMLInputElement).value,
+      sdt: (document.getElementById('phone') as HTMLInputElement).value,
+      ngaySinh: (document.getElementById('birth') as HTMLInputElement).value,
+      diaChi: (document.getElementById('address') as HTMLInputElement).value,
+      gioiTinh: (document.querySelector('input[name="gender"]:checked') as HTMLInputElement)?.value === 'true',
+      ghiChu: noteElement ? noteElement.value : ""
+    }
+    this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
+      this.router.navigate(['/me/step/2']);
+    })
   }
 
   onMarketingAcceptChange(event: any) {

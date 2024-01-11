@@ -19,6 +19,8 @@ import {VoucherModel} from "../../../../models/voucher.model";
 import {HttpClient} from '@angular/common/http';
 import {SaleService} from "../../../../modules/sale/sale.service";
 import {SaleModel} from "../../../../models/sale.model";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 declare var KeenSlider: any;
 
@@ -49,11 +51,14 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   test: any;
   test1: any;
+  khachHang !: CustomerModel ;
+
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private saleService: SaleService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
-              private voucherService: VoucherService, private http: HttpClient, private roomService2: RoomService) {
+              private voucherService: VoucherService, private http: HttpClient, private roomService2: RoomService ,
+              private customerService: CustomerService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -84,6 +89,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.khachHang = res ;
+    })
   }
 
   parseDateString(dateString: string): Date | null {
@@ -167,6 +176,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     keenSliderPrevious.addEventListener('click', () => keenSlider.prev());
     // @ts-ignore
     keenSliderNext.addEventListener('click', () => keenSlider.next());
+
+
   }
 
   messSuccess(): void {
@@ -252,8 +263,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   createBill(): void {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien: '',
       idKhachHang: this.user?.id
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.createOrUpdate(data).subscribe((res: any) => {
       console.log(res);
@@ -263,7 +279,12 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   updateTongTien(): void {
     const data = {
       idKhachHang: this.user?.id,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien: '',
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.updateTongTien(data).subscribe((res: any) => {
       console.log(res);
@@ -273,8 +294,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   deleteBill() {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien:'',
       idKhachHang: this.user?.id
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.deleteBill(data).subscribe((res: any) => {
       console.log(res);
@@ -290,7 +316,11 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const data = this.roomOrderForm.value;
-        data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        if(this.khachHang.giamGia === 0){
+          data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        }else if(this.khachHang.giamGia !== 0){
+          data.tongGia = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
+        }
         const sub = this.roomManagerService.create(data)
           .pipe(first())
           .subscribe((res) => {
