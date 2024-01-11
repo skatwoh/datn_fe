@@ -60,13 +60,13 @@
           </nz-checkbox-wrapper>
         </div>
         <p class="date-input">Ngày nhận - Ngày trả:</p>
-        <input type="date" placeholder="Ngày nhận phòng" id="checkIn" class="px-3 py-2 border rounded-md">
+        <input type="date" placeholder="Ngày nhận phòng" id="checkIn" class="px-3 py-2 border rounded-md" (change)="changeDate()">
         -->
-        <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md">
+        <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md" (change)="changeDate()">
         <br/>
         <p class="date-input">Loại phòng: </p>
         <select id="tenLoaiPhong" class="select-input" (change)="changeLoaiPhong()">
-          <option class="option" value="">Alls</option>
+          <option class="option" value="">Tất cả</option>
           <option class="option" *ngFor="let data of roomType"
                   [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
                   [value]="data.tenLoaiPhong"></option>

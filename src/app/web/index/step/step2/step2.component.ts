@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {BillModel} from "../../../../models/bill.model";
@@ -12,7 +12,8 @@ import {ListRoomOrderService} from "../../page/list-room-order/list-room-order.s
   templateUrl: './step2.component.html',
   styleUrls: ['./step2.component.scss']
 })
-export class Step2Component implements OnInit {
+
+export class Step2Component implements OnInit, OnDestroy {
   countdown: number = 180;
   currentBill!: BillModel;
   user: UserModel | undefined;
@@ -20,6 +21,11 @@ export class Step2Component implements OnInit {
   constructor(private router: Router, private message: NzMessageService, private billService: BillService,
               private authService: AuthService, private roomOrderService: ListRoomOrderService) {
   }
+
+  ngOnDestroy(): void {
+        this.message.warning('Giao dịch đã bị hủy!');
+        this.huyHoaDon();
+    }
 
   ngOnInit() {
     this.user = this.authService.currentUserValue;
@@ -65,4 +71,6 @@ export class Step2Component implements OnInit {
       }
     })
   }
+
+
 }

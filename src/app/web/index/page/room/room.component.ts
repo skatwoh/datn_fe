@@ -124,7 +124,7 @@ export class RoomComponent implements OnInit {
     const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soLuongNguoi = soLuongNguoiElement.value ? soLuongNguoiElement.value : this.soLuongNguoi;
+    this.soLuongNguoi = this.soLuongNguoi ? this.soLuongNguoi : soLuongNguoiElement.value;
     this.tenLoaiPhong = loaiPhongElement.value ? loaiPhongElement.value : this.tenLoaiPhong;
     this.checkIn = checkInElement.value ?  checkInElement.value : this.checkIn;
     this.checkOut = checkOutElement.value ? checkOutElement.value : this.checkOut;
@@ -183,7 +183,16 @@ export class RoomComponent implements OnInit {
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
         this.soLuongNguoi = params['soLuongNguoi'];
-        this.getRoomsSearch();
+        if(params['soLuongNguoi'] === ''){
+          this.homeService.getRoomListSearch(1, 50, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+            if (res && res.content) {
+              this.room = res.content;
+              // this.updateUrlWithSearchParams();
+            }
+          })
+        }else{
+          this.getRoomsSearch();
+        }
       } else {
         this.router.navigate(['/']);
       }
@@ -260,25 +269,39 @@ export class RoomComponent implements OnInit {
   }
 
   getByAll() {
-    if (this.data.length == 0 && this.tenLoaiPhong != '') {
-      this.service.getListByTienIch(1, 50, [], '', this.tenLoaiPhong, '', '').subscribe(res => {
+    // if (this.data.length == 0 && this.tenLoaiPhong != '') {
+    //   this.service.getListByTienIch(1, 50, [], '', this.tenLoaiPhong, '', '').subscribe(res => {
+    //     if (res && res.content) {
+    //       this.room = res.content;
+    //     }
+    //   })
+    // } else if (this.data.length > 0 && this.tenLoaiPhong == '') {
+    //   this.service.getListByTienIch(1, 50, this.data, '', '', '', '').subscribe(res => {
+    //     if (res && res.content) {
+    //       this.room = res.content;
+    //     }
+    //   })
+    // } else if (this.data.length > 0 && this.tenLoaiPhong != '') {
+    //   this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, '', '').subscribe(res => {
+    //     if (res && res.content) {
+    //       this.room = res.content;
+    //     }
+    //   })
+    // } else if (this.data.length > 0 && this.tenLoaiPhong != '') {
+    //   this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, '', '').subscribe(res => {
+    //     if (res && res.content) {
+    //       this.room = res.content;
+    //     }
+    //   })
+    // }
+    if(this.data.length > 0 || (this.tenLoaiPhong != '' && this.checkIn != '') || this.checkOut != ''){
+      this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
         }
       })
-    } else if (this.data.length > 0 && this.tenLoaiPhong == '') {
-      this.service.getListByTienIch(1, 50, this.data, '', '', '', '').subscribe(res => {
-        if (res && res.content) {
-          this.room = res.content;
-        }
-      })
-    } else if (this.data.length > 0 && this.tenLoaiPhong != '') {
-      this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, '', '').subscribe(res => {
-        if (res && res.content) {
-          this.room = res.content;
-        }
-      })
-    } else {
+    }
+    else {
       this.getRooms()
     }
   }
@@ -286,6 +309,14 @@ export class RoomComponent implements OnInit {
   changeLoaiPhong() {
     const tenLoaiPhong = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     this.tenLoaiPhong = tenLoaiPhong.value;
+    this.getByAll();
+  }
+
+  changeDate(){
+    const checkIn = document.getElementById('checkIn') as HTMLInputElement;
+    const checkOut = document.getElementById('checkOut') as HTMLInputElement;
+    this.checkIn = checkIn.value;
+    this.checkOut = checkOut.value;
     this.getByAll();
   }
 

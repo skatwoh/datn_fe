@@ -1,4 +1,4 @@
-<section>
+<section xmlns="http://www.w3.org/1999/html">
   <div class="breadcrumb-text">
     <h2>Our Rooms</h2>
   </div>
@@ -201,6 +201,38 @@
                   type="hidden"
                 />
               </nz-form-item>
+              <div>
+                <label>Số tiền phải thanh toán : </label>
+                <span *ngIf="!sale">{{
+                  (calculateTotalDays() * (room.giaPhong ?? 0) +
+                  phiDichVu -
+                  (giamGia ?? 0))*(100 - khachHang.giamGia)/100 | currencyFormat
+                  }}</span>
+                <span *ngIf="sale && sale.trangThai === 1">{{
+                  (calculateTotalDays() * (-(room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) +
+                  phiDichVu -
+                  (giamGia ?? 0))*(100 - khachHang.giamGia)/100 | currencyFormat
+                  }}</span>
+                <nz-form-item>
+                  <input
+                    id="tongGiaMoi"
+                    formControlName="tongGia"
+                    class="form-input-total"
+                    [value]="
+                    (calculateTotalDays() * (sale ? (- (room.giaPhong || 0) * (sale.giaTri || 0) / 100 + (room.giaPhong || 0)) : (room.giaPhong || 0)) +
+                    phiDichVu -
+                    (giamGia ?? 0))*(100 - khachHang.giamGia)/100
+                  "
+                    type="hidden"
+                  />
+
+                </nz-form-item>
+              </div>
+
+
+              <label *ngIf="khachHang.rank !== 'Đồng' "> Bậc thành viên: {{khachHang.rank}} (-{{khachHang.giamGia}}%) </label>
+              <br>
+
               <fieldset class="grid grid-cols-2 gap-4">
                 <legend class="sr-only">Delivery</legend>
 

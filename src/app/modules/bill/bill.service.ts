@@ -107,4 +107,14 @@ export class BillService{
     const params = {id};
     return this.http.put(`${API_AU_URL}/tinh-tien-dich-vu`, data, {params});
   }
+
+  updateRankKhachHang(id: any, data: any ) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/up-rank-customer`,data, {params});
+  }
+
+  getTongTienByKhachHang(id : any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-tong-tien-by-customer`, {params});
+  }
 }

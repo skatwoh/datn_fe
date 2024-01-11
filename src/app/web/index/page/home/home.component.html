@@ -11,6 +11,7 @@
               <div class="flex flex-col">
                 <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
                 <input class="border rounded-md py-2 px-3" type="date" id="checkIn" min="<?= date('Y-m-d') ?>">
+                <span *ngIf="message" style="font-size: 15px;color: red;font-weight: bold">{{message}}</span>
               </div>
 
               <div class="flex flex-col">
