@@ -88,4 +88,14 @@ export class BillService{
   createOrUpdateTaiQuay(data: any): Observable<any> {
     return this.http.post(`${API_AU_URL}/create-or-update-tai-quay`, data);
   }
+
+  updateRankKhachHang(id: any, data: any ) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/up-rank-customer`,data, {params});
+  }
+
+  getTongTienByKhachHang(id : any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-tong-tien-by-customer`, {params});
+  }
 }

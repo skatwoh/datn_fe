@@ -8,6 +8,8 @@ import {MustMatch} from "../../../../shared/utils";
 import {UserModel} from "../../../../auth/models/user.model";
 import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 @Component({
   selector: 'cons-profile',
@@ -24,9 +26,11 @@ export class ProfileComponent implements OnInit{
   update: UpdatePasswordModel | undefined;
   user: UserModel | undefined;
   countRoom: number | undefined;
+  khachHang !: CustomerModel ;
 
   constructor(private authService: AuthService, private service: ServiceService, private fb: FormBuilder,
-              private roomOrderService: ListRoomOrderService, private mess : NzMessageService) {
+              private roomOrderService: ListRoomOrderService, private mess : NzMessageService,
+              private customerService : CustomerService) {
     this.user$ = this.authService.currentUser$;
   }
 
@@ -63,6 +67,10 @@ export class ProfileComponent implements OnInit{
         ),}
       );
     this.getRooms();
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.khachHang = res ;
+    })
   }
 
   handleOk(form: FormGroup): void {

@@ -22,6 +22,7 @@ export class BillComponent implements OnInit{
   isVisible = false;
   date : Date = new Date();
   check = false;
+  tongTienKhachHang : number = 0;
   constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService) {
   }
 
@@ -37,7 +38,7 @@ export class BillComponent implements OnInit{
     this.getBills();
   }
 
-  updateStatus(id: any){
+  updateStatus(id: any , idKhachHang : any){
     this.billService.get(id).subscribe((data: BillModel) => {
       this.currentBill = data;
       console.log(this.currentBill);
@@ -49,6 +50,35 @@ export class BillComponent implements OnInit{
         console.log(res);
       },
     })
+    setTimeout(() => {
+      this.billService.getTongTienByKhachHang(idKhachHang).subscribe( res =>{
+        console.log(res);
+        this.tongTienKhachHang = res.body;
+      })
+    }, 300)
+
+    setTimeout(() =>{
+    console.log(this.tongTienKhachHang);
+    if(this.tongTienKhachHang >= 100000000){
+      this.billService.updateRankKhachHang(idKhachHang, 4).subscribe({
+        next: (res) => {
+          console.log(res);
+        }
+      })
+    } else if(this.tongTienKhachHang >= 60000000){
+      this.billService.updateRankKhachHang(idKhachHang, 3).subscribe({
+        next: (res) => {
+          console.log(res);
+        }
+      })
+    }else if(this.tongTienKhachHang >= 20000000){
+      this.billService.updateRankKhachHang(idKhachHang, 2).subscribe({
+        next: (res) => {
+          console.log(res);
+        }
+      })
+    }
+    }, 600 )
   }
 
   updateStatusRoomOrder(id: any, trangThai: any){
@@ -157,4 +187,6 @@ export class BillComponent implements OnInit{
       // this.router.navigate(['/room'], { queryParams });
     })
   }
+
+
 }
