@@ -51,11 +51,13 @@ export class RoomServiceCreateComponent implements OnInit{
         console.log(res);
         this.submitted = true;
         this.successMessage();
-        this.router.navigate(['/admin/room-service']);
-        this.getRooms();
       },
       error: (e) => console.error(e)
     });
+    setTimeout( () => {
+      this.getRooms();
+      this.router.navigate(['/admin/room-service']);
+    }, 1000)
   }
 
   successMessage(): void {

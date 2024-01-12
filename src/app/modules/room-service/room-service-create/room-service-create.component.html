@@ -4,10 +4,11 @@
       <nz-form-item>
         <nz-form-label style="width: 120px" nzFor="tenDichVu">Tên Dịch Vụ </nz-form-label>
         <nz-form-control >
-          <nz-select [(ngModel)]="roomservice.tenDichVu" (ngModelChange)="handleChangService(roomservice.tenDichVu)">
-            <nz-option nzValue="Massage" nzLabel="Massage"></nz-option>
-            <nz-option nzValue="Do an" nzLabel="Do an"></nz-option>
-          </nz-select>
+<!--          <nz-select [(ngModel)]="roomservice.tenDichVu" (ngModelChange)="handleChangService(roomservice.tenDichVu)">-->
+<!--            <nz-option nzValue="Massage" nzLabel="Massage"></nz-option>-->
+<!--            <nz-option nzValue="Do an" nzLabel="Do an"></nz-option>-->
+<!--          </nz-select>-->
+          <input nz-input type="text" id="tenDichVu" name="giaDichVu" [(ngModel)]="roomservice.tenDichVu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
