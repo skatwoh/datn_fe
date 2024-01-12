@@ -9,11 +9,23 @@
         Danh sách đặt phòng
       </h4>
       <h4 class="total" *ngIf="bill">Tổng tiền: {{ bill.tongTien }}</h4>
-      <button (click)="showModalThanhToan()"
+      <button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" (click)="showModalThanhToan()"
               class="linear rounded-[20px] bg-green-500 px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-green-100 active:bg-green-500 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
       >
         Thanh toán
       </button>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li  (click)="showModalThanhToan()" nz-menu-item
+              class="hover:bg-blue-400">
+            Thanh toán toàn bộ
+          </li>
+          <li nz-menu-item (click)="showModalThanhToanTienCoc()"
+              class="hover:bg-yellow-500">
+            Thanh toán tiền cọc
+          </li>
+        </ul>
+      </nz-dropdown-menu>
     </div>
     <div class="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
       <nz-table #tableData [nzData]="room" role="table" class="w-full min-w-[500px] overflow-x-scroll"
@@ -294,7 +306,7 @@
 >
   <ng-container *nzModalContent>
     <nz-tabset>
-      <nz-tab nzTitle="Thanh toán">
+      <nz-tab nzTitle="Thanh toán toàn bộ">
         <div class="bg-indigo-600 px-4 py-3 text-white">
           <p class="text-center text-sm font-medium">
             Thanh toán toàn bộ giảm 5%
@@ -317,6 +329,43 @@
             <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
           </label>
           <img [src]="imageUrl" alt="Image">
+        </form>
+      </nz-tab>
+    </nz-tabset>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleTienCoc"
+  nzTitle="Xác nhận thanh toán"
+  (nzOnCancel)="handleCancelThanhToanTienCoc()"
+  (nzOnOk)="handleOkThanhToanTienCoc()"
+>
+  <ng-container *nzModalContent>
+    <nz-tabset>
+      <nz-tab nzTitle="Thanh toán tiền cọc">
+        <div class="bg-indigo-600 px-4 py-3 text-white">
+          <p class="text-center text-sm font-medium">
+            Tiền cọc bằng 20% tổng hóa đơn
+            <a href="#" class="inline-block underline">Hot</a>
+          </p>
+        </div>
+        <form [formGroup]="formTienCoc">
+          <label style="display: none">
+            Amount:
+            <input formControlName="amount1" type="number" id="amount1"
+                   ngModel="{{bill.tongTien}}"
+            />
+          </label>
+          <label style="display: none">
+            AddInfo:
+            <input formControlName="addInfo1" type="text" ngModel="{{bill.id}}"/>
+          </label>
+          <label style="display: none">
+            AccountName:
+            <input formControlName="accountName1" type="text" ngModel="{{user?.name}}"/>
+          </label>
+          <img [src]="imageUrlTienCoc" alt="Image">
         </form>
       </nz-tab>
     </nz-tabset>

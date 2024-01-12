@@ -117,6 +117,14 @@
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
           Đã hủy
         </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 6">
+          <div class="h-2.5 w-2.5 rounded-full bg-pink-500 mr-2"></div>
+          Xác nhận tiền cọc
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 7">
+          <div class="h-2.5 w-2.5 rounded-full bg-violet-500 mr-2"></div>
+          Đã đặt cọc
+        </div>
       </td>
       <td class="px-6 py-4">
         {{ data.tenKhachHang }}
@@ -129,7 +137,10 @@
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3" (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
+              <li *ngIf="data.trangThai === 6" (click)="xacNhanTienCoc(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
+                Xác nhận tiền cọc
+              </li>
+              <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3 || data.trangThai === 7" (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
                 Xác nhận thanh toán
               </li>
               <li nz-menu-item *ngIf="data.trangThai === 1" (click)="thanhToanSau(data.id)" class="hover:bg-yellow-500">
@@ -305,7 +316,7 @@
               Đã trả phòng
             </div>
           </td>
-          <td class="px-12 py-4" style="display: flex">
+          <td *ngIf="data.trangThai !== (0||3)" class="px-12 py-4" style="display: flex">
             <div *ngIf="data.trangThai !== (0||3)" class="btn-info">
               <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
           <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"

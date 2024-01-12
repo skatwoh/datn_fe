@@ -69,7 +69,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       soNguoi: [0, Validators.required],
       idVoucher: [null],
       tongGia: [0, Validators.required],
-      trangThai: 2
+      trangThai: 4
     })
 
     this.route.queryParams.subscribe(params => {

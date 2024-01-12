@@ -39,6 +39,10 @@ export class RoomDefaultComponent implements OnInit{
     this.tenLoaiPhong = tenLoaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
+    if(this.checkIn == '' || this.checkOut == ''){
+      this.mess.warning('Vui lòng chọn ngày nhận và ngày trả');
+      return;
+    }
     this.homeService.getRoomListSearch(1, 50, '', this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
       if (res != null){
         const queryParams = {
