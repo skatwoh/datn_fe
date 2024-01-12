@@ -104,6 +104,18 @@
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
           Đã hủy
         </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 2">
+          <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+          Đã check-in
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 3">
+          <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+          Đã trả phòng
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 4">
+          <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+          Chờ xác nhận
+        </div>
       </td>
       <td class="px-6 py-4">
         {{ data.tongGia }} VNĐ
