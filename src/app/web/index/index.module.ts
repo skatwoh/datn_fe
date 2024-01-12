@@ -33,50 +33,56 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import { CartComponent } from './cart/cart.component';
 import {StepModule} from "./step/step.module";
 import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.component";
+import {NzCollapseModule} from "ng-zorro-antd/collapse";
+import {CustomDate} from "../../shared/pipes/custom-date";
+import {NzTagModule} from "ng-zorro-antd/tag";
 
 @NgModule({
-    declarations: [
-        IndexComponent,
-        ...fromPages.pages,
-        CurrencyFormatPipe,
-        CartComponent,
-    ],
+  declarations: [
+    IndexComponent,
+    ...fromPages.pages,
+    CurrencyFormatPipe,
+    CartComponent,
+    CustomDate,
+  ],
   exports: [
     CurrencyFormatPipe,
-    ListRoomOrderComponent
+    ListRoomOrderComponent,
   ],
-    imports: [
-        CommonModule,
-        HttpClientModule,
-        IndexRoutingModule,
-        NzDropDownModule,
-        NzAvatarModule,
-        FirstCharPipe,
-        NzImageModule,
-        NgOptimizedImage,
-        NzTypographyModule,
-        NzButtonModule,
-        NzCarouselModule,
-        NzBadgeModule,
-        NzIconModule,
-        NzModalModule,
-        NzFormModule,
-        NzInputModule,
-        NzRateModule,
-        ReactiveFormsModule,
-        NzDatePickerModule,
-        NzInputNumberModule,
-        FormsModule,
-        NzTableModule,
-        NzSelectModule,
-        NzQRCodeModule,
-        NzSegmentedModule,
-        NzTabsModule,
-        PaymentModuleModule,
-        CommentModule,
-        CaseModule,
-        NzCheckboxModule,
-    ]
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    IndexRoutingModule,
+    NzDropDownModule,
+    NzAvatarModule,
+    FirstCharPipe,
+    NzImageModule,
+    NgOptimizedImage,
+    NzTypographyModule,
+    NzButtonModule,
+    NzCarouselModule,
+    NzBadgeModule,
+    NzIconModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzRateModule,
+    ReactiveFormsModule,
+    NzDatePickerModule,
+    NzInputNumberModule,
+    FormsModule,
+    NzTableModule,
+    NzSelectModule,
+    NzQRCodeModule,
+    NzSegmentedModule,
+    NzTabsModule,
+    PaymentModuleModule,
+    CommentModule,
+    CaseModule,
+    NzCheckboxModule,
+    NzCollapseModule,
+    NzTagModule,
+  ]
 })
 export class IndexModule {
 }

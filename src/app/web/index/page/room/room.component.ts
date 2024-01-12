@@ -55,22 +55,6 @@ export class RoomComponent implements OnInit {
   selectedCount = 0;
   isVisible = false;
 
-  updateSelectedCount(event: any) {
-    if (event.target.checked) {
-      this.selectedCount++;
-    } else {
-      this.selectedCount--;
-    }
-  }
-
-  resetSelection() {
-    this.selectedCount = 0;
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach((checkbox: any) => {
-      checkbox.checked = false;
-    });
-  }
-
   constructor(private roomService: RoomService, private homeService: HomeService,
               private router: Router, private route: ActivatedRoute, private http: HttpClient,
               private service: ServiceService, private saleService: SaleService, private imageService: ImageService,) {
@@ -120,18 +104,9 @@ export class RoomComponent implements OnInit {
   }
 
   getRoomsSearch(): void {
-    const soLuongNguoiElement = document.getElementById('soLuongNguoi') as HTMLInputElement;
-    const loaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
-    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
-    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soLuongNguoi = this.soLuongNguoi ? this.soLuongNguoi : soLuongNguoiElement.value;
-    this.tenLoaiPhong = loaiPhongElement.value ? loaiPhongElement.value : this.tenLoaiPhong;
-    this.checkIn = checkInElement.value ?  checkInElement.value : this.checkIn;
-    this.checkOut = checkOutElement.value ? checkOutElement.value : this.checkOut;
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
-
         // this.updateUrlWithSearchParams();
       }
     })
@@ -177,20 +152,19 @@ export class RoomComponent implements OnInit {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.route.queryParams.subscribe((params) => {
-      console.log(params, "pl")
       if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi'] || params['minGia'] || params['maxGia']) {
         this.checkIn = params['checkIn'];
         this.checkOut = params['checkOut'];
         this.tenLoaiPhong = params['tenLoaiPhong'];
         this.soLuongNguoi = params['soLuongNguoi'];
-        if(params['soLuongNguoi'] === ''){
+        if (params['soLuongNguoi'] === '') {
           this.homeService.getRoomListSearch(1, 50, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
             if (res && res.content) {
               this.room = res.content;
               // this.updateUrlWithSearchParams();
             }
           })
-        }else{
+        } else {
           this.getRoomsSearch();
         }
       } else {
@@ -259,11 +233,9 @@ export class RoomComponent implements OnInit {
     // this.selectedValues = this.checkboxes.filter(checkbox => checkbox.nzChecked).map(checkbox => checkbox.nzValue);
     if (checkbox.checked) {
       this.data.push(value)
-      console.log(this.data)
     }
     if (!checkbox.checked) {
       this.data.splice(this.data.indexOf(value), 1);
-      console.log(this.data)
     }
     this.getByAll();
   }
@@ -294,14 +266,13 @@ export class RoomComponent implements OnInit {
     //     }
     //   })
     // }
-    if(this.data.length > 0 || (this.tenLoaiPhong != '' && this.checkIn != '') || this.checkOut != ''){
+    if (this.data.length > 0 || (this.tenLoaiPhong != '' && this.checkIn != '') || this.checkOut != '') {
       this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
         if (res && res.content) {
           this.room = res.content;
         }
       })
-    }
-    else {
+    } else {
       this.getRooms()
     }
   }
@@ -312,7 +283,7 @@ export class RoomComponent implements OnInit {
     this.getByAll();
   }
 
-  changeDate(){
+  changeDate() {
     const checkIn = document.getElementById('checkIn') as HTMLInputElement;
     const checkOut = document.getElementById('checkOut') as HTMLInputElement;
     this.checkIn = checkIn.value;
@@ -348,5 +319,56 @@ export class RoomComponent implements OnInit {
       this.data.splice(this.data.indexOf(checkbox.value), 1);
     }
     console.log(this.data)
+  }
+
+  panels = [
+    {
+      active: false,
+      disabled: false,
+      name: 'This is panel header 1',
+      customStyle: {
+        background: '#d3c3b9',
+        'border-radius': '4px',
+        'margin-bottom': '24px',
+        border: '0px',
+        fontFamily: 'Lora, serif',
+        fontSize: '16px',
+      }
+    }
+  ]
+
+  handleClose(value: any): void {
+    this.data.splice(this.data.indexOf(value), 1);
+
+    const checkboxId = this.getCheckboxId(value);
+    const checkbox = document.getElementById(checkboxId) as HTMLInputElement;
+
+    if (checkbox) {
+      checkbox.checked = false;
+    }
+    this.getRoomsSearch();
+  }
+
+  getCheckboxId(value: any): string {
+    return value.replace(/\s+/g, '-').toLowerCase();
+  }
+
+  sliceTagName(tag: string): string {
+    const isLongTag = tag.length > 20;
+    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
+  }
+
+  handleClearAll(): void {
+    this.data.forEach((value: any) => {
+      const checkboxId = this.getCheckboxId(value);
+      const checkbox = document.getElementById(checkboxId) as HTMLInputElement;
+
+      if (checkbox) {
+        checkbox.checked = false;
+      }
+    });
+
+    this.data = [];
+    this.getRoomsSearch()
   }
 }
