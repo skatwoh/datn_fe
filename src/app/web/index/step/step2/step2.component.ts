@@ -23,9 +23,7 @@ export class Step2Component implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-        this.message.warning('Giao dịch đã bị hủy!');
-        this.huyHoaDon();
-    }
+  }
 
   ngOnInit() {
     this.user = this.authService.currentUserValue;
