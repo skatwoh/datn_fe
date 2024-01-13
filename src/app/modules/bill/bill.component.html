@@ -480,6 +480,20 @@
         </tr>
         </tbody>
       </nz-table>
+      <div style="margin-top: 10px;">
+<!--        <button-->
+<!--                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"-->
+<!--                (click)="generatePDFDichVu(idDP)"-->
+<!--        >-->
+<!--          Thanh toán dịch vụ-->
+<!--        </button>-->
+        <button
+          class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+          (click)="generatePDFDichVu(idDP)"
+        >
+          Xuất hóa đơn
+        </button>
+      </div>
     </div>
   </ng-container>
 </nz-modal>
@@ -495,7 +509,7 @@
     <div class="flex">
     <div style="width: 350px;font-size: 18px;border: 1px solid grey;border-radius: 5px">
       <nz-checkbox-wrapper>
-        <div style="margin: 5px" *ngFor="let data of roomservice" ><label nz-checkbox nzValue="{{data.id}}" (change)="addListDichVu(data.id, $event, data.giaDichVu)"
+        <div style="margin: 5px" *ngFor="let data of roomservice" ><label nz-checkbox id="cb{{data.id}}" nzValue="{{data.id}}" (change)="addListDichVu(data.id, $event, data.giaDichVu)"
         >{{data.tenDichVu}} - {{data.giaDichVu}}VNĐ</label>
           <input type="number" min="1" placeholder="Số lượng" id="{{data.id}}" [ngModel]="1" (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)">
         </div>
