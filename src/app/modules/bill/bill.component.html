@@ -495,11 +495,22 @@
     <div class="flex">
     <div style="width: 350px;font-size: 18px;border: 1px solid grey;border-radius: 5px">
       <nz-checkbox-wrapper>
-        <div style="margin: 5px" *ngFor="let data of roomservice" ><label nz-checkbox nzValue="{{data.id}}" (change)="addListDichVu(data.id, $event, data.giaDichVu)"
-        >{{data.tenDichVu}} - {{data.giaDichVu}}VNĐ</label>
-          <input type="number" min="1" placeholder="Số lượng" id="{{data.id}}" [ngModel]="1" (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)">
+        <div style="margin: 5px" *ngFor="let data of roomservice">
+          <label nz-checkbox [nzValue]="data.id" (change)="addListDichVu(data.id, $event, data.giaDichVu)">
+            {{ data.tenDichVu }} - {{ data.giaDichVu }}VNĐ
+          </label>
+          <input
+            type="number"
+            min="1"
+            placeholder="Số lượng"
+            [id]="data.id"
+            [ngModel]="1"
+            (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)"
+            [disabled]="state.get(Number(data.id)) ?? false"
+          />
         </div>
       </nz-checkbox-wrapper>
+
     </div>
       <div style="width: 380px;font-size: 18px;border: 1px solid grey;border-radius: 5px;margin-left: 10px">
         <div style="margin-left: 20px">

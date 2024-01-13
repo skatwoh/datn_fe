@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {BillModel} from "../../../../models/bill.model";
@@ -69,6 +69,5 @@ export class Step2Component implements OnInit, OnDestroy {
       }
     })
   }
-
 
 }

@@ -38,6 +38,7 @@ export class BillComponent implements OnInit {
     tienDichVu: number = 0;
     inputSoLuong: any[] = [];
     soLuongCu: any = 1;
+  state: Map<number, boolean> = new Map();
 
     constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService,
                 private roomSerivceService: RoomServiceService) {
@@ -277,6 +278,7 @@ export class BillComponent implements OnInit {
         if (!checkbox.checked) {
             this.dataList.splice(this.dataList.indexOf(value), 1);
             this.tongTienDichVu -= (gia * Number.parseInt(soLuongDV.value));
+          this.state.set(value, !checkbox.checked);
             console.log(this.dataList)
         }
     }
@@ -332,4 +334,6 @@ export class BillComponent implements OnInit {
     successMessage(): void {
         this.message.success('Thêm thành công');
     }
+
+  protected readonly Number = Number;
 }

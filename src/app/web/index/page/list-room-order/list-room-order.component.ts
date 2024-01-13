@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ListRoomOrderService} from "./list-room-order.service";
 import {RoomOrder} from "../../../../models/room-order";
 import {Observable} from "rxjs";
@@ -41,6 +41,8 @@ export class ListRoomOrderComponent implements OnInit {
   formTienCoc: FormGroup;
   imageUrl: string | undefined;
   imageUrlTienCoc: string | undefined;
+  targetUrl = '/me/step/3';
+
 
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
