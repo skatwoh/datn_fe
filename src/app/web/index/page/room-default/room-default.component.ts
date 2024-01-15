@@ -63,4 +63,8 @@ export class RoomDefaultComponent implements OnInit{
 
     })
   }
+
+  handleBlur(): void {
+    console.log('blur');
+  }
 }

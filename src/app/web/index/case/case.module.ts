@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
     NzDropDownModule,
     NzIconModule,
     NzBadgeModule,
+    NzModalModule,
   ],
   exports: [CaseComponent]
 })

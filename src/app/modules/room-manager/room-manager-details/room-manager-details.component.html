@@ -97,6 +97,15 @@
             <hr/>
             <br>
             <nz-card style="width: 300px;border: 1px solid lightskyblue;border-radius: 6px">
+
+              <nz-form-item>
+                <nz-form-label nzFor="cccd">Số CCCD</nz-form-label>
+                <nz-form-control>
+                  <input nz-input type="text" id="cccd" formControlName="cccd" placeholder="Số CCCD" [maxLength]="15"
+                         style="border-radius: 5px;border: 1px solid deepskyblue" (blur)="handleByCCCD()">
+                </nz-form-control>
+              </nz-form-item>
+
               <nz-form-item>
                 <nz-form-label nzFor="hoTen">Tên khách hàng</nz-form-label>
                 <nz-form-control>
@@ -109,14 +118,6 @@
                 <nz-form-label nzFor="sdt">SĐT Khách hàng</nz-form-label>
                 <nz-form-control>
                   <input nz-input type="text" id="sdt" formControlName="sdt" placeholder="SĐT" [maxLength]="10"
-                         style="border-radius: 5px;border: 1px solid deepskyblue">
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-label nzFor="cccd">Số CCCD</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="text" id="cccd" formControlName="cccd" placeholder="Số CCCD" [maxLength]="15"
                          style="border-radius: 5px;border: 1px solid deepskyblue">
                 </nz-form-control>
               </nz-form-item>
