@@ -1,0 +1,16 @@
+<form [formGroup]="aFormGroup" (ngSubmit)="submitForm()">
+  <div>
+    <h1>Angular reCAPTCHA Example</h1>
+    <ngx-recaptcha2
+      #captchaElem
+      [siteKey]="siteKey"
+      (reset)="handleReset()"
+      (expire)="handleExpire()"
+      (load)="handleLoad()"
+      (success)="handleSuccess($event)"
+      [useGlobalDomain]="false"
+      formControlName="recaptcha"
+    ></ngx-recaptcha2>
+  </div>
+  <button type="submit" [disabled]="aFormGroup.invalid">Submit</button>
+</form>

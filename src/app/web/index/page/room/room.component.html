@@ -456,7 +456,7 @@
 </div>
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Đặt phòng nâng cao" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-          nzWidth="900px">
+          nzWidth="900px" [nzFooter]="null">
   <ng-container *nzModalContent>
     <cons-case></cons-case>
   </ng-container>

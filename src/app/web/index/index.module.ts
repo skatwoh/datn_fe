@@ -36,6 +36,7 @@ import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.com
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
 import {CustomDate} from "../../shared/pipes/custom-date";
 import {NzTagModule} from "ng-zorro-antd/tag";
+import {RecaptchaModule} from "./recaptcha/recaptcha.module";
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {NzTagModule} from "ng-zorro-antd/tag";
     NzCheckboxModule,
     NzCollapseModule,
     NzTagModule,
+    RecaptchaModule,
   ]
 })
 export class IndexModule {
