@@ -13,17 +13,17 @@
 <div class="page-content">
   <div>
     <div style="float: right">
-      <button
+      <a type="button"
         class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
       text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
       group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-        (click)="showModal()"
+        href="/admin/room-manager/room-list-order"
       >
       <span
         class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
           Đặt phòng
       </span>
-      </button>
+      </a>
     </div>
     <div style="float: left">
       <fieldset class="w-full space-y-1 dark:text-gray-100">
@@ -103,6 +103,18 @@
         <div class="flex items-center" *ngIf="data.trangThai == 0">
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
           Đã hủy
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 2">
+          <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+          Đã check-in
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 3">
+          <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+          Đã trả phòng
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 4">
+          <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+          Chờ xác nhận
         </div>
       </td>
       <td class="px-6 py-4">

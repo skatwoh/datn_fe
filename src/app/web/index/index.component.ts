@@ -68,7 +68,7 @@ export class IndexComponent implements OnInit {
   cartItems: any[] = [];
 
   private loadCartItems(): void {
-    const storedCartItems = localStorage.getItem(this.cartStorageKey);
+    const storedCartItems = localStorage.getItem(`${this.cartStorageKey}_${this.user?.id}`);
     if (storedCartItems) {
       this.cartItems = JSON.parse(storedCartItems);
     }

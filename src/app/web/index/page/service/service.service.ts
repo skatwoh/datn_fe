@@ -9,6 +9,7 @@ import {VisitorModel} from "../../../../models/visitor.model";
 const API_AU_URL = `${environment.apiUrl}/thong-bao`;
 const API_RES = `${environment.apiUrl}/api`;
 const API_AUTH_URL = `${environment.apiUrl}/auth`;
+const API_URL = `${environment.apiUrl}/phong`;
 @Injectable({
   providedIn: 'root'
 })
@@ -45,5 +46,43 @@ export class ServiceService {
 
   getVisitCount(page: string) {
     return this.http.get<number>(`${API_RES}/get-visit-count?page=${page}`);
+  }
+  getListByTienIch(page: number, size: number, searchInput: any[], soLuongNguoi: any, input: any , checkIn: any,checkOut: any): Observable<any> {
+    const params = {page, size, searchInput,soLuongNguoi,input,checkIn,checkOut};
+    return this.http.get<any>(`${API_URL}/get-room-by-tienIch`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getDoanhThuByTime(checkIn: string, checkOut: string){
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-day`, {params});
+  }
+
+  getDoanhThuByDay(year: any, month: any, day: any){
+    const params = {year, month, day};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-to-day`, {params});
+  }
+
+  getDoanhThuByMonth(year: any, month: any){
+    const params = {year, month};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-month`, {params});
+  }
+
+  getDoanhThuByYear(year: any){
+    const params = {year};
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/doanh-thu-by-year`, {params});
+  }
+
+  getAllDoanhThu(){
+    return this.http.get<any>(`${environment.apiUrl}/hoa-don/all-doanh-thu`);
+  }
+
+  getSoPhongDaDat(checkIn: string, checkOut: string){
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat`, {params});
   }
 }

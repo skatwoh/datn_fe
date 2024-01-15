@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ListRoomOrderService} from "./list-room-order.service";
 import {RoomOrder} from "../../../../models/room-order";
 import {Observable} from "rxjs";
@@ -31,13 +31,18 @@ export class ListRoomOrderComponent implements OnInit {
   isOkLoading = false;
   isVisible1 = false;
   isVisibleTT = false;
+  isVisibleTienCoc = false;
   isOkLoading1 = false;
   id: number | undefined;
   id2: number | undefined;
   message2: string = '';
   hasError = false;
   form: FormGroup;
+  formTienCoc: FormGroup;
   imageUrl: string | undefined;
+  imageUrlTienCoc: string | undefined;
+  targetUrl = '/me/step/3';
+
 
   constructor(private roomOrderService: ListRoomOrderService,
               private message: NzMessageService,
@@ -53,12 +58,23 @@ export class ListRoomOrderComponent implements OnInit {
       addInfo: ['', Validators.required],
       accountName: ['', Validators.required],
     })
+    this.formTienCoc = this.formBuilder.group({
+      amount1: ['', Validators.required],
+      addInfo1: ['', Validators.required],
+      accountName1: ['', Validators.required],
+    })
     this.updateImageUrl();
+    this.updateImageUrlTienCoc();
 
     // @ts-ignore
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+
+    // @ts-ignore
+    this.formTienCoc.get('amount1').valueChanges.subscribe(() => this.updateImageUrlTienCoc());
+    // @ts-ignore
+    this.formTienCoc.get('addInfo1').valueChanges.subscribe(() => this.updateImageUrlTienCoc());
   }
 
   showModal(id: any): void {
@@ -82,7 +98,6 @@ export class ListRoomOrderComponent implements OnInit {
         }
       })
     });
-
   }
 
   handleOk(): void {
@@ -113,7 +128,7 @@ export class ListRoomOrderComponent implements OnInit {
             this.currentRoom.trangThai = 0
             this.successMessage();
             this.getRoomsOfBill();
-            this.router.navigate(['/profile/me/list-room-order']);
+            this.router.navigate(['/me/step/2']);
           }
         },
       });
@@ -156,6 +171,10 @@ export class ListRoomOrderComponent implements OnInit {
     this.isVisibleTT = true;
   }
 
+  showModalThanhToanTienCoc(): void {
+    this.isVisibleTienCoc = true;
+  }
+
   handleOkThanhToan(): void {
     this.billService.updateStatus(this.bill.id, 2).subscribe({
       next: (res) => {
@@ -166,6 +185,20 @@ export class ListRoomOrderComponent implements OnInit {
     this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
     this.sendDataToApi();
     this.isVisibleTT = false;
+    this.router.navigate(['/me/step/3']);
+  }
+
+  handleOkThanhToanTienCoc(): void {
+    this.billService.updateStatus(this.bill.id, 6).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.bill.trangThai = 6;
+      },
+    })
+    this.message.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
+    this.sendDataToApi2();
+    this.isVisibleTienCoc = false;
+    this.router.navigate(['/me/step/3']);
   }
 
   handleCancelThanhToan(): void {
@@ -173,9 +206,28 @@ export class ListRoomOrderComponent implements OnInit {
     this.isVisibleTT = false;
   }
 
+  handleCancelThanhToanTienCoc(): void {
+    console.log('Button cancel clicked!');
+    this.isVisibleTienCoc = false;
+  }
+
   sendDataToApi(): void {
     const apiUrl = 'https://643eafd46c30feced8304742.mockapi.io/skatwoh/api-payment';
     const dataToSend = this.form.value;
+
+    this.http.post(apiUrl, dataToSend).subscribe(
+      (response) => {
+        console.log('Data sent successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending data to API:', error);
+      }
+    );
+  }
+
+  sendDataToApi2(): void {
+    const apiUrl = 'https://643eafd46c30feced8304742.mockapi.io/skatwoh/api-payment';
+    const dataToSend = this.formTienCoc.value;
 
     this.http.post(apiUrl, dataToSend).subscribe(
       (response) => {
@@ -194,11 +246,34 @@ export class ListRoomOrderComponent implements OnInit {
     return urlWithParams;
   }
 
+  generateImageUrlTienCoc(amount: number, addInfo: string, accountName: string): string {
+    const sale = amount * 0.2;
+    const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
+    const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    return urlWithParams;
+  }
+
   updateImageUrl(): void {
     const {amount, addInfo, accountName} = this.form.value;
     console.log(amount);
     console.log(addInfo);
     this.imageUrl = this.generateImageUrl(amount, addInfo, accountName);
+  }
+
+  updateImageUrlTienCoc(): void {
+    const {amount1, addInfo1, accountName1} = this.formTienCoc.value;
+    console.log(amount1);
+    console.log(addInfo1);
+    this.imageUrlTienCoc = this.generateImageUrlTienCoc(amount1, addInfo1, accountName1);
+  }
+
+  expandSet = new Set<number>();
+  onExpandChange(id: any, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 
   protected readonly formatNumber = formatNumber;

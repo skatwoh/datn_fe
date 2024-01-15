@@ -1,63 +1,100 @@
 <div>
-<div class="flex flex-col space-y-5 justify-center items-center">
-  <header class="w-96 text-center mt-5">
-    <h1 style="font-size: 32px; font-family:'Arvo', serif">Phòng</h1>
-  </header>
-</div>
+  <div class="flex flex-col space-y-5 justify-center items-center">
+    <header class="w-96 text-center mt-5 mb-5">
+      <h1 style="font-size: 32px; font-family:'Arvo', serif">Chọn phòng của bạn</h1>
+    </header>
+  </div>
+  <div style="background-color: #d3c3b9">
+    <div style="margin-left: 300px">
+      <nz-collapse style="width: 1200px" [nzBordered]="false" nzExpandIconPosition="right">
+        <nz-collapse-panel
+          #p
+          *ngFor="let panel of panels;"
+          [nzHeader]="('Intercontinental 45 | ' + (checkIn | customDate: 'dd/MM/yyyy') + ' - ' + (checkOut | customDate: 'dd/MM/yyyy') + ' | ' + tenLoaiPhong)!"
+          [nzActive]="panel.active"
+          [ngStyle]="panel.customStyle"
+        >
+          <div>
+            <div class="flex flex-col">
+              <div style="width: 1200px;" class="p-6 rounded-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                  <div class="flex flex-col">
+                    <label for="checkIn" class="font-medium text-sm text-stone-600">Ngày nhận</label>
+                    <input class="border rounded-md py-2 px-3" type="date" id="checkIn" min="<?= date('Y-m-d') ?>"
+                           [(ngModel)]="checkIn">
+                    <span *ngIf="message" style="font-size: 15px;color: red;font-weight: bold">{{ message }}</span>
+                  </div>
 
-<div class="grid grid-cols-4 gap-4 ml-5">
-  <!-- Search Column -->
-  <div class="ml-4 sol-span-1 flex h-[600px] flex-col justify-between rounded-xl shadow p-4">
-    <!-- Search Bar -->
-    <div>
-      <button nz-button [nzType]="'primary'" style="border-radius: 10px; background-color: #87C9B6" (click)="showModal()"><span>Nâng cao</span></button>
-      <br/><br/>
-      <div style="float: left">
-        <fieldset class="w-full space-y-1 dark:text-gray-100">
-          <label class="hidden">Search</label>
-          <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-          <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getRoomByString()">
-            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
-              <path
-                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
-            </svg>
-          </button>
-        </span>
-            <input type="search" name="Search" placeholder="Search..." id="searchInput"
-                   class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
-                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
-                   [ngModel]="searchInput"
-                   (ngModelChange)="getRoomByString()"
-            >
+                  <div class="flex flex-col">
+                    <label for="checkOut" class="font-medium text-sm text-stone-600">Ngày trả</label>
+                    <input class="border rounded-md py-2 px-3" type="date" id="checkOut" [(ngModel)]="checkOut">
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label for="soLuongNguoi" class="font-medium text-sm text-stone-600 ">Số người</label>
+                    <select
+                      id="soLuongNguoi"
+                      style="width: 200px;height: 45px; border-radius: 10px"
+                      [(ngModel)]="soLuongNguoi"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4+</option>
+                    </select>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <label for="tenLoaiPhong" class="font-medium text-sm text-stone-600">Loại phòng</label>
+
+                    <select id="tenLoaiPhong" style="width: 200px;height: 45px; border-radius: 10px"
+                            [(ngModel)]="tenLoaiPhong">
+                      <option style="height: 40px" *ngFor="let data of roomType"
+                              [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
+                              [value]="data.tenLoaiPhong"></option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <button class="px-4 py-2 rounded-lg hover:bg-orange-500 bg-stone-700 font-bold text-white shadow-lg
+              shadow-orange-200 transition ease-in-out duration-200 translate-10 mt-5" (click)="getRoomsSearch()"
+                    >
+                      Tìm kiếm
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </fieldset>
-      </div>
-      <p class="date-input">Ngày nhận - Ngày trả:</p>
-      <input type="date" placeholder="Ngày nhận phòng" id="checkIn" class="px-3 py-2 border rounded-md" >
-        -->
-      <input type="date" placeholder="Ngày trả phòng" id="checkOut" class="px-3 py-2 border rounded-md">
-      <br/>
-      <p class="date-input">Loại phòng: </p>
-        <select id="tenLoaiPhong" class="select-input">
-          <option class="option" *ngFor="let data of roomType" [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" [value]="data.tenLoaiPhong"></option>
-        </select>
-      <br/>
-      <p class="date-input">Số người:</p>
-      <select id="soLuongNguoi" class="select-input">
-        <option class="option" value="1">1</option>
-        <option class="option" value="2">2</option>
-        <option class="option" value="3">3</option>
-        <option class="option" value="4">4+</option>
-      </select>
-      <span *ngIf="hasError">{{message}}</span>
+          <ng-template #expandedIcon let-active>
+            {{ active }}
+            <span nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? 90 : -90"></span>
+          </ng-template>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </div>
+  </div>
 
-      <div class="relative mt-5">
+  <div style="margin-left: 300px; margin-bottom: 10px">
+    <nz-tag
+      *ngFor="let tag of data; let i = index"
+      [nzMode]="i === 0 ? 'closeable' : 'closeable'"
+      (nzOnClose)="handleClose(tag)"
+      [nzColor]="'magenta'"
+    >
+      {{ sliceTagName(tag) }}
+    </nz-tag>
+    <button *ngIf="data.length > 0" type="button" class="text-sm text-gray-900 underline underline-offset-4" (click)="handleClearAll()">
+      Làm mới
+    </button>
+  </div>
+  <div style="display: flex">
+    <div style="flex: 1; margin-left: 300px; display: flex">
+      <div class="relative">
         <details class="group [&_summary::-webkit-details-marker]:hidden">
           <summary
-            class="flex cursor-pointer items-center gap-2 border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
+            class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
           >
-            <span class="text-sm font-medium ml-1 date-input"> Giá tiền:  </span>
+            <span class="text-sm font-medium"> Tiện ích </span>
 
             <span class="transition group-open:-rotate-180">
           <svg
@@ -76,9 +113,107 @@
           <div class="z-50 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
             <div class="w-96 rounded border border-gray-200 bg-white">
               <header class="flex items-center justify-between p-4">
-                <span class="text-sm text-gray-700"> Nhâp khoảng giá </span>
+                <span class="text-sm text-gray-700"> 0 Selected </span>
 
-                <button (click)="searchByPrice()" type="button" class="text-sm text-gray-900 bg-blue-400 px-4 py-2 rounded-md mt-5">
+                <button type="button" class="text-sm text-gray-900 underline underline-offset-4">
+                  Làm mới
+                </button>
+              </header>
+
+              <ul class="space-y-1 border-t border-gray-200 p-4">
+                <li>
+                  <label for="view-hướng-biển" class="inline-flex items-center gap-2">
+                    <input type="checkbox" id="view-hướng-biển"
+                           class="h-5 w-5 rounded border-gray-300"
+                           (change)="getRoomByTienIch('View hướng biển',$event)"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700"> View hướng biển </span>
+                  </label>
+                </li>
+
+                <li>
+                  <label for="có-ban-công" class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="có-ban-công"
+                      class="h-5 w-5 rounded border-gray-300"
+                      (change)="getRoomByTienIch('Có ban công',$event)"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700"> Ban công/Sân hiên </span>
+                  </label>
+                </li>
+
+                <li>
+                  <label for="có-bồn-tắm" class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="có-bồn-tắm"
+                      class="h-5 w-5 rounded border-gray-300"
+                      (change)="getRoomByTienIch('Có bồn tắm',$event)"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700"> Bồn tắm </span>
+                  </label>
+                </li>
+                <li>
+                  <label for="có-thư-viện" class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="có-thư-viện"
+                      class="h-5 w-5 rounded border-gray-300"
+                      (change)="getRoomByTienIch('Có thư viện',$event)"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700"> Thư viện </span>
+                  </label>
+                </li>
+                <li>
+                  <label for="được-phép-cho-thú-cưng-vào-phòng" class="inline-flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="được-phép-cho-thú-cưng-vào-phòng"
+                      class="h-5 w-5 rounded border-gray-300"
+                      (change)="getRoomByTienIch('Được phép cho thú cưng vào phòng',$event)"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700"> Được phép cho thú cưng vào phòng </span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </div>
+      <div class="relative ml-5">
+        <details class="group [&_summary::-webkit-details-marker]:hidden">
+          <summary
+            class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600"
+          >
+            <span class="text-sm font-medium"> Giá </span>
+
+            <span class="transition group-open:-rotate-180">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-4 w-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+          </svg>
+        </span>
+          </summary>
+
+          <div class="z-50 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
+            <div class="w-96 rounded border border-gray-200 bg-white">
+              <header class="flex items-center justify-between p-4">
+                <span class="text-sm text-gray-700"> Nhập khoảng giá </span>
+
+                <button (click)="searchByPrice()" type="button"
+                        class="text-sm text-gray-900 bg-blue-400 px-4 py-2 rounded-md mt-5">
                   Tìm kiếm
                 </button>
               </header>
@@ -113,16 +248,21 @@
         </details>
       </div>
     </div>
-    <button style="width: 250px" class="bg-indigo-500 text-white px-4 py-2 rounded-md mt-5" (click)="getRoomsSearch()">Search</button>
+    <div style="flex: 1; margin-left: 700px">
+      <button nz-button style="border-radius: 10px; background-color: #d3c3b9; color: white"
+              (click)="showModal()"><span>Nâng cao</span>
+      </button>
+    </div>
   </div>
 
-  <!-- Room List Columns -->
-  <div class="col-span-3 grid grid-cols-3 gap-4">
-    <!-- Room List -->
-    <div *ngFor="let data of room; let i = index" class="bg-white p-4 rounded-md">
-      <!-- Room Information -->
+  <div class="grid grid-cols-4 gap-4" style="margin-left: 300px;">
+    <div class="col-span-3 grid grid-cols-3 gap-4">
+      <!-- Room List -->
+      <div *ngFor="let data of room; let i = index" class="bg-white p-4 rounded-md">
+        <!-- Room Information -->
         <div class="relative mx-auto w-full">
-          <a (click)="navigateToRoomDetails(data.id)" class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
+          <a (click)="navigateToRoomDetails(data.id)"
+             class="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
             <div class="shadow p-4 rounded-lg bg-white">
               <div class="flex justify-center relative rounded-lg overflow-hidden h-52">
                 <div class="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
@@ -134,17 +274,38 @@
                 <div class="absolute flex justify-center bottom-0 mb-3">
                   <div class="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
                     <p class="flex items-center font-medium text-gray-800">
-                      <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M480,226.15V80a48,48,0,0,0-48-48H80A48,48,0,0,0,32,80V226.15C13.74,231,0,246.89,0,266.67V472a8,8,0,0,0,8,8H24a8,8,0,0,0,8-8V416H480v56a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V266.67C512,246.89,498.26,231,480,226.15ZM64,192a32,32,0,0,1,32-32H208a32,32,0,0,1,32,32v32H64Zm384,32H272V192a32,32,0,0,1,32-32H416a32,32,0,0,1,32,32ZM80,64H432a16,16,0,0,1,16,16v56.9a63.27,63.27,0,0,0-32-8.9H304a63.9,63.9,0,0,0-48,21.71A63.9,63.9,0,0,0,208,128H96a63.27,63.27,0,0,0-32,8.9V80A16,16,0,0,1,80,64ZM32,384V266.67A10.69,10.69,0,0,1,42.67,256H469.33A10.69,10.69,0,0,1,480,266.67V384Z"></path></svg>
+                      <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path
+                          d="M480,226.15V80a48,48,0,0,0-48-48H80A48,48,0,0,0,32,80V226.15C13.74,231,0,246.89,0,266.67V472a8,8,0,0,0,8,8H24a8,8,0,0,0,8-8V416H480v56a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V266.67C512,246.89,498.26,231,480,226.15ZM64,192a32,32,0,0,1,32-32H208a32,32,0,0,1,32,32v32H64Zm384,32H272V192a32,32,0,0,1,32-32H416a32,32,0,0,1,32,32ZM80,64H432a16,16,0,0,1,16,16v56.9a63.27,63.27,0,0,0-32-8.9H304a63.9,63.9,0,0,0-48,21.71A63.9,63.9,0,0,0,208,128H96a63.27,63.27,0,0,0-32,8.9V80A16,16,0,0,1,80,64ZM32,384V266.67A10.69,10.69,0,0,1,42.67,256H469.33A10.69,10.69,0,0,1,480,266.67V384Z"></path>
+                      </svg>
                       3 + 1
                     </p>
 
                     <p class="flex items-center font-medium text-gray-800">
-                      <svg class="w-5 h-5 mr-2" width="45" height="45" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="white" fill-opacity="0.01"/><rect x="4" y="8" width="40" height="20" rx="2" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="20" width="24" height="8" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 14H36" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 34V40" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 36V38" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 36V38" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      <svg class="w-5 h-5 mr-2" width="45" height="45" viewBox="0 0 48 48" fill="none"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <rect width="48" height="48" fill="white" fill-opacity="0.01"/>
+                        <rect x="4" y="8" width="40" height="20" rx="2" stroke="#333" stroke-width="1"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="12" y="20" width="24" height="8" fill="none" stroke="#333" stroke-width="1"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M32 14H36" stroke="#333" stroke-width="1" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                        <path d="M24 34V40" stroke="#333" stroke-width="1" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                        <path d="M16 36V38" stroke="#333" stroke-width="1" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                        <path d="M32 36V38" stroke="#333" stroke-width="1" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                      </svg>
                       2
                     </p>
 
                     <p class="flex items-center font-medium text-gray-800">
-                      <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M504,256H64V61.25a29.26,29.26,0,0,1,49.94-20.69L139.18,65.8A71.49,71.49,0,0,0,128,104c0,20.3,8.8,38.21,22.34,51.26L138.58,167a8,8,0,0,0,0,11.31l11.31,11.32a8,8,0,0,0,11.32,0L285.66,65.21a8,8,0,0,0,0-11.32L274.34,42.58a8,8,0,0,0-11.31,0L251.26,54.34C238.21,40.8,220.3,32,200,32a71.44,71.44,0,0,0-38.2,11.18L136.56,18A61.24,61.24,0,0,0,32,61.25V256H8a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H32v96c0,41.74,26.8,76.9,64,90.12V504a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V480H384v24a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V474.12c37.2-13.22,64-48.38,64-90.12V288h24a8,8,0,0,0,8-8V264A8,8,0,0,0,504,256ZM228.71,76.9,172.9,132.71A38.67,38.67,0,0,1,160,104a40,40,0,0,1,40-40A38.67,38.67,0,0,1,228.71,76.9ZM448,384a64.07,64.07,0,0,1-64,64H128a64.07,64.07,0,0,1-64-64V288H448Z"></path></svg>
+                      <svg class="w-5 h-5 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path
+                          d="M504,256H64V61.25a29.26,29.26,0,0,1,49.94-20.69L139.18,65.8A71.49,71.49,0,0,0,128,104c0,20.3,8.8,38.21,22.34,51.26L138.58,167a8,8,0,0,0,0,11.31l11.31,11.32a8,8,0,0,0,11.32,0L285.66,65.21a8,8,0,0,0,0-11.32L274.34,42.58a8,8,0,0,0-11.31,0L251.26,54.34C238.21,40.8,220.3,32,200,32a71.44,71.44,0,0,0-38.2,11.18L136.56,18A61.24,61.24,0,0,0,32,61.25V256H8a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H32v96c0,41.74,26.8,76.9,64,90.12V504a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V480H384v24a8,8,0,0,0,8,8h16a8,8,0,0,0,8-8V474.12c37.2-13.22,64-48.38,64-90.12V288h24a8,8,0,0,0,8-8V264A8,8,0,0,0,504,256ZM228.71,76.9,172.9,132.71A38.67,38.67,0,0,1,160,104a40,40,0,0,1,40-40A38.67,38.67,0,0,1,228.71,76.9ZM448,384a64.07,64.07,0,0,1-64,64H128a64.07,64.07,0,0,1-64-64V288H448Z"></path>
+                      </svg>
                       2
                     </p>
                   </div>
@@ -153,8 +314,11 @@
                 <div>
                   <div class="absolute top-0 right-0 mt-2 mr-2 p-4 z-20 flex justify-between">
                     <div class="inline-flex items-center justify-center w-8 h-8 p-2 rounded-full bg-white shadow-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 h-auto fill-current text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 h-auto fill-current text-red-500"
+                           viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                              clip-rule="evenodd"/>
                       </svg>
                     </div>
                   </div>
@@ -163,40 +327,54 @@
                     <div class="h-32 bg-gray-100 rounded-lg"></div>
                   </div>
                 </div>
-                  </div>
+              </div>
 
-                  <div class="mt-4">
-                    <h2 class="font-medium text-base md:text-lg text-gray-800 line-clamp-1" title="New York">
-                      Phòng: {{ data.ma }}
-                    </h2>
-                    <p class="mt-2 text-sm text-gray-800 line-clamp-1" title="New York, NY 10004, United States">
-                      Ha Noi, Viet Nam
-                    </p>
-                  </div>
+              <div class="mt-4">
+                <h2 class="font-medium text-base md:text-lg text-gray-800 line-clamp-1" title="New York">
+                  Phòng: {{ data.ma }}
+                </h2>
+                <p class="mt-2 text-sm text-gray-800 line-clamp-1" title="New York, NY 10004, United States">
+                  Ha Noi, Viet Nam
+                </p>
+              </div>
 
               <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-8">
                 <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M570.53,242,512,190.75V48a16,16,0,0,0-16-16H400a16,16,0,0,0-16,16V78.75L298.53,4a16,16,0,0,0-21.06,0L5.47,242a16,16,0,0,0,21.07,24.09L64,233.27V464a48.05,48.05,0,0,0,48,48H464a48.05,48.05,0,0,0,48-48V233.27l37.46,32.79A16,16,0,0,0,570.53,242ZM480,464a16,16,0,0,1-16,16H112a16,16,0,0,1-16-16V205.27l192-168,192,168Zm0-301.25-64-56V64h64ZM208,218.67V325.34A26.75,26.75,0,0,0,234.66,352H341.3A26.76,26.76,0,0,0,368,325.34V218.67A26.75,26.75,0,0,0,341.3,192H234.66A26.74,26.74,0,0,0,208,218.67ZM240,224h96v96H240Z"></path></svg>
+                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path
+                      d="M570.53,242,512,190.75V48a16,16,0,0,0-16-16H400a16,16,0,0,0-16,16V78.75L298.53,4a16,16,0,0,0-21.06,0L5.47,242a16,16,0,0,0,21.07,24.09L64,233.27V464a48.05,48.05,0,0,0,48,48H464a48.05,48.05,0,0,0,48-48V233.27l37.46,32.79A16,16,0,0,0,570.53,242ZM480,464a16,16,0,0,1-16,16H112a16,16,0,0,1-16-16V205.27l192-168,192,168Zm0-301.25-64-56V64h64ZM208,218.67V325.34A26.75,26.75,0,0,0,234.66,352H341.3A26.76,26.76,0,0,0,368,325.34V218.67A26.75,26.75,0,0,0,341.3,192H234.66A26.74,26.74,0,0,0,208,218.67ZM240,224h96v96H240Z"></path>
+                  </svg>
                   <span class="mt-2 xl:mt-0">
-			              {{data.tenLoaiPhong}}
+			              {{ data.tenLoaiPhong }}
 			            </span>
                 </p>
                 <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.5883 7.872H16.4286L16.7097 8.99658H6.74743V10.1211H17.4309C17.5163 10.1211 17.6006 10.1017 17.6774 10.0642C17.7542 10.0267 17.8214 9.97222 17.874 9.90487C17.9266 9.83753 17.9631 9.75908 17.9808 9.6755C17.9986 9.59192 17.997 9.5054 17.9763 9.42251L17.5883 7.872ZM17.5883 4.49829H16.4286L16.7097 5.62286H6.74743V6.74743H17.4309C17.5163 6.74742 17.6006 6.72794 17.6774 6.69046C17.7542 6.65299 17.8214 6.59851 17.874 6.53116C17.9266 6.46381 17.9631 6.38537 17.9808 6.30179C17.9986 6.2182 17.997 6.13168 17.9763 6.04879L17.5883 4.49829ZM17.4309 0H0.562286C0.413158 0 0.270139 0.0592407 0.16469 0.16469C0.0592407 0.270139 0 0.413158 0 0.562286L0 2.81143C0 2.96056 0.0592407 3.10358 0.16469 3.20903C0.270139 3.31448 0.413158 3.37372 0.562286 3.37372H4.49829V5.62286H1.28271L1.56386 4.49829H0.404143L0.0175714 6.04879C-0.00313354 6.13162 -0.00470302 6.21808 0.012982 6.30161C0.0306671 6.38514 0.0671423 6.46355 0.119641 6.53088C0.172139 6.59822 0.239283 6.65271 0.315978 6.69023C0.392673 6.72775 0.476905 6.74731 0.562286 6.74743H4.49829V8.99658H1.28271L1.56386 7.872H0.404143L0.0175714 9.42251C-0.00313354 9.50534 -0.00470302 9.5918 0.012982 9.67533C0.0306671 9.75886 0.0671423 9.83727 0.119641 9.9046C0.172139 9.97193 0.239283 10.0264 0.315978 10.0639C0.392673 10.1015 0.476905 10.121 0.562286 10.1211H4.49829V14.7228C4.12312 14.8554 3.80693 15.1164 3.60559 15.4596C3.40424 15.8028 3.33072 16.2062 3.39801 16.5984C3.4653 16.9906 3.66907 17.3464 3.9733 17.6028C4.27754 17.8593 4.66265 18 5.06057 18C5.4585 18 5.84361 17.8593 6.14784 17.6028C6.45208 17.3464 6.65585 16.9906 6.72314 16.5984C6.79043 16.2062 6.7169 15.8028 6.51556 15.4596C6.31422 15.1164 5.99803 14.8554 5.62286 14.7228V3.37372H17.4309C17.58 3.37372 17.723 3.31448 17.8285 3.20903C17.9339 3.10358 17.9932 2.96056 17.9932 2.81143V0.562286C17.9932 0.413158 17.9339 0.270139 17.8285 0.16469C17.723 0.0592407 17.58 0 17.4309 0V0ZM5.06057 16.8686C4.94936 16.8686 4.84065 16.8356 4.74818 16.7738C4.65572 16.712 4.58365 16.6242 4.54109 16.5215C4.49853 16.4187 4.4874 16.3057 4.50909 16.1966C4.53079 16.0875 4.58434 15.9873 4.66298 15.9087C4.74162 15.8301 4.8418 15.7765 4.95088 15.7548C5.05995 15.7331 5.17301 15.7443 5.27575 15.7868C5.3785 15.8294 5.46631 15.9014 5.5281 15.9939C5.58988 16.0864 5.62286 16.1951 5.62286 16.3063C5.62286 16.4554 5.56362 16.5984 5.45817 16.7039C5.35272 16.8093 5.2097 16.8686 5.06057 16.8686ZM16.8686 2.24914H1.12457V1.12457H16.8686V2.24914Z"></path>
+                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" viewBox="0 0 18 18"
+                       fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.5883 7.872H16.4286L16.7097 8.99658H6.74743V10.1211H17.4309C17.5163 10.1211 17.6006 10.1017 17.6774 10.0642C17.7542 10.0267 17.8214 9.97222 17.874 9.90487C17.9266 9.83753 17.9631 9.75908 17.9808 9.6755C17.9986 9.59192 17.997 9.5054 17.9763 9.42251L17.5883 7.872ZM17.5883 4.49829H16.4286L16.7097 5.62286H6.74743V6.74743H17.4309C17.5163 6.74742 17.6006 6.72794 17.6774 6.69046C17.7542 6.65299 17.8214 6.59851 17.874 6.53116C17.9266 6.46381 17.9631 6.38537 17.9808 6.30179C17.9986 6.2182 17.997 6.13168 17.9763 6.04879L17.5883 4.49829ZM17.4309 0H0.562286C0.413158 0 0.270139 0.0592407 0.16469 0.16469C0.0592407 0.270139 0 0.413158 0 0.562286L0 2.81143C0 2.96056 0.0592407 3.10358 0.16469 3.20903C0.270139 3.31448 0.413158 3.37372 0.562286 3.37372H4.49829V5.62286H1.28271L1.56386 4.49829H0.404143L0.0175714 6.04879C-0.00313354 6.13162 -0.00470302 6.21808 0.012982 6.30161C0.0306671 6.38514 0.0671423 6.46355 0.119641 6.53088C0.172139 6.59822 0.239283 6.65271 0.315978 6.69023C0.392673 6.72775 0.476905 6.74731 0.562286 6.74743H4.49829V8.99658H1.28271L1.56386 7.872H0.404143L0.0175714 9.42251C-0.00313354 9.50534 -0.00470302 9.5918 0.012982 9.67533C0.0306671 9.75886 0.0671423 9.83727 0.119641 9.9046C0.172139 9.97193 0.239283 10.0264 0.315978 10.0639C0.392673 10.1015 0.476905 10.121 0.562286 10.1211H4.49829V14.7228C4.12312 14.8554 3.80693 15.1164 3.60559 15.4596C3.40424 15.8028 3.33072 16.2062 3.39801 16.5984C3.4653 16.9906 3.66907 17.3464 3.9733 17.6028C4.27754 17.8593 4.66265 18 5.06057 18C5.4585 18 5.84361 17.8593 6.14784 17.6028C6.45208 17.3464 6.65585 16.9906 6.72314 16.5984C6.79043 16.2062 6.7169 15.8028 6.51556 15.4596C6.31422 15.1164 5.99803 14.8554 5.62286 14.7228V3.37372H17.4309C17.58 3.37372 17.723 3.31448 17.8285 3.20903C17.9339 3.10358 17.9932 2.96056 17.9932 2.81143V0.562286C17.9932 0.413158 17.9339 0.270139 17.8285 0.16469C17.723 0.0592407 17.58 0 17.4309 0V0ZM5.06057 16.8686C4.94936 16.8686 4.84065 16.8356 4.74818 16.7738C4.65572 16.712 4.58365 16.6242 4.54109 16.5215C4.49853 16.4187 4.4874 16.3057 4.50909 16.1966C4.53079 16.0875 4.58434 15.9873 4.66298 15.9087C4.74162 15.8301 4.8418 15.7765 4.95088 15.7548C5.05995 15.7331 5.17301 15.7443 5.27575 15.7868C5.3785 15.8294 5.46631 15.9014 5.5281 15.9939C5.58988 16.0864 5.62286 16.1951 5.62286 16.3063C5.62286 16.4554 5.56362 16.5984 5.45817 16.7039C5.35272 16.8093 5.2097 16.8686 5.06057 16.8686ZM16.8686 2.24914H1.12457V1.12457H16.8686V2.24914Z"></path>
                   </svg>
                   <span class="mt-2 xl:mt-0">
 			              Nội thất đầy đủ
 			            </span>
                 </p>
                 <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M399.959 170.585c-4.686 4.686-4.686 12.284 0 16.971L451.887 239H60.113l51.928-51.444c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0l-84.485 84c-4.686 4.686-4.686 12.284 0 16.971l84.485 84c4.686 4.686 12.284 4.686 16.97 0l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L60.113 273h391.773l-51.928 51.444c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l84.485-84c4.687-4.686 4.687-12.284 0-16.971l-84.485-84c-4.686-4.686-12.284-4.686-16.97 0l-7.07 7.071z"></path></svg>
+                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                      d="M399.959 170.585c-4.686 4.686-4.686 12.284 0 16.971L451.887 239H60.113l51.928-51.444c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0l-84.485 84c-4.686 4.686-4.686 12.284 0 16.971l84.485 84c4.686 4.686 12.284 4.686 16.97 0l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L60.113 273h391.773l-51.928 51.444c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l84.485-84c4.687-4.686 4.687-12.284 0-16.971l-84.485-84c-4.686-4.686-12.284-4.686-16.97 0l-7.07 7.071z"></path>
+                  </svg>
                   <span class="mt-2 xl:mt-0">
                     50 m²
                   </span>
                 </p>
                 <p class="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M532.01 386.17C559.48 359.05 576 325.04 576 288c0-80.02-76.45-146.13-176.18-157.94 0 .01.01.02.01.03C368.37 72.47 294.34 32 208 32 93.12 32 0 103.63 0 192c0 37.04 16.52 71.05 43.99 98.17-15.3 30.74-37.34 54.53-37.7 54.89-6.31 6.69-8.05 16.53-4.42 24.99A23.085 23.085 0 0 0 23.06 384c53.54 0 96.67-20.24 125.17-38.78 9.08 2.09 18.45 3.68 28 4.82C207.74 407.59 281.73 448 368 448c20.79 0 40.83-2.41 59.77-6.78C456.27 459.76 499.4 480 552.94 480c9.22 0 17.55-5.5 21.18-13.96 3.64-8.46 1.89-18.3-4.42-24.99-.35-.36-22.39-24.14-37.69-54.88zm-376.59-72.13l-13.24-3.05-11.39 7.41c-20.07 13.06-50.49 28.25-87.68 32.47 8.77-11.3 20.17-27.61 29.54-46.44l10.32-20.75-16.49-16.28C50.75 251.87 32 226.19 32 192c0-70.58 78.95-128 176-128s176 57.42 176 128-78.95 128-176 128c-17.73 0-35.42-2.01-52.58-5.96zm289.8 100.35l-11.39-7.41-13.24 3.05A234.318 234.318 0 0 1 368 416c-65.14 0-122-25.94-152.43-64.29C326.91 348.62 416 278.4 416 192c0-9.45-1.27-18.66-3.32-27.66C488.12 178.78 544 228.67 544 288c0 34.19-18.75 59.87-34.47 75.39l-16.49 16.28 10.32 20.75c9.38 18.86 20.81 35.19 29.53 46.44-37.19-4.22-67.6-19.41-87.67-32.47zM233.38 182.91l-41.56-12.47c-4.22-1.27-7.19-5.62-7.19-10.58 0-6.03 4.34-10.94 9.66-10.94h25.94c3.9 0 7.65 1.08 10.96 3.1 3.17 1.93 7.31 1.15 10-1.4l11.44-10.87c3.53-3.36 3.38-9.22-.54-12.11-8.18-6.03-17.97-9.58-28.08-10.32V104c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v13.4c-21.85 1.29-39.38 19.62-39.38 42.46 0 18.98 12.34 35.94 30 41.23l41.56 12.47c4.22 1.27 7.19 5.62 7.19 10.58 0 6.03-4.34 10.94-9.66 10.94h-25.94c-3.9 0-7.65-1.08-10.96-3.1-3.17-1.94-7.31-1.15-10 1.4l-11.44 10.87c-3.53 3.36-3.38 9.22.54 12.11 8.18 6.03 17.97 9.58 28.08 10.32V280c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-13.4c21.85-1.29 39.38-19.62 39.38-42.46 0-18.98-12.35-35.94-30-41.23z"></path></svg>
+                  <svg class="inline-block w-5 h-5 xl:w-4 xl:h-4 mr-3 fill-current text-gray-800"
+                       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path
+                      d="M532.01 386.17C559.48 359.05 576 325.04 576 288c0-80.02-76.45-146.13-176.18-157.94 0 .01.01.02.01.03C368.37 72.47 294.34 32 208 32 93.12 32 0 103.63 0 192c0 37.04 16.52 71.05 43.99 98.17-15.3 30.74-37.34 54.53-37.7 54.89-6.31 6.69-8.05 16.53-4.42 24.99A23.085 23.085 0 0 0 23.06 384c53.54 0 96.67-20.24 125.17-38.78 9.08 2.09 18.45 3.68 28 4.82C207.74 407.59 281.73 448 368 448c20.79 0 40.83-2.41 59.77-6.78C456.27 459.76 499.4 480 552.94 480c9.22 0 17.55-5.5 21.18-13.96 3.64-8.46 1.89-18.3-4.42-24.99-.35-.36-22.39-24.14-37.69-54.88zm-376.59-72.13l-13.24-3.05-11.39 7.41c-20.07 13.06-50.49 28.25-87.68 32.47 8.77-11.3 20.17-27.61 29.54-46.44l10.32-20.75-16.49-16.28C50.75 251.87 32 226.19 32 192c0-70.58 78.95-128 176-128s176 57.42 176 128-78.95 128-176 128c-17.73 0-35.42-2.01-52.58-5.96zm289.8 100.35l-11.39-7.41-13.24 3.05A234.318 234.318 0 0 1 368 416c-65.14 0-122-25.94-152.43-64.29C326.91 348.62 416 278.4 416 192c0-9.45-1.27-18.66-3.32-27.66C488.12 178.78 544 228.67 544 288c0 34.19-18.75 59.87-34.47 75.39l-16.49 16.28 10.32 20.75c9.38 18.86 20.81 35.19 29.53 46.44-37.19-4.22-67.6-19.41-87.67-32.47zM233.38 182.91l-41.56-12.47c-4.22-1.27-7.19-5.62-7.19-10.58 0-6.03 4.34-10.94 9.66-10.94h25.94c3.9 0 7.65 1.08 10.96 3.1 3.17 1.93 7.31 1.15 10-1.4l11.44-10.87c3.53-3.36 3.38-9.22-.54-12.11-8.18-6.03-17.97-9.58-28.08-10.32V104c0-4.42-3.58-8-8-8h-16c-4.42 0-8 3.58-8 8v13.4c-21.85 1.29-39.38 19.62-39.38 42.46 0 18.98 12.34 35.94 30 41.23l41.56 12.47c4.22 1.27 7.19 5.62 7.19 10.58 0 6.03-4.34 10.94-9.66 10.94h-25.94c-3.9 0-7.65-1.08-10.96-3.1-3.17-1.94-7.31-1.15-10 1.4l-11.44 10.87c-3.53 3.36-3.38 9.22.54 12.11 8.18 6.03 17.97 9.58 28.08 10.32V280c0 4.42 3.58 8 8 8h16c4.42 0 8-3.58 8-8v-13.4c21.85-1.29 39.38-19.62 39.38-42.46 0-18.98-12.35-35.94-30-41.23z"></path>
+                  </svg>
                   <span class="mt-2 xl:mt-0">
                     $1.98 /sq.ft
                   </span>
@@ -216,12 +394,18 @@
                 </div>
 
                 <div class="flex justify-end">
-                  <p *ngIf="!sale" class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                    <span class="text-lg">{{ Number(data.giaPhong) | currencyFormat}}
+                  <p *ngIf="!sale"
+                     class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
+                    <span class="text-lg">{{ Number(data.giaPhong) | currencyFormat }}
                     </span>/ đêm
                   </p>
-                  <p *ngIf="sale && sale.trangThai === 1" class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
-                    <span class="text-lg">{{ Number(- (data.giaPhong || 0) * (sale.giaTri || 0) / 100 + (data.giaPhong || 0)) | currencyFormat }}
+                  <p *ngIf="sale && sale.trangThai === 1"
+                     class="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
+                    <span style="text-decoration: line-through; font-style: italic; font-size: small">{{ Number(data.giaPhong) | currencyFormat }}
+                    </span>
+                    <br/>
+                    <span
+                      class="text-lg">{{ Number(-(data.giaPhong || 0) * (sale.giaTri || 0) / 100 + (data.giaPhong || 0)) | currencyFormat }}
                     </span>/ đêm
                   </p>
                 </div>
@@ -229,29 +413,50 @@
             </div>
           </a>
         </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Pagination (ml-auto for right alignment) -->
-  <div class="col-span-4 flex items-center justify-center mt-4 ml-auto">
-    <div class="bg-white p-4 flex items-center flex-wrap">
-      <nav aria-label="Page navigation">
-        <ul class="inline-flex space-x-2">
-          <li><button class="flex items-center justify-center w-10 h-10 text-green-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-green-100" (click)="previousPage()" [disabled]="currentPage === 1">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
-          </li>
-          <li><button class="w-10 h-10 text-green-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-green-100">{{ currentPage }}</button></li>
-          <li><button class="flex items-center justify-center w-10 h-10 text-green-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-green-100" (click)="nextPage()" [disabled]="room.length < itemsPerPage">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></button>
-          </li>
-        </ul>
-      </nav>
+    <!-- Pagination (ml-auto for right alignment) -->
+    <div class="col-span-4 flex items-center justify-center mt-4 ml-auto">
+      <div class="bg-white p-4 flex items-center flex-wrap">
+        <nav aria-label="Page navigation">
+          <ul class="inline-flex space-x-2">
+            <li>
+              <button
+                class="flex items-center justify-center w-10 h-10 text-green-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-green-100"
+                (click)="previousPage()" [disabled]="currentPage === 1">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                  <path
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button
+                class="w-10 h-10 text-green-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-green-100">{{ currentPage }}
+              </button>
+            </li>
+            <li>
+              <button
+                class="flex items-center justify-center w-10 h-10 text-green-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-green-100"
+                (click)="nextPage()" [disabled]="room.length < itemsPerPage">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                  <path
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Đặt phòng nâng cao" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzWidth="900px">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Đặt phòng nâng cao" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+          nzWidth="900px" [nzFooter]="null">
   <ng-container *nzModalContent>
     <cons-case></cons-case>
   </ng-container>

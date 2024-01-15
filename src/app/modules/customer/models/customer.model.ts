@@ -6,4 +6,7 @@ export interface CustomerModel{
   gioiTinh: boolean;
   diaChi: string;
   sdt: string;
+  cccd: string;
+  rank: string;
+  giamGia: number;
 }

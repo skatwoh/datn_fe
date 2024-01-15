@@ -10,6 +10,7 @@ export class UserModel extends AuthModel {
   role: string | null;
   sdt: string | null;
 
+
   setUser(_user: unknown) {
     const user = _user as UserModel;
     this.id = user.id;

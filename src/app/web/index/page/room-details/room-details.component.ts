@@ -19,6 +19,8 @@ import {VoucherModel} from "../../../../models/voucher.model";
 import {HttpClient} from '@angular/common/http';
 import {SaleService} from "../../../../modules/sale/sale.service";
 import {SaleModel} from "../../../../models/sale.model";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 declare var KeenSlider: any;
 
@@ -49,11 +51,14 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   test: any;
   test1: any;
+  khachHang !: CustomerModel ;
+
 
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private saleService: SaleService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
-              private voucherService: VoucherService, private http: HttpClient, private roomService2: RoomService) {
+              private voucherService: VoucherService, private http: HttpClient, private roomService2: RoomService ,
+              private customerService: CustomerService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -64,7 +69,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       soNguoi: [0, Validators.required],
       idVoucher: [null],
       tongGia: [0, Validators.required],
-      trangThai: 1
+      trangThai: 4
     })
 
     this.route.queryParams.subscribe(params => {
@@ -84,6 +89,10 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
     // @ts-ignore
     this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.khachHang = res ;
+    })
   }
 
   parseDateString(dateString: string): Date | null {
@@ -167,6 +176,8 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     keenSliderPrevious.addEventListener('click', () => keenSlider.prev());
     // @ts-ignore
     keenSliderNext.addEventListener('click', () => keenSlider.next());
+
+
   }
 
   messSuccess(): void {
@@ -252,8 +263,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   createBill(): void {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien: '',
       idKhachHang: this.user?.id
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.createOrUpdate(data).subscribe((res: any) => {
       console.log(res);
@@ -263,7 +279,12 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   updateTongTien(): void {
     const data = {
       idKhachHang: this.user?.id,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien: '',
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.updateTongTien(data).subscribe((res: any) => {
       console.log(res);
@@ -273,8 +294,13 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
   deleteBill() {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+      tongTien:'',
       idKhachHang: this.user?.id
+    }
+    if(this.khachHang.giamGia === 0){
+      data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
+    }else if(this.khachHang.giamGia !== 0){
+      data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
     this.billService.deleteBill(data).subscribe((res: any) => {
       console.log(res);
@@ -290,15 +316,19 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const data = this.roomOrderForm.value;
-        data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        if(this.khachHang.giamGia === 0){
+          data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        }else if(this.khachHang.giamGia !== 0){
+          data.tongGia = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
+        }
         const sub = this.roomManagerService.create(data)
           .pipe(first())
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
                 this.submitted = true;
-                this.sendNotification();
-                this.messSuccess();
-                this.router.navigate(['/room']);
+                // this.sendNotification();
+                // this.messSuccess();
+                this.router.navigate(['/me/step/1']);
               } else {
                 if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
                   this.updateTongTien();
@@ -331,6 +361,16 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   // Create an array to store cart items
   private cartItems: any[] = [];
+
+  private loadCartItems(userId: any): void {
+    const userCartStorageKey = `${this.cartStorageKey}_${userId}`;
+
+    const storedCartItems = localStorage.getItem(userCartStorageKey);
+
+    if (storedCartItems) {
+      this.cartItems = JSON.parse(storedCartItems);
+    }
+  }
   addToCart(): void {
     const roomDetails = {
       roomId: this.room.id,
@@ -338,16 +378,23 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
       amount: this.room.giaPhong,
     };
 
+    this.loadCartItems(this.user?.id);
+
     const isDuplicate = this.cartItems.some(item => item.roomId === roomDetails.roomId);
 
     if (!isDuplicate) {
       this.cartItems.push(roomDetails);
-      localStorage.setItem(this.cartStorageKey, JSON.stringify(this.cartItems));
+
+      // Save the updated cart items with the user-specific storage key
+      const userCartStorageKey = `${this.cartStorageKey}_${this.user?.id}`;
+      localStorage.setItem(userCartStorageKey, JSON.stringify(this.cartItems));
+
       this.notification.success('Thêm vào giỏ hàng thành công', '');
     } else {
       this.notification.warning('Phòng đã được thêm trong giỏ hàng', '');
     }
   }
+
 
   navigateBackToRoom() {
     this.router.navigate(['/room'], {

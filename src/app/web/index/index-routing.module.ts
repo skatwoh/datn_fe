@@ -12,6 +12,10 @@ import {RoomOrderChangeComponent} from "./page/room-order-change/room-order-chan
 import {RoomOrderHistoryComponent} from "./page/room-order-history/room-order-history.component";
 import {CommingSoonComponent} from "./page/comming-soon/comming-soon.component";
 import {CartComponent} from "./cart/cart.component";
+import {Step1Component} from "./step/step1/step1.component";
+import {Step2Component} from "./step/step2/step2.component";
+import {Step3Component} from "./step/step3/step3.component";
+import {RoomDefaultComponent} from "./page/room-default/room-default.component";
 
 const routes: Routes = [
   {
@@ -34,10 +38,10 @@ const routes: Routes = [
         path: 'profile/me',
         component: ProfileComponent
       },
-      {
-        path: 'profile/me/list-room-order',
-        component: ListRoomOrderComponent
-      },
+      // {
+      //   path: 'profile/me/list-room-order',
+      //   component: ListRoomOrderComponent
+      // },
       {
         path: 'blog',
         component: BlogComponent
@@ -61,7 +65,28 @@ const routes: Routes = [
       {
         path: 'me/cart',
         component: CartComponent
-      }
+      },
+      {
+        path: 'me/step',
+        children: [
+          {
+            path: '1',
+            component: Step1Component
+          },
+          {
+            path: '2',
+            component: Step2Component
+          },
+          {
+            path: '3',
+            component: Step3Component
+          }
+        ]
+      },
+      {
+        path: 'room-default',
+        component: RoomDefaultComponent
+      },
     ]
   },
   {path: '', loadChildren: () => import('./auth-web/auth-web.module').then(m => m.AuthWebModule)},

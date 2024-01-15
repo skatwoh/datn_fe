@@ -1,6 +1,35 @@
-.nav-web{
+/* Add this to your existing CSS styles or create a new stylesheet */
+
+/* Fixed header styles */
+//.container-fluid {
+//  position: relative;
+//}
+
+nav.nav-web {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust the z-index as needed */
   background-color: #d3c3b9;
+  height: 80px;
+  display: block;
+  text-decoration: none;
+  font-family: Lora, serif;
+  line-height: 1.9rem;
+  font-style: normal;
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: #3D3935;
+  border: 0;
 }
+
+/* Adjust the margin-top of the main content to avoid overlapping with the fixed header */
+#main {
+  margin-top: 80px; /* Adjust the margin-top based on your header height */
+}
+
+/* Add any additional styling for the fixed header, like background color, padding, etc. */
 
 .noti-header{
   width: 32px;

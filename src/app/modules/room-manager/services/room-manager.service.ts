@@ -6,6 +6,7 @@ import {catchError, map} from "rxjs/operators";
 import {RoomOrder} from "../../../models/room-order";
 
 const API_AU_URL = `${environment.apiUrl}/dat-phong`;
+const API_CUS = `${environment.apiUrl}/khach-hang`;
 
 @Injectable({
   providedIn: 'root'
@@ -74,5 +75,14 @@ export class RoomManagerService {
   updateRoomOrder(id: any, data: any): Observable<any> {
     const params = {id};
     return this.http.put(`${API_AU_URL}/update-dat-phong`, data, {params});
+  }
+
+  datPhongTaiQuay(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/dat-phong-tai-quay`, data);
+  }
+
+  getKH(cccd: any): Observable<RoomOrder> {
+    const params = {cccd};
+    return this.http.get<any>(`${API_CUS}/get-khach-hang-by-cccd`, {params});
   }
 }

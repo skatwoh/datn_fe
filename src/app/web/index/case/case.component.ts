@@ -15,7 +15,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./case.component.scss']
 })
 export class CaseComponent implements OnInit{
-
+  isVisible = false;
   rooms: RoomMappingCtpModel[] = [];
   bookings: RoomListModel[] = [];
   user: UserModel | undefined;
@@ -123,5 +123,19 @@ checkToRoom(room: any) {
               error => console.error('API Error:', error)
           );
     }, 500);
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
   }
 }

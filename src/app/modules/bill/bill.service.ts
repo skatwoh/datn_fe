@@ -84,4 +84,37 @@ export class BillService{
       return null;
     }));
   }
+
+  createOrUpdateTaiQuay(data: any): Observable<any> {
+    return this.http.post(`${API_AU_URL}/create-or-update-tai-quay`, data);
+  }
+
+  addDichVu(data: any): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/chi-tiet-dich-vu/create`, data);
+  }
+
+  getAllChiTietDichVuByDatPhong(page: number, size: number,id: any): Observable<any> {
+    const params = {page, size, id};
+    return this.http.get<any>(`${environment.apiUrl}/chi-tiet-dich-vu/list-by-dat-phong`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  tinhTienDichVu(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/tinh-tien-dich-vu`, data, {params});
+  }
+
+  updateRankKhachHang(id: any, data: any ) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/up-rank-customer`,data, {params});
+  }
+
+  getTongTienByKhachHang(id : any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-tong-tien-by-customer`, {params});
+  }
 }
