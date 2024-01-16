@@ -107,7 +107,7 @@ export class RoomComponent implements OnInit {
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
       if (res && res.content) {
         this.room = res.content;
-        // this.updateUrlWithSearchParams();
+        this.updateUrlWithSearchParams();
       }
     })
   }
@@ -128,14 +128,12 @@ export class RoomComponent implements OnInit {
     })
   }
 
-  private updateUrlWithSearchParams(): void {
+   updateUrlWithSearchParams(): void {
     const queryParams = {
       soLuongNguoi: this.soLuongNguoi,
       tenLoaiPhong: this.tenLoaiPhong,
       checkIn: this.checkIn,
       checkOut: this.checkOut,
-      minGia: this.minGia,
-      maxGia: this.maxGia,
     };
     // Update URL without triggering a navigation
     this.router.navigate([], {
