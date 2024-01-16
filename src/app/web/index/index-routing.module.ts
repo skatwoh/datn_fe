@@ -16,6 +16,7 @@ import {Step1Component} from "./step/step1/step1.component";
 import {Step2Component} from "./step/step2/step2.component";
 import {Step3Component} from "./step/step3/step3.component";
 import {RoomDefaultComponent} from "./page/room-default/room-default.component";
+import {ListOrderNowComponent} from "./page/list-order-now/list-order-now.component";
 
 const routes: Routes = [
   {
@@ -38,10 +39,10 @@ const routes: Routes = [
         path: 'profile/me',
         component: ProfileComponent
       },
-      // {
-      //   path: 'profile/me/list-room-order',
-      //   component: ListRoomOrderComponent
-      // },
+      {
+        path: 'profile/me/list-room-order',
+        component: ListOrderNowComponent
+      },
       {
         path: 'blog',
         component: BlogComponent

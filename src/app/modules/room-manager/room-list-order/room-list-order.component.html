@@ -34,6 +34,17 @@
             <input type="date" id="checkIn" style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px" [(ngModel)]="checkInDate" (ngModelChange)="getRoomByDate()">
             <label style="margin-left: 10px">đến</label>
             <input type="date" id="checkOut" style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px" [(ngModel)]="checkOutDate" (ngModelChange)="getRoomByDate()">
+
+          </div>
+          <div style="font-size: 18px;margin-left: 30px;margin-top: 10px">
+            <select id="tenLoaiPhong" class="select-input"
+                    style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+            (change)="getRoomByDate()">
+              <option class="option" value="">Tất cả</option>
+              <option class="option" *ngFor="let data of roomType"
+                      [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
+                      [value]="data.tenLoaiPhong"></option>
+            </select>
           </div>
         </div>
 

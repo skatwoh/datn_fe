@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {RoomModel} from "../../../../models/room.model";
 import {RoomService} from "../../../../modules/room/services/room.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -148,6 +148,8 @@ export class RoomComponent implements OnInit {
 
 
   ngOnInit() {
+    const currentUrl = this.route.snapshot.url.join('/');
+    console.log(currentUrl, "ok");
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
@@ -174,6 +176,23 @@ export class RoomComponent implements OnInit {
 
     this.getSale();
     this.image();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): any {
+    // Kiểm tra xem người dùng đang rời khỏi trang để chuyển tới URL cố định hay không
+    if (this.router.url === '/') {
+      console.log(this.router.url, "url")
+      // Thông báo bạn muốn hiển thị
+      const confirmationMessage = 'Bạn có chắc chắn muốn rời khỏi trang này?';
+
+      // Gán thông báo cho sự kiện
+      $event.returnValue = confirmationMessage;
+
+      // Trả về thông báo (chỉ cho trình duyệt cũ)
+      console.log("ok")
+      return confirmationMessage;
+    }
   }
 
   previousPage() {

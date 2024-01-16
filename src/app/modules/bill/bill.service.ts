@@ -117,4 +117,24 @@ export class BillService{
     const params = {id};
     return this.http.get(`${API_AU_URL}/get-tong-tien-by-customer`, {params});
   }
+
+  getBillsByCustomer(page: number, size: number, id: any): Observable<any> {
+    const params = {page, size, id};
+    return this.http.get<any>(`${API_AU_URL}/find-by-customer`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getDatPhongByKH(page: number, size: number, id: any): Observable<any> {
+    const params = {page, size, id};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/list-order-of-customer`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }

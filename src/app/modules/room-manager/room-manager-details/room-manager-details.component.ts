@@ -20,6 +20,7 @@ import {VoucherService} from "../../voucher/services/voucher.service";
 import {BillModel} from "../../../models/bill.model";
 import {CustomerService} from "../../customer/services/customer.service";
 import {CustomerModel} from "../../customer/models/customer.model";
+import {now} from "moment";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -99,7 +100,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
 
   updateTongTien(): void {
     const data = {
-      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value,
+      idKhachHang: this.idKhach,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
     }
     this.billService.updateTongTien(data).subscribe((res: any) => {
@@ -111,8 +112,13 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     this.route.queryParams.subscribe(params => {
       const checkIn = params['checkInDate'];
       const checkOut = params['checkOutDate'];
-      this.checkIn = checkIn;
-      this.checkOut = checkOut;
+      if(checkIn === '' || checkOut === ''){
+        this.checkIn = new Date().toISOString();
+        this.checkOut = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
+      }else{
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+      }
     });
     this.getListVouchers();
     this.idPhong = this.route.snapshot.params['id'];
@@ -184,15 +190,17 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/admin/room-manager']);
                 // this.showModal();
               } else {
-                if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-                  this.updateTongTien();
-                  this.deleteBill();
+                // if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+
                   const msg: any = res.entityMessages[0];
+                //   this.notification.warning(`${msg.errorMessage}`, "");
+                // } else {
+                //   this.message = `Error`;
+                // }
+                // this.hasError = true;
                   this.notification.warning(`${msg.errorMessage}`, "");
-                } else {
-                  this.message = `Error`;
-                }
-                this.hasError = true;
+                this.updateTongTien();
+                this.deleteBill();
               }
             },
           );
@@ -206,7 +214,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-      idKhachHang: (document.getElementById('userId') as HTMLInputElement).value
+      idKhachHang: this.idKhach
     }
     this.billService.deleteBill(data).subscribe((res: any) => {
       console.log(res);

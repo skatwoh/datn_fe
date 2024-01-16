@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center items-center h-[60vh]">
+<div class="flex flex-col justify-center items-center h-[60vh]" *ngFor="let hoaDon of listBill">
   <div
     class="relative flex max-w-[1200px] h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none"
   >
@@ -6,34 +6,23 @@
       class="flex h-fit w-full items-center justify-between rounded-t-2xl bg-white px-4 pb-[20px] pt-4 shadow-2xl shadow-gray-100 dark:!bg-navy-700 dark:shadow-none"
     >
       <h4 class="text-lg font-bold text-navy-700 dark:text-white">
-        Danh sách đặt phòng
+        Danh sách đặt phòng hóa đơn {{hoaDon.ma}}
       </h4>
-      <h4 class="total" *ngIf="bill">Tổng tiền: {{ bill.tongTien }}</h4>
-      <button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" (click)="showModalThanhToan()"
-              class="linear rounded-[20px] bg-green-500 px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-green-100 active:bg-green-500 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 dark:active:bg-white/20"
+      <button (click)="showModalHuyHoaDon(hoaDon.id)"
+        class="btn-red linear rounded-[20px] bg-lightPrimary px-4 py-2 text-base font-medium text-brand-500 transition duration-200 hover:bg-gray-100 active:bg-gray-200"
       >
-        Thanh toán
+        Hủy hóa đơn
       </button>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li  (click)="showModalThanhToan()" nz-menu-item
-              class="hover:bg-blue-400">
-            Thanh toán toàn bộ
-          </li>
-          <li nz-menu-item (click)="showModalThanhToanTienCoc()"
-              class="hover:bg-yellow-500">
-            Thanh toán tiền cọc
-          </li>
-        </ul>
-      </nz-dropdown-menu>
     </div>
     <div class="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
-      <nz-table #tableData [nzData]="room" role="table" class="w-full min-w-[500px] overflow-x-scroll"
-                nzTableLayout="fixed">
+      <nz-table #tableData [nzData]="room"  role="table" class="w-full min-w-[500px] overflow-x-scroll">
         <thead>
         <tr role="row">
           <th
-            nzWidth="60px"
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
           >
             <div
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
@@ -86,42 +75,89 @@
             <div
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
             >
-              Thành tiền
+              Tổng thanh toán
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Trạng thái
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Hành động
             </div>
           </th>
         </tr>
         </thead>
         <tbody role="rowgroup" class="px-4">
-        <ng-container *ngFor="let data of tableData.data; let i = index">
-          <tr role="row">
-            <td class="py-3 text-sm" role="cell" [nzExpand]="expandSet.has(Number(data.id))"
-                (nzExpandChange)="onExpandChange(data.id, $event)">
-            </td>
-            <td class="py-3 text-sm" role="cell">
-              <p class="text-md font-medium text-gray-600 dark:text-white">
-                {{ data.tenPhong }}
-              </p>
-            </td>
-            <td class="py-3 text-sm" role="cell">
-              <p class="text-md font-medium text-gray-600 dark:text-white">
-                {{ data.checkIn | date : 'dd-MM-yyyy' }}
-              </p>
-            </td>
-            <td class="py-3 text-sm" role="cell">
-              <p class="text-md font-medium text-gray-600 dark:text-white">
-                {{ data.checkOut | date : 'dd-MM-yyyy' }}
-              </p>
-            </td>
-            <td class="py-3 text-sm" role="cell">
-              <p class="text-md font-medium text-gray-600 dark:text-white">
-                {{ data.tongGia }} VND
-              </p>
-            </td>
-          </tr>
-          <tr [nzExpand]="expandSet.has(Number(data.id))">
-            <span> hello</span>
-          </tr>
-        </ng-container>
+        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{i + 1}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tenPhong}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkIn | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkOut | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tongGia}} VND
+            </p>
+          </td>
+
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <div class="flex items-center" *ngIf="data.trangThai == 0">
+              <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+              Đã hủy
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 1">
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+              Đã đặt
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 2">
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+              Đã nhận phòng
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 3">
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+              Đã trả phòng
+            </div>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <div>
+              <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
+
+              <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-change ml-3">Đổi phòng</button>
+            </div>
+          </td>
+        </tr>
         </tbody>
       </nz-table>
     </div>
@@ -280,75 +316,19 @@
 </nz-modal>
 
 <nz-modal
-  [(nzVisible)]="isVisibleTT"
-  nzTitle="Xác nhận thanh toán"
-  (nzOnCancel)="handleCancelThanhToan()"
-  (nzOnOk)="handleOkThanhToan()"
+  [(nzVisible)]="isVisibleHD"
+  (nzOnCancel)="handleCancelHD()"
+  (nzOnOk)="handleOkHuyHoaDon()"
+  [nzOkLoading]="isOkLoadingHD"
+  [nzOkText]="'Đồng ý'"
+  [nzCancelText]="'Trở về'"
+
 >
   <ng-container *nzModalContent>
-    <nz-tabset>
-      <nz-tab nzTitle="Thanh toán toàn bộ">
-        <div class="bg-indigo-600 px-4 py-3 text-white">
-          <p class="text-center text-sm font-medium">
-            Thanh toán toàn bộ giảm 5%
-            <a href="#" class="inline-block underline">Hot</a>
-          </p>
-        </div>
-        <form [formGroup]="form">
-          <label style="display: none">
-            Amount:
-            <input formControlName="amount" type="number" id="amount"
-                   ngModel="{{bill.tongTien}}"
-            />
-          </label>
-          <label style="display: none">
-            AddInfo:
-            <input formControlName="addInfo" type="text" ngModel="{{bill.id}}"/>
-          </label>
-          <label style="display: none">
-            AccountName:
-            <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
-          </label>
-          <img [src]="imageUrl" alt="Image">
-        </form>
-      </nz-tab>
-    </nz-tabset>
+    <div>
+      <p style="font-size: large">Bạn có chắc muốn hủy hóa đơn này không?</p>
+    </div>
   </ng-container>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isVisibleTienCoc"
-  nzTitle="Xác nhận thanh toán"
-  (nzOnCancel)="handleCancelThanhToanTienCoc()"
-  (nzOnOk)="handleOkThanhToanTienCoc()"
->
-  <ng-container *nzModalContent>
-    <nz-tabset>
-      <nz-tab nzTitle="Thanh toán tiền cọc">
-        <div class="bg-indigo-600 px-4 py-3 text-white">
-          <p class="text-center text-sm font-medium">
-            Tiền cọc bằng 20% tổng hóa đơn
-            <a href="#" class="inline-block underline">Hot</a>
-          </p>
-        </div>
-        <form [formGroup]="formTienCoc">
-          <label style="display: none">
-            Amount:
-            <input formControlName="amount1" type="number" id="amount1"
-                   ngModel="{{bill.tongTien}}"
-            />
-          </label>
-          <label style="display: none">
-            AddInfo:
-            <input formControlName="addInfo1" type="text" ngModel="{{bill.id}}"/>
-          </label>
-          <label style="display: none">
-            AccountName:
-            <input formControlName="accountName1" type="text" ngModel="{{user?.name}}"/>
-          </label>
-          <img [src]="imageUrlTienCoc" alt="Image">
-        </form>
-      </nz-tab>
-    </nz-tabset>
-  </ng-container>
-</nz-modal>
+

@@ -36,6 +36,7 @@ import {ListRoomOrderComponent} from "./page/list-room-order/list-room-order.com
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
 import {CustomDate} from "../../shared/pipes/custom-date";
 import {NzTagModule} from "ng-zorro-antd/tag";
+import { ListOrderNowComponent } from './page/list-order-now/list-order-now.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {NzTagModule} from "ng-zorro-antd/tag";
     CurrencyFormatPipe,
     CartComponent,
     CustomDate,
+    ListOrderNowComponent,
   ],
   exports: [
     CurrencyFormatPipe,
