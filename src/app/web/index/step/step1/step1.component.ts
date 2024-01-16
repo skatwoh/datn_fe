@@ -31,6 +31,7 @@ export class Step1Component implements OnInit {
         (document.getElementById('phone') as HTMLInputElement).value = res.body.sdt;
         (document.getElementById('birth') as HTMLInputElement).value = res.body.ngaySinh;
         (document.getElementById('address') as HTMLInputElement).value = res.body.diaChi;
+        (document.getElementById('cccd') as HTMLInputElement).value = res.body.cccd;
         const genderInputElement = document.querySelector('input[name="gender"]:checked') as HTMLInputElement;
         if (genderInputElement) {
           genderInputElement.value = res.body.gioiTinh;
@@ -49,7 +50,8 @@ export class Step1Component implements OnInit {
       ngaySinh: (document.getElementById('birth') as HTMLInputElement).value,
       diaChi: (document.getElementById('address') as HTMLInputElement).value,
       gioiTinh: (document.querySelector('input[name="gender"]:checked') as HTMLInputElement)?.value === 'true',
-      ghiChu: noteElement ? noteElement.value : ""
+      ghiChu: noteElement ? noteElement.value : "",
+      cccd: (document.getElementById('cccd') as HTMLInputElement).value,
     }
     this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
       this.router.navigate(['/me/step/2']);

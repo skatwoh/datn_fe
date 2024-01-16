@@ -16,6 +16,8 @@ import {BillService} from "../../../../modules/bill/bill.service";
 import {AppConstants} from "../../../../app-constants";
 import {RoomOrder} from "../../../../models/room-order";
 import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 declare var KeenSlider: any;
 @Component({
@@ -40,11 +42,12 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
   hasError = false;
   submitted = false;
   phiDichVu : number = 0 ;
+  customerModel!: CustomerModel;
   private unsubscribe: Subscription[] = [];
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute, private roomService2: RoomService,
               private service: ServiceService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private billService: BillService,
-              private roomOrderService: ListRoomOrderService) {
+              private roomOrderService: ListRoomOrderService, private customerService: CustomerService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.idOrder = this.route.snapshot.params['id1'];
@@ -56,6 +59,11 @@ export class RoomOrderChangeComponent implements OnInit, OnDestroy{
       soNguoi: 0,
       tongGia: [0, Validators.required],
       trangThai: 1
+    })
+
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.customerModel = res ;
     })
     // (document.getElementById('tongGia') as HTMLInputElement).value
   }

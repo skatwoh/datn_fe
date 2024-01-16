@@ -1,5 +1,6 @@
 export class BillModel{
   id: number | undefined ;
+  ma: string | undefined ;
   ngayTao: string | undefined;
   ngayThanhToan: string | undefined;
   tongTien?: number ;

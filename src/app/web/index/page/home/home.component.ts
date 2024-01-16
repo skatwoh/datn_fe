@@ -9,6 +9,7 @@ import {AppConstants} from "../../../../app-constants";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {FormBuilder} from "@angular/forms";
 import {first} from "rxjs";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-home',
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit{
   constructor(private homeService: HomeService, private router: Router,
               private route: ActivatedRoute, private http : HttpClient,
               private notification: NzNotificationService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private mess: NzMessageService
               ) {
 
   }
@@ -42,6 +44,10 @@ export class HomeComponent implements OnInit{
     this.tenLoaiPhong = tenLoaiPhongElement.value;
     this.checkIn = checkInElement.value;
     this.checkOut = checkOutElement.value;
+    if(this.checkIn === '' || this.checkOut === ''){
+      this.mess.warning('Vui lòng nhập ngày nhận và ngày trả');
+      return;
+    }
     this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).pipe(first()).subscribe(res => {
       if (res != null){
         const queryParams = {

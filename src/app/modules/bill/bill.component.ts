@@ -111,6 +111,18 @@ export class BillComponent implements OnInit {
                 console.log(res);
             },
         })
+        this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
+            if (res && res.content) {
+                this.roomOrder = res.content;
+            }
+        })
+        setTimeout(() =>{
+          for (let x = 0;x < this.roomOrder.length;x++){
+            this.billService.updateStatusRoomOrder(this.roomOrder[x].id, 1).subscribe( res => {
+              console.log(res);
+            })
+          }
+        }, 300)
     }
 
     updateStatusRoomOrder(id: any, trangThai: any) {
@@ -333,6 +345,33 @@ export class BillComponent implements OnInit {
 
     successMessage(): void {
         this.message.success('Thêm thành công');
+    }
+
+    generatePDFDichVu(id: any) {
+        this.roomOrderService.get(id).subscribe(res => {
+          this.roomOrderModel = res;
+        })
+      setTimeout(() =>{
+        if(this.roomOrderModel.trangThai !== 3){
+          this.message.warning('Chỉ được xuất hóa đơn sau khi đã trả phòng!');
+          return;
+        }
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/pdf',
+          'Charset': 'UTF-8'
+        });
+        this.http.get(`rpc/bds/chi-tiet-dich-vu/generate-hoa-don-dich-vu?id=${id}`, {headers: headers, responseType: 'blob'})
+          .subscribe(response => {
+            const blob = new Blob([response], {type: 'application/pdf'});
+            const url = window.URL.createObjectURL(blob);
+            window.open(url);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = 'hoa_don_dich_vu.pdf';
+            downloadLink.click();
+          });
+      }, 300)
+
     }
 
   protected readonly Number = Number;
