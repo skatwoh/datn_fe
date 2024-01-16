@@ -21,6 +21,7 @@ import {BillModel} from "../../../models/bill.model";
 import {CustomerService} from "../../customer/services/customer.service";
 import {CustomerModel} from "../../customer/models/customer.model";
 import {now} from "moment";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
   selector: 'cons-room-manager-details',
@@ -46,10 +47,14 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   checkOut: any;
   customer!: CustomerModel;
   idKhach: number | undefined;
+  hoTen: string = '';
+  sdt: string  = '';
+  customerModel!: CustomerModel;
   constructor(public roomService: RoomInformationService, private router: Router, private route: ActivatedRoute,
               private roomService1: RoomService, private authService: AuthService, private roomManagerService: RoomManagerService,
               private formBuilder: FormBuilder, private notification: NzNotificationService, private accountService: AccountService,
-              private http: HttpClient, private billService: BillService, private voucherService: VoucherService, private customerService: CustomerService) {
+              private http: HttpClient, private billService: BillService, private voucherService: VoucherService, private customerService: CustomerService,
+              private mess2: NzMessageService) {
     this.user$ = this.authService.currentUser$;
     this.user = this.authService.currentUserValue;
     this.roomOrderForm = this.formBuilder.group({
@@ -139,31 +144,41 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   }
 
   createBill(): void {
-    const data1 = {
-      hoTen: (document.getElementById('ten') as HTMLInputElement).value,
-      sdt: (document.getElementById('sdt') as HTMLInputElement).value,
-      cccd: (document.getElementById('cccd') as HTMLInputElement).value
-    }
-    this.customerService.create(data1).subscribe((res: any) => {
-      this.customer = res;
-    })
-    setTimeout(() => {
-      this.customerService.getIdByCCCD(data1.cccd).subscribe((res: any) => {
-        this.idKhach = res;
-        console.log(res);
-      })
+    console.log(this.hoTen);
+    console.log(this.sdt);
+      console.log('check1');
+      const data1 = {
+        hoTen: (document.getElementById('ten') as HTMLInputElement).value,
+        sdt: (document.getElementById('sdt') as HTMLInputElement).value,
+        cccd: (document.getElementById('cccd') as HTMLInputElement).value
+      }
+      setTimeout(() =>{
+        this.customerService.create(data1).subscribe((res: any) => {
+          this.customer = res;
+        })
+      }, 300)
       setTimeout(() => {
-        const data = {
-          tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-          idKhachHang: this.idKhach
-        }
-        this.billService.createOrUpdateTaiQuay(data).subscribe((res: any) => {
+        this.customerService.getIdByCCCD(data1.cccd).subscribe((res: any) => {
+          this.idKhach = res;
           console.log(res);
         })
       }, 500)
-
-    }, 500)
-    // this.customerService.get()
+    setTimeout(() => {
+      const data = {
+        tongTien: 0,
+        idKhachHang: this.idKhach
+      }
+      if(this.customerModel == null || this.customerModel.giamGia === 0){
+        console.log('khong ton tai');
+        data.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
+      }else if(this.customerModel.giamGia !== 0){
+        console.log('ton tai');
+        data.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value)*(100 - this.customerModel.giamGia)/100;
+      }
+      this.billService.createOrUpdateTaiQuay(data).subscribe((res: any) => {
+        console.log(res);
+      })
+    }, 1000)
 
   }
 
@@ -171,13 +186,23 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
     }
+    if((document.getElementById('cccd') as HTMLInputElement).value.length !== 12){
+      this.mess2.warning('Số CCCD phải có độ dài 9 hoặc 13 chữ số');
+      return;
+    }
     this.createBill();
     this.hasError = false;
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const data = this.roomOrderForm.value;
         data.idKhachHang = this.idKhach;
-        data.tongGia = (document.getElementById('tongGia') as HTMLInputElement).value;
+        if(this.customerModel == null || this.customerModel.giamGia === 0){
+          console.log('khong ton tai');
+          data.tongGia = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
+        }else if(this.customerModel.giamGia !== 0){
+          console.log('ton tai');
+          data.tongGia = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value)*(100 - this.customerModel.giamGia)/100;
+        }
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         data.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(data)
@@ -205,7 +230,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
             },
           );
         this.unsubscribe.push(sub);
-      }, 1500)
+      }, 2000)
 
     }
   }
@@ -241,9 +266,11 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
   handleByCCCD(){
     const cccd = (document.getElementById('cccd') as HTMLInputElement).value;
     this.roomManagerService.getKH(cccd).subscribe((res: any) => {
-      (document.getElementById('ten') as HTMLInputElement).value = res.hoTen;
-      (document.getElementById('sdt') as HTMLInputElement).value = res.sdt;
-
+      // (document.getElementById('ten') as HTMLInputElement).value = res.hoTen;
+      // (document.getElementById('sdt') as HTMLInputElement).value = res.sdt;
+      this.customerModel = res;
+      this.hoTen = res.hoTen;
+      this.sdt = res.sdt;
     })
   }
 

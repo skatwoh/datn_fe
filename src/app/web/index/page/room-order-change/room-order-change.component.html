@@ -311,8 +311,14 @@
               <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu) | currencyFormat}}</span>
               <nz-form-item>
                 <input id="tongGia" formControlName="tongGia" class="form-input-total"
-                       [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)" type="hidden"/>
+                       [value]="(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)*(100- customerModel.giamGia)/100" type="hidden"/>
               </nz-form-item>
+              <div *ngIf="customerModel">
+                <label>Số tiền phải thanh toán : </label>
+                <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) + phiDichVu)*(100 - customerModel.giamGia)/100 | currencyFormat}}</span>
+                <br>
+                <h3>Thành viên hạng {{customerModel.rank}}(giảm {{customerModel.giamGia}}%)</h3>
+              </div>
 <!--              <fieldset class="grid grid-cols-2 gap-4">-->
 <!--                <legend class="sr-only">Delivery</legend>-->
 
