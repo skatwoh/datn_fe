@@ -238,6 +238,15 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
+  handleByCCCD(){
+    const cccd = (document.getElementById('cccd') as HTMLInputElement).value;
+    this.roomManagerService.getKH(cccd).subscribe((res: any) => {
+      (document.getElementById('ten') as HTMLInputElement).value = res.hoTen;
+      (document.getElementById('sdt') as HTMLInputElement).value = res.sdt;
+
+    })
+  }
+
   protected readonly Number = Number;
 }
 
