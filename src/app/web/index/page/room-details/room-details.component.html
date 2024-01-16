@@ -308,6 +308,8 @@
                 </div>
               </fieldset>
               <br/>
+              <cons-recaptcha *ngIf="!roomOrderForm.invalid"></cons-recaptcha>
+              <br/>
               <nz-form-item>
                 <nz-form-control>
                   <button
