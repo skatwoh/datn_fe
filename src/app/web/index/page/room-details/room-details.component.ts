@@ -278,7 +278,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
 
   updateTongTien(): void {
     const data = {
-      idKhachHang: this.user?.id,
+      idKhachHang: this.khachHang.id,
       tongTien: '',
     }
     if(this.khachHang.giamGia === 0){
@@ -295,7 +295,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     const data = {
       ngayThanhToan: (document.getElementById('checkOut') as HTMLInputElement).value,
       tongTien:'',
-      idKhachHang: this.user?.id
+      idKhachHang: this.khachHang.id
     }
     if(this.khachHang.giamGia === 0){
       data.tongTien = (document.getElementById('tongGia') as HTMLInputElement).value;
