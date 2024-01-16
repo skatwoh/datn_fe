@@ -66,18 +66,6 @@
             <div
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
             >
-              Stt
-            </div>
-          </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
               Mã phòng
             </div>
           </th>
@@ -145,11 +133,6 @@
         </thead>
         <tbody role="rowgroup" class="px-4">
         <tr role="row" *ngFor="let data of tableData.data; let i = index">
-          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{i + 1}}
-            </p>
-          </td>
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <p class="text-md font-medium text-gray-600 dark:text-white">
               {{data.tenPhong}}

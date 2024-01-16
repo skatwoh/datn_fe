@@ -85,7 +85,7 @@ export class ListOrderNowComponent implements OnInit {
     this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
       this.currentRoom = data;
       console.log(this.currentRoom);
-      this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.idPhong).subscribe(res => {
+      this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.checkIn, data.checkOut, data.idPhong).subscribe(res => {
         if (res && res.content) {
           this.room1 = res.content;
         }
@@ -156,7 +156,7 @@ export class ListOrderNowComponent implements OnInit {
       this.khachHang = res;
     })
     setTimeout(() => {
-      this.billService.getBillsByCustomer(1, 15, this.khachHang.id).subscribe(res => {
+      this.billService.getBillsByCustomer(1, 500, this.khachHang.id).subscribe(res => {
         if (res && res.content) {
           this.listBill = res.content;
           for (let x = 0; x < res.content.length; x++) {
@@ -167,7 +167,7 @@ export class ListOrderNowComponent implements OnInit {
       })
     }, 200)
     setTimeout(() => {
-        this.billService.getDatPhongByKH(1, 50, this.khachHang.id).subscribe(res => {
+        this.billService.getDatPhongByKH(1, 10000, this.khachHang.id).subscribe(res => {
           if (res && res.content) {
             this.room = res.content;
           }
@@ -195,5 +195,12 @@ export class ListOrderNowComponent implements OnInit {
 
   handleCancelHD(): void {
     this.isVisibleHD = false;
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
