@@ -186,8 +186,8 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
     if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
     }
-    if((document.getElementById('cccd') as HTMLInputElement).value.length !== 12){
-      this.mess2.warning('Số CCCD phải có độ dài 9 hoặc 13 chữ số');
+    if((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9){
+      this.mess2.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
     }
     this.createBill();
