@@ -465,7 +465,7 @@
             </p>
           </td>
           <td class="py-3 text-sm" style="display: flex;">
-            <div nz-tooltip nzTooltipTitle="Xóa">
+            <div nz-tooltip nzTooltipTitle="Xóa" (click)="huyDichVu(data.id)">
               <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                    class="bi bi-trash" viewBox="0 0 16 16">
                 <path
@@ -480,7 +480,7 @@
         </tr>
         </tbody>
       </nz-table>
-      <div style="margin-top: 10px;">
+      <div style="margin-top: 10px;" *ngIf="detailsService.length > 0">
 <!--        <button-->
 <!--                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"-->
 <!--                (click)="generatePDFDichVu(idDP)"-->

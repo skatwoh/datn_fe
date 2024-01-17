@@ -381,5 +381,22 @@ export class BillComponent implements OnInit {
 
     }
 
+    huyDichVu(id: any){
+      this.billService.huyDichVu(id).subscribe({
+        next: (res) => {
+          this.message.success("Xóa dịch vụ thành công");
+          this.isVisibleChiTietDichVu = false;
+        },
+      })
+      setTimeout(() => {
+        this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDP).subscribe(res => {
+          if (res && res.content) {
+            this.detailsService = res.content;
+          }
+        })
+        this.isVisibleChiTietDichVu = true;
+      }, 1000)
+    }
+
   protected readonly Number = Number;
 }

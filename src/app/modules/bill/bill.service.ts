@@ -142,4 +142,9 @@ export class BillService{
     const params = {id};
     return this.http.post<any>(`${API_AU_URL}/update-tien-coc`,data, {params});
   }
+
+  huyDichVu(id: any): Observable<any> {
+    const params = {id};
+    return this.http.delete(`${environment.apiUrl}/chi-tiet-dich-vu/delete`, {params});
+  }
 }
