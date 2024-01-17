@@ -36,6 +36,7 @@ export class ListOrderNowComponent implements OnInit {
   listDP: any[] = [];
   isVisibleHD = false;
   isOkLoadingHD = false;
+  date: Date = new Date();
 
   constructor(private roomOrderService: ListRoomOrderService,
               private billService: BillService,
@@ -80,16 +81,21 @@ export class ListOrderNowComponent implements OnInit {
   }
 
   showRoomUpperPrice(giaPhong: number | undefined, id: any): void {
-    this.isVisible1 = true;
     this.id = id;
-    this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
-      this.currentRoom = data;
-      console.log(this.currentRoom);
-      this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.checkIn, data.checkOut, data.idPhong).subscribe(res => {
-        if (res && res.content) {
-          this.room1 = res.content;
-        }
-      })
+    this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+      if ((data.checkIn?.split('T')[0] ?? 0) <= this.date.toISOString().split('T')[0]) {
+        this.message.warning('Đã quá thời gian đổi phòng!');
+        return;
+      }else if((data.checkIn?.split('T')[0] ?? 0) > this.date.toISOString().split('T')[0]) {
+        this.isVisible1 = true;
+        this.currentRoom = data;
+        console.log(this.currentRoom);
+        this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.checkIn, data.checkOut, data.idPhong).subscribe(res => {
+          if (res && res.content) {
+            this.room1 = res.content;
+          }
+        })
+      }
     });
   }
 
