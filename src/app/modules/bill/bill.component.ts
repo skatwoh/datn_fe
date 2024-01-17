@@ -100,9 +100,13 @@ export class BillComponent implements OnInit {
     }
 
     xacNhanTienCoc(id: any, idKhachHang: any) {
-        this.billService.get(id).subscribe((data: BillModel) => {
+        this.billService.get(id).subscribe((data: any) => {
             this.currentBill = data;
-            console.log(this.currentBill);
+          this.billService.updateGhiChu(id, data.tongTien*0.5).subscribe({
+            next: (res) => {
+              this.currentBill.ghiChu = (data.tongTien*0.5).toString();
+            },
+          })
         });
         this.billService.updateStatus(id, 7).subscribe({
             next: (res) => {
@@ -111,6 +115,7 @@ export class BillComponent implements OnInit {
                 console.log(res);
             },
         })
+
         this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
             if (res && res.content) {
                 this.roomOrder = res.content;
@@ -325,9 +330,9 @@ export class BillComponent implements OnInit {
                 console.log(res)
             })
         }
-        this.billService.tinhTienDichVu(this.idHD, this.tongTienDichVu).subscribe((res: any) => {
-            console.log(res)
-        })
+        // this.billService.tinhTienDichVu(this.idHD, this.tongTienDichVu).subscribe((res: any) => {
+        //     console.log(res)
+        // })
         this.dataList = [];
         this.successMessage();
         this.isVisibleDichVu = false;
