@@ -145,38 +145,38 @@
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="soNguoi"
-              >Mã giảm giá (nếu có):
-              </nz-form-label
-              >
-              <nz-form-item>
-                <select
-                  (click)="tinhGiamGia()"
-                  id="voucher"
-                  formControlName="idVoucher"
-                  style="width: 250px; height: 25px; font-size: 18px"
-                >
-                  <option
-                    style="
-                      width: 250px;
-                      height: 25px;
-                      font-size: 18px;
-                      display: block;
-                    "
-                    value="null"
-                    selected
-                  >
-                    Chọn mã giảm giá
-                  </option>
-                  <option
-                    style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
+<!--              <nz-form-label nzFor="soNguoi"-->
+<!--              >Mã giảm giá (nếu có):-->
+<!--              </nz-form-label-->
+<!--              >-->
+<!--              <nz-form-item>-->
+<!--                <select-->
+<!--                  (click)="tinhGiamGia()"-->
+<!--                  id="voucher"-->
+<!--                  formControlName="idVoucher"-->
+<!--                  style="width: 250px; height: 25px; font-size: 18px"-->
+<!--                >-->
+<!--                  <option-->
+<!--                    style="-->
+<!--                      width: 250px;-->
+<!--                      height: 25px;-->
+<!--                      font-size: 18px;-->
+<!--                      display: block;-->
+<!--                    "-->
+<!--                    value="null"-->
+<!--                    selected-->
+<!--                  >-->
+<!--                    Chọn mã giảm giá-->
+<!--                  </option>-->
+<!--                  <option-->
+<!--                    style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"-->
 
-                    *ngFor="let data of voucherList"
-                    [label]="data.ma + ' - ' + data.moTa"
-                    [value]="data.id"
-                  ></option>
-                </select>
-              </nz-form-item>
+<!--                    *ngFor="let data of voucherList"-->
+<!--                    [label]="data.ma + ' - ' + data.moTa"-->
+<!--                    [value]="data.id"-->
+<!--                  ></option>-->
+<!--                </select>-->
+<!--              </nz-form-item>-->
               <nz-form-label>Tổng tiền</nz-form-label>
               <span *ngIf="!sale">{{
                   calculateTotalDays() * (room.giaPhong ?? 0) +

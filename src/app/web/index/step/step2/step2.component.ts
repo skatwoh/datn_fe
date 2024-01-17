@@ -6,6 +6,8 @@ import {BillService} from "../../../../modules/bill/bill.service";
 import {AuthService} from "../../../../auth/services";
 import {UserModel} from "../../../../auth/models/user.model";
 import {ListRoomOrderService} from "../../page/list-room-order/list-room-order.service";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
 
 @Component({
   selector: 'cons-step',
@@ -18,9 +20,10 @@ export class Step2Component implements OnInit, OnDestroy {
   currentBill!: BillModel;
   user: UserModel | undefined;
   private intervalId: any;
+  customer!: CustomerModel;
 
   constructor(private router: Router, private message: NzMessageService, private billService: BillService,
-              private authService: AuthService, private roomOrderService: ListRoomOrderService) {
+              private authService: AuthService, private roomOrderService: ListRoomOrderService, private customerService: CustomerService) {
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -43,6 +46,10 @@ export class Step2Component implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
     }, 1000);
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.customer = res ;
+    })
   }
 
   formatTime(seconds: number): string {
@@ -78,8 +85,8 @@ export class Step2Component implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
-    const id = this.user?.id;
-    this.roomOrderService.getRoomOfBill(1, 50, id).subscribe(res => {
+    // const id = this.user?.id;
+    this.roomOrderService.getRoomOfBill(1, 50, this.customer.id).subscribe(res => {
       if (res && res.content) {
         this.billService.get(res.content[0].idHoaDon).subscribe((data: BillModel) => {
           this.currentBill = data;

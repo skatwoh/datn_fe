@@ -196,13 +196,15 @@ export class BillComponent implements OnInit {
         });
         this.http.get(`rpc/bds/hoa-don/generate-hoa-don?id=${id}`, {headers: headers, responseType: 'blob'})
             .subscribe(response => {
+              this.billService.get(id).subscribe(res => {
                 const blob = new Blob([response], {type: 'application/pdf'});
                 const url = window.URL.createObjectURL(blob);
                 window.open(url);
                 const downloadLink = document.createElement('a');
                 downloadLink.href = url;
-                downloadLink.download = 'hoa_don_dat_phong.pdf';
+                downloadLink.download = 'hoa_don_dat_phong_' + res.ma + '.pdf';
                 downloadLink.click();
+                })
             });
     }
 

@@ -180,12 +180,15 @@ export class ListRoomOrderComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.bill.trangThai = 2;
+        // this.billService.updateTongTien()
       },
     })
-    this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
-    this.sendDataToApi();
-    this.isVisibleTT = false;
-    this.router.navigate(['/me/step/3']);
+    setTimeout(() => {
+      this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi();
+      this.isVisibleTT = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
   }
 
   handleOkThanhToanTienCoc(): void {
@@ -195,10 +198,12 @@ export class ListRoomOrderComponent implements OnInit {
         this.bill.trangThai = 6;
       },
     })
-    this.message.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
-    this.sendDataToApi2();
-    this.isVisibleTienCoc = false;
-    this.router.navigate(['/me/step/3']);
+    setTimeout(() => {
+      this.message.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi2();
+      this.isVisibleTienCoc = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
   }
 
   handleCancelThanhToan(): void {
