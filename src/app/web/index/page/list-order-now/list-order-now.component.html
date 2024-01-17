@@ -54,7 +54,7 @@
       </button>
     </div>
     <div class="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
-      <nz-table #tableData [nzData]="room"  role="table" class="w-full min-w-[500px] overflow-x-scroll">
+      <table #tableData  role="table" class="w-full min-w-[500px] overflow-x-scroll">
         <thead>
         <tr role="row">
           <th
@@ -132,7 +132,7 @@
         </tr>
         </thead>
         <tbody role="rowgroup" class="px-4">
-        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+        <tr role="row" *ngFor="let data of room; let i = index">
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <p class="text-md font-medium text-gray-600 dark:text-white">
               {{data.tenPhong}}
@@ -181,7 +181,7 @@
           </td>
         </tr>
         </tbody>
-      </nz-table>
+      </table>
     </div>
   </div>
 </div>

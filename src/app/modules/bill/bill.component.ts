@@ -256,13 +256,21 @@ export class BillComponent implements OnInit {
     }
 
     showModalDichVu(id: any) {
-        this.isVisibleDichVu = true;
-        this.idDP = id;
-        this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
-            if (res && res.content) {
-                this.roomservice = res.content;
+      this.roomOrderService.get(id).subscribe(res => {
+        if(res.trangThai === 3){
+          this.message.warning('Phòng đã trả không thể thêm dịch vụ')
+          return;
+        }else if(res.trangThai !== 3){
+          this.isVisibleDichVu = true;
+          this.idDP = id;
+          this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res2 => {
+            if (res2 && res2.content) {
+              this.roomservice = res2.content;
             }
-        })
+          })
+        }
+      })
+
         // setTimeout(() =>{
         //   for(let x = 0;x<=this.roomservice.length;x++){
         //     this.inputSoLuong.push(this.roomservice[x].id);
