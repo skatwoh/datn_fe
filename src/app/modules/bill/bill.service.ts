@@ -137,4 +137,9 @@ export class BillService{
       return null;
     }));
   }
+
+  updateGhiChu(id: any, data: any ) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/update-tien-coc`,data, {params});
+  }
 }
