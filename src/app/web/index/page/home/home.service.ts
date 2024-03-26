@@ -62,4 +62,11 @@ export class HomeService{
       return null;
     }));
   }
+
+  getListLoaiPhongBySoNguoi(soPhong: any, soNguoi: any): Observable<any> {
+    const params = {soPhong, soNguoi};
+    return this.http.get<any>(`${environment.apiUrl}/loai-phong/list-by-so-phong`, {params}).pipe(map(res => {
+        return res;
+    }));
+  }
 }

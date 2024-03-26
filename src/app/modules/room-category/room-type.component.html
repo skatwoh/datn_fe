@@ -52,6 +52,10 @@
       <th nzLeft>STT</th>
       <th>Mã loại phòng</th>
       <th>Tên loại phòng</th>
+      <th>Số người</th>
+      <th>Tiện ích</th>
+      <th>Giá theo ngày</th>
+      <th>Giá theo giờ</th>
       <th>Ghi chú</th>
       <th>Tác vụ</th>
     </tr>
@@ -62,6 +66,10 @@
       <!--      <td nzLeft>{{ data.id }}</td>-->
       <td nzLeft>{{ data.maLoaiPhong }}</td>
       <td nzLeft>{{ data.tenLoaiPhong }}</td>
+      <td nzLeft>{{ data.soNguoi }}</td>
+      <td nzLeft>{{ data.tienIch }}</td>
+      <td nzLeft>{{ data.giaTheoNgay }}</td>
+      <td nzLeft>{{ data.giaTheoGio }}</td>
       <td nzLeft>{{ data.ghiChu }}</td>
       <td class="px-12 py-4" style="display: flex">
         <div class="btn-info" (click)="showModal(data.id)">
