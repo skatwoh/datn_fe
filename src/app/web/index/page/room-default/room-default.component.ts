@@ -34,7 +34,9 @@ export class RoomDefaultComponent implements OnInit{
     this.route.queryParams.subscribe((params) => {
       this.soPhong = params['soPhong'];
       this.soNguoi = params['soNguoi'];
-      this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi).subscribe(res=>{
+      this.checkIn = params['checkIn'];
+      this.checkOut = params['checkOut'];
+      this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
         this.listLoaiPhong = res;
       })
     })

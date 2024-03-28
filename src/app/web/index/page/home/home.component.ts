@@ -176,7 +176,7 @@ export class HomeComponent implements OnInit{
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
     // this.isVisible = true;
     setTimeout( () => {
-      this.homeService.getListLoaiPhongBySoNguoi(soPhong, soNguoi).subscribe(res=>{
+      this.homeService.getListLoaiPhongBySoNguoi(soPhong, soNguoi, checkInElement.value, checkOutElement.value).subscribe(res=>{
         this.listLoaiPhong = res;
       })
     }, 500)
