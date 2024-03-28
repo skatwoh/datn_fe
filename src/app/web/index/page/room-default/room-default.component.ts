@@ -5,7 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {first} from "rxjs";
 import {HomeService} from "../home/home.service";
 import {RoomModel} from "../../../../models/room.model";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd/message";
 
 @Component({
@@ -22,14 +22,24 @@ export class RoomDefaultComponent implements OnInit{
   room: RoomModel[] = [];
   hasError = false;
   message : string = '';
+  soNguoi: number = 1;
+  soPhong: number = 1;
+  listLoaiPhong : RoomTypeModel[] = [];
 
-  constructor(private http: HttpClient, private homeService: HomeService, private router: Router, private mess: NzMessageService) {
+  constructor(private http: HttpClient, private homeService: HomeService, private router: Router,
+              private route: ActivatedRoute, private mess: NzMessageService) {
   }
 
   ngOnInit(): void {
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2)  => {
-      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
-    });
+    this.route.queryParams.subscribe((params) => {
+      this.soPhong = params['soPhong'];
+      this.soNguoi = params['soNguoi'];
+      this.checkIn = params['checkIn'];
+      this.checkOut = params['checkOut'];
+      this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
+        this.listLoaiPhong = res;
+      })
+    })
   }
 
   getRoomsSearch(): void {
