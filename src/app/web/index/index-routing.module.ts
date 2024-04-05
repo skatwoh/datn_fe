@@ -17,6 +17,7 @@ import {Step2Component} from "./step/step2/step2.component";
 import {Step3Component} from "./step/step3/step3.component";
 import {RoomDefaultComponent} from "./page/room-default/room-default.component";
 import {ListOrderNowComponent} from "./page/list-order-now/list-order-now.component";
+import {RoomOrderComponent} from "./page/room-order/room-order.component";
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
         component: AboutComponent
       },
       {
-        path: 'room',
+        path: 'room-detail/:id',
         component: RoomComponent
       },
       {
@@ -48,7 +49,7 @@ const routes: Routes = [
         component: BlogComponent
       },
       {
-        path: 'room-detail/:id',
+        path: 'room-detail-2/:id',
         component: RoomDetailsComponent
       },
       {
@@ -87,6 +88,10 @@ const routes: Routes = [
       {
         path: 'room-default',
         component: RoomDefaultComponent
+      },
+      {
+        path: 'room-order/:id',
+        component: RoomOrderComponent
       },
     ]
   },

@@ -42,6 +42,16 @@ export class RoomDefaultComponent implements OnInit{
     })
   }
 
+  orderRoom(id: any){
+    const queryParams = {
+      soPhong: this.soPhong,
+      soNguoi: this.soNguoi,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut
+    }
+    this.router.navigate(['/room-detail/' + id], {queryParams});
+  }
+
   getRoomsSearch(): void {
     const tenLoaiPhongElement = document.getElementById('tenLoaiPhong') as HTMLInputElement;
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;

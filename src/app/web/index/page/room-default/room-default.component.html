@@ -13,11 +13,15 @@
             <div style="width: 300px;height: 250px">
               <img src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
             </div>
-            <div class="ml-6" style="width: 800px">
+            <div class="ml-6" style="width: 600px">
               <h3 class="font-medium leadi dark:text-gray-50" style="font-size: 25px">{{data.tenLoaiPhong}}</h3>
               <p class="mt-2 text-blue-800" style="font-size: 20px">Dịch vụ và tiện ích: {{data.tienIch}}</p>
-              <p class="mt-2 text-blue-800" style="font-size: 20px">Số người : {{data.soNguoi}}</p>
-              <p class="mt-2 text-blue-800" style="font-size: 20px">Giá loại phòng : {{data.giaTheoNgay}}/đêm</p>
+              <p class="mt-2 text-blue-800" style="font-size: 20px">Số người tối đa : {{data.soNguoi}}</p>
+              <p class="mt-2 text-blue-800" style="font-size: 20px">Giá phòng : {{data.giaTheoNgay}}/đêm</p>
+            </div>
+            <div style="width: 100px;margin-top: 50px">
+              <button style="text-align: center" (click)="orderRoom(data.id)" class="rounded-lg py-4 px-2 hover:bg-blue-600 bg-stone-700 font-bold text-white shadow-lg shadow-white-500">
+                Xem phòng ngay</button>
             </div>
           </div>
         </div>

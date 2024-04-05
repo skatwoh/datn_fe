@@ -6,13 +6,15 @@ import {RoomModel} from "../../../../models/room.model";
 import {environment} from "../../../../../environments/environment";
 import {RoomTypeModel} from "../../../../models/room-type.model";
 import {AppConstants} from "../../../../app-constants";
-import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NzNotificationPlacement, NzNotificationService} from "ng-zorro-antd/notification";
 import {FormBuilder} from "@angular/forms";
 import {first} from "rxjs";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {ModalData} from "./ModalData";
 import {RoomService} from "../../../../modules/room/services/room.service";
 import {RoomTypeService} from "../../../../modules/room-category/services/room-type.service";
+import _default from "chart.js/dist/plugins/plugin.title";
+import position = _default.defaults.position;
 
 @Component({
   selector: 'cons-home',
@@ -167,13 +169,22 @@ export class HomeComponent implements OnInit{
       this.soNguoi++;
       this.soPhong++;
       return;
+
     }
     this.soPhong++;
   }
 
-  testSearch(soPhong: any, soNguoi: any): void{
+  testSearch(soPhong: any, soNguoi: any, position: NzNotificationPlacement): void{
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    if(checkOutElement.value == '' || checkOutElement.value == ''){
+      this.notification.blank(
+        'Vui lòng nhập đầy đủ ngày nhận phòng và ngày trả phòng!',
+        '',
+        { nzPlacement: position }
+      );
+      return;
+    }
     // this.isVisible = true;
     setTimeout( () => {
       this.homeService.getListLoaiPhongBySoNguoi(soPhong, soNguoi, checkInElement.value, checkOutElement.value).subscribe(res=>{
@@ -189,6 +200,7 @@ export class HomeComponent implements OnInit{
       }
       this.router.navigate(['/room-default'], {queryParams});
     }, 1000)
+
   }
 
   getListRoomType(){
