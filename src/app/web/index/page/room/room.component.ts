@@ -13,6 +13,7 @@ import {SaleModel} from "../../../../models/sale.model";
 import {SaleService} from "../../../../modules/sale/sale.service";
 import {ImageService} from "../../image/image.service";
 import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
+import {RoomTypeService} from "../../../../modules/room-category/services/room-type.service";
 
 @Component({
   selector: 'cons-room',
@@ -28,58 +29,29 @@ import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
   ],
 })
 export class RoomComponent implements OnInit {
-
-  // @ViewChild('checkboxes') checkboxes: NzCheckboxComponent[] = [];
-  // selectedValues: string[] = [];
   room: RoomModel[] = [];
   roomType: RoomTypeModel[] = [];
   sale!: SaleModel;
-  currentPage = 1;
-  itemsPerPage = 9;
   animationState: string = 'initial';
   soLuongNguoi: string = '';
   tenLoaiPhong: string = '';
-  minGia: string = '';
-  maxGia: string = '';
-  checkIn: string = '';
-  checkOut: string = '';
+  checkIn: any;
+  checkOut: any;
   message: string = '';
   hasError: boolean = false;
   avatarUrls: any[] = [];
   data: any[] = [];
 
-  rotate() {
-    this.animationState = this.animationState === 'initial' ? 'rotated' : 'initial';
-  }
-
-  selectedCount = 0;
-  isVisible = false;
+  checkInDate: string = '';
+  checkOutDate: string = '';
+  soNguoi: number = 1;
+  soPhong: number = 1;
+  roomTypeModel!: RoomTypeModel;
+  idRoomType: any;
 
   constructor(private roomService: RoomService, private homeService: HomeService,
-              private router: Router, private route: ActivatedRoute, private http: HttpClient,
+              private router: Router, private route: ActivatedRoute, private http: HttpClient,private roomTypeService: RoomTypeService,
               private service: ServiceService, private saleService: SaleService, private imageService: ImageService,) {
-  }
-
-  private getRooms(): void {
-    this.roomService.getRoomListOrder(this.currentPage, this.itemsPerPage).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
-      }
-    })
-  }
-
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-  handleOk(): void {
-    console.log('Button ok clicked!');
-    this.isVisible = false;
-  }
-
-  handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisible = false;
   }
 
   private image(): void {
@@ -93,39 +65,6 @@ export class RoomComponent implements OnInit {
         console.error('Error fetching avatar URLs', error);
       }
     );
-  }
-
-  private getSale(): void {
-    this.saleService.getSale().subscribe(res => {
-      if (res) {
-        this.sale = res;
-      }
-    })
-  }
-
-  getRoomsSearch(): void {
-    this.homeService.getRoomListSearch(1, 50, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
-        this.updateUrlWithSearchParams();
-      }
-    })
-  }
-
-  searchByPrice(): void {
-    const minGiaElement = document.getElementById('minGia') as HTMLInputElement;
-    const maxGiaElement = document.getElementById('maxGia') as HTMLInputElement;
-    this.minGia = minGiaElement.value;
-    this.maxGia = maxGiaElement.value;
-    console.log(this.minGia);
-    console.log(this.maxGia);
-
-    this.homeService.getListByPrice(1, 50, this.minGia, this.maxGia).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
-        // this.updateUrlWithSearchParams();
-      }
-    })
   }
 
    updateUrlWithSearchParams(): void {
@@ -146,34 +85,50 @@ export class RoomComponent implements OnInit {
 
 
   ngOnInit() {
-    const currentUrl = this.route.snapshot.url.join('/');
-    console.log(currentUrl, "ok");
-    this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
-      this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
-    });
-    this.route.queryParams.subscribe((params) => {
-      if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi'] || params['minGia'] || params['maxGia']) {
-        this.checkIn = params['checkIn'];
-        this.checkOut = params['checkOut'];
-        this.tenLoaiPhong = params['tenLoaiPhong'];
-        this.soLuongNguoi = params['soLuongNguoi'];
-        if (params['soLuongNguoi'] === '') {
-          this.homeService.getRoomListSearch(1, 50, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-            if (res && res.content) {
-              this.room = res.content;
-              // this.updateUrlWithSearchParams();
-            }
-          })
-        } else {
-          this.getRoomsSearch();
-        }
-      } else {
-        this.router.navigate(['/']);
+    this.route.queryParams.subscribe(params => {
+      const checkIn = params['checkIn'];
+      const checkOut = params['checkOut'];
+      const soPhong = params['soPhong'];
+      const soNguoi = params['soNguoi'];
+      if(checkIn === '' || checkOut === ''){
+        this.checkIn = new Date().toISOString();
+        this.checkOut = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
+      }else{
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.soPhong = soPhong;
+        this.soNguoi = soNguoi;
       }
     });
-
-    this.getSale();
-    this.image();
+    // const currentUrl = this.route.snapshot.url.join('/');
+    // console.log(currentUrl, "ok");
+    // this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
+    //   this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
+    // });
+    // this.route.queryParams.subscribe((params) => {
+    //   if (params['tenLoaiPhong'] || params['checkIn'] || params['checkOut'] || params['soLuongNguoi'] || params['minGia'] || params['maxGia']) {
+    //     this.checkIn = params['checkIn'];
+    //     this.checkOut = params['checkOut'];
+    //     this.tenLoaiPhong = params['tenLoaiPhong'];
+    //     this.soLuongNguoi = params['soLuongNguoi'];
+    //     if (params['soLuongNguoi'] === '') {
+    //       this.homeService.getRoomListSearch(1, 50, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
+    //         if (res && res.content) {
+    //           this.room = res.content;
+    //           // this.updateUrlWithSearchParams();
+    //         }
+    //       })
+    //     } else {
+    //       this.getRoomsSearch();
+    //     }
+    //   } else {
+    //     this.router.navigate(['/']);
+    //   }
+    // });
+    //
+    // this.getSale();
+    // this.image();
+    this.getRoomType();
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -193,199 +148,29 @@ export class RoomComponent implements OnInit {
     }
   }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.getRooms();
-    }
-  }
-
-  searchInput: string = '';
-
-  getRoomByString(): void {
-    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
-    this.searchInput = inputElement.value;
-    this.roomService.getRoomBySearch(1, 50, this.searchInput).subscribe(res => {
-      const queryParams = {
-        searchInput: this.searchInput
-      };
-      if (res && res.content) {
-        this.room = res.content;
-      }
-      // this.router.navigate(['/room'], { queryParams });
-    })
-  }
-
-  nextPage() {
-    this.currentPage++;
-    this.getRooms();
-  }
-
-  // navigateToRoomDetails(id: any): void {
-  //   if (this.tenLoaiPhong || this.checkIn || this.checkOut) {
-  //     const newQueryParams = {
-  //       soLuongNguoi: this.soLuongNguoi,
-  //       tenLoaiPhong: this.tenLoaiPhong,
-  //       checkIn: this.checkIn,
-  //       checkOut: this.checkOut
-  //     };
-  //
-  //     this.router.navigate(['/room-detail', id], { queryParams: newQueryParams });
-  //   } else {
-  //     this.router.navigate(['/room-detail', id]);
-  //   }
-  // }
-
   navigateToRoomDetails(id: any) {
     this.router.navigate(['/room-detail', id], {
       queryParamsHandling: 'merge'
     });
   }
 
-
-  protected readonly Number = Number;
-
-  getRoomByTienIch(value: any, even: Event): void {
-    const checkbox = even.target as HTMLInputElement;
-    // this.selectedValues = this.checkboxes.filter(checkbox => checkbox.nzChecked).map(checkbox => checkbox.nzValue);
-    if (checkbox.checked) {
-      this.data.push(value)
-    }
-    if (!checkbox.checked) {
-      this.data.splice(this.data.indexOf(value), 1);
-    }
-    this.getByAll();
-  }
-
-  getByAll() {
-    // if (this.data.length == 0 && this.tenLoaiPhong != '') {
-    //   this.service.getListByTienIch(1, 50, [], '', this.tenLoaiPhong, '', '').subscribe(res => {
-    //     if (res && res.content) {
-    //       this.room = res.content;
-    //     }
-    //   })
-    // } else if (this.data.length > 0 && this.tenLoaiPhong == '') {
-    //   this.service.getListByTienIch(1, 50, this.data, '', '', '', '').subscribe(res => {
-    //     if (res && res.content) {
-    //       this.room = res.content;
-    //     }
-    //   })
-    // } else if (this.data.length > 0 && this.tenLoaiPhong != '') {
-    //   this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, '', '').subscribe(res => {
-    //     if (res && res.content) {
-    //       this.room = res.content;
-    //     }
-    //   })
-    // } else if (this.data.length > 0 && this.tenLoaiPhong != '') {
-    //   this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, '', '').subscribe(res => {
-    //     if (res && res.content) {
-    //       this.room = res.content;
-    //     }
-    //   })
-    // }
-    if (this.data.length > 0 || (this.tenLoaiPhong != '' && this.checkIn != '') || this.checkOut != '') {
-      this.service.getListByTienIch(1, 50, this.data, '', this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-        if (res && res.content) {
-          this.room = res.content;
-        }
-      })
-    } else {
-      this.getRooms()
-    }
-  }
-
-  changeLoaiPhong() {
-    const tenLoaiPhong = document.getElementById('tenLoaiPhong') as HTMLInputElement;
-    this.tenLoaiPhong = tenLoaiPhong.value;
-    this.getByAll();
-  }
-
-  changeDate() {
-    const checkIn = document.getElementById('checkIn') as HTMLInputElement;
-    const checkOut = document.getElementById('checkOut') as HTMLInputElement;
-    this.checkIn = checkIn.value;
-    this.checkOut = checkOut.value;
-    this.getByAll();
-  }
-
-  changeSoLuongNguoi() {
-    const soLuongNguoi = document.getElementById('soLuongNguoi') as HTMLInputElement;
-    this.soLuongNguoi = soLuongNguoi.value;
-    this.getByAll();
-  }
-
-  searchByAlls() {
-    const soLuongNguoi = document.getElementById('soLuongNguoi') as HTMLInputElement;
-    const tenLoaiPhong = document.getElementById('tenLoaiPhong') as HTMLInputElement;
-    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
-    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
-    this.soLuongNguoi = soLuongNguoi.value;
-    this.tenLoaiPhong = tenLoaiPhong.value;
-    this.checkIn = checkInElement.value;
-    this.checkOut = checkOutElement.value;
-    this.service.getListByTienIch(1, 50, this.data, this.soLuongNguoi, this.tenLoaiPhong, this.checkIn, this.checkOut).subscribe(res => {
-      if (res && res.content) {
-        this.room = res.content;
-      }
+  getRoomType() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.roomTypeService.get(id).subscribe(res => {
+      this.roomTypeModel = res;
     })
   }
 
-  removecheckbox(even: Event): void {
-    const checkbox = even.target as HTMLInputElement;
-    if (!checkbox.checked) {
-      this.data.splice(this.data.indexOf(checkbox.value), 1);
+  bookNow(id: any) {
+    const queryParams = {
+      soPhong: this.soPhong,
+      soNguoi: this.soNguoi,
+      checkIn: this.checkIn,
+      checkOut: this.checkOut
     }
-    console.log(this.data)
+    this.router.navigate(['/room-order', id], {queryParams});
   }
 
-  panels = [
-    {
-      active: false,
-      disabled: false,
-      name: 'This is panel header 1',
-      customStyle: {
-        background: '#d3c3b9',
-        'border-radius': '4px',
-        'margin-bottom': '24px',
-        border: '0px',
-        fontFamily: 'Lora, serif',
-        fontSize: '16px',
-      }
-    }
-  ]
+  protected readonly Number = Number;
 
-  handleClose(value: any): void {
-    this.data.splice(this.data.indexOf(value), 1);
-
-    const checkboxId = this.getCheckboxId(value);
-    const checkbox = document.getElementById(checkboxId) as HTMLInputElement;
-
-    if (checkbox) {
-      checkbox.checked = false;
-    }
-    this.getRoomsSearch();
-  }
-
-  getCheckboxId(value: any): string {
-    return value.replace(/\s+/g, '-').toLowerCase();
-  }
-
-  sliceTagName(tag: string): string {
-    const isLongTag = tag.length > 20;
-    return isLongTag ? `${tag.slice(0, 20)}...` : tag;
-  }
-
-  handleClearAll(): void {
-    this.data.forEach((value: any) => {
-      const checkboxId = this.getCheckboxId(value);
-      const checkbox = document.getElementById(checkboxId) as HTMLInputElement;
-
-      if (checkbox) {
-        checkbox.checked = false;
-      }
-    });
-
-    this.data = [];
-    this.getRoomsSearch()
-  }
 }
