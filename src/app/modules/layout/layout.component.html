@@ -30,6 +30,13 @@
           </li>
         </ul>
       </li>
+      <li nz-submenu nzTitle="Quản lý phòng đặt" nzIcon="database" *ngIf="user.role === 'admin'">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/admin/room-order-manager">Quản lý phòng đặt</a>
+          </li>
+        </ul>
+      </li>
       <li nz-submenu nzTitle="Quản lý đặt phòng" nzIcon="group">
         <ul>
           <li nz-menu-item nzMatchRouter>

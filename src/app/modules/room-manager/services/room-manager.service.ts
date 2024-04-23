@@ -85,4 +85,22 @@ export class RoomManagerService {
     const params = {cccd};
     return this.http.get<any>(`${API_CUS}/get-khach-hang-by-cccd`, {params});
   }
+
+  getAllDPMapping(): Observable<any>{
+    return this.http.get(`${API_AU_URL}/list-mapper`).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getAllDPMappingByHD(id: any, idHD: any): Observable<any>{
+    const params = {id, idHD};
+    return this.http.get(`${API_AU_URL}/list-map-by-hoa-don`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getDPById(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-by-id`, {params});
+  }
 }

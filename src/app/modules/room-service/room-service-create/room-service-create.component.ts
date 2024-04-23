@@ -17,7 +17,8 @@ export class RoomServiceCreateComponent implements OnInit{
     tenDichVu: '',
     ghiChu: '',
     giaDichVu: 0,
-    trangThai: 0
+    trangThai: 0,
+    soLuong: 0
   };
   submitted = false;
   roomList: RoomServiceModel[] = [];
@@ -43,7 +44,8 @@ export class RoomServiceCreateComponent implements OnInit{
       tenDichVu: this.roomservice.tenDichVu,
       ghiChu: this.roomservice.ghiChu,
       giaDichVu: this.roomservice.giaDichVu,
-      trangThai: 1
+      trangThai: 1,
+      soLuong: this.roomservice.soLuong
     };
 
     this.roomSerivceSerivce.create(data).subscribe({
@@ -64,27 +66,5 @@ export class RoomServiceCreateComponent implements OnInit{
     this.message.success('Thêm thành công');
   }
 
-  newRoomService(): void {
-    this.submitted = false;
-    this.roomservice = {
-      id: 0,
-      ma: '',
-      tenDichVu: '',
-      ghiChu: '',
-      giaDichVu: 0,
-      trangThai: 0
-    };
-  }
-
-  handleChangService(value: any) {
-    if(value == null && value == undefined){
-      this.roomservice.giaDichVu = 500000;
-    }
-    if(value == "Massage"){
-      this.roomservice.giaDichVu = 500000;
-    } else if (value == "Do an"){
-      this.roomservice.giaDichVu = 100000;
-    }
-  }
 
 }

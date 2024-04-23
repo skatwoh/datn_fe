@@ -5,4 +5,5 @@ export class RoomServiceModel {
     ghiChu: string | undefined;
     giaDichVu: number | undefined;
     trangThai: number | undefined;
+    soLuong: number | undefined;
 }

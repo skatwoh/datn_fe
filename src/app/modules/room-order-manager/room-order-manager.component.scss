@@ -1,0 +1,32 @@
+.button-danger{
+  border-radius: 8px;
+  border: 2px solid red;
+  font-weight: bolder;
+  color: red;
+  width: 80px;
+  height: 43px
+}
+
+.button-danger:hover {
+  background-color: red;
+  color: white;
+}
+
+.button-blue{
+  border-radius: 8px;
+  border: 2px solid deepskyblue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: 90px;
+  height: 40px
+}
+
+.button-blue:hover {
+  background-color: deepskyblue;
+  color: white;
+}
+
+.hoadon:after {
+    content: ":";
+    color: red;
+}
