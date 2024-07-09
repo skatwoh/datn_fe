@@ -87,6 +87,13 @@ export class RoomService{
     }));
   }
 
+  getRoomMapping(checkIn: any, checkOut: any): Observable<any> {
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${API_AU_URL}/list-mapper`, {params}).pipe(map(res => {
+      return res;
+    }))
+  }
+
   // singleListRoomType() {
   //   this.http.get<any>(`${API_AU_URL}`).subscribe(data => {
   //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType

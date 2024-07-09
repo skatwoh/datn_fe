@@ -50,8 +50,11 @@ export class RoomComponent implements OnInit{
   handleCancel(): void {
     this.isVisible = false;
   }
-  constructor(private roomService: RoomService, private router: Router,
-              private route: ActivatedRoute, private http : HttpClient, private messageNoti: NzMessageService) { }
+  constructor(private roomService: RoomService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private http : HttpClient,
+              private messageNoti: NzMessageService) { }
 
   getRooms(): void {
     this.roomService.getRoomList(1, 50).subscribe(res => {

@@ -103,4 +103,24 @@ export class RoomManagerService {
     const params = {id};
     return this.http.get(`${API_AU_URL}/get-by-id`, {params});
   }
+
+  getDPMappingBySearch(id: any, checkIn: any, checkOut: any): Observable<any>{
+    const params = {id, checkIn, checkOut};
+    return this.http.get(`${API_AU_URL}/list-map-by-search`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  createCheckIn(data: any): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/thong-tin-nhan-phong/create`, data);
+  }
+
+  detailCheckIn(id: any): Observable<any>{
+    const  params = {id};
+    return this.http.get(`${environment.apiUrl}/thong-tin-nhan-phong/detail`, {params});
+  }
+
+  getListCheckIn(): Observable<any>{
+    return this.http.get(`${environment.apiUrl}/thong-tin-nhan-phong/list`);
+  }
 }
