@@ -3,7 +3,7 @@ export class RoomServiceModel {
     ma: string | undefined;
     tenDichVu: string | undefined;
     ghiChu: string | undefined;
-    giaDichVu: number | undefined;
+    giaDichVu: number = 0;
     trangThai: number | undefined;
     soLuong: number | undefined;
 }

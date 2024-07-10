@@ -16,10 +16,15 @@ import {FormFieldValidationDirective} from "../../shared/directives/form-field-v
 import {RoomOrderManagerComponent} from "./room-order-manager.component";
 import {RoomOrderManagerRoutingModule} from "./room-order-manager-routing.module";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
+import {NzCardModule} from "ng-zorro-antd/card";
+import {IndexModule} from "../../web/index/index.module";
+import {NzSpinModule} from "ng-zorro-antd/spin";
+import {NzAlertModule} from "ng-zorro-antd/alert";
+import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 
 @NgModule({
     imports: [RoomOrderManagerRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule],
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule, NzCardModule, IndexModule, NzSpinModule, NzAlertModule, NzCheckboxModule],
   declarations: [RoomOrderManagerComponent],
   exports: [RoomOrderManagerComponent]
 })

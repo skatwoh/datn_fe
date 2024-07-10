@@ -14,19 +14,14 @@
 
 .button-blue{
   border-radius: 8px;
-  border: 2px solid deepskyblue;
+  border: 1px solid deepskyblue;
   font-weight: bolder;
   color: dodgerblue;
   width: 90px;
-  height: 40px
+  height: 35px
 }
 
 .button-blue:hover {
   background-color: deepskyblue;
   color: white;
-}
-
-.hoadon:after {
-    content: ":";
-    color: red;
 }
