@@ -3,7 +3,7 @@ import {RoomService} from "../../room/services/room.service";
 import {RoomTypeModel} from "../../../models/room-type.model";
 import {RoomTypeService} from "../services/room-type.service";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 @Component({
@@ -21,6 +21,9 @@ export class RoomTypeCreateComponent {
               private formBuilder: FormBuilder) {
     this.roomTypeForm = this.formBuilder.group({
       tenLoaiPhong: ['', Validators.required],
+      soNguoi: new FormControl('', Validators.compose([Validators.min(1), Validators.max(10)])),
+      tienIch: ['', Validators.required],
+      giaTheoNgay: new FormControl('', Validators.compose([Validators.min(100000), Validators.max(100000000000)])),
       ghiChu: ['', Validators.required]
     });
   }

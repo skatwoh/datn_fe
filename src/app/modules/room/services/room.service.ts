@@ -99,4 +99,9 @@ export class RoomService{
   //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType
   //   });
   // }
+
+  getOneMapping(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/get-by-id`, {params});
+  }
 }

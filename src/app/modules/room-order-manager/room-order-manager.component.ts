@@ -50,6 +50,7 @@ export class RoomOrderManagerComponent implements OnInit {
   roomOrderForm: FormGroup;
   date: Date = new Date();
   roomMd!: RoomModel;
+  roomMapMd!: RoomMappingModel;
   checkInSearch: any;
   checkOutSearch: any;
   private unsubscribe: Subscription[] = [];
@@ -70,6 +71,7 @@ export class RoomOrderManagerComponent implements OnInit {
   detailsService: DetailsServiceModel[] = [];
   idHoaDon: any;
   currentBill!: BillModel;
+  tongTien: number = 0;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -136,6 +138,8 @@ export class RoomOrderManagerComponent implements OnInit {
         const checkOut = params['checkOutDate'];
         (document.getElementById('checkIn') as HTMLInputElement).value = checkIn;
         (document.getElementById('checkOut') as HTMLInputElement).value = checkOut ;
+        this.checkInSearch = moment(checkIn);
+        this.checkOutSearch = moment(checkOut);
         this.roomService.getRoomMapping(checkIn, checkOut).subscribe(res => {
           this.roomMapping = res;
         })
@@ -161,8 +165,6 @@ export class RoomOrderManagerComponent implements OnInit {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.getRoomMapping();
-    this.checkInSearch = moment((document.getElementById('checkIn') as HTMLInputElement).value, "YYYY-MM-DD");
-    this.checkOutSearch = moment((document.getElementById('checkOut') as HTMLInputElement).value, "YYYY-MM-DD");
   }
 
   showDetail(id: any, idDP: any, idHD: any) {
@@ -323,8 +325,8 @@ export class RoomOrderManagerComponent implements OnInit {
     setTimeout(() => {
       this.isVisibleSpin = false;
       this.isVisibleListDP = true;
-      this.roomService.get(id).subscribe(res => {
-        this.roomMd = res;
+      this.roomService.getOneMapping(id).subscribe(res => {
+        this.roomMapMd = res;
       })
       const checkInElement = (document.getElementById('checkIn') as HTMLInputElement).value;
       const checkOutElement = (document.getElementById('checkOut') as HTMLInputElement).value;
@@ -346,7 +348,7 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   showOrderRoom() {
-    console.log(this.roomMd.giaPhong);
+    console.log(this.roomMapMd.giaTheoNgay);
     console.log(this.calculateTotalDays());
     this.isVisibleOrderForm = true;
   }
@@ -398,14 +400,14 @@ export class RoomOrderManagerComponent implements OnInit {
         this.idKhach = res;
         console.log(res);
       })
-    }, 500)
+    }, 1000)
     setTimeout(() => {
       const data2 = {
         tongTien: 0,
         idKhachHang: this.idKhach
       }
-      data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
-      data2.tongTien = this.calculateTotalDays() * (this.roomMd.giaPhong ?? 0);
+      data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value) + this.tongTien;
+      data2.tongTien = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) + this.tongTien;
       // if(this.customerModel == null || this.customerModel.giamGia === 0){
       //   console.log('khong ton tai');
       //   data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
@@ -416,7 +418,7 @@ export class RoomOrderManagerComponent implements OnInit {
       this.billService.createOrUpdateTaiQuay(data2).subscribe((res: any) => {
         console.log(res);
       })
-    }, 1000)
+    }, 1500)
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const data = this.roomOrderForm.value;
@@ -428,7 +430,7 @@ export class RoomOrderManagerComponent implements OnInit {
           console.log('ton tai');
           data.tongGia = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value) * (100 - this.customerModel.giamGia) / 100;
         }
-        data.idPhong = this.roomMd.id;
+        data.idPhong = this.roomMapMd.id;
         data.checkIn = moment(this.checkInSearch);
         data.checkOut = moment(this.checkOutSearch);
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
@@ -437,21 +439,52 @@ export class RoomOrderManagerComponent implements OnInit {
           .pipe(first())
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
-                this.mess.success('Đặt phòng thành công!');
-                this.isVisibleOrderForm = false;
-                this.isVisibleListDP = false;
-                this.getRoomMapping();
-                this.router.navigate(['/admin/room-order-manager']);
+                console.log('Thành công')
               } else {
                 const msg: any = res.entityMessages[0];
                 this.notification.warning(`${msg.errorMessage}`, "");
                 this.updateTongTien();
                 this.deleteBill();
+                return;
               }
             },
           );
         this.unsubscribe.push(sub);
-      }, 2000)
+        for(let x = 0;x < this.dataList.length;x++) {
+          const data3 = this.roomOrderForm.value;
+          data3.idKhachHang = this.idKhach;
+          if (this.customerModel == null || this.customerModel.giamGia === 0) {
+            console.log('khong ton tai');
+            data3.tongGia = this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0);
+          } else if (this.customerModel.giamGia !== 0) {
+            console.log('ton tai');
+            data3.tongGia = this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
+          }
+          data3.idPhong = this.dataList[x].id;
+          data3.checkIn = moment(this.checkInSearch);
+          data3.checkOut = moment(this.checkOutSearch);
+          data3.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
+          const sub2 = this.roomManagerService.datPhongTaiQuay(data3)
+            .pipe(first())
+            .subscribe((res) => {
+                if (res?.code === AppConstants.API_SUCCESS_CODE) {
+                  console.log('Thành công');
+                } else {
+                  const msg: any = res.entityMessages[0];
+                  this.notification.warning(`${msg.errorMessage}`, "");
+                  this.updateTongTien();
+                  return;
+                }
+              },
+            );
+          this.unsubscribe.push(sub2);
+        }
+        this.mess.success('Đặt phòng thành công!');
+        this.isVisibleOrderForm = false;
+        this.isVisibleListDP = false;
+        this.getRoomMapping();
+        this.router.navigate(['/admin/room-order-manager']);
+      }, 3000)
 
     }
   }
@@ -563,7 +596,7 @@ export class RoomOrderManagerComponent implements OnInit {
   addRoomToList(value: any, event: Event) {
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
-      this.roomService.get(value).subscribe(res => {
+      this.roomService.getOneMapping(value).subscribe(res => {
         this.dataList.push(res);
       })
       console.log(this.dataList)
@@ -595,6 +628,9 @@ export class RoomOrderManagerComponent implements OnInit {
   okMoreRoom() {
     this.showListMoreRoom = true;
     this.isVisibleMoreRoom = false;
+    for (let x = 0;x <= this.dataList.length;x++){
+      this.tongTien += (this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0));
+    }
   }
 
   // Thanh toán hóa đơn

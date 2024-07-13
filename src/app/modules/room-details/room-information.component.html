@@ -54,8 +54,6 @@
       <th>Tầng</th>
       <th>Dịch vụ</th>
       <th>Diện tích</th>
-      <th>Tiện ích</th>
-      <th>Số lượng người</th>
        <th>Mã phòng</th>
       <th>Trạng thái</th>
       <th>Tác vụ</th>
@@ -67,8 +65,6 @@
       <td nzLeft>{{ data.tang }}</td>
       <td nzLeft>{{ data.dichVu }}</td>
       <td nzLeft>{{ data.dienTich }}</td>
-      <td nzLeft>{{ data.tienIch }}</td>
-      <td nzLeft>{{ data.soLuongNguoi }}</td>
        <td nzLeft>{{ data.maPhong }}</td>
       <td nzLeft>
         <div class="flex items-center" *ngIf="data.trangThai == 1">
@@ -117,21 +113,9 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 110px" nzFor="tienIch">Tiện ích </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
-          <input nz-input type="text" formControlName="tienIch" id="tienIch" name="tienIch" [(ngModel)]="currentRoom.tienIch" required/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
         <nz-form-label style="width: 110px" nzFor="dichVu">Dịch vụ </nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
           <input nz-input type="text" formControlName="dichVu" id="dichVu" name="dichVu" [(ngModel)]="currentRoom.dichVu" required/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label style="width: 110px" nzFor="soLuongNguoi">Số lượng người </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
-          <input nz-input type="number" formControlName="soLuongNguoi" id="soLuongNguoi" name="soLuongNguoi" [(ngModel)]="currentRoom.soLuongNguoi" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
