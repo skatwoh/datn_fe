@@ -27,9 +27,7 @@ export class RoomInformationCreateComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.roomInformationForm = this.formBuilder.group({
-      tienIch: ['', Validators.required],
       dichVu: ['', Validators.required],
-      soLuongNguoi: [0, Validators.required],
       dienTich: new FormControl(null, Validators.compose([Validators.nullValidator, Validators.min(10), Validators.max(1000000000000)])),
       trangThai: 1,
       idPhong: ['', Validators.required]

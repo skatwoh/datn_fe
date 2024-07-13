@@ -292,7 +292,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let data of basicTable.data.slice(0,2);let i = index;">
+                <tr *ngFor="let data of basicTable.data;let i = index;">
                   <td>{{ i + 1 }}</td>
                   <td>{{ data.tenPhong }}</td>
                   <td>{{ data.tenLoaiPhong }}</td>
@@ -577,7 +577,7 @@
   nzTitle="ĐIỀN THÔNG TIN ĐẶT PHÒNG"
   (nzOnCancel)="cancelOrderForm()"
   (nzOnOk)="saveOrderForm()"
-  nzWidth="1000px"
+  nzWidth="full"
 >
   <ng-container *nzModalContent>
     <div [formGroup]="roomOrderForm" (ngSubmit)="saveOrderForm()">
@@ -585,7 +585,7 @@
       <hr/>
       <br>
       <div class="flex">
-        <nz-card style="width: 30%;border: 1px solid lightskyblue;border-radius: 6px">
+        <nz-card style="width: 18%;border: 1px solid lightskyblue;border-radius: 6px">
 
           <nz-form-item>
             <nz-form-label nzFor="cccd">Số CCCD khách hàng</nz-form-label>
@@ -624,13 +624,13 @@
             <br>
             <div>
               <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
-                <textarea style="border-radius: 5px;border: 1px solid deepskyblue" rows="5" cols="35" id="ghiChu"
+                <textarea style="border-radius: 5px;border: 1px solid deepskyblue" rows="6" cols="38" id="ghiChu"
                           formControlName="ghiChu"></textarea>
               </nz-form-control>
             </div>
           </nz-form-item>
         </nz-card>
-        <nz-card style="width: 66%;border: 1px solid lightskyblue;border-radius: 6px;margin-left: 10px">
+        <nz-card style="width: 80%;border: 1px solid lightskyblue;border-radius: 6px;margin-left: 10px">
           <div
             style="border: 1px solid darkgrey;border-radius: 5px;margin: 5px;font-size: 17px;font-weight: bolder;padding: 15px">
             <div>
@@ -641,13 +641,17 @@
               <p>Ngày trả phòng: {{checkOutSearch | date : 'dd-MM-yyyy'}}</p>
             </div>
             <div>
-              <p>Giá phòng: {{roomMd.giaPhong}}/ngày</p>
+              <p>Giá phòng: {{roomMapMd.giaTheoNgay}}/ngày</p>
             </div>
             <div>
-              <p>Tổng tiền: <span>{{(calculateTotalDays() * (roomMd.giaPhong ?? 0)) | currencyFormat}}</span>
+              <p>Tổng tiền: <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) | currencyFormat}}</span>
                 <input id="tongGia" formControlName="tongGia" class="form-input-total"
-                       [value]="(calculateTotalDays() * (roomMd.giaPhong ?? 0))"
+                       [value]="(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0))"
                        type="hidden"/>
+              </p>
+            </div>
+            <div>
+              <p>Tổng thanh toán: <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) + tongTien | currencyFormat}}</span>
               </p>
             </div>
           </div>
@@ -661,8 +665,10 @@
                 <th>Số phòng</th>
                 <th>Loại phòng</th>
                 <th>Giá phòng</th>
-                <th>Số người</th>
                 <th>Tiện ích</th>
+                <th>Ngày nhận phòng</th>
+                <th>Ngày trả phòng</th>
+                <th>Tổng tiền</th>
               </tr>
               </thead>
               <tbody>
@@ -670,8 +676,10 @@
                 <td>{{ data.ma }}</td>
                 <td>{{ data.tenLoaiPhong }}</td>
                 <td>{{ data.giaTheoNgay }}</td>
-                <td>{{ data.soNguoi }}</td>
                 <td>{{ data.tienIch }}</td>
+                <td>{{checkInSearch | date : 'dd-MM-yyyy'}}</td>
+                <td>{{checkOutSearch | date : 'dd-MM-yyyy'}}</td>
+                <td>{{(calculateTotalDays() * (data.giaTheoNgay ?? 0)) | currencyFormat}}</td>
               </tr>
               </tbody>
             </nz-table>

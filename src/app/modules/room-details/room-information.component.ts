@@ -57,9 +57,7 @@ export class RoomInformationComponent implements OnInit{
               private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       tang: [''],
-      tienIch: [''],
       dichVu: [''],
-      soLuongNguoi: [0],
       dienTich: [0]
     })
   }

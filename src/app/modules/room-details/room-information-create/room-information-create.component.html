@@ -2,23 +2,10 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <form [formGroup]="roomInformationForm" (ngSubmit)="saveRoomInformation()">
-
-        <nz-form-item>
-          <nz-form-label style="width: 70px" nzFor="tienIch">Tiện ích </nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
-            <input nz-input type="text" id="tienIch" formControlName="tienIch"/>
-          </nz-form-control>
-        </nz-form-item>
         <nz-form-item>
           <nz-form-label style="width: 70px" nzFor="dichVu">Dịch vụ </nz-form-label>
           <nz-form-control nzErrorTip="Vui lòng nhập dịch vụ">
             <input nz-input type="text" id="dichVu" formControlName="dichVu"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label style="width: 70px" nzFor="soLuongNguoi">Số người </nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập số lượng người">
-            <input nz-input type="number" id="soLuongNguoi" formControlName="soLuongNguoi"/>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
