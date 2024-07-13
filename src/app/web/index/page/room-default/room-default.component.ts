@@ -36,9 +36,11 @@ export class RoomDefaultComponent implements OnInit{
       this.soNguoi = params['soNguoi'];
       this.checkIn = params['checkIn'];
       this.checkOut = params['checkOut'];
-      this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
-        this.listLoaiPhong = res;
-      })
+      if(this.checkIn != undefined && this.checkOut != undefined && this.soNguoi != undefined && this.soPhong != undefined){
+        this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
+          this.listLoaiPhong = res;
+        })
+      }
     })
   }
 

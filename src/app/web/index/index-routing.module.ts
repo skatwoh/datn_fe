@@ -34,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'room-detail/:id',
-        component: RoomComponent
+        component: RoomDetailsComponent
       },
       {
         path: 'profile/me',
