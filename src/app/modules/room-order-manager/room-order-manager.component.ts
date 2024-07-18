@@ -18,7 +18,7 @@ import {CustomerModel} from "../customer/models/customer.model";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {CustomerService} from "../customer/services/customer.service";
 import {BillService} from "../bill/bill.service";
-import {first, Subscription} from "rxjs";
+import {first, Observable, Subscription} from "rxjs";
 import {AppConstants} from "../../app-constants";
 import {RoomOrder} from "../../models/room-order";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
@@ -72,6 +72,7 @@ export class RoomOrderManagerComponent implements OnInit {
   idHoaDon: any;
   currentBill!: BillModel;
   tongTien: number = 0;
+  tongTienDichVu: number = 0;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -222,6 +223,7 @@ export class RoomOrderManagerComponent implements OnInit {
       this.detailsService = res.content;
     })
     this.getRoomSerivces();
+    this.getTongTienDichVu(idDP);
   }
 
   showFormCheckIn(id: any) {
@@ -351,6 +353,7 @@ export class RoomOrderManagerComponent implements OnInit {
     console.log(this.roomMapMd.giaTheoNgay);
     console.log(this.calculateTotalDays());
     this.isVisibleOrderForm = true;
+    // console.log(Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value));
   }
 
   cancelOrderForm() {
@@ -392,7 +395,7 @@ export class RoomOrderManagerComponent implements OnInit {
     }
     setTimeout(() => {
       this.customerService.create(data).subscribe((res: any) => {
-        this.customer = res;
+        console.log(res)
       })
     }, 300)
     setTimeout(() => {
@@ -401,41 +404,35 @@ export class RoomOrderManagerComponent implements OnInit {
         console.log(res);
       })
     }, 1000)
-    setTimeout(() => {
+    setTimeout(async () => {
       const data2 = {
         tongTien: 0,
-        idKhachHang: this.idKhach
+        idKhachHang: this.idKhach,
+        trangThai: 3
       }
-      data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value) + this.tongTien;
       data2.tongTien = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) + this.tongTien;
-      // if(this.customerModel == null || this.customerModel.giamGia === 0){
-      //   console.log('khong ton tai');
-      //   data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
-      // }else if(this.customerModel.giamGia !== 0){
-      //   console.log('ton tai');
-      //   data2.tongTien = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value)*(100 - this.customerModel.giamGia)/100;
-      // }
+      data2.idKhachHang = this.idKhach
       this.billService.createOrUpdateTaiQuay(data2).subscribe((res: any) => {
         console.log(res);
       })
     }, 1500)
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
-        const data = this.roomOrderForm.value;
-        data.idKhachHang = this.idKhach;
+        const dataDatPhong = this.roomOrderForm.value;
+        dataDatPhong.idKhachHang = this.idKhach;
         if (this.customerModel == null || this.customerModel.giamGia === 0) {
           console.log('khong ton tai');
-          data.tongGia = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value);
+          dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0);
         } else if (this.customerModel.giamGia !== 0) {
           console.log('ton tai');
-          data.tongGia = Number.parseInt((document.getElementById('tongGia') as HTMLInputElement).value) * (100 - this.customerModel.giamGia) / 100;
+          dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
         }
-        data.idPhong = this.roomMapMd.id;
-        data.checkIn = moment(this.checkInSearch);
-        data.checkOut = moment(this.checkOutSearch);
+        dataDatPhong.idPhong = this.roomMapMd.id;
+        dataDatPhong.checkIn = moment(this.checkInSearch);
+        dataDatPhong.checkOut = moment(this.checkOutSearch);
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
-        data.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
-        const sub = this.roomManagerService.datPhongTaiQuay(data)
+        dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
+        const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
           .pipe(first())
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
@@ -480,10 +477,14 @@ export class RoomOrderManagerComponent implements OnInit {
           this.unsubscribe.push(sub2);
         }
         this.mess.success('Đặt phòng thành công!');
+        const queryParams = {
+          checkInDate: (document.getElementById('checkIn') as HTMLInputElement).value,
+          checkOutDate: (document.getElementById('checkOut') as HTMLInputElement).value,
+        };
+        this.router.navigate(['/admin/room-order-manager/'], {queryParams});
+        this.getRoomMapping();
         this.isVisibleOrderForm = false;
         this.isVisibleListDP = false;
-        this.getRoomMapping();
-        this.router.navigate(['/admin/room-order-manager']);
       }, 3000)
 
     }
@@ -559,9 +560,21 @@ export class RoomOrderManagerComponent implements OnInit {
       this.isVisibleDichVu = false;
       this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDatPhongNow).subscribe(res => {
         this.detailsService = res.content;
+        this.tongTienDichVu = 0;
+        for(let x = 0;x < res.content.length;x++) {
+          this.tongTienDichVu+=(res.content[x].giaDichVu*res.content[x].soLuong);
+        }
       })
     }, 1000)
+  }
 
+  getTongTienDichVu(idDP: any){
+    this.tongTienDichVu = 0;
+    this.billService.getAllChiTietDichVuByDatPhong(1, 15, idDP).subscribe(res => {
+      for(let x = 0;x < res.content.length;x++) {
+        this.tongTienDichVu+=(res.content[x].giaDichVu*res.content[x].soLuong);
+      }
+    })
   }
 
   // Đặt thêm phòng
@@ -649,6 +662,13 @@ export class RoomOrderManagerComponent implements OnInit {
       this.viewRoom(idDatPhong, idDatPhong, id);
     }, 1000)
   }
+
+  getSoLanDatPhong(id: any){
+     this.roomService.getSoLanDatPhong(id, this.checkInSearch.split('T')[0], this.checkOutSearch.split('T')[0]).subscribe(res => {
+       console.log(res);
+    })
+  }
+
 
   protected readonly formatDate = formatDate;
 }
