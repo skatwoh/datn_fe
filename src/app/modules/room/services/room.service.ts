@@ -104,4 +104,10 @@ export class RoomService{
     const params = {id};
     return this.http.get<any>(`${API_AU_URL}/get-by-id`, {params});
   }
+
+  getSoLanDatPhong(id: any, checkIn: any, checkOut: any): Observable<any> {
+    const params = { id, checkIn, checkOut };
+    return this.http.get<any>(`${API_AU_URL}/get-so-lan-dat-phong`, { params })
+
+  }
 }

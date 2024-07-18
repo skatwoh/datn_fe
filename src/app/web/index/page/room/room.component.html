@@ -1,51 +1,129 @@
 <div class="flex flex-col space-y-5 justify-center items-center">
 </div>
 <div class="flex" style="margin: 10px">
-  <div style="height: 400px;width: 20%;border: 1px solid black;border-radius: 4px">
-    <div>
-      <h1 style="font-size: 25px;text-align: center">Thông tin đặt phòng</h1>
+  <div style="width: 20%;">
+    <div style="height: 500px;border: 1px solid black;border-radius: 4px">
+      <div>
+        <h1 style="font-size: 25px;text-align: center">Thông tin đặt phòng</h1>
+        <br>
+        <hr style="width: 95%;margin-left: 10px">
+        <br>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Ngày nhận phòng</label>
+        <div>
+          <input type="date" id="checkIn"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                 [(ngModel)]="checkIn" readonly>
+        </div>
+      </div>
+
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Ngày trả phòng</label>
+        <div>
+          <input type="date" id="checkOut"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                 [(ngModel)]="checkOut" readonly>
+        </div>
+      </div>
       <br>
       <hr style="width: 95%;margin-left: 10px">
-      <br>
+      <div style="margin: 10px;font-size: 17px" class="flex">
+        <div style="width: 200px">
+          <label style="margin-left: 10px;">Giá phòng:</label>
+        </div>
+        <div style="margin-left: 30px">
+          <p>{{(roomTypeModel.giaTheoNgay ?? 0 ) | currencyFormat}}</p>
+        </div>
+      </div>
+      <div style="margin: 10px;font-size: 17px" class="flex">
+        <div style="width: 200px">
+          <label style="margin-left: 10px">Tổng số phòng đặt:</label>
+        </div>
+        <div style="margin-left: 30px">
+          <p>{{soPhong}} phòng</p>
+        </div>
+      </div>
+      <hr style="width: 95%;margin-left: 10px">
+      <div style="margin: 10px;font-size: 17px" class="flex">
+        <div style="width: 200px">
+          <label style="margin-left: 10px;">Tổng số người:</label>
+        </div>
+        <div style="margin-left: 30px">
+          <p>{{soNguoi}} người</p>
+        </div>
+      </div>
+      <div style="margin: 10px;font-size: 17px" class="flex">
+        <div style="width: 200px">
+          <label style="margin-left: 10px;">Tổng tiền:</label>
+        </div>
+        <div style="margin-left: 30px">
+          <p>{{tongTien | currencyFormat}}</p>
+        </div>
+      </div>
+      <hr style="width: 95%;margin-left: 10px">
     </div>
-    <div style="margin: 10px">
-      <label style="margin-left: 10px;font-size: 15px">Ngày nhận phòng</label>
+    <div [formGroup]="roomOrderForm" (ngSubmit)="bookNow()" style="height: 500px;border: 1px solid black;border-radius: 4px;margin-top: 10px">
       <div>
-        <input type="date" id="checkIn"
-               style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-               [(ngModel)]="checkIn" readonly>
+        <h1 style="font-size: 25px;text-align: center">Thông tin người đặt</h1>
+        <br>
+        <hr style="width: 95%;margin-left: 10px">
+        <br>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Họ tên: </label>
+        <div>
+          <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
+          <input type="text" id="hoTen"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+           formControlName = "hoTen">
+          </nz-form-control>
+        </div>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Số CCCD</label>
+        <div>
+          <nz-form-control nzErrorTip="Vui lòng nhập CCCD">
+          <input type="text" id="cccd"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+           formControlName="cccd">
+          </nz-form-control>
+        </div>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Ngày sinh</label>
+        <nz-form-control nzErrorTip="Vui lòng nhập ngày sinh">
+        <div>
+          <input type="date" id="ngaySinh"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+           formControlName = "ngaySinh">
+        </div>
+        </nz-form-control>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Giới tính</label>
+        <div>
+          <select id="gioiTinh" class="select-input"
+                  style="width: 95%;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: lightskyblue;border-radius: 5px;margin-left: 10px"
+                  formControlName="gioiTinh">
+            <option class="option" value="true" [defaultSelected]="'true'">Nam</option>
+            <option class="option" value="false">Nữ</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin: 10px">
+        <label style="margin-left: 10px;font-size: 15px">Số điện thoại</label>
+        <div>
+          <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
+          <input type="text" id="sdt"
+                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+           formControlName="sdt">
+          </nz-form-control>
+        </div>
       </div>
     </div>
-
-    <div style="margin: 10px">
-      <label style="margin-left: 10px;font-size: 15px">Ngày trả phòng</label>
-      <div>
-        <input type="date" id="checkOut"
-               style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-               [(ngModel)]="checkOut" readonly>
-      </div>
-    </div>
-    <br>
-    <hr style="width: 95%;margin-left: 10px">
-    <div style="margin: 10px;font-size: 17px" class="flex">
-      <div style="width: 200px">
-        <label style="margin-left: 10px">Tổng số phòng đặt:</label>
-      </div>
-      <div style="margin-left: 50px">
-        <p>{{soPhong}} phòng</p>
-      </div>
-    </div>
-    <hr style="width: 95%;margin-left: 10px">
-    <div style="margin: 10px;font-size: 17px" class="flex">
-      <div style="width: 200px">
-        <label style="margin-left: 10px;">Tổng số người:</label>
-      </div>
-      <div style="margin-left: 50px">
-        <p>{{soNguoi}} người</p>
-      </div>
-    </div>
-    <hr style="width: 95%;margin-left: 10px">
   </div>
+
   <div style="height: 1060px;width: 78%;border: 1px solid black;border-radius: 2px;margin-left: 10px">
     <div style="height: 75%;border-radius: 4px;border: 1px solid grey;margin: 10px;">
       <div nz-row style="margin: 5px">
@@ -85,7 +163,7 @@
         <h1 style="font-size: 20px;padding: 4px">Tiện nghi: {{roomTypeModel.tienIch}}</h1>
       </div>
       <div style="margin-top: 10px;margin-left: 20px">
-        <button (click)="bookNow(roomTypeModel.id)" style="text-align: center;width: 100%;height: 30%"
+        <button (click)="bookNow()" style="text-align: center;width: 100%;height: 30%"
                 class="rounded-lg py-4 px-2 hover:bg-blue-600 bg-stone-700 font-bold text-white shadow-lg shadow-white-500">
           Book Now
         </button>
@@ -93,5 +171,101 @@
     </div>
   </div>
 </div>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleCancel()"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div class="flex">
+      <div style="width: 50%">
+      <button (click)="showModalThanhToan()">
+        Thanh toán toàn bộ
+      </button>
+      </div>
+      <div style="width: 50%">
+        <button (click)="showModalThanhToanTienCoc()">
+          Thanh toán tiền cọc
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleTT"
+  nzTitle="Xác nhận thanh toán"
+  (nzOnCancel)="handleCancelThanhToan()"
+  (nzOnOk)="handleOkThanhToan()"
+>
+  <ng-container *nzModalContent>
+    <nz-tabset>
+      <nz-tab nzTitle="Thanh toán toàn bộ">
+        <div class="bg-indigo-600 px-4 py-3 text-white">
+          <p class="text-center text-sm font-medium">
+            Thanh toán toàn bộ giảm 5%
+            <a href="#" class="inline-block underline">Hot</a>
+          </p>
+        </div>
+        <form [formGroup]="form">
+          <label style="display: none">
+            Amount:
+            <input formControlName="amount" type="number" id="amount"
+                   ngModel="{{tongTien}}"
+            />
+          </label>
+          <label style="display: none">
+            AddInfo:
+            <input formControlName="addInfo" type="text" ngModel="{{bill.id}}"/>
+          </label>
+          <label style="display: none">
+            AccountName:
+            <input formControlName="accountName" type="text" ngModel="{{user?.name}}"/>
+          </label>
+          <img [src]="imageUrl" alt="Image">
+        </form>
+      </nz-tab>
+    </nz-tabset>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleTienCoc"
+  nzTitle="Xác nhận thanh toán"
+  (nzOnCancel)="handleCancelThanhToanTienCoc()"
+  (nzOnOk)="handleOkThanhToanTienCoc()"
+>
+  <ng-container *nzModalContent>
+    <nz-tabset>
+      <nz-tab nzTitle="Thanh toán tiền cọc">
+        <div class="bg-indigo-600 px-4 py-3 text-white">
+          <p class="text-center text-sm font-medium">
+            Tiền cọc bằng 50% tổng hóa đơn
+            <a href="#" class="inline-block underline">Hot</a>
+          </p>
+        </div>
+        <form [formGroup]="formTienCoc">
+          <label style="display: none">
+            Amount:
+            <input formControlName="amount1" type="number" id="amount1"
+                   ngModel="{{tongTien}}"
+            />
+          </label>
+          <label style="display: none">
+            AddInfo:
+            <input formControlName="addInfo1" type="text" ngModel="{{bill.id}}"/>
+          </label>
+          <label style="display: none">
+            AccountName:
+            <input formControlName="accountName1" type="text" ngModel="{{user?.name}}"/>
+          </label>
+          <img [src]="imageUrlTienCoc" alt="Image">
+        </form>
+      </nz-tab>
+    </nz-tabset>
+  </ng-container>
+</nz-modal>
+
 
 

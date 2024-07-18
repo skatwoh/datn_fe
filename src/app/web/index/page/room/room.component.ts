@@ -14,6 +14,20 @@ import {SaleService} from "../../../../modules/sale/sale.service";
 import {ImageService} from "../../image/image.service";
 import {NzCheckboxComponent} from "ng-zorro-antd/checkbox";
 import {RoomTypeService} from "../../../../modules/room-category/services/room-type.service";
+import {NzMessageService} from "ng-zorro-antd/message";
+import {CustomerService} from "../../../../modules/customer/services/customer.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {BillService} from "../../../../modules/bill/bill.service";
+import * as moment from "moment/moment";
+import {first, Observable, Subscription} from "rxjs";
+import {AppConstants} from "../../../../app-constants";
+import {RoomManagerService} from "../../../../modules/room-manager/services/room-manager.service";
+import {CustomerModel} from "../../../../modules/customer/models/customer.model";
+import {NzNotificationService} from "ng-zorro-antd/notification";
+import {UserModel} from "../../../../auth/models/user.model";
+import {AuthService} from "../../../../auth/services";
+import {BillModel} from "../../../../models/bill.model";
+import {ListRoomOrderService} from "../list-room-order/list-room-order.service";
 
 @Component({
   selector: 'cons-room',
@@ -29,7 +43,10 @@ import {RoomTypeService} from "../../../../modules/room-category/services/room-t
   ],
 })
 export class RoomComponent implements OnInit {
+  private unsubscribe: Subscription[] = [];
+  user$: Observable<any>;
   room: RoomModel[] = [];
+  roomOfBill: RoomModel[] = [];
   roomType: RoomTypeModel[] = [];
   sale!: SaleModel;
   animationState: string = 'initial';
@@ -41,17 +58,112 @@ export class RoomComponent implements OnInit {
   hasError: boolean = false;
   avatarUrls: any[] = [];
   data: any[] = [];
-
+  user: UserModel | undefined;
   checkInDate: string = '';
   checkOutDate: string = '';
   soNguoi: number = 1;
   soPhong: number = 1;
   roomTypeModel!: RoomTypeModel;
   idRoomType: any;
+  tongTien: number = 0;
+  idKhach: any;
+  roomOrderForm: FormGroup;
+  customerModel!: CustomerModel;
+  form: FormGroup;
+  formTienCoc: FormGroup;
+  imageUrl: string | undefined;
+  imageUrlTienCoc: string | undefined;
+  isVisible = false;
+  isVisibleTT = false;
+  isVisibleTienCoc = false;
+  bill!: BillModel;
+  constructor(private roomService: RoomService,
+              private homeService: HomeService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private http: HttpClient,
+              private roomTypeService: RoomTypeService,
+              private service: ServiceService,
+              private saleService: SaleService,
+              private imageService: ImageService,
+              private mess: NzMessageService,
+              private customerService: CustomerService,
+              private formBuilder: FormBuilder,
+              private billService: BillService,
+              private roomManagerService: RoomManagerService,
+              private notification: NzNotificationService,
+              private authService: AuthService,
+              private roomOrderService: ListRoomOrderService) {
+    this.user$ = this.authService.currentUser$;
+    this.user = this.authService.currentUserValue;
+    this.roomOrderForm = this.formBuilder.group({
+      userId: this.user?.id,
+      idPhong: [0],
+      checkIn: [''],
+      checkOut: [''],
+      soNguoi: [0],
+      tongGia: [0, Validators.required],
+      hoTen: ['', Validators.required],
+      sdt: ['', Validators.required],
+      cccd: ['', Validators.required],
+      ngaySinh: [''],
+      ghiChu: [''],
+      trangThai: 4
+    })
+    this.form = this.formBuilder.group({
+      amount: ['', Validators.required],
+      addInfo: ['', Validators.required],
+      accountName: ['', Validators.required],
+    })
+    this.formTienCoc = this.formBuilder.group({
+      amount1: ['', Validators.required],
+      addInfo1: ['', Validators.required],
+      accountName1: ['', Validators.required],
+    })
+    this.updateImageUrl();
+    this.updateImageUrlTienCoc();
 
-  constructor(private roomService: RoomService, private homeService: HomeService,
-              private router: Router, private route: ActivatedRoute, private http: HttpClient,private roomTypeService: RoomTypeService,
-              private service: ServiceService, private saleService: SaleService, private imageService: ImageService,) {
+    // @ts-ignore
+    this.form.get('amount').valueChanges.subscribe(() => this.updateImageUrl());
+    // @ts-ignore
+    this.form.get('addInfo').valueChanges.subscribe(() => this.updateImageUrl());
+
+    // @ts-ignore
+    this.formTienCoc.get('amount1').valueChanges.subscribe(() => this.updateImageUrlTienCoc());
+    // @ts-ignore
+    this.formTienCoc.get('addInfo1').valueChanges.subscribe(() => this.updateImageUrlTienCoc());
+    this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
+      console.log(res)
+      this.customerModel = res ;
+    })
+  }
+
+  updateImageUrl(): void {
+    const {amount, addInfo, accountName} = this.form.value;
+    console.log(amount);
+    console.log(addInfo);
+    this.imageUrl = this.generateImageUrl(amount, addInfo, accountName);
+  }
+
+  updateImageUrlTienCoc(): void {
+    const {amount1, addInfo1, accountName1} = this.formTienCoc.value;
+    console.log(amount1);
+    console.log(addInfo1);
+    this.imageUrlTienCoc = this.generateImageUrlTienCoc(amount1, addInfo1, accountName1);
+  }
+
+  generateImageUrl(amount: number, addInfo: string, accountName: string): string {
+    const sale = amount * 0.95;
+    const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
+    const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    return urlWithParams;
+  }
+
+  generateImageUrlTienCoc(amount: number, addInfo: string, accountName: string): string {
+    const sale = amount * 0.5;
+    const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
+    const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    return urlWithParams;
   }
 
   private image(): void {
@@ -93,12 +205,15 @@ export class RoomComponent implements OnInit {
       if(checkIn === '' || checkOut === ''){
         this.checkIn = new Date().toISOString();
         this.checkOut = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
+
       }else{
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.soPhong = soPhong;
         this.soNguoi = soNguoi;
       }
+      this.getRoomType();
+
     });
     // const currentUrl = this.route.snapshot.url.join('/');
     // console.log(currentUrl, "ok");
@@ -128,7 +243,7 @@ export class RoomComponent implements OnInit {
     //
     // this.getSale();
     // this.image();
-    this.getRoomType();
+
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -156,19 +271,270 @@ export class RoomComponent implements OnInit {
 
   getRoomType() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.roomTypeService.get(id).subscribe(res => {
-      this.roomTypeModel = res;
+    this.route.queryParams.subscribe(params => {
+      const soPhong = params['soPhong'];
+      const checkIn = params['checkIn'];
+      const checkOut = params['checkOut'];
+      this.roomTypeService.get(id).subscribe(res => {
+        this.roomTypeModel = res;
+        this.tongTien = (this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay??0)) * Number.parseInt(soPhong);
+        this.homeService.getRoomListSearch(1, 50, '', (this.roomTypeModel.tenLoaiPhong ?? ''), checkIn, checkOut).subscribe(res => {
+          if (res && res.content) {
+            this.room= res.content;
+            console.log(res.content);
+          }
+        })
+      })
+    })
+
+  }
+
+  bookNow() {
+    // const queryParams = {
+    //   soPhong: this.soPhong,
+    //   soNguoi: this.soNguoi,
+    //   checkIn: this.checkIn,
+    //   checkOut: this.checkOut
+    // }
+    // this.router.navigate(['/room-order', id], {queryParams});
+    if (this.user?.name == null) {
+      this.router.navigate(['/hotel/login']);
+    }
+    if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
+      this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
+      return;
+    }
+    const data = {
+      hoTen: (document.getElementById('hoTen') as HTMLInputElement).value,
+      sdt: (document.getElementById('sdt') as HTMLInputElement).value,
+      cccd: (document.getElementById('cccd') as HTMLInputElement).value,
+      ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value,
+      gioiTinh: (document.getElementById('gioiTinh') as HTMLInputElement).value,
+    }
+    if(data.hoTen == '' || data.hoTen == null || data.sdt == '' || data.sdt == null || data.ngaySinh == null || data.ngaySinh == ''){
+      this.mess.warning('Vui lòng điền đầy đủ thông tin người đặt');
+      return;
+    }
+    // setTimeout(() => {
+    //   this.customerService.create(data).subscribe((res: any) => {
+    //     console.log(res)
+    //   })
+    // }, 300)
+    // setTimeout(() => {
+    //   this.customerService.getIdByCCCD(data.cccd).subscribe((res: any) => {
+    //     this.idKhach = res;
+    //     console.log(res);
+    //   })
+    //   this.roomManagerService.getKH(data.cccd).subscribe((res: any) => {
+    //     this.customerModel = res;
+    //   })
+    // }, 1000)
+    setTimeout(async () => {
+      const data2 = {
+        tongTien: 0,
+        idKhachHang: this.customerModel.id,
+        trangThai: 1
+      }
+      data2.tongTien = this.tongTien;
+      data2.idKhachHang = this.customerModel.id;
+      this.billService.createOrUpdateTaiQuay(data2).subscribe((res: any) => {
+        console.log(res);
+      })
+    }, 1500)
+    console.log(this.room);
+    if (this.roomOrderForm.valid) {
+      console.log(this.room);
+        setTimeout(() => {
+          for (let x = 0;x < this.soPhong;x++) {
+            const dataDatPhong = this.roomOrderForm.value;
+            dataDatPhong.idKhachHang = this.customerModel.id;
+            if (this.customerModel == null || this.customerModel.giamGia === 0) {
+              console.log('khong ton tai');
+              dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0);
+            } else if (this.customerModel.giamGia !== 0) {
+              console.log('ton tai');
+              dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
+            }
+            dataDatPhong.idPhong = this.room[x].id;
+            dataDatPhong.checkIn = moment(this.checkIn);
+            dataDatPhong.checkOut = moment(this.checkOut);
+            // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+            dataDatPhong.ghiChu = 'Không có ghi chú';
+            // const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
+            //   .pipe(first())
+            //   .subscribe((res) => {
+            //       if (res?.code === AppConstants.API_SUCCESS_CODE) {
+            //         console.log('Thành công')
+            //       } else {
+            //         const msg: any = res.entityMessages[0];
+            //         this.notification.warning(`${msg.errorMessage}`, "");
+            //         this.updateTongTien();
+            //         this.deleteBill();
+            //         return;
+            //       }
+            //     },
+            //   );
+            // this.unsubscribe.push(sub);
+            const sub = this.roomManagerService.create(dataDatPhong)
+              .pipe(first())
+              .subscribe((res) => {
+                  if (res?.code === AppConstants.API_SUCCESS_CODE) {
+                    // this.sendNotification();
+                    // this.messSuccess();
+                    console.log('thành công');
+                  } else {
+                    if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+                      this.updateTongTien();
+                      this.deleteBill();
+                      const msg: any = res.entityMessages[0];
+                      this.notification.warning(`${msg.errorMessage}`, "");
+                    } else {
+                      this.message = `Error`;
+                    }
+                    this.hasError = true;
+                  }
+                },
+              );
+            this.unsubscribe.push(sub);
+          }
+        }, 3000)
+      setTimeout(() => {
+        this.getRoomsOfBill();
+        this.isVisible = true;
+      }, 3500)
+    }
+  }
+
+  calculateTotalDays(): number {
+    // @ts-ignore
+    const checkInDate = this.checkIn;
+    // @ts-ignore
+    const checkOutDate = this.checkOut;
+
+    if (checkInDate && checkOutDate) {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const startDate = new Date(checkInDate);
+      const endDate = new Date(checkOutDate);
+
+      const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+      return Math.round(differenceInMilliseconds / millisecondsPerDay);
+    }
+
+    return 0;
+  }
+
+  updateTongTien(): void {
+    const data = {
+      idKhachHang: this.idKhach,
+      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    }
+    this.billService.updateTongTien(data).subscribe((res: any) => {
+      console.log(res);
     })
   }
 
-  bookNow(id: any) {
-    const queryParams = {
-      soPhong: this.soPhong,
-      soNguoi: this.soNguoi,
-      checkIn: this.checkIn,
-      checkOut: this.checkOut
+  deleteBill() {
+    const data = {
+      ngayThanhToan: moment(this.checkIn),
+      tongTien: this.tongTien,
+      idKhachHang: this.idKhach
     }
-    this.router.navigate(['/room-order', id], {queryParams});
+    this.billService.deleteBill(data).subscribe((res: any) => {
+      console.log(res);
+    })
+  }
+
+  private getRoomsOfBill(): void {
+    const id = this.user?.id;
+    this.roomOrderService.getRoomOfBill(1, 50, id).subscribe(res => {
+      if (res && res.content) {
+        this.billService.get(res.content[0].idHoaDon).subscribe(data => {
+          this.bill = data;
+        })
+        this.roomOfBill = res.content;
+      }
+    })
+  }
+
+  showModalThanhToan(): void {
+    this.isVisibleTT = true;
+  }
+
+  showModalThanhToanTienCoc(): void {
+    this.isVisibleTienCoc = true;
+  }
+
+  handleOkThanhToan(): void {
+    this.billService.updateStatus(this.bill.id, 2).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.bill.trangThai = 2;
+        // this.billService.updateTongTien()
+      },
+    })
+    setTimeout(() => {
+      this.mess.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi();
+      this.isVisibleTT = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
+  }
+
+  handleOkThanhToanTienCoc(): void {
+    this.billService.updateStatus(this.bill.id, 6).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.bill.trangThai = 6;
+      },
+    })
+    setTimeout(() => {
+      this.mess.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi2();
+      this.isVisibleTienCoc = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
+  }
+
+  handleCancelThanhToan(): void {
+    console.log('Button cancel clicked!');
+    this.isVisibleTT = false;
+  }
+
+  handleCancelThanhToanTienCoc(): void {
+    console.log('Button cancel clicked!');
+    this.isVisibleTienCoc = false;
+  }
+
+  sendDataToApi(): void {
+    const apiUrl = 'https://643eafd46c30feced8304742.mockapi.io/skatwoh/api-payment';
+    const dataToSend = this.form.value;
+
+    this.http.post(apiUrl, dataToSend).subscribe(
+      (response) => {
+        console.log('Data sent successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending data to API:', error);
+      }
+    );
+  }
+
+  sendDataToApi2(): void {
+    const apiUrl = 'https://643eafd46c30feced8304742.mockapi.io/skatwoh/api-payment';
+    const dataToSend = this.formTienCoc.value;
+
+    this.http.post(apiUrl, dataToSend).subscribe(
+      (response) => {
+        console.log('Data sent successfully:', response);
+      },
+      (error) => {
+        console.error('Error sending data to API:', error);
+      }
+    );
+  }
+
+  handleCancel(){
+    this.isVisible =false;
   }
 
   protected readonly Number = Number;
