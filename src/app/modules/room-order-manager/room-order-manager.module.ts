@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {NzBreadCrumbModule} from "ng-zorro-antd/breadcrumb";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {NzTableModule} from "ng-zorro-antd/table";
@@ -21,10 +21,11 @@ import {IndexModule} from "../../web/index/index.module";
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzAlertModule} from "ng-zorro-antd/alert";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 
 @NgModule({
-    imports: [RoomOrderManagerRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule, NzCardModule, IndexModule, NzSpinModule, NzAlertModule, NzCheckboxModule],
+  imports: [RoomOrderManagerRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
+    NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule, NzCardModule, IndexModule, NzSpinModule, NzAlertModule, NzCheckboxModule, CurrencyPipe, NzPopconfirmModule],
   declarations: [RoomOrderManagerComponent],
   exports: [RoomOrderManagerComponent]
 })

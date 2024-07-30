@@ -138,13 +138,23 @@ export class BillService{
     }));
   }
 
-  updateGhiChu(id: any, data: any ) :Observable<any>{
+  updateTienCoc(id: any, tienCoc: any) :Observable<any>{
     const params = {id};
-    return this.http.post<any>(`${API_AU_URL}/update-tien-coc`,data, {params});
+    return this.http.post<any>(`${API_AU_URL}/update-tien-coc`,tienCoc, {params});
   }
 
   huyDichVu(id: any): Observable<any> {
     const params = {id};
     return this.http.delete(`${environment.apiUrl}/chi-tiet-dich-vu/delete`, {params});
+  }
+
+  updateTienPhat(id: any, tienCoc: any) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/update-tien-phat`,tienCoc, {params});
+  }
+
+  updateTienDichVu(id: any, tienDichVu: any) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/update-tien-dich-vu`,tienDichVu, {params});
   }
 }

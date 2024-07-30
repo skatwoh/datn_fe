@@ -185,6 +185,11 @@ export class HomeComponent implements OnInit{
       );
       return;
     }
+    if(checkOutElement.value < new Date().toISOString().split('T')[0] || checkInElement.value < new Date().toISOString().split('T')[0] ||
+      checkOutElement.value < checkInElement.value || checkOutElement.value == checkInElement.value){
+      this.mess.warning("Ngày nhận và ngày trả không hợp lệ!");
+      return;
+    }
     // this.isVisible = true;
     setTimeout( () => {
       this.homeService.getListLoaiPhongBySoNguoi(soPhong, soNguoi, checkInElement.value, checkOutElement.value).subscribe(res=>{

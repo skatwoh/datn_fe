@@ -18,7 +18,8 @@ export class RoomServiceCreateComponent implements OnInit{
     ghiChu: '',
     giaDichVu: 0,
     trangThai: 0,
-    soLuong: 0
+    soLuong: 0,
+    image: ''
   };
   submitted = false;
   roomList: RoomServiceModel[] = [];

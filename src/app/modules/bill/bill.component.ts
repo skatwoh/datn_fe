@@ -102,9 +102,9 @@ export class BillComponent implements OnInit {
     xacNhanTienCoc(id: any, idKhachHang: any) {
         this.billService.get(id).subscribe((data: any) => {
             this.currentBill = data;
-          this.billService.updateGhiChu(id, data.tongTien*0.5).subscribe({
+          this.billService.updateTienCoc(id, data.tongTien*0.5).subscribe({
             next: (res) => {
-              this.currentBill.ghiChu = (data.tongTien*0.5).toString();
+              this.currentBill.tienCoc = data.tongTien*0.5;
             },
           })
         });

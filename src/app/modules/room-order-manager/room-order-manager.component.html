@@ -11,12 +11,12 @@
   <div>
     <div class="flex">
       <div style="font-size: 18px;margin-left: 10px;font-family: Arial">
-        <label>Ngày nhận phòng</label>
+        <label>Từ ngày</label>
         <input type="date" id="checkIn"
                style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
       </div>
       <div style="font-size: 18px;margin-left: 30px;font-family: Arial">
-        <label>Ngày trả phòng</label>
+        <label>đến ngày</label>
         <input type="date" id="checkOut"
                style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
       </div>
@@ -75,6 +75,20 @@
           Hôm nay
                 </span>
         </button>
+      </div>
+      <div style="margin-left: 30px">
+        <button (click)="getListCheckOutToDay()" style="margin-top: 30px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span
+                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Các phòng sẽ trả ngày hôm nay
+                </span>
+        </button>
+      </div>
+      <div style="margin: 10px">
+        <br>
+<!--        <p style="font-weight: bolder;font-size: 16px">Số phòng trống: {{soPhongTrong}}</p>-->
       </div>
     </div>
     <!--    <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="room">-->
@@ -144,7 +158,7 @@
               <div *ngIf="data.soPhong > 0">
                 <br>
                 <p style="font-size: 30px;text-align: center">Lượt đặt: {{data.soPhong}}</p>
-<!--                <p style="font-size: 30px;text-align: center">Lượt đặt: {{getSoLanDatPhong(data.id)}}</p>-->
+                <!--                <p style="font-size: 30px;text-align: center">Lượt đặt: {{getSoLanDatPhong(data.id)}}</p>-->
               </div>
               <div *ngIf="data.soPhong == 0">
                 <br>
@@ -175,40 +189,70 @@
   nzFooter=" "
 >
   <ng-container *nzModalContent>
-    <div *ngIf="room.length > 0">
-      <nz-table #basicTable [nzData]="room">
-        <thead>
-        <tr>
-          <th>STT</th>
-          <th>Số phòng</th>
-          <th>Loại phòng</th>
-          <th>Giá phòng</th>
-          <th>Ngày đặt</th>
-          <th>Ngày nhận phòng</th>
-          <th>Ngày trả phòng</th>
-          <th>Trạng thái</th>
-          <th>Tác vụ</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let data of basicTable.data.slice(0,2);let i = index;">
-          <td>{{ i + 1 }}</td>
-          <td>{{ data.tenPhong }}</td>
-          <td>{{ data.tenLoaiPhong }}</td>
-          <td>{{ data.giaPhong }}</td>
-          <td>{{ data.ngayDat | date : 'dd-MM-yyyy' }}</td>
-          <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
-          <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
-          <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : 'Đã hủy'}}</td>
-          <td>
-            <button><span nz-icon nzType="eye" nzTheme="outline" nz-tooltip nzTooltipTitle="Xem"
-                          (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)"></span></button>
-          </td>
-        </tr>
-        </tbody>
-      </nz-table>
+    <div class="flex">
+      <div style="width: 50%;border-radius: 5px;border: 1px solid gray;margin: 5px">
+        <div style="margin: 10px;padding: 10px">
+          <h3 style="font-weight: bolder;font-size: 20px">Phòng {{roomMapMd.ma}}</h3>
+        </div>
+        <hr style="width: 100%">
+        <div style="margin: 10px;padding: 10px;font-size: 18px;font-family: Arial">
+          Loại phòng: {{roomMapMd.tenLoaiPhong}}
+          <br>
+          Giá phòng: {{roomMapMd.giaTheoNgay | currency : 'VND': '':'1.0-0'}}
+          <br>
+          Tiện ích: {{roomMapMd.tienIch}}
+          <br>
+          Phòng phù hợp cho: {{roomMapMd.soNguoi}} người
+        </div>
+      </div>
+      <div style="width: 45%;margin: 5px">
+        <div>
+          <img src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
+        </div>
+      </div>
     </div>
-    <div *ngIf="room.length == 0">
+    <div *ngIf="room.length > 0">
+      <div>
+        <hr>
+        <p style="text-align: center;font-size: 25px;margin: 10px;font-weight: bolder">DANH SÁCH ĐẶT PHÒNG TRONG THỜI
+          GIAN NÀY</p>
+        <hr>
+      </div>
+      <div>
+        <nz-table #basicTable [nzData]="room">
+          <thead>
+          <tr>
+            <th>STT</th>
+            <th>Số phòng</th>
+            <th>Loại phòng</th>
+            <th>Giá phòng</th>
+            <th>Ngày đặt</th>
+            <th>Ngày nhận phòng</th>
+            <th>Ngày trả phòng</th>
+            <th>Trạng thái</th>
+            <th>Tác vụ</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let data of basicTable.data;let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.tenPhong }}</td>
+            <td>{{ data.tenLoaiPhong }}</td>
+            <td>{{ data.giaPhong | currency:'VND': '':'1.0-0'  }}</td>
+            <td>{{ data.ngayDat | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : 'Đã hủy'}}</td>
+            <td>
+              <button><span nz-icon nzType="eye" nzTheme="outline" nz-tooltip nzTooltipTitle="Xem"
+                            (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)"></span></button>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+    <div *ngIf="room.length == 0 || checkList == 0">
       <p style="font-size: 30px;text-align: center">Hiện chưa có khách đặt phòng trong khoảng thời gian này!</p>
       <div style="display: flex;justify-content: center;align-items: center">
         <button (click)="showOrderRoom()" style="margin-top: 30px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
@@ -242,7 +286,7 @@
       <br>
       <div *ngIf="roomModel.idDatPhong" class="flex">
         <div style="width: 68%;">
-          <div style="height: 400px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
+          <div style="height: 470px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
             <div style="height: 35px;background-color: deepskyblue">
               <p style="color: white;font-weight: bolder;font-size: 16px;padding: 3px;padding-left: 10px">Chi tiết thuê
                 phòng</p>
@@ -251,25 +295,42 @@
                  class="flex">
               <p>Khách hàng: </p>
               <p style="color:red;"> {{roomModel.hoTen}}</p>
-              <p style="padding-left: 30px">Số phòng: </p>
-              <p style="color:red;"> {{roomModel.tenPhong}}</p>
               <p style="padding-left: 30px">Ngày đặt: </p>
               <p style="color:red;"> {{roomModel.ngayDat | date : 'dd-MM-yyyy'}}</p>
               <p style="padding-left: 30px">Ngày nhận phòng: </p>
               <p style="color:red;"> {{roomModel.checkIn | date : 'dd-MM-yyyy'}}</p>
               <p style="padding-left: 30px">Ngày trả phòng: </p>
               <p style="color:red;"> {{roomModel.checkOut | date : 'dd-MM-yyyy'}}</p>
-              <div style="width: 10%">
+              <button
+                (click)="showFormChangeRoom(roomModel.tenLoaiPhong, roomModel.id, roomModel.checkIn, roomModel.checkOut)"
+                style="margin-top: -5px;margin-left: 40px"
+                class="button-green"
+                *ngIf="roomModel.trangThai == 1">
+                Đổi phòng
+              </button>
+              <div>
                 <button (click)="showFormCheckIn(roomModel.idDatPhong)" style="margin-top: -5px;margin-left: 40px"
                         class="button-blue"
                         *ngIf="roomModel.trangThai == 1">
                   Check-in
                 </button>
-                <button (click)="showFormCheckout(roomModel.idDatPhong)" style="margin-top: -5px;margin-left: 40px"
+                <div class="flex">
+                <button style="margin-top: -5px;margin-left: 30px"
                         class="button-blue"
-                        *ngIf="roomModel.trangThai == 2">
+                        (click)="showFormCheckout(roomModel.idDatPhong)"
+                        *ngIf="roomModel.trangThai == 2 || roomModel.trangThai == 5">
                   Check-out
                 </button>
+                <button style="margin-top: -5px;margin-left: 5px"
+                        class="button-blue2"
+                        (click)="showFormCheckoutMuon(roomModel.idDatPhong)"
+                        *ngIf="roomModel.trangThai == 2">
+                  Check-out muộn
+                </button>
+                </div>
+                <div *ngIf="roomModel.trangThai == 5">
+                  <p style="font-size: 15px;font-weight: bolder;margin-left: 5px;color: red">(Trả phòng muộn)</p>
+                </div>
                 <div *ngIf="roomModel.trangThai == 3">
                   <p style="font-size: 15px;font-weight: bolder;margin-left: 5px;color: red">(Đã trả phòng)</p>
                 </div>
@@ -297,7 +358,7 @@
                   <td>{{ i + 1 }}</td>
                   <td>{{ data.tenPhong }}</td>
                   <td>{{ data.tenLoaiPhong }}</td>
-                  <td>{{ data.giaPhong }}</td>
+                  <td>{{ data.giaPhong | currency:'VND': '':'1.0-0'  }}</td>
                   <td>{{ data.ngayDat | date : 'dd-MM-yyyy' }}</td>
                   <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
                   <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
@@ -337,41 +398,44 @@
                     <td>{{ data.tenDichVu }}</td>
                     <td>{{ data.soLuong }}</td>
                     <td>{{ data.thoiGianDat | date : 'dd-MM-yyyy hh:mm:ss' }}</td>
-                    <td>{{ data.giaDichVu}}</td>
-                    <td>{{ data.giaDichVu * data.soLuong}}</td>
+                    <td>{{ data.giaDichVu | currency:'VND': '':'1.0-0' }}</td>
+                    <td>{{ data.giaDichVu * data.soLuong | currency:'VND': '':'1.0-0' }}</td>
                   </tr>
                   </tbody>
                 </nz-table>
                 <div style="margin: 5px">
-                  <p style="color: deepskyblue;font-weight: bolder;font-size: 18px">Tổng tiền dịch vụ: {{tongTienDichVu | currencyFormat}}</p>
+                  <p style="color: deepskyblue;font-weight: bolder;font-size: 18px">Tổng tiền dịch
+                    vụ: {{tongTienDichVu | currency:'VND': '':'1.0-0' }}</p>
                 </div>
               </div>
               <div style="width: 43%;height:445px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
                 <h3 style="font-weight: bolder;font-size: 16px;padding: 5px">Order dịch vụ</h3>
-                <div *ngIf="roomModel.trangThai !== 3" nz-row>
+                <div
+                  *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2) && roomModel.trangThaiThanhToan !== 5"
+                  nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div (click)="showFormOrderDichVu(data.id)"
                          style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
-                        <img src="./assets/images/ruou-vang.jpg" style="width: 100%;height: 100%">
+                        <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
                       </div>
                       <div style="padding: 5px;font-weight: bolder">
                         <h1>{{data.tenDichVu}}</h1>
-                        <h1>Giá: {{data.giaDichVu}}</h1>
+                        <h1>Giá: {{data.giaDichVu | currency:'VND': '':'1.0-0' }}</h1>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div *ngIf="roomModel.trangThai === 3" nz-row>
+                <div *ngIf="roomModel.trangThai === 3 || roomModel.trangThaiThanhToan === 5" nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div
-                         style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
+                      style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
-                        <img src="./assets/images/ruou-vang.jpg" style="width: 100%;height: 100%">
+                        <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
                       </div>
                       <div style="padding: 5px;font-weight: bolder">
                         <h1>{{data.tenDichVu}}</h1>
-                        <h1>Giá: {{data.giaDichVu}}</h1>
+                        <h1>Giá: {{data.giaDichVu | currency:'VND': '':'1.0-0' }}</h1>
                       </div>
                     </div>
                   </div>
@@ -380,7 +444,7 @@
             </div>
           </div>
         </div>
-        <div style="width: 30%;height: 905px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
+        <div style="width: 30%;height: 1000px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
           <div style="height: 35px;background-color: deepskyblue">
             <p style="color: white;font-weight: bolder;font-size: 16px;padding: 3px;padding-left: 10px">Thông tin khách
               hàng</p>
@@ -442,17 +506,42 @@
             <hr style="margin: 10px">
             <p>Ngày tạo: {{roomModel.ngayTao | date : 'dd-MM-yyyy hh:mm:ss'}}</p>
             <hr style="margin: 10px">
-            <p>Tổng tiền: {{roomModel.tongTien}}</p>
+            <p>Tổng tiền: {{roomModel.tongTien | currency:'VND': '':'1.0-0' }}</p>
             <hr style="margin: 10px">
             <p>Trạng thái thanh
-              toán: {{roomModel.trangThaiThanhToan == 0 ? 'Đã thanh toán' : (roomModel.trangThaiThanhToan == 1 || roomModel.trangThaiThanhToan == 3) ? 'Thanh toán sau' : roomModel.trangThaiThanhToan == 4 ? 'Đang xác nhận' : 'Đã hủy'}}</p>
+              toán: {{roomModel.trangThaiThanhToan == 0 ? 'Đã thanh toán tiền phòng' : (roomModel.trangThaiThanhToan == 1 || roomModel.trangThaiThanhToan == 3) ? 'Thanh toán sau' : roomModel.trangThaiThanhToan == 2 ? 'Đang xác nhận' :
+                roomModel.trangThaiThanhToan == 5 ? 'Hoàn tất thanh toán' : roomModel.trangThaiThanhToan == 6 ? 'Đang xác nhận cọc' : roomModel.trangThaiThanhToan == 7 ? 'Đã đặt cọc' : 'Đã hủy'}}</p>
             <hr style="margin: 10px">
-            <p>Ngày thanh toán: {{roomModel.ngayThanhToan | date : 'dd-MM-yyyy hh:mm:ss'}}</p>
+            <p *ngIf="roomModel.tienCoc">Tiền cọc: {{roomModel.tienCoc | currency:'VND': '':'1.0-0' }}</p>
+            <hr *ngIf="roomModel.tienCoc" style="margin: 10px">
+            <p *ngIf="roomModel.thoiGianCoc">Thời gian cọc: {{roomModel.thoiGianCoc | date : 'dd-MM-yyyy hh:mm:ss'}}</p>
+            <hr *ngIf="roomModel.thoiGianCoc" style="margin: 10px">
+            <p>Tiền phạt: {{roomModel.tienPhat | currency:'VND': '':'1.0-0' }}</p>
             <hr style="margin: 10px">
+            <p>Tiền dịch vụ: {{roomModel.tienDichVu | currency:'VND': '':'1.0-0' }}</p>
+            <hr style="margin: 10px">
+            <div class="flex">
+
+              <p>Ngày thanh toán: {{roomModel.ngayThanhToan | date : 'dd-MM-yyyy'}}</p>
+              <div *ngIf="roomModel.trangThaiThanhToan==5" style="margin-left: 20px">
+              <svg (click)="generatePDF(roomModel.idHoaDon)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
+                   height="25" fill="currentColor"
+                   class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                      fill="blue"></path>
+                <path fill-rule="evenodd"
+                      d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                      fill="blue"></path>
+              </svg>
+              </div>
+            </div>
           </div>
-          <div *ngIf="roomModel.trangThaiThanhToan == 3">
+          <div
+            *ngIf="roomModel.trangThaiThanhToan == 3 || roomModel.trangThaiThanhToan == 7 || roomModel.trangThaiThanhToan == 0">
             <!--            <button style="width: 98%;height:35px;color:white;font-weight:bolder;margin: 5px;background-color: #4cb3fd;border-radius: 5px">Xác nhận thanh toán</button>-->
-            <button (click)="updateBillStatus(roomModel.idHoaDon, roomModel.idDatPhong)" style="width: 98%;margin: 5px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+            <button (click)="updateBillStatus(roomModel.idHoaDon, roomModel.idDatPhong)" style="width: 98%;margin: 5px;"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
       text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
       group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                 <span style="width: 100%;"
@@ -461,8 +550,9 @@
                 </span>
             </button>
           </div>
-          <div *ngIf="roomModel.trangThaiThanhToan == 0">
-            <p style="font-size: 22px;font-weight: bolder;color: #5e2ced;text-align: center;padding: 8px">>>>>>>>> Đã thanh toán <<<<<<<<<</p>
+          <div *ngIf="roomModel.trangThaiThanhToan == 5">
+            <p style="font-size: 22px;font-weight: bolder;color: #5e2ced;text-align: center;padding: 8px">>>>>>>>> Đã
+              thanh toán <<<<<<<<<</p>
           </div>
         </div>
       </div>
@@ -538,41 +628,15 @@
 </nz-modal>
 <nz-modal
   [(nzVisible)]="isVisibleCheckOut"
-  nzTitle="THÔNG TIN TRẢ PHÒNG"
+  nzTitle="Xác nhận trả phòng"
   (nzOnCancel)="handleCancelCheckOut()"
   (nzOnOk)="createCheckOut()"
   nzWidth="450px"
-  nzOkText="Hoàn thành"
-  nzCancelText="Trở về"
-  nzFooter=" "
+  nzOkText="Đồng ý"
+  nzCancelText="Từ chối"
 >
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="formCheckOut" (ngSubmit)="createCheckOut()">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="5">Số CCCD</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Input is required">
-          <input nz-input id="cccdCheckOut" formControlName="cccdCheckOut" required/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="5">Họ tên</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="MaxLength is 6">
-          <input nz-input formControlName="hoTenCheckOut" required/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="5">Ngày sinh</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="MinLength is 6">
-          <input type="date" nz-input formControlName="ngaySinhCheckOut" required/>
-        </nz-form-control>
-      </nz-form-item>
-      <br>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" [disabled]="formCheckOut.invalid">Hoàn thành</button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
+    <h3>Xác nhận trả phòng {{roomModel.tenPhong}}</h3>
   </ng-container>
 </nz-modal>
 
@@ -645,17 +709,19 @@
               <p>Ngày trả phòng: {{checkOutSearch | date : 'dd-MM-yyyy'}}</p>
             </div>
             <div>
-              <p>Giá phòng: {{roomMapMd.giaTheoNgay}}/ngày</p>
+              <p>Giá phòng: {{roomMapMd.giaTheoNgay | currency:'VND': '':'1.0-0' }}/ngày</p>
             </div>
             <div>
-              <p>Tổng tiền: <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) | currencyFormat}}</span>
+              <p>Tổng tiền:
+                <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) | currency:'VND': '':'1.0-0' }}</span>
                 <input id="tongGia" formControlName="tongGia" class="form-input-total"
                        [value]="(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0))"
                        type="hidden"/>
               </p>
             </div>
             <div>
-              <p>Tổng thanh toán: <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) + tongTien | currencyFormat}}</span>
+              <p>Tổng thanh toán:
+                <span>{{(calculateTotalDays() * (roomMapMd.giaTheoNgay ?? 0)) + tongTien | currency:'VND': '':'1.0-0' }}</span>
               </p>
             </div>
           </div>
@@ -679,11 +745,11 @@
               <tr *ngFor="let data of dataListMore.data">
                 <td>{{ data.ma }}</td>
                 <td>{{ data.tenLoaiPhong }}</td>
-                <td>{{ data.giaTheoNgay }}</td>
+                <td>{{ data.giaTheoNgay | currency:'VND': '':'1.0-0'  }}</td>
                 <td>{{ data.tienIch }}</td>
                 <td>{{checkInSearch | date : 'dd-MM-yyyy'}}</td>
                 <td>{{checkOutSearch | date : 'dd-MM-yyyy'}}</td>
-                <td>{{(calculateTotalDays() * (data.giaTheoNgay ?? 0)) | currencyFormat}}</td>
+                <td>{{(calculateTotalDays() * (data.giaTheoNgay ?? 0)) | currency:'VND': '':'1.0-0' }}</td>
               </tr>
               </tbody>
             </nz-table>
@@ -729,7 +795,7 @@
         </td>
         <td>{{ data.ma }}</td>
         <td>{{ data.tenLoaiPhong }}</td>
-        <td>{{ data.giaTheoNgay }}</td>
+        <td>{{ data.giaTheoNgay | currency:'VND': '':'1.0-0'  }}</td>
         <td>{{ data.soNguoi }}</td>
         <td>{{ data.tienIch }}</td>
       </tr>
@@ -754,6 +820,174 @@
     </div>
   </ng-container>
 </nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleCheckOutLater"
+  nzTitle="CHECK-OUT MUỘN"
+  (nzOnCancel)="cancelCheckOutLater()"
+  (nzOnOk)="okCheckOutLater()"
+  nzWidth="600px"
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <div style="font-weight: bolder;font-size: 17px;padding: 5px">
+      <h3>(trả phòng muộn 1 tiếng phạt (15% giá phòng một ngày)/h)</h3>
+    </div>
+    <div style="font-weight: bolder;font-size: 15px;padding: 5px">
+      <p>Trả phòng muộn {{thoiGianMuon}} giờ</p>
+      <br>
+      <p>Số tiền phạt: {{tienPhat | currency : 'VND': '':'1.0-0'}} VNĐ</p>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleXacNhanDoi"
+  nzTitle="THÔNG BÁO"
+  (nzOnCancel)="cancelShowListChange()"
+  (nzOnOk)="okShowListChange()"
+  nzWidth="600px"
+>
+  <ng-container *nzModalContent>
+    <div style="padding: 5px;font-size: 18px">
+      <p>Xác nhận đổi phòng?</p>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleChangeRoom"
+  nzTitle="Danh sách phòng có thể đổi"
+  (nzOnCancel)="cancelShowListChange()"
+  (nzOnOk)="cancelCheckOutLater()"
+  nzWidth="1000px"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div nz-row>
+      <div *ngFor="let data of listRoomChange" nz-col nzSpan="8">
+        <div
+          style="border: 1px solid deepskyblue;border-radius: 4px;height: 380px;margin: 5px;font-size: 16px;font-weight: bolder;padding: 5px ">
+          <div style="margin: 5px">
+            <img src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
+          </div>
+          <p>Phòng {{data.ma}}</p>
+          <p>Loại phòng: {{data.tenLoaiPhong}}</p>
+          <p>Giá phòng:  {{data.giaTheoNgay | currency : 'VND' : '':'1.0-0'}}/ngày</p>
+          <p>Tầng {{data.ma?.slice(0, 1)}}</p>
+          <div>
+            <button (click)="doiPhong(data.id)" style="width: 98%;margin: 5px;"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span style="width: 100%;"
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Đổi phòng
+                </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleListCheckOut"
+  nzTitle="DANH SÁCH PHÒNG ĐÃ ĐẾN NGÀY CHECK-OUT"
+  (nzOnCancel)="cancelListCheckOutToDay()"
+  (nzOnOk)="cancelListCheckOutToDay()"
+  nzWidth="full"
+  nzFooter=" "
+>
+  <ng-container *nzModalContent>
+    <div *ngIf="listCheckOutToDay.length == 0">
+      <h3 STYLE="text-align: center;font-size: 25px;margin-top: 10px">DANH SÁCH TRỐNG</h3>
+    </div>
+    <div *ngIf="listCheckOutToDay.length > 0">
+      <nz-table #basicTable [nzData]="listCheckOutToDay">
+        <thead>
+        <tr>
+          <th>STT</th>
+          <th>Số phòng</th>
+          <th>Loại phòng</th>
+          <th>Giá phòng</th>
+          <th>Người đặt</th>
+          <th>Ngày đặt</th>
+          <th>Người nhận phòng</th>
+          <th>Số điện thoại</th>
+          <th>Ngày trả phòng</th>
+          <th>Trạng thái</th>
+          <th>Tác vụ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;">
+          <td>{{ i + 1 }}</td>
+          <td>{{ data.tenPhong }}</td>
+          <td>{{ data.tenLoaiPhong }}</td>
+          <td>{{ data.giaPhong | currency:'VND': '':'1.0-0'  }}</td>
+          <td>{{ data.hoTen  }}</td>
+          <td>{{ data.ngayDat | date : 'dd-MM-yyyy hh:mm' }}</td>
+          <td>{{ data.nguoiCheckIn }}</td>
+          <td>{{ data.sdtCheckIn}}</td>
+          <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
+          <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : 'Đã hủy'}}</td>
+          <td class="flex">
+            <button (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)" style="margin-left: 5px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span
+                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Xem
+                </span>
+            </button>
+            <button (click)="xacNhanDatTruoc(data.id)" style="margin-left: 5px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span
+                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Đặt ngay
+                </span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </ng-container>
+
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleXacNhanDatTruoc"
+  nzTitle="THÔNG BÁO"
+  (nzOnCancel)="cancelDatTruoc()"
+  (nzOnOk)="showOrderRoom2()"
+>
+  <ng-container *nzModalContent>
+    <h3>Xác nhận đặt phòng trước cho khách mới?</h3>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleCheckOutMuon"
+  nzTitle="THÔNG BÁO"
+  (nzOnCancel)="cancelCheckOutMuon()"
+  (nzOnOk)="okCheckOutMuon()"
+>
+  <ng-container *nzModalContent>
+    <div style="font-weight: bolder;font-size: 17px;padding: 5px">
+      <h3>(trả phòng muộn 1 tiếng phạt (15% giá phòng một ngày)/h)</h3>
+      <h3>(trả phòng muộn từ tiếng thứ 4 phạt 100% giá phòng 1 ngày)</h3>
+    </div>
+    <div style="font-weight: bolder;font-size: 15px;padding: 5px">
+      <label>Số giờ check-out muộn: </label>
+      <input type="number" id="soGioCheckOut" />
+    </div>
+  </ng-container>
+</nz-modal>
+
 
 <!--<nz-spin [nzSpinning]="isVisibleSpin" nzTip="Loading...">-->
 <!--  <nz-alert-->

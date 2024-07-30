@@ -123,4 +123,23 @@ export class RoomManagerService {
   getListCheckIn(): Observable<any>{
     return this.http.get(`${environment.apiUrl}/thong-tin-nhan-phong/list`);
   }
+
+  doiPhongById(idPhong: any, id: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/doi-phong-by-id`, idPhong, {params});
+  }
+
+  getListCheckOutToday(checkOut: any): Observable<any>{
+    const params = {checkOut};
+    return this.http.get(`${API_AU_URL}/list-check-out-today`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getRoomCheckInToday(id: any, checkIn: any): Observable<any>{
+    const params = {checkIn};
+    return this.http.get(`${API_AU_URL}/get-room-check-in-today`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
 }
