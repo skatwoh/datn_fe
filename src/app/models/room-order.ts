@@ -14,4 +14,5 @@ export class RoomOrder {
   sdt: string | undefined;
   trangThai: number | undefined;
   idHoaDon: number | undefined;
+  thoiGianCheckOut: string | undefined;
 }

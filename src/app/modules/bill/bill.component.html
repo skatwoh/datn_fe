@@ -103,7 +103,7 @@
         </div>
         <div class="flex items-center" *ngIf="data.trangThai == 0">
           <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-          Đã thanh toán
+          Đã thanh toán tiền phòng
         </div>
         <div class="flex items-center" *ngIf="data.trangThai == 2">
           <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
@@ -116,6 +116,10 @@
         <div class="flex items-center" *ngIf="data.trangThai == 4">
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
           Đã hủy
+        </div>
+        <div class="flex items-center" *ngIf="data.trangThai == 5">
+          <div class="h-2.5 w-2.5 rounded-full bg-green-700 mr-2"></div>
+          Hoàn tất thanh toán
         </div>
         <div class="flex items-center" *ngIf="data.trangThai == 6">
           <div class="h-2.5 w-2.5 rounded-full bg-pink-500 mr-2"></div>

@@ -7,6 +7,7 @@ import {HomeService} from "../home/home.service";
 import {RoomModel} from "../../../../models/room.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {NzNotificationPlacement} from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'cons-room-default',
@@ -25,6 +26,7 @@ export class RoomDefaultComponent implements OnInit{
   soNguoi: number = 1;
   soPhong: number = 1;
   listLoaiPhong : RoomTypeModel[] = [];
+  giaPhong: number = 0;
 
   constructor(private http: HttpClient, private homeService: HomeService, private router: Router,
               private route: ActivatedRoute, private mess: NzMessageService) {
@@ -32,12 +34,23 @@ export class RoomDefaultComponent implements OnInit{
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.soPhong = params['soPhong'];
-      this.soNguoi = params['soNguoi'];
-      this.checkIn = params['checkIn'];
-      this.checkOut = params['checkOut'];
-      if(this.checkIn != undefined && this.checkOut != undefined && this.soNguoi != undefined && this.soPhong != undefined){
-        this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
+      if(params['soPhong'] && params['soNguoi'] && params['checkIn'] && params['checkOut'] ){
+        this.soPhong = params['soPhong'];
+        this.soNguoi = params['soNguoi'];
+        this.checkIn = params['checkIn'];
+        this.checkOut = params['checkOut'];
+        if(this.checkIn != undefined && this.checkOut != undefined && this.soNguoi != undefined && this.soPhong != undefined){
+          this.homeService.getListLoaiPhongBySoNguoi(this.soPhong, this.soNguoi, this.checkIn, this.checkOut).subscribe(res=>{
+            this.listLoaiPhong = res;
+          })
+        }
+      }
+      if(!params['soPhong'] && !params['soNguoi'] && !params['checkIn'] && !params['checkOut'] ){
+        this.soPhong = 1;
+        this.soNguoi = 1;
+        this.checkIn = new Date().toISOString().split('T')[0];
+        this.checkOut = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
+        this.homeService.getListLoaiPhongBySoNguoi(1, 1, this.checkIn, this.checkOut).subscribe(res=>{
           this.listLoaiPhong = res;
         })
       }
@@ -82,8 +95,38 @@ export class RoomDefaultComponent implements OnInit{
         this.mess.warning('Ngày nhận và ngày trả không hợp lệ');
         this.hasError = true;
       }
-
     })
+  }
+
+  searchByAll(soPhong: any, soNguoi: any){
+    const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
+    const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
+    if(checkOutElement.value == '' || checkOutElement.value == ''){
+      this.mess.warning(
+        'Vui lòng nhập đầy đủ ngày nhận phòng và ngày trả phòng!'
+      );
+      return;
+    }
+    if(checkOutElement.value < new Date().toISOString().split('T')[0] || checkInElement.value < new Date().toISOString().split('T')[0] ||
+      checkOutElement.value < checkInElement.value || checkOutElement.value == checkInElement.value){
+      this.mess.warning("Ngày nhận và ngày trả không hợp lệ!");
+      return;
+    }
+    // this.isVisible = true;
+    setTimeout( () => {
+      this.homeService.getListLoaiPhongBySoNguoi(soPhong, soNguoi, checkInElement.value, checkOutElement.value).subscribe(res=>{
+        this.listLoaiPhong = res;
+      })
+    }, 500)
+    setTimeout(() => {
+      const queryParams = {
+        soPhong: this.soPhong,
+        soNguoi: this.soNguoi,
+        checkIn: checkInElement.value,
+        checkOut: checkOutElement.value
+      }
+      this.router.navigate(['/room-default'], {queryParams});
+    }, 1000)
   }
 
   handleBlur(): void {

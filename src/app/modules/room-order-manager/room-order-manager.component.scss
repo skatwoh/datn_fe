@@ -25,3 +25,35 @@
   background-color: deepskyblue;
   color: white;
 }
+
+.button-green{
+  border-radius: 8px;
+  border: 1px solid green;
+  font-weight: bolder;
+  color: darkgreen;
+  width: 90px;
+  height: 35px
+}
+
+.button-green:hover {
+  background-color: green;
+  color: white;
+}
+
+.custom-modal-height {
+  height: 1000px; /* Adjust the height as needed (e.g., px, rem) */
+}
+
+.button-blue2{
+  border-radius: 8px;
+  border: 1px solid deepskyblue;
+  font-weight: bolder;
+  color: dodgerblue;
+  width: 120px;
+  height: 35px
+}
+
+.button-blue2:hover {
+  background-color: deepskyblue;
+  color: white;
+}

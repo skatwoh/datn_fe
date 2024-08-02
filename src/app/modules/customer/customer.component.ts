@@ -4,6 +4,8 @@ import { CustomerModel } from './models/customer.model';
 import { CustomerService } from './services/customer.service';
 import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {BillService} from "../bill/bill.service";
+import {RoomOrder} from "../../models/room-order";
 
 @Component({
   selector: 'cons-customer',
@@ -16,10 +18,15 @@ export class CustomerComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
+  roomOrders: RoomOrder[] = [];
+  isVisibleLichSu = false;
 
   // detail
   id: number | undefined;
-  constructor(private customerService: CustomerService, private router: Router, private messageNoti: NzMessageService) { }
+  constructor(private customerService: CustomerService,
+              private router: Router,
+              private messageNoti: NzMessageService,
+              private billService: BillService) { }
 
   private getCustomers(): void {
     this.customerService.getCustomerList(1, 15).subscribe(res => {
@@ -40,7 +47,7 @@ export class CustomerComponent implements OnInit{
 
   handleOk(): void {
     this.isOkLoading = true;
-    this.updateRoom();
+    this.updateCustomer();
     setTimeout(() => {
       this.messageNoti.success('Cập nhật thành công', {
         nzDuration: 5000
@@ -55,7 +62,7 @@ export class CustomerComponent implements OnInit{
     this.isVisible = false;
   }
 
-  updateRoom(): void {
+  updateCustomer(): void {
     this.customerService
       .update(this.currentCustomer.id, this.currentCustomer)
       .subscribe({
@@ -70,6 +77,19 @@ export class CustomerComponent implements OnInit{
         },
         error: (e) => console.error(e)
       });
+  }
+
+  showLichSuDatPhong(id: any){
+    this.isVisibleLichSu = true;
+    this.billService.getDatPhongByKH(1, 10000, id).subscribe(res => {
+      if (res && res.content) {
+        this.roomOrders = res.content;
+      }
+    })
+  }
+
+  cancelLichSu(){
+    this.isVisibleLichSu = false;
   }
 
   ngOnInit() {
