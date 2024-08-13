@@ -25,10 +25,11 @@
     <!--      </span>-->
     <!--      </button>-->
     <!--    </div>-->
-    <div style="float: left">
-      <fieldset class="w-full space-y-1 dark:text-gray-100">
-        <label class="hidden">Search</label>
-        <div class="relative">
+    <div class="flex" style="margin: 10px">
+      <div style="float: left">
+        <fieldset class="w-full space-y-1 dark:text-gray-100">
+          <label class="hidden">Search</label>
+          <div class="relative">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2">
           <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getBillByString()">
             <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
@@ -37,144 +38,209 @@
             </svg>
           </button>
         </span>
-          <input type="search" name="Search" placeholder="Search..." id="searchInput"
-                 class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+            <input type="search" name="Search" placeholder="Search..." id="searchInput"
+                   class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
                  focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
-                 [ngModel]="searchInput"
-                 (ngModelChange)="getBillByString()"
-          >
-        </div>
-      </fieldset>
+                   [ngModel]="searchInput"
+                   (ngModelChange)="getBillByString()"
+            >
+          </div>
+        </fieldset>
+      </div>
+      <div class="flex" style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
+        <label style="font-weight: bolder">Trạng thái hóa đơn: </label>
+        <select id="trangThaiHoaDon" class="select-input" (change)="getBillByString()"
+                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
+        >
+          <option class="option" value="">Tất cả</option>
+          <option class="option" value="0">Đã thanh toán tiền phòng</option>
+          <option class="option" value="1">Chờ thanh toán</option>
+          <option class="option" value="2">Đang xác nhận</option>
+          <option class="option" value="3">Thanh toán sau</option>
+          <option class="option" value="4">Đã hủy</option>
+          <option class="option" value="5">Hoàn tất thanh toán</option>
+          <option class="option" value="6">Xác nhận tiền cọc</option>
+          <option class="option" value="7">Đã đặt cọc</option>
+        </select>
+      </div>
     </div>
   </div>
-  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="bill">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-    <tr>
-      <th scope="col" class="px-6 py-3">
-        STT
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Ngày tạo
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Ngày thanh toán
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Tổng tiền
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Tiền cọc
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Trạng thái
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Khách hàng
-      </th>
-      <th scope="col" class="px-12 py-3">
-        Tác vụ
-      </th>
-      <!--      <th scope="col" class="px-6 py-3">-->
-      <!--      </th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-        *ngFor="let data of tableData.data; let i = index">
-      <td class="px-6 py-4">
-        {{i + 1}}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.ngayTao | date : 'dd-MM-yyyy'}}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.ngayThanhToan | date : 'dd-MM-yyyy' }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.tongTien }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.ghiChu }}
-      </td>
-      <td class="px-6 py-4">
-        <div class="flex items-center" *ngIf="data.trangThai == 1">
-          <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
-          Chờ thanh toán
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 0">
-          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-          Đã thanh toán tiền phòng
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 2">
-          <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
-          Đang xác nhận
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 3">
-          <div class="h-2.5 w-2.5 rounded-full bg-orange-500 mr-2"></div>
-          Thanh toán sau
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 4">
-          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
-          Đã hủy
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 5">
-          <div class="h-2.5 w-2.5 rounded-full bg-green-700 mr-2"></div>
-          Hoàn tất thanh toán
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 6">
-          <div class="h-2.5 w-2.5 rounded-full bg-pink-500 mr-2"></div>
-          Xác nhận tiền cọc
-        </div>
-        <div class="flex items-center" *ngIf="data.trangThai == 7">
-          <div class="h-2.5 w-2.5 rounded-full bg-violet-500 mr-2"></div>
-          Đã đặt cọc
-        </div>
-      </td>
-      <td class="px-6 py-4">
-        {{ data.tenKhachHang }}
-      </td>
-      <td class="px-12 py-4" style="display: flex">
-        <div *ngIf="data.trangThai != 4" class="btn-info">
-          <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+  <div style="margin: 10px">
+    <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="bill">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          STT
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Mã HD
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Ngày tạo
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Ngày thanh toán
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tiền phòng
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tiền dịch vụ
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tiền phạt
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tổng tiền
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Giảm giá
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tổng thanh toán
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Tiền cọc
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Đơn đặt
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Trạng thái
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Khách hàng
+        </th>
+        <th scope="col" class="px-12 py-3">
+          Tác vụ
+        </th>
+        <!--      <th scope="col" class="px-6 py-3">-->
+        <!--      </th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          *ngFor="let data of tableData.data; let i = index">
+        <td class="px-6 py-4">
+          {{i + 1}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ma}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ngayTao | date : 'dd-MM-yyyy'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.ngayThanhToan | date : 'dd-MM-yyyy' }}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienPhong??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienDichVu??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienPhat??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tongTien??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienTichDiem??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienThanhToan??data.tongTien | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tienCoc }}
+        </td>
+        <td class="px-6 py-4">
+          <p *ngIf="data.ghiChu == '1' ">Online</p>
+          <p *ngIf="data.ghiChu != '1' ">Tại quầy</p>
+        </td>
+        <td class="px-6 py-4">
+          <div class="flex items-center" *ngIf="data.trangThai == 1">
+            <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+            Chờ thanh toán
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 0">
+            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+            Đã thanh toán tiền phòng
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 2">
+            <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+            Đang xác nhận
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 3">
+            <div class="h-2.5 w-2.5 rounded-full bg-orange-500 mr-2"></div>
+            Thanh toán sau
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 4">
+            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+            Đã hủy
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 5">
+            <div class="h-2.5 w-2.5 rounded-full bg-green-700 mr-2"></div>
+            Hoàn tất thanh toán
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 6">
+            <div class="h-2.5 w-2.5 rounded-full bg-pink-500 mr-2"></div>
+            Xác nhận tiền cọc
+          </div>
+          <div class="flex items-center" *ngIf="data.trangThai == 7">
+            <div class="h-2.5 w-2.5 rounded-full bg-violet-500 mr-2"></div>
+            Đã đặt cọc
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          {{ data.tenKhachHang }}
+        </td>
+        <td class="px-12 py-4" style="display: flex">
+          <div *ngIf="data.trangThai != 4" class="btn-info">
+            <button *ngIf="data.trangThai != 5" nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
           <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-          </button>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li *ngIf="data.trangThai === 6" (click)="xacNhanTienCoc(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
-                Xác nhận tiền cọc
-              </li>
-              <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3 || data.trangThai === 7" (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
-                Xác nhận thanh toán
-              </li>
-              <li nz-menu-item *ngIf="data.trangThai === 1" (click)="thanhToanSau(data.id)" class="hover:bg-yellow-500">
-                Thanh toán sau
-              </li>
-              <li nz-menu-item *ngIf="data.trangThai != 4" (click)="huyHoaDon(data.id)" class="hover:bg-red-500">
-                Hủy
-              </li>
-            </ul>
-          </nz-dropdown-menu>
-        </div>
-        <div class="btn-info ml-3" (click)="showChiTiet(data.id)">
-          <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
-        </div>
-        <div *ngIf="data.trangThai === 0" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
-          <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
-               height="25" fill="currentColor"
-               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-                  fill="blue"></path>
-            <path fill-rule="evenodd"
-                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-                  fill="blue"></path>
-          </svg>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </nz-table>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li *ngIf="data.trangThai === 6" (click)="xacNhanTienCoc(data.id , data.idKhachHang)" nz-menu-item
+                    class="hover:bg-blue-400">
+                  Xác nhận tiền cọc
+                </li>
+                <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3 || data.trangThai === 7"
+                    (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
+                  Xác nhận thanh toán
+                </li>
+                <li nz-menu-item *ngIf="data.trangThai === 1" (click)="thanhToanSau(data.id)"
+                    class="hover:bg-yellow-500">
+                  Thanh toán sau
+                </li>
+                <li nz-menu-item *ngIf="data.trangThai != 4 && data.trangThai != 5" (click)="huyHoaDon(data.id)" class="hover:bg-red-500">
+                  Hủy
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+          <div class="btn-info ml-3" (click)="showChiTiet(data.id)">
+            <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
+          </div>
+          <div *ngIf="data.trangThai === 5" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
+            <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
+                 height="25" fill="currentColor"
+                 class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                    fill="blue"></path>
+              <path fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                    fill="blue"></path>
+            </svg>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>
 <nz-modal
   [(nzVisible)]="isVisible"
@@ -339,14 +405,15 @@
                 </ul>
               </nz-dropdown-menu>
             </div>
-<!--            <div style="margin-left: 3px">-->
-<!--              <button nz-button style="margin-left: 3px" nz-tooltip nzTooltipTitle="Thông tin dịch vụ"-->
-<!--                      (click)="showModalChiTietDichVu(data.id)">-->
-<!--                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"-->
-<!--                      nz-icon nzType="infor-circle" nzTheme="outline" style="font-size: 24px"></span>-->
-<!--              </button>-->
-<!--            </div>-->
-            <div class="btn-info ml-3" (click)="showModalChiTietDichVu(data.id)" nz-tooltip nzTooltipTitle="Thông tin dịch vụ">
+            <!--            <div style="margin-left: 3px">-->
+            <!--              <button nz-button style="margin-left: 3px" nz-tooltip nzTooltipTitle="Thông tin dịch vụ"-->
+            <!--                      (click)="showModalChiTietDichVu(data.id)">-->
+            <!--                <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"-->
+            <!--                      nz-icon nzType="infor-circle" nzTheme="outline" style="font-size: 24px"></span>-->
+            <!--              </button>-->
+            <!--            </div>-->
+            <div class="btn-info ml-3" (click)="showModalChiTietDichVu(data.id)" nz-tooltip
+                 nzTooltipTitle="Thông tin dịch vụ">
               <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
             </div>
           </td>
@@ -485,12 +552,12 @@
         </tbody>
       </nz-table>
       <div style="margin-top: 10px;" *ngIf="detailsService.length > 0">
-<!--        <button-->
-<!--                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"-->
-<!--                (click)="generatePDFDichVu(idDP)"-->
-<!--        >-->
-<!--          Thanh toán dịch vụ-->
-<!--        </button>-->
+        <!--        <button-->
+        <!--                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"-->
+        <!--                (click)="generatePDFDichVu(idDP)"-->
+        <!--        >-->
+        <!--          Thanh toán dịch vụ-->
+        <!--        </button>-->
         <button
           class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
           (click)="generatePDFDichVu(idDP)"
@@ -511,29 +578,29 @@
 >
   <ng-container *nzModalContent>
     <div class="flex">
-    <div style="width: 350px;font-size: 18px;border: 1px solid grey;border-radius: 5px">
-      <nz-checkbox-wrapper>
-        <div style="margin: 5px" *ngFor="let data of roomservice">
-          <label nz-checkbox [nzValue]="data.id" (change)="addListDichVu(data.id, $event, data.giaDichVu)">
-            {{ data.tenDichVu }} - {{ data.giaDichVu }}VNĐ
-          </label>
-          <input
-            type="number"
-            min="1"
-            placeholder="Số lượng"
-            [id]="data.id"
-            [ngModel]="1"
-            (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)"
+      <div style="width: 350px;font-size: 18px;border: 1px solid grey;border-radius: 5px">
+        <nz-checkbox-wrapper>
+          <div style="margin: 5px" *ngFor="let data of roomservice">
+            <label nz-checkbox [nzValue]="data.id" (change)="addListDichVu(data.id, $event, data.giaDichVu)">
+              {{ data.tenDichVu }} - {{ data.giaDichVu }}VNĐ
+            </label>
+            <input
+              type="number"
+              min="1"
+              placeholder="Số lượng"
+              [id]="data.id"
+              [ngModel]="1"
+              (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)"
 
-          />
-        </div>
-      </nz-checkbox-wrapper>
+            />
+          </div>
+        </nz-checkbox-wrapper>
 
-    </div>
+      </div>
       <div style="width: 380px;font-size: 18px;border: 1px solid grey;border-radius: 5px;margin-left: 10px">
         <div style="margin-left: 20px">
-        <label style="font-size: 25px;font-weight: bold;margin-top: 10px">Tổng thanh toán:</label><br>
-        <p style="font-size: 25px;font-weight: bold">{{ tongTienDichVu | currency:'VND': '':'1.0-0' }}VND</p>
+          <label style="font-size: 25px;font-weight: bold;margin-top: 10px">Tổng thanh toán:</label><br>
+          <p style="font-size: 25px;font-weight: bold">{{ tongTienDichVu | currency:'VND': '':'1.0-0' }}VND</p>
         </div>
       </div>
     </div>

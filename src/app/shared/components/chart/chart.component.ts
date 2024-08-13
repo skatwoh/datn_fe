@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import * as ApexCharts from 'apexcharts';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
+import {RoomManagerService} from "../../../modules/room-manager/services/room-manager.service";
+import {MonthlyBooking} from "../../../models/monthly-bookings";
 
 @Component({
   selector: 'cons-chart',
@@ -9,38 +13,45 @@ import * as ApexCharts from 'apexcharts';
   standalone: true,
   imports: [CommonModule],
 })
+
 export class ChartComponent implements OnInit{
-  constructor() { }
+  constructor(private bookingService: RoomManagerService) {}
 
   ngOnInit(): void {
-    this.renderChart();
+    this.bookingService.getMonthlyBookings().subscribe((data: MonthlyBooking[]) => {
+      const categories = data.map((item) => `${item.month}/${item.year}`);
+      const seriesData = data.map((item) => item.total);
+      this.renderChart(categories, seriesData);
+      console.log(categories, "categories")
+      console.log(seriesData, "seriesData")
+    });
   }
 
-  renderChart(): void {
+  renderChart(categories: string[], seriesData: number[]): void {
     const chartConfig = {
       series: [
         {
-          name: "Sales",
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          name: 'Bookings',
+          data: seriesData,
         },
       ],
       chart: {
-        type: "line",
+        type: 'line',
         height: 240,
         toolbar: {
           show: false,
         },
       },
       title: {
-        show: "",
+        show: '',
       },
       dataLabels: {
         enabled: false,
       },
-      colors: ["#ff1871"],
+      colors: ['#ff1871'],
       stroke: {
-        lineCap: "round",
-        curve: "smooth",
+        lineCap: 'round',
+        curve: 'smooth',
       },
       markers: {
         size: 0,
@@ -54,37 +65,27 @@ export class ChartComponent implements OnInit{
         },
         labels: {
           style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
+            colors: '#616161',
+            fontSize: '12px',
+            fontFamily: 'inherit',
             fontWeight: 400,
           },
         },
-        categories: [
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
-        ],
+        categories: categories,
       },
       yaxis: {
         labels: {
           style: {
-            colors: "#616161",
-            fontSize: "12px",
-            fontFamily: "inherit",
+            colors: '#616161',
+            fontSize: '12px',
+            fontFamily: 'inherit',
             fontWeight: 400,
           },
         },
       },
       grid: {
         show: true,
-        borderColor: "#dddddd",
+        borderColor: '#dddddd',
         strokeDashArray: 5,
         xaxis: {
           lines: {
@@ -100,11 +101,14 @@ export class ChartComponent implements OnInit{
         opacity: 0.8,
       },
       tooltip: {
-        theme: "light",
+        theme: 'light',
       },
     };
 
-    const chart = new ApexCharts(document.querySelector("#line-chart-container"), chartConfig);
+    const chart = new ApexCharts(
+      document.querySelector('#line-chart-container'),
+      chartConfig
+    );
     chart.render();
   }
 }

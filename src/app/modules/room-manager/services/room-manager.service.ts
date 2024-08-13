@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {RoomOrder} from "../../../models/room-order";
+import {MonthlyBooking} from "../../../models/monthly-bookings";
 
 const API_AU_URL = `${environment.apiUrl}/dat-phong`;
 const API_CUS = `${environment.apiUrl}/khach-hang`;
@@ -137,9 +138,13 @@ export class RoomManagerService {
   }
 
   getRoomCheckInToday(id: any, checkIn: any): Observable<any>{
-    const params = {checkIn};
+    const params = {id, checkIn};
     return this.http.get(`${API_AU_URL}/get-room-check-in-today`, {params}).pipe(map(res => {
       return res;
     }));
+  }
+
+  getMonthlyBookings(): Observable<any> {
+    return this.http.get<MonthlyBooking[]>(`${API_AU_URL}/monthly-bookings`)
   }
 }

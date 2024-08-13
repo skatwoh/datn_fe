@@ -85,4 +85,39 @@ export class ServiceService {
     const params = {checkIn, checkOut};
     return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat`, {params});
   }
+
+  getSoPhongDaDatByToDay(year: any, month: any, day: any){
+    const params = {year, month, day};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat-by-day`, {params});
+  }
+
+  getSoPhongDaDatByMonth(year: any, month: any){
+    const params = {year, month};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat-by-month`, {params});
+  }
+
+  getSoPhongDaDatByYear(year: any){
+    const params = {year};
+    return this.http.get<any>(`${environment.apiUrl}/dat-phong/so-phong-da-dat-by-year`, {params});
+  }
+
+  getCountChiTietDichVu(checkIn: string, checkOut: string){
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/chi-tiet-dich-vu/get-count`, {params});
+  }
+
+  getCountDichVuByToDay(year: any, month: any, day: any){
+    const params = {year, month, day};
+    return this.http.get<any>(`${environment.apiUrl}/chi-tiet-dich-vu/get-count-by-day`, {params});
+  }
+
+  getCountDichVuByMonth(year: any, month: any){
+    const params = {year, month};
+    return this.http.get<any>(`${environment.apiUrl}/chi-tiet-dich-vu/get-count-by-month`, {params});
+  }
+
+  getCountDichVuByYear(year: any){
+    const params = {year};
+    return this.http.get<any>(`${environment.apiUrl}/chi-tiet-dich-vu/get-count-by-year`, {params});
+  }
 }

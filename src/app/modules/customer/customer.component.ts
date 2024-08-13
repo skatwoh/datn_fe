@@ -7,6 +7,13 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {BillService} from "../bill/bill.service";
 import {RoomOrder} from "../../models/room-order";
 
+interface DataItem {
+  name: string;
+  chinese: number;
+  math: number;
+  english: number;
+}
+
 @Component({
   selector: 'cons-customer',
   templateUrl: './customer.component.html',
@@ -20,9 +27,73 @@ export class CustomerComponent implements OnInit{
   isOkLoading = false;
   roomOrders: RoomOrder[] = [];
   isVisibleLichSu = false;
+  searchInput: string = "";
 
   // detail
   id: number | undefined;
+
+  listOfColumn = [
+    {
+      title: 'Name',
+      compare: (a: DataItem, b: DataItem) => a.name.localeCompare(b.name),
+      priority: false
+    },
+    {
+      title: 'Chinese Score',
+      compare: (a: DataItem, b: DataItem) => a.chinese - b.chinese,
+      priority: 3
+    },
+    {
+      title: 'Math Score',
+      compare: (a: DataItem, b: DataItem) => a.math - b.math,
+      priority: 2
+    },
+    {
+      title: 'English Score',
+      compare: (a: DataItem, b: DataItem) => a.english - b.english,
+      priority: 1
+    }
+  ];
+
+  listOfColumn2 = [
+    {
+      title: 'ID',
+      compare: (a: CustomerModel, b: CustomerModel) => a.id.localeCompare(b.id),
+      priority: false
+    },
+    {
+      title: 'Mã',
+      compare: (a: CustomerModel, b: CustomerModel) => a.ma.localeCompare(b.ma),
+      priority: 6
+    },
+    {
+      title: 'Tên',
+      compare: (a: CustomerModel, b: CustomerModel) => a.hoTen.localeCompare(b.hoTen),
+      priority: 5
+    },
+    {
+      title: 'Số CCCD',
+      compare: (a: CustomerModel, b: CustomerModel) => a.cccd.localeCompare(b.cccd),
+      priority: 4
+    },
+    {
+      title: 'Ngày sinh',
+      compare: (a: CustomerModel, b: CustomerModel) => String(a.ngaySinh).localeCompare(String(b.ngaySinh)),
+      priority: 3
+    },
+    {
+      title: 'Số điện thoại',
+      compare: (a: CustomerModel, b: CustomerModel) => a.sdt.localeCompare(b.sdt),
+      priority: 2
+    },
+    {
+      title: 'Tích điểm',
+      compare: (a: CustomerModel, b: CustomerModel) => Number.parseInt(a.ghiChu) - Number.parseInt(b.ghiChu),
+      priority: 1
+    }
+  ]
+
+
   constructor(private customerService: CustomerService,
               private router: Router,
               private messageNoti: NzMessageService,
@@ -33,6 +104,20 @@ export class CustomerComponent implements OnInit{
       if (res && res.content) {
         this.customer= res.content;
       }
+    })
+  }
+
+  getListKHByString(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.customerService.getListKHBySearch(1, 50, this.searchInput).subscribe(res => {
+      const queryParams = {
+        searchInput: this.searchInput
+      };
+      if (res && res.content) {
+        this.customer = res.content;
+      }
+      // this.router.navigate(['/room'], { queryParams });
     })
   }
 
