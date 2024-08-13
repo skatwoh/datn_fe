@@ -100,9 +100,13 @@ export class BillComponent implements OnInit {
     }
 
     xacNhanTienCoc(id: any, idKhachHang: any) {
-        this.billService.get(id).subscribe((data: BillModel) => {
+        this.billService.get(id).subscribe((data: any) => {
             this.currentBill = data;
-            console.log(this.currentBill);
+          this.billService.updateTienCoc(id, data.tongTien*0.5).subscribe({
+            next: (res) => {
+              this.currentBill.tienCoc = data.tongTien*0.5;
+            },
+          })
         });
         this.billService.updateStatus(id, 7).subscribe({
             next: (res) => {
@@ -111,6 +115,19 @@ export class BillComponent implements OnInit {
                 console.log(res);
             },
         })
+
+        this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
+            if (res && res.content) {
+                this.roomOrder = res.content;
+            }
+        })
+        setTimeout(() =>{
+          for (let x = 0;x < this.roomOrder.length;x++){
+            this.billService.updateStatusRoomOrder(this.roomOrder[x].id, 1).subscribe( res => {
+              console.log(res);
+            })
+          }
+        }, 300)
     }
 
     updateStatusRoomOrder(id: any, trangThai: any) {
@@ -179,13 +196,15 @@ export class BillComponent implements OnInit {
         });
         this.http.get(`rpc/bds/hoa-don/generate-hoa-don?id=${id}`, {headers: headers, responseType: 'blob'})
             .subscribe(response => {
+              this.billService.get(id).subscribe(res => {
                 const blob = new Blob([response], {type: 'application/pdf'});
                 const url = window.URL.createObjectURL(blob);
                 window.open(url);
                 const downloadLink = document.createElement('a');
                 downloadLink.href = url;
-                downloadLink.download = 'hoa_don_dat_phong.pdf';
+                downloadLink.download = 'hoa_don_dat_phong_' + res.ma + '.pdf';
                 downloadLink.click();
+                })
             });
     }
 
@@ -215,15 +234,15 @@ export class BillComponent implements OnInit {
     getBillByString(): void {
         const inputElement = document.getElementById('searchInput') as HTMLInputElement;
         this.searchInput = inputElement.value;
-        this.billService.getBillsBySearch(1, 50, this.searchInput).subscribe(res => {
+          this.billService.getBillsBySearch(1, 50, this.searchInput, (document.getElementById('trangThaiHoaDon') as HTMLInputElement).value).subscribe(res => {
             const queryParams = {
-                searchInput: this.searchInput
+              searchInput: this.searchInput
             };
             if (res && res.content) {
-                this.bill = res.content;
+              this.bill = res.content;
             }
             // this.router.navigate(['/room'], { queryParams });
-        })
+          })
     }
 
     showModalChiTietDichVu(id: any) {
@@ -237,13 +256,21 @@ export class BillComponent implements OnInit {
     }
 
     showModalDichVu(id: any) {
-        this.isVisibleDichVu = true;
-        this.idDP = id;
-        this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
-            if (res && res.content) {
-                this.roomservice = res.content;
+      this.roomOrderService.get(id).subscribe(res => {
+        if(res.trangThai === 3){
+          this.message.warning('Phòng đã trả không thể thêm dịch vụ')
+          return;
+        }else if(res.trangThai !== 3){
+          this.isVisibleDichVu = true;
+          this.idDP = id;
+          this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res2 => {
+            if (res2 && res2.content) {
+              this.roomservice = res2.content;
             }
-        })
+          })
+        }
+      })
+
         // setTimeout(() =>{
         //   for(let x = 0;x<=this.roomservice.length;x++){
         //     this.inputSoLuong.push(this.roomservice[x].id);
@@ -313,9 +340,9 @@ export class BillComponent implements OnInit {
                 console.log(res)
             })
         }
-        this.billService.tinhTienDichVu(this.idHD, this.tongTienDichVu).subscribe((res: any) => {
-            console.log(res)
-        })
+        // this.billService.tinhTienDichVu(this.idHD, this.tongTienDichVu).subscribe((res: any) => {
+        //     console.log(res)
+        // })
         this.dataList = [];
         this.successMessage();
         this.isVisibleDichVu = false;
@@ -333,6 +360,50 @@ export class BillComponent implements OnInit {
 
     successMessage(): void {
         this.message.success('Thêm thành công');
+    }
+
+    generatePDFDichVu(id: any) {
+        this.roomOrderService.get(id).subscribe(res => {
+          this.roomOrderModel = res;
+        })
+      setTimeout(() =>{
+        if(this.roomOrderModel.trangThai !== 3){
+          this.message.warning('Chỉ được xuất hóa đơn sau khi đã trả phòng!');
+          return;
+        }
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/pdf',
+          'Charset': 'UTF-8'
+        });
+        this.http.get(`rpc/bds/chi-tiet-dich-vu/generate-hoa-don-dich-vu?id=${id}`, {headers: headers, responseType: 'blob'})
+          .subscribe(response => {
+            const blob = new Blob([response], {type: 'application/pdf'});
+            const url = window.URL.createObjectURL(blob);
+            window.open(url);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = 'hoa_don_dich_vu.pdf';
+            downloadLink.click();
+          });
+      }, 300)
+
+    }
+
+    huyDichVu(id: any){
+      this.billService.huyDichVu(id).subscribe({
+        next: (res) => {
+          this.message.success("Xóa dịch vụ thành công");
+          this.isVisibleChiTietDichVu = false;
+        },
+      })
+      setTimeout(() => {
+        this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDP).subscribe(res => {
+          if (res && res.content) {
+            this.detailsService = res.content;
+          }
+        })
+        this.isVisibleChiTietDichVu = true;
+      }, 1000)
     }
 
   protected readonly Number = Number;

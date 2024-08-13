@@ -163,34 +163,44 @@
     </cons-chart>
   </div>
   <div style="float: left;margin-left: 10px;margin-top: 10px">
-    <div>
+    <div class="flex">
+      <div>
       Từ ngày :
-      <input style="width: 200px" type="date" placeholder="Ngày bắt đầu" [(ngModel)]="checkInDate" id="checkIn"
-             class="px-3 py-2 border rounded-md font-medium text-sm" (ngModelChange)="getDoanhThuByDay()">
+      <input style="width: 200px" type="date" id="checkIn"
+             class="px-3 py-2 border rounded-md font-medium text-sm">
       đến :
-      <input style="width: 200px" type="date" placeholder="Ngày kết thúc" [(ngModel)]="checkOutDate" id="checkOut"
-             class="px-3 py-2 border rounded-md font-medium text-sm" (ngModelChange)="getDoanhThuByDay()">
+      <input style="width: 200px" type="date" id="checkOut"
+             class="px-3 py-2 border rounded-md font-medium text-sm">
+      </div>
+      <button (click)="getDoanhThuByDay()" style="margin-left: 30px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
+      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span
+                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Lọc
+                </span>
+      </button>
     </div>
 
     <div style="margin: 10px;border: 2px solid lightgray;border-radius: 5px" class="flex">
       <div style="margin-left: 10px;">
         <label> Năm: </label>
         <select id="year" style="border-radius: 5px;border: 1px solid deepskyblue;width: 100px;margin: 10px;height: 30px" (change)="getDayByMonthAndYear()">
-          <option hidden="hidden" selected>Chọn năm</option>
+          <option value="" hidden="hidden" selected>Chọn năm</option>
           <option *ngFor="let data of yearSelect" value="{{data}}">{{data}}</option>
         </select>
       </div>
       <div style="margin-left: 10px;">
         <label> Tháng: </label>
         <select id="month" style="border-radius: 5px;border: 1px solid deepskyblue;width: 100px;margin: 10px;height: 30px" (change)="getDayByMonthAndYear()">
-          <option hidden="hidden" selected>Chọn tháng</option>
+          <option value="" hidden="hidden" selected>Chọn tháng</option>
           <option *ngFor="let data of monthSelect" value="{{data}}">{{data}}</option>
         </select>
       </div>
       <div style="margin-left: 10px;">
         <label> Ngày: </label>
         <select id="day" style="border-radius: 5px;border: 1px solid deepskyblue;width: 100px;margin: 10px;height: 30px" (change)="getDayByMonthAndYear()">
-          <option hidden="hidden" selected>Chọn ngày</option>
+          <option value="" hidden="hidden" selected>Chọn ngày</option>
           <option *ngFor="let data of daySelect" value="{{data}}">{{data}}</option>
         </select>
       </div>
@@ -219,7 +229,7 @@
          class="flex items-start p-3 rounded-xl shadow-lg bg-white">
       <div style="width: 370px" class="ml-4 p-4 rounded-xl shadow-lg bg-white">
         <h2 class="font-semibold">Số dịch vụ sử dụng</h2>
-        <p class="mt-2 text-sm text-gray-500">999+</p>
+        <p class="mt-2 text-sm text-gray-500">{{tongSoDichVu}}</p>
       </div>
       <div class="ml-4 p-4 rounded-xl shadow-lg bg-white" style="width: 370px;margin-left: 20px">
         <h2 class="font-semibold">Phòng được sử dụng nhiều nhất</h2>

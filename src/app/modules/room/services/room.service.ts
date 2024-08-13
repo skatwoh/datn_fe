@@ -87,9 +87,33 @@ export class RoomService{
     }));
   }
 
+  getRoomMapping(checkIn: any, checkOut: any): Observable<any> {
+    const params = {checkIn, checkOut};
+    return this.http.get<any>(`${API_AU_URL}/list-mapper`, {params}).pipe(map(res => {
+      return res;
+    }))
+  }
+
   // singleListRoomType() {
   //   this.http.get<any>(`${API_AU_URL}`).subscribe(data => {
   //     this.roomType = data; // Gán dữ liệu lấy được vào biến roomType
   //   });
   // }
+
+  getOneMapping(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/get-by-id`, {params});
+  }
+
+  getSoLanDatPhong(id: any, checkIn: any, checkOut: any): Observable<any> {
+    const params = { id, checkIn, checkOut };
+    return this.http.get<any>(`${API_AU_URL}/get-so-lan-dat-phong`, { params })
+  }
+
+  getListDoiPhong(tenLoaiPhong: any, id: any, checkIn: any, checkOut: any): Observable<any> {
+    const params = {tenLoaiPhong, id, checkIn, checkOut};
+    return this.http.get<any>(`${API_AU_URL}/list-doi-phong`, {params}).pipe(map(res => {
+      return res;
+    }))
+  }
 }

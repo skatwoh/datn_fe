@@ -10,6 +10,7 @@ import {AccountModel} from "../account/models/account.model";
 import {AccountService} from "../account/services/account.service";
 import {CommentService} from "../../web/index/comment/comment.service";
 import * as moment from "moment/moment";
+import {NzMessageService} from "ng-zorro-antd/message";
 
 
 @Component({
@@ -34,8 +35,12 @@ export class WelcomeComponent implements OnInit {
   yearNumber: string = '';
   monthNumber: string = '';
   luaChon: string = '';
+  tongSoDichVu: number = 0;
+
   constructor(private roomService: RoomService, private router: Router, private roomOrderService: RoomManagerService,
-              private service: ServiceService, private accountService: AccountService, private commentService: CommentService ) { }
+              private service: ServiceService, private accountService: AccountService, private commentService: CommentService,
+              private mess: NzMessageService) {
+  }
 
   getRooms() {
     return this.roomService.getRoomList(1, 50);
@@ -83,6 +88,9 @@ export class WelcomeComponent implements OnInit {
     this.addYearSelect();
     this.addMonthSelect();
     this.getDayByMonthAndYear();
+    this.service.getCountDichVuByYear(2024).subscribe(res => {
+      this.tongSoDichVu = res.body;
+    })
   }
 
   getVisitCount() {
@@ -103,72 +111,102 @@ export class WelcomeComponent implements OnInit {
     return count;
   }
 
-  getDoanhThuByDay() : void{
-    if (this.checkOutDate !== '' && this.checkInDate !== '') {
-      this.service.getDoanhThuByTime(this.checkInDate, this.checkOutDate).subscribe(res => {
+  getDoanhThuByDay(): void {
+
+    console.log((document.getElementById('checkIn') as HTMLInputElement).value);
+    if ((document.getElementById('checkIn') as HTMLInputElement).value !== '' && (document.getElementById('checkOut') as HTMLInputElement).value !== '') {
+      if((document.getElementById('checkIn') as HTMLInputElement).value > (document.getElementById('checkOut') as HTMLInputElement).value){
+        this.mess.warning('Khoảng thời gian không hợp lệ');
+        return;
+      }
+      this.service.getDoanhThuByTime((document.getElementById('checkIn') as HTMLInputElement).value,
+        (document.getElementById('checkOut') as HTMLInputElement).value).subscribe(res => {
         this.tongDoanhThu = res.body;
       });
     }
     this.getSoPhongDaDat();
   }
-  getSoPhongDaDat() : void{
-    if (this.checkOutDate !== '' && this.checkInDate !== '') {
-      this.service.getSoPhongDaDat(this.checkInDate, this.checkOutDate).subscribe(res => {
+
+  getSoPhongDaDat(): void {
+    if ((document.getElementById('checkIn') as HTMLInputElement).value !== '' && (document.getElementById('checkOut') as HTMLInputElement).value !== '') {
+      this.service.getSoPhongDaDat((document.getElementById('checkIn') as HTMLInputElement).value,
+        (document.getElementById('checkOut') as HTMLInputElement).value).subscribe(res => {
         this.tongSoPhong = res.body;
+      });
+      this.service.getCountChiTietDichVu((document.getElementById('checkIn') as HTMLInputElement).value,
+        (document.getElementById('checkOut') as HTMLInputElement).value).subscribe(res => {
+        this.tongSoDichVu = res.body;
       });
     }
   }
 
-  addYearSelect(){
-    for (var x = 2023;x <= 2030;x++){
+  addYearSelect() {
+    for (var x = 2024; x <= 2030; x++) {
       this.yearSelect.push(x);
     }
   }
 
-  addMonthSelect(){
-    for (var x = 1;x <= 12;x++){
+  addMonthSelect() {
+    for (var x = 1; x <= 12; x++) {
       this.monthSelect.push(x);
     }
   }
 
-  getDayByMonthAndYear(){
+  getDayByMonthAndYear() {
     const yearInput = document.getElementById('year') as HTMLInputElement;
     const monthInput = document.getElementById('month') as HTMLInputElement;
     this.yearNumber = yearInput.value;
     this.monthNumber = monthInput.value;
     let date = new Date(Number(this.yearNumber), Number(this.monthNumber), 1);
-    let date2 = moment({ year: Number(this.yearNumber), month: Number(this.monthNumber) - 1 });
+    let date2 = moment({year: Number(this.yearNumber), month: Number(this.monthNumber) - 1});
     let daysInMonth = date2.daysInMonth();
     this.daySelect = [];
-    for (let x = 1;x <= daysInMonth;x++){
+    for (let x = 1; x <= daysInMonth; x++) {
       this.daySelect.push(x);
     }
     this.getDoanhThuByYear();
     console.log(daysInMonth);
   }
 
-  getDoanhThuByYear() : void{
+  getDoanhThuByYear(): void {
+    (document.getElementById('checkIn') as HTMLInputElement).value = '';
+    (document.getElementById('checkOut') as HTMLInputElement).value = '';
     const luaChon = document.getElementById('luaChon') as HTMLInputElement;
     const yearSl = document.getElementById('year') as HTMLInputElement;
     const monthSl = document.getElementById('month') as HTMLInputElement;
     const daySl = document.getElementById('day') as HTMLInputElement;
     this.luaChon = luaChon.value;
-    if(this.luaChon == '1' && (yearSl.value !== null && yearSl.value !== '')){
+    if (this.luaChon == '1' && (yearSl.value !== null && yearSl.value !== '')) {
       this.service.getDoanhThuByYear(yearSl.value).subscribe(res => {
         this.tongDoanhThu = res.body;
       })
-    }
-    else if(this.luaChon == '2' && yearSl.value !== null && yearSl.value !== '' && monthSl.value !== null && yearSl.value !== ''){
+      this.service.getSoPhongDaDatByYear(yearSl.value).subscribe(res => {
+        this.tongSoPhong = res.body;
+      })
+      this.service.getCountDichVuByYear(yearSl.value).subscribe(res => {
+        this.tongSoDichVu = res.body;
+      })
+    } else if (this.luaChon == '2' && yearSl.value !== null && yearSl.value !== '' && monthSl.value !== null && yearSl.value !== '') {
       this.service.getDoanhThuByMonth(yearSl.value, monthSl.value).subscribe(res => {
         this.tongDoanhThu = res.body;
       })
-    }
-    else if(this.luaChon == '3' && yearSl.value !== null && yearSl.value !== ''
-      && monthSl.value !== null && yearSl.value !== '' && daySl.value !== null && daySl.value !== ''){
+      this.service.getSoPhongDaDatByMonth(yearSl.value, monthSl.value).subscribe(res => {
+        this.tongSoPhong = res.body;
+      })
+      this.service.getCountDichVuByMonth(yearSl.value, monthSl.value).subscribe(res => {
+        this.tongSoDichVu = res.body;
+      })
+    } else if (this.luaChon == '3' && yearSl.value !== null && yearSl.value !== ''
+      && monthSl.value !== null && yearSl.value !== '' && daySl.value !== null && daySl.value !== '') {
       this.service.getDoanhThuByDay(yearSl.value, monthSl.value, daySl.value).subscribe(res => {
         this.tongDoanhThu = res.body;
       })
+      this.service.getSoPhongDaDatByToDay(yearSl.value, monthSl.value, daySl.value).subscribe(res => {
+        this.tongSoPhong = res.body;
+      })
+      this.service.getCountDichVuByToDay(yearSl.value, monthSl.value, daySl.value).subscribe(res => {
+        this.tongSoDichVu = res.body;
+      })
     }
-    this.getSoPhongDaDat();
   }
 }

@@ -24,6 +24,9 @@ export class RoomTypeComponent implements OnInit{
               private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       tenLoaiPhong: [''],
+      soNguoi: [0],
+      tienIch: [''],
+      giaTheoNgay: [0],
       ghiChu: ['']
     })
   }

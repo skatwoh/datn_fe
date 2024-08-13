@@ -23,6 +23,12 @@
           <input nz-input type="number" id="giaDichVu" name="giaDichVu" [(ngModel)]="roomservice.giaDichVu"/>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Số lượng </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
+          <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="roomservice.soLuong"/>
+        </nz-form-control>
+      </nz-form-item>
       <br>
       <nz-form-item>
         <nz-form-control>

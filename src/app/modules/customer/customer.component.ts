@@ -4,6 +4,15 @@ import { CustomerModel } from './models/customer.model';
 import { CustomerService } from './services/customer.service';
 import {RoomModel} from "../../models/room.model";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {BillService} from "../bill/bill.service";
+import {RoomOrder} from "../../models/room-order";
+
+interface DataItem {
+  name: string;
+  chinese: number;
+  math: number;
+  english: number;
+}
 
 @Component({
   selector: 'cons-customer',
@@ -16,16 +25,99 @@ export class CustomerComponent implements OnInit{
   message ='';
   isVisible = false;
   isOkLoading = false;
+  roomOrders: RoomOrder[] = [];
+  isVisibleLichSu = false;
+  searchInput: string = "";
 
   // detail
   id: number | undefined;
-  constructor(private customerService: CustomerService, private router: Router, private messageNoti: NzMessageService) { }
+
+  listOfColumn = [
+    {
+      title: 'Name',
+      compare: (a: DataItem, b: DataItem) => a.name.localeCompare(b.name),
+      priority: false
+    },
+    {
+      title: 'Chinese Score',
+      compare: (a: DataItem, b: DataItem) => a.chinese - b.chinese,
+      priority: 3
+    },
+    {
+      title: 'Math Score',
+      compare: (a: DataItem, b: DataItem) => a.math - b.math,
+      priority: 2
+    },
+    {
+      title: 'English Score',
+      compare: (a: DataItem, b: DataItem) => a.english - b.english,
+      priority: 1
+    }
+  ];
+
+  listOfColumn2 = [
+    {
+      title: 'ID',
+      compare: (a: CustomerModel, b: CustomerModel) => a.id.localeCompare(b.id),
+      priority: false
+    },
+    {
+      title: 'Mã',
+      compare: (a: CustomerModel, b: CustomerModel) => a.ma.localeCompare(b.ma),
+      priority: 6
+    },
+    {
+      title: 'Tên',
+      compare: (a: CustomerModel, b: CustomerModel) => a.hoTen.localeCompare(b.hoTen),
+      priority: 5
+    },
+    {
+      title: 'Số CCCD',
+      compare: (a: CustomerModel, b: CustomerModel) => a.cccd.localeCompare(b.cccd),
+      priority: 4
+    },
+    {
+      title: 'Ngày sinh',
+      compare: (a: CustomerModel, b: CustomerModel) => String(a.ngaySinh).localeCompare(String(b.ngaySinh)),
+      priority: 3
+    },
+    {
+      title: 'Số điện thoại',
+      compare: (a: CustomerModel, b: CustomerModel) => a.sdt.localeCompare(b.sdt),
+      priority: 2
+    },
+    {
+      title: 'Tích điểm',
+      compare: (a: CustomerModel, b: CustomerModel) => Number.parseInt(a.ghiChu) - Number.parseInt(b.ghiChu),
+      priority: 1
+    }
+  ]
+
+
+  constructor(private customerService: CustomerService,
+              private router: Router,
+              private messageNoti: NzMessageService,
+              private billService: BillService) { }
 
   private getCustomers(): void {
     this.customerService.getCustomerList(1, 15).subscribe(res => {
       if (res && res.content) {
         this.customer= res.content;
       }
+    })
+  }
+
+  getListKHByString(): void {
+    const inputElement = document.getElementById('searchInput') as HTMLInputElement;
+    this.searchInput = inputElement.value;
+    this.customerService.getListKHBySearch(1, 50, this.searchInput).subscribe(res => {
+      const queryParams = {
+        searchInput: this.searchInput
+      };
+      if (res && res.content) {
+        this.customer = res.content;
+      }
+      // this.router.navigate(['/room'], { queryParams });
     })
   }
 
@@ -40,7 +132,7 @@ export class CustomerComponent implements OnInit{
 
   handleOk(): void {
     this.isOkLoading = true;
-    this.updateRoom();
+    this.updateCustomer();
     setTimeout(() => {
       this.messageNoti.success('Cập nhật thành công', {
         nzDuration: 5000
@@ -55,7 +147,7 @@ export class CustomerComponent implements OnInit{
     this.isVisible = false;
   }
 
-  updateRoom(): void {
+  updateCustomer(): void {
     this.customerService
       .update(this.currentCustomer.id, this.currentCustomer)
       .subscribe({
@@ -70,6 +162,19 @@ export class CustomerComponent implements OnInit{
         },
         error: (e) => console.error(e)
       });
+  }
+
+  showLichSuDatPhong(id: any){
+    this.isVisibleLichSu = true;
+    this.billService.getDatPhongByKH(1, 10000, id).subscribe(res => {
+      if (res && res.content) {
+        this.roomOrders = res.content;
+      }
+    })
+  }
+
+  cancelLichSu(){
+    this.isVisibleLichSu = false;
   }
 
   ngOnInit() {

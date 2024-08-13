@@ -11,43 +11,101 @@
 </nz-page-header>
 
 <div class="page-content">
-  <nz-table #tableData [nzData]="customer">
+  <div style="float: left">
+    <fieldset class="w-full space-y-1 dark:text-gray-100">
+      <label class="hidden">Search</label>
+      <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+          <button type="button" title="search" class="p-1 focus:outline-none focus:ring" (click)="getListKHByString()">
+            <svg fill="currentColor" viewBox="0 0 512 512" class="w-4 h-4 dark:text-gray-100">
+              <path
+                d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+            </svg>
+          </button>
+        </span>
+        <input type="search" name="Search" placeholder="Search..." id="searchInput"
+               class="w-32 py-2 pl-10 text-sm rounded-md sm:w-96 focus:outline-0 dark:bg-gray-800 dark:text-white
+                 focus:dark:bg-gray-900 focus:dark:border-violet-400 bg-gray-300"
+               [ngModel]="searchInput"
+               (ngModelChange)="getListKHByString()"
+        >
+      </div>
+    </fieldset>
+  </div>
+  <div>
+  <nz-table #sortTable [nzData]="customer" nzTableLayout="fixed">
     <thead>
     <tr>
-<!--      <th nzLeft>STT</th>-->
-      <th nzLeft>Id</th>
-      <th>Mã</th>
-      <th>Tên</th>
-      <th>Số CCCD</th>
-<!--      <th>Giới tính</th>-->
-      <th>Số điện thoại</th>
-      <th>Tác vụ</th>
+      <!--      <th nzLeft>STT</th>-->
+      <th *ngFor="let column of listOfColumn2" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+        {{ column.title }}
+      </th>
+      <th style="width: 300px" class="items-center">Tác vụ</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let data of tableData.data; let i = index">
-<!--      <th nzLeft>{{ i + 1 }}</th>-->
+    <tr *ngFor="let data of sortTable.data; let i = index">
+      <!--      <th nzLeft>{{ i + 1 }}</th>-->
       <td nzLeft>{{ data.id }}</td>
       <td nzLeft>{{ data.ma }}</td>
       <td nzLeft>{{ data.hoTen }}</td>
       <td nzLeft>{{ data.cccd }}</td>
-<!--      <td nzLeft>-->
-<!--        <div class="flex items-center" *ngIf="data.gioiTinh == true">-->
-<!--          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Nam-->
-<!--        </div>-->
+      <td nzLeft>{{ data.ngaySinh }}</td>
+      <!--      <td nzLeft>-->
+      <!--        <div class="flex items-center" *ngIf="data.gioiTinh == true">-->
+      <!--          <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Nam-->
+      <!--        </div>-->
 
-<!--        <div class="flex items-center" *ngIf="data.gioiTinh == false">-->
-<!--          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Nữ-->
-<!--        </div>-->
-<!--      </td>-->
+      <!--        <div class="flex items-center" *ngIf="data.gioiTinh == false">-->
+      <!--          <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Nữ-->
+      <!--        </div>-->
+      <!--      </td>-->
       <td nzLeft>{{ data.sdt }}</td>
+      <td nzLeft>{{ data.ghiChu ?? 0 | currency:'VND': '':'1.0-0' }}</td>
       <td nzLeft>
-        <div class="btn-info">
-          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>        </div>
+        <div class="btn-info flex">
+          <!--          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>-->
+          <div style="margin-left: 5px">
+            <button (click)="showModal(data.id)"
+                    style="background-color: lightgreen;font-weight: bolder;border: 2px solid green;border-radius: 3px;padding: 3px;width: 80px">
+              Sửa
+            </button>
+          </div>
+          <div style="margin-left: 5px">
+            <button (click)="showLichSuDatPhong(data.id)"
+              style="background-color: #4cb3fd;font-weight: bolder;border: 2px solid #007DB6;border-radius: 3px;padding: 3px">
+              Lịch sử đặt phòng
+            </button>
+          </div>
+        </div>
       </td>
     </tr>
     </tbody>
   </nz-table>
+  </div>
+<!--  test filler-->
+<!--  <div>-->
+<!--    <nz-table #sortTable [nzData]="customer" nzTableLayout="fixed">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th *ngFor="let column of listOfColumn2" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">-->
+<!--          {{ column.title }}-->
+<!--        </th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let data of sortTable.data">-->
+<!--        <td nzLeft>{{ data.id }}</td>-->
+<!--        <td nzLeft>{{ data.ma }}</td>-->
+<!--        <td nzLeft>{{ data.hoTen }}</td>-->
+<!--        <td nzLeft>{{ data.cccd }}</td>-->
+<!--        <td nzLeft>{{ data.ngaySinh }}</td>-->
+<!--        <td nzLeft>{{ data.sdt }}</td>-->
+<!--        <td nzLeft>{{ data.ghiChu ?? 0 | currency:'VND': '':'1.0-0' }}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </nz-table>-->
+<!--  </div>-->
 </div>
 
 <nz-modal
@@ -60,23 +118,180 @@
   <ng-container *nzModalContent>
     <div *ngIf="currentCustomer" class="edit-form">
       <nz-form-item>
-        <nz-form-label nzFor="ma" style="width: 100px">Mã khách hàng </nz-form-label>
+        <nz-form-label nzFor="ma" style="width: 100px">Mã khách hàng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập mã">
           <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentCustomer.ma" disabled/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong" style="width: 100px">Họ tên </nz-form-label>
+        <nz-form-label nzFor="giaPhong" style="width: 100px">Họ tên</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập họ tên">
           <input nz-input type="text" id="hoTen" name="hoTen" [(ngModel)]="currentCustomer.hoTen" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong" style="width: 100px">Số điện thoại </nz-form-label>
+        <nz-form-label nzFor="giaPhong" style="width: 100px">Số điện thoại</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số điện thoại">
           <input nz-input type="text" id="sdt" name="sdt" [(ngModel)]="currentCustomer.sdt" required/>
         </nz-form-control>
       </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleLichSu"
+  nzTitle="Lịch sử đặt phòng"
+  (nzOnCancel)="cancelLichSu()"
+  (nzOnOk)="cancelLichSu()"
+  nzFooter=" "
+  nzWidth="1000px"
+>
+  <ng-container *nzModalContent>
+    <div>
+      <nz-table #tableData [nzData]="roomOrders" role="table" class="w-full min-w-[500px] overflow-x-scroll">
+        <thead>
+        <tr role="row">
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              STT
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Mã đặt phòng
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Mã phòng
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày check-in
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Ngày check-out
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Thành tiền
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Trạng thái
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody role="rowgroup" class="px-4">
+        <tr role="row" *ngFor="let data of tableData.data; let i = index">
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{i + 1}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.ma}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tenPhong}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkIn | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.checkOut | date : 'dd-MM-yyyy'}}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.tongGia | currency:'VND': '':'1.0-0' }}
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell">
+            <div class="flex items-center" *ngIf="data.trangThai == 1">
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+              Đã đặt
+            </div>
+
+            <div class="flex items-center" *ngIf="data.trangThai == 0">
+              <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+              Đã hủy
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 2">
+              <div class="h-2.5 w-2.5 rounded-full bg-blue-500 mr-2"></div>
+              Đã check-in
+            </div>
+            <div class="flex items-center" *ngIf="data.trangThai == 3">
+              <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
+              Đã trả phòng
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
     </div>
   </ng-container>
 </nz-modal>

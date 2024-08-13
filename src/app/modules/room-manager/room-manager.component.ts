@@ -138,7 +138,6 @@ export class RoomManagerComponent implements OnInit {
         this.router.navigate(['/admin/room-manager/room-manager-create'], {queryParams});
       }, 500);
     }
-
   }
 
 

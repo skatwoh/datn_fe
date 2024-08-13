@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {RoomOrder} from "../../../models/room-order";
+import {MonthlyBooking} from "../../../models/monthly-bookings";
 
 const API_AU_URL = `${environment.apiUrl}/dat-phong`;
 const API_CUS = `${environment.apiUrl}/khach-hang`;
@@ -84,5 +85,66 @@ export class RoomManagerService {
   getKH(cccd: any): Observable<RoomOrder> {
     const params = {cccd};
     return this.http.get<any>(`${API_CUS}/get-khach-hang-by-cccd`, {params});
+  }
+
+  getAllDPMapping(): Observable<any>{
+    return this.http.get(`${API_AU_URL}/list-mapper`).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getAllDPMappingByHD(id: any, idHD: any): Observable<any>{
+    const params = {id, idHD};
+    return this.http.get(`${API_AU_URL}/list-map-by-hoa-don`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getDPById(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-by-id`, {params});
+  }
+
+  getDPMappingBySearch(id: any, checkIn: any, checkOut: any): Observable<any>{
+    const params = {id, checkIn, checkOut};
+    return this.http.get(`${API_AU_URL}/list-map-by-search`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  createCheckIn(data: any): Observable<any>{
+    return this.http.post(`${environment.apiUrl}/thong-tin-nhan-phong/create`, data);
+  }
+
+  detailCheckIn(id: any): Observable<any>{
+    const  params = {id};
+    return this.http.get(`${environment.apiUrl}/thong-tin-nhan-phong/detail`, {params});
+  }
+
+  getListCheckIn(): Observable<any>{
+    return this.http.get(`${environment.apiUrl}/thong-tin-nhan-phong/list`);
+  }
+
+  doiPhongById(idPhong: any, id: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/doi-phong-by-id`, idPhong, {params});
+  }
+
+  getListCheckOutToday(checkOut: any): Observable<any>{
+    const params = {checkOut};
+    return this.http.get(`${API_AU_URL}/list-check-out-today`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getRoomCheckInToday(id: any, checkIn: any): Observable<any>{
+    const params = {id, checkIn};
+    return this.http.get(`${API_AU_URL}/get-room-check-in-today`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  getMonthlyBookings(): Observable<any> {
+    return this.http.get<MonthlyBooking[]>(`${API_AU_URL}/monthly-bookings`)
   }
 }

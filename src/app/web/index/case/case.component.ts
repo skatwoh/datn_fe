@@ -71,7 +71,7 @@ export class CaseComponent implements OnInit{
       checkOut: checkOutDate.toISOString(),
       soNguoi: 0,
       tongGia: room.giaPhong * numberOfDays,
-      trangThai: 1,
+      trangThai: 4,
       ma: room.ma
     };
 
@@ -107,7 +107,7 @@ checkToRoom(room: any) {
       this.message.warning("Vui lòng chọn phòng");
     } else {
       this.createBookingsAPI();
-      this.message.success("Bạn đã đặt phòng thành công!");
+      this.router.navigate(['/me/step/1']);
     }
   }
 

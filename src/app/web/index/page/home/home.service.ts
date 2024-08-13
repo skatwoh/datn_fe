@@ -53,4 +53,20 @@ export class HomeService{
     }));
   }
 
+  getRoomListLoaiPhong(page: number, size: number, input: string): Observable<any> {
+    const params = {page, size, input};
+    return this.http.get<any>(`${API_AU_URL}/get-room-by-lp`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
+  getListLoaiPhongBySoNguoi(soPhong: any, soNguoi: any, checkIn: any, checkOut: any): Observable<any> {
+    const params = {soPhong, soNguoi, checkIn, checkOut};
+    return this.http.get<any>(`${environment.apiUrl}/loai-phong/list-by-so-phong`, {params}).pipe(map(res => {
+        return res;
+    }));
+  }
 }

@@ -25,7 +25,7 @@
       </span>
       </button>
     </div>
-    <div style="float: left">
+    <div class="flex" style="float: left">
       <fieldset class="w-full space-y-1 dark:text-gray-100">
         <label class="hidden">Search</label>
         <div class="relative">
@@ -45,6 +45,18 @@
           >
         </div>
       </fieldset>
+      <div>
+        <select id="ctphong" style="height: 30px;border: 1px solid blue;width:250px" (change)="changeTest()">
+          <option value='{{null}}'>tất cả</option>
+          <option  *ngFor="let room of roomInfor" value="{{room.id}}">{{room.id}}</option>
+        </select>
+      </div>
+      <div>
+        <select id="ghiChu1" style="height: 30px;border: 1px solid blue;width:250px" (change)="changeTest()">
+          <option value=''>tất cả</option>
+          <option value="Không có">Không có</option>
+        </select>
+      </div>
     </div>
   </div>
   <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="maintenance">

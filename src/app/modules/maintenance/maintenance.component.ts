@@ -14,7 +14,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./maintenance.component.scss']
 })
 export class MaintenanceComponent implements OnInit{
-
   maintenance: MaintenanceModel[] = [];
   currentMaintenance!: MaintenanceModel;
   message ='';
@@ -25,7 +24,7 @@ export class MaintenanceComponent implements OnInit{
   id: number | undefined;
   // roomModel!: RoomModel;
   roomInfor : RoomInformationModel[] = [];
-
+  ghiChu: string = '';
   showModal(id: any): void {
     this.isVisible = true;
     this.id = id;
@@ -113,6 +112,7 @@ export class MaintenanceComponent implements OnInit{
   }
 
   ngOnInit() {
+
     this.getMaintenance();
     this.http.get<any>(`${environment.apiUrl}/bao-tri/list-room-infor`).subscribe((data2)  => {
       this.roomInfor = data2; // Gán dữ liệu lấy được vào biến roomType
@@ -121,6 +121,13 @@ export class MaintenanceComponent implements OnInit{
     });
   }
 
-
+  changeTest() {
+    this.id = Number((document.getElementById('ctphong') as HTMLInputElement).value);
+    this.ghiChu = (document.getElementById('ghiChu1') as HTMLInputElement).value;
+    this.maintenanceService.getMaintenanceListTest(1, 50, this.id, this.ghiChu).subscribe(res => {
+      this.maintenance = res;
+      console.log(res);
+    })
+  }
 
 }

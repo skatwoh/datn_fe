@@ -64,6 +64,9 @@
       <th scope="col" class="px-6 py-3">
         Gía Dịch Vụ
       </th>
+      <th scope="col" class="px-6 py-3">
+        Số lượng
+      </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
       </th>
@@ -88,6 +91,9 @@
       </td>
       <td class="px-6 py-4">
         {{ data.giaDichVu }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.soLuong }}
       </td>
       <td class="px-12 py-4" style="display: flex">
         <div *ngIf="data.trangThai === 1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">

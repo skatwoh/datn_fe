@@ -87,17 +87,17 @@ export class ListRoomOrderComponent implements OnInit {
   }
 
   showRoomUpperPrice(giaPhong: number | undefined, id: any): void {
-    this.isVisible1 = true;
-    this.id = id;
-    this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
-      this.currentRoom = data;
-      console.log(this.currentRoom);
-      this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.idPhong).subscribe(res => {
-        if (res && res.content) {
-          this.room1 = res.content;
-        }
-      })
-    });
+      // this.isVisible1 = true;
+      // this.id = id;
+      // this.roomOrderService.get(this.id).subscribe((data: RoomOrder) => {
+      //   this.currentRoom = data;
+      //   console.log(this.currentRoom);
+      //   this.roomOrderService.getListRoomByUpperPrice(1, 50, giaPhong, data.idPhong).subscribe(res => {
+      //     if (res && res.content) {
+      //       this.room1 = res.content;
+      //     }
+      //   })
+      // });
   }
 
   handleOk(): void {
@@ -180,12 +180,15 @@ export class ListRoomOrderComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.bill.trangThai = 2;
+        // this.billService.updateTongTien()
       },
     })
-    this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
-    this.sendDataToApi();
-    this.isVisibleTT = false;
-    this.router.navigate(['/me/step/3']);
+    setTimeout(() => {
+      this.message.success('Bạn đã thanh toán hóa đơn thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi();
+      this.isVisibleTT = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
   }
 
   handleOkThanhToanTienCoc(): void {
@@ -195,10 +198,12 @@ export class ListRoomOrderComponent implements OnInit {
         this.bill.trangThai = 6;
       },
     })
-    this.message.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
-    this.sendDataToApi2();
-    this.isVisibleTienCoc = false;
-    this.router.navigate(['/me/step/3']);
+    setTimeout(() => {
+      this.message.success('Bạn đã thanh toán tiền cọc thành công, vui lòng chờ xác nhận!');
+      this.sendDataToApi2();
+      this.isVisibleTienCoc = false;
+      this.router.navigate(['/me/step/3']);
+    }, 2000)
   }
 
   handleCancelThanhToan(): void {
@@ -247,7 +252,7 @@ export class ListRoomOrderComponent implements OnInit {
   }
 
   generateImageUrlTienCoc(amount: number, addInfo: string, accountName: string): string {
-    const sale = amount * 0.2;
+    const sale = amount * 0.5;
     const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
     const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
     return urlWithParams;

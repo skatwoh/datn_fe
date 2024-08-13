@@ -2,24 +2,42 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <form [formGroup]="roomTypeForm" (ngSubmit)="saveRoom()">
-      <nz-form-item>
-        <nz-form-label style="width: 100px" nzFor="maLoaiPhong">Tên loại phòng </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập tên loại phòng">
-          <input nz-input type="text" id="tenLoaiPhong" name="tenLoaiPhong" formControlName="tenLoaiPhong"/>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label style="width: 100px" nzFor="ghiChu">Ghi chú </nz-form-label>
-        <nz-form-control nzErrorTip="Vui lòng nhập ghi Chú">
-          <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
-        </nz-form-control>
-      </nz-form-item>
-      <br>
-      <nz-form-item>
-        <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" [disabled]="roomTypeForm.invalid">Thêm</button>
-        </nz-form-control>
-      </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="width: 100px" nzFor="maLoaiPhong">Tên loại phòng</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập tên loại phòng">
+            <input nz-input type="text" id="tenLoaiPhong" name="tenLoaiPhong" formControlName="tenLoaiPhong"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="width: 100px" nzFor="soLuongNguoi">Số người</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập số lượng người hợp lệ">
+            <input nz-input type="number" id="soNguoi" formControlName="soNguoi"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="width: 100px" nzFor="tienIch">Tiện ích </nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
+            <input nz-input type="text" id="tienIch" formControlName="tienIch"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="width: 100px" nzFor="giaTheoNgay">Giá phòng</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập giá tối thiểu 100.000">
+            <input nz-input type="number" id="giaTheoNgay" formControlName="giaTheoNgay"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="width: 100px" nzFor="ghiChu">Ghi chú</nz-form-label>
+          <nz-form-control nzErrorTip="Vui lòng nhập ghi Chú">
+            <input nz-input type="text" id="ghiChu" name="ghiChu" formControlName="ghiChu"/>
+          </nz-form-control>
+        </nz-form-item>
+        <br>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" style="width: 100%" [disabled]="roomTypeForm.invalid">Thêm</button>
+          </nz-form-control>
+        </nz-form-item>
       </form>
     </div>
   </div>

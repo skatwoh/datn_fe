@@ -89,18 +89,6 @@
               Thành tiền
             </div>
           </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Hành động
-            </div>
-          </th>
         </tr>
         </thead>
         <tbody role="rowgroup" class="px-4">
@@ -128,13 +116,6 @@
               <p class="text-md font-medium text-gray-600 dark:text-white">
                 {{ data.tongGia }} VND
               </p>
-            </td>
-            <td class="py-3 text-sm" role="cell">
-              <div>
-                <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
-
-                <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-change ml-3">Đổi phòng</button>
-              </div>
             </td>
           </tr>
           <tr [nzExpand]="expandSet.has(Number(data.id))">
@@ -312,7 +293,7 @@
             Thanh toán toàn bộ giảm 5%
             <a href="#" class="inline-block underline">Hot</a>
           </p>
-        </div>
+        </div>    
         <form [formGroup]="form">
           <label style="display: none">
             Amount:
@@ -346,7 +327,7 @@
       <nz-tab nzTitle="Thanh toán tiền cọc">
         <div class="bg-indigo-600 px-4 py-3 text-white">
           <p class="text-center text-sm font-medium">
-            Tiền cọc bằng 20% tổng hóa đơn
+            Tiền cọc bằng 50% tổng hóa đơn
             <a href="#" class="inline-block underline">Hot</a>
           </p>
         </div>

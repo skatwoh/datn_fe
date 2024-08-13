@@ -145,38 +145,38 @@
                   ></nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-label nzFor="soNguoi"
-              >Mã giảm giá (nếu có):
-              </nz-form-label
-              >
-              <nz-form-item>
-                <select
-                  (click)="tinhGiamGia()"
-                  id="voucher"
-                  formControlName="idVoucher"
-                  style="width: 250px; height: 25px; font-size: 18px"
-                >
-                  <option
-                    style="
-                      width: 250px;
-                      height: 25px;
-                      font-size: 18px;
-                      display: block;
-                    "
-                    value="null"
-                    selected
-                  >
-                    Chọn mã giảm giá
-                  </option>
-                  <option
-                    style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"
+<!--              <nz-form-label nzFor="soNguoi"-->
+<!--              >Mã giảm giá (nếu có):-->
+<!--              </nz-form-label-->
+<!--              >-->
+<!--              <nz-form-item>-->
+<!--                <select-->
+<!--                  (click)="tinhGiamGia()"-->
+<!--                  id="voucher"-->
+<!--                  formControlName="idVoucher"-->
+<!--                  style="width: 250px; height: 25px; font-size: 18px"-->
+<!--                >-->
+<!--                  <option-->
+<!--                    style="-->
+<!--                      width: 250px;-->
+<!--                      height: 25px;-->
+<!--                      font-size: 18px;-->
+<!--                      display: block;-->
+<!--                    "-->
+<!--                    value="null"-->
+<!--                    selected-->
+<!--                  >-->
+<!--                    Chọn mã giảm giá-->
+<!--                  </option>-->
+<!--                  <option-->
+<!--                    style="width: 250px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px"-->
 
-                    *ngFor="let data of voucherList"
-                    [label]="data.ma + ' - ' + data.moTa"
-                    [value]="data.id"
-                  ></option>
-                </select>
-              </nz-form-item>
+<!--                    *ngFor="let data of voucherList"-->
+<!--                    [label]="data.ma + ' - ' + data.moTa"-->
+<!--                    [value]="data.id"-->
+<!--                  ></option>-->
+<!--                </select>-->
+<!--              </nz-form-item>-->
               <nz-form-label>Tổng tiền</nz-form-label>
               <span *ngIf="!sale">{{
                   calculateTotalDays() * (room.giaPhong ?? 0) +
@@ -308,6 +308,8 @@
                 </div>
               </fieldset>
               <br/>
+              <cons-recaptcha *ngIf="!roomOrderForm.invalid"></cons-recaptcha>
+              <br/>
               <nz-form-item>
                 <nz-form-control>
                   <button
@@ -326,22 +328,22 @@
                   </button>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-item>
-                <nz-form-control>
-                  <button
-                    class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
-                    type="button"
-                    (click)="addToCart()"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-cart2" viewBox="0 0 16 16">
-                      <path
-                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-                    </svg>
-                    Thêm vào giỏ hàng
-                  </button>
-                </nz-form-control>
-              </nz-form-item>
+<!--              <nz-form-item>-->
+<!--                <nz-form-control>-->
+<!--                  <button-->
+<!--                    class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"-->
+<!--                    type="button"-->
+<!--                    (click)="addToCart()"-->
+<!--                  >-->
+<!--                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+<!--                         class="bi bi-cart2" viewBox="0 0 16 16">-->
+<!--                      <path-->
+<!--                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>-->
+<!--                    </svg>-->
+<!--                    Thêm vào giỏ hàng-->
+<!--                  </button>-->
+<!--                </nz-form-control>-->
+<!--              </nz-form-item>-->
             </form>
           </div>
         </div>

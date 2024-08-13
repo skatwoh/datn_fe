@@ -82,6 +82,10 @@
                      [value]="(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0))"
                      type="hidden"/>
             </nz-form-item>
+            <div *ngIf="customerModel">
+              <label>Số tiền phải thanh toán : </label>
+              <span>{{(calculateTotalDays() * (room.giaPhong ?? 0) - (giamGia ?? 0))*(100 - customerModel.giamGia)/100 | currencyFormat}}</span>
+            </div>
 
             <!--            <nz-form-label nzFor="khachHang">Chọn khách hàng</nz-form-label>-->
             <!--            <nz-form-item>-->
@@ -100,7 +104,7 @@
 
               <nz-form-item>
                 <nz-form-label nzFor="cccd">Số CCCD</nz-form-label>
-                <nz-form-control>
+                <nz-form-control nzErrorTip="Vui lòng nhập số cccd">
                   <input nz-input type="text" id="cccd" formControlName="cccd" placeholder="Số CCCD" [maxLength]="15"
                          style="border-radius: 5px;border: 1px solid deepskyblue" (blur)="handleByCCCD()">
                 </nz-form-control>
@@ -108,27 +112,30 @@
 
               <nz-form-item>
                 <nz-form-label nzFor="hoTen">Tên khách hàng</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="text" id="ten" formControlName="hoTen" placeholder="Họ tên"
+                <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
+                  <input nz-input type="text" id="ten" formControlName="hoTen" placeholder="Họ tên" [ngModel]="hoTen"
                          style="border-radius: 5px;border: 1px solid deepskyblue">
                 </nz-form-control>
               </nz-form-item>
 
               <nz-form-item>
                 <nz-form-label nzFor="sdt">SĐT Khách hàng</nz-form-label>
-                <nz-form-control>
-                  <input nz-input type="text" id="sdt" formControlName="sdt" placeholder="SĐT" [maxLength]="10"
+                <nz-form-control nzErrorTip="Vui lòng nhập SĐT">
+                  <input nz-input type="number" id="sdt" formControlName="sdt" placeholder="SĐT" [maxLength]="10" [ngModel]="sdt"
                          style="border-radius: 5px;border: 1px solid deepskyblue">
                 </nz-form-control>
               </nz-form-item>
 
               <nz-form-item>
                 <nz-form-label nzFor="ghiChu">Ghi chú</nz-form-label>
-                <nz-form-control>
+                <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
                   <input nz-input type="text" id="ghiChu" formControlName="ghiChu" placeholder="Ghi chú"
                          style="border-radius: 5px;border: 1px solid deepskyblue">
                 </nz-form-control>
               </nz-form-item>
+              <div *ngIf="customerModel">
+                <h3 *ngIf="customerModel.id !== '1'">Thẻ thành viên hạng {{customerModel.rank}}(giảm giá {{customerModel.giamGia}}%)</h3>
+              </div>
             </nz-card>
             <br>
             <nz-form-item>

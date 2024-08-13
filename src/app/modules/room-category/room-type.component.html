@@ -52,6 +52,10 @@
       <th nzLeft>STT</th>
       <th>Mã loại phòng</th>
       <th>Tên loại phòng</th>
+      <th>Số người</th>
+      <th>Tiện ích</th>
+      <th>Giá phòng</th>
+<!--      <th>Giá theo giờ</th>-->
       <th>Ghi chú</th>
       <th>Tác vụ</th>
     </tr>
@@ -62,6 +66,10 @@
       <!--      <td nzLeft>{{ data.id }}</td>-->
       <td nzLeft>{{ data.maLoaiPhong }}</td>
       <td nzLeft>{{ data.tenLoaiPhong }}</td>
+      <td nzLeft>{{ data.soNguoi }}</td>
+      <td nzLeft>{{ data.tienIch }}</td>
+      <td nzLeft>{{ data.giaTheoNgay }}</td>
+<!--      <td nzLeft>{{ data.giaTheoGio }}</td>-->
       <td nzLeft>{{ data.ghiChu }}</td>
       <td class="px-12 py-4" style="display: flex">
         <div class="btn-info" (click)="showModal(data.id)">
@@ -100,6 +108,24 @@
         <nz-form-label style="width: 100px" nzFor="tenLoaiPhong">Tên loại phòng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập tên loại phòng">
           <input nz-input type="text" formControlName="tenLoaiPhong" id="tenLoaiPhong" name="tenLoaiPhong" [(ngModel)]="currentRoomType.tenLoaiPhong" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 100px" nzFor="soLuongNguoi">Số người</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập số lượng người hợp lệ">
+          <input nz-input type="number" id="soNguoi" formControlName="soNguoi" name="soNguoi" [(ngModel)]="currentRoomType.soNguoi"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 100px" nzFor="tienIch">Tiện ích </nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tiện ích">
+          <input nz-input type="text" id="tienIch" formControlName="tienIch" name="tienIch" [(ngModel)]="currentRoomType.tienIch"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 100px" nzFor="giaTheoNgay">Giá phòng</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá tối thiểu 100.000">
+          <input nz-input type="number" id="giaTheoNgay" formControlName="giaTheoNgay" name="giaTheoNgay" [(ngModel)]="currentRoomType.giaTheoNgay"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
