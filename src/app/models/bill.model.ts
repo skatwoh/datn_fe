@@ -15,4 +15,5 @@ export class BillModel{
   tienPhat: number = 0;
   tienTichDiem: number = 0;
   tienThanhToan: number = 0;
+  tienHoanLai: number = 0;
 }

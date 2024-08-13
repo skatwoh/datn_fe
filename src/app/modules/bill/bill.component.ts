@@ -234,15 +234,15 @@ export class BillComponent implements OnInit {
     getBillByString(): void {
         const inputElement = document.getElementById('searchInput') as HTMLInputElement;
         this.searchInput = inputElement.value;
-        this.billService.getBillsBySearch(1, 50, this.searchInput).subscribe(res => {
+          this.billService.getBillsBySearch(1, 50, this.searchInput, (document.getElementById('trangThaiHoaDon') as HTMLInputElement).value).subscribe(res => {
             const queryParams = {
-                searchInput: this.searchInput
+              searchInput: this.searchInput
             };
             if (res && res.content) {
-                this.bill = res.content;
+              this.bill = res.content;
             }
             // this.router.navigate(['/room'], { queryParams });
-        })
+          })
     }
 
     showModalChiTietDichVu(id: any) {

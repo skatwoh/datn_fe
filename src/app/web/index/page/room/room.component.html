@@ -74,7 +74,7 @@
         <label style="margin-left: 10px;font-size: 15px">Họ tên: </label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
-          <input type="text" id="hoTen"
+          <input type="text" id="hoTen" [(ngModel)]="customerModel.hoTen"
                  style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
            formControlName = "hoTen">
           </nz-form-control>
@@ -84,7 +84,7 @@
         <label style="margin-left: 10px;font-size: 15px">Số CCCD</label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập CCCD">
-          <input type="text" id="cccd"
+          <input type="text" id="cccd" [(ngModel)]="customerModel.cccd"
                  style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
            formControlName="cccd">
           </nz-form-control>
@@ -94,7 +94,7 @@
         <label style="margin-left: 10px;font-size: 15px">Ngày sinh</label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày sinh">
         <div>
-          <input type="date" id="ngaySinh"
+          <input type="date" id="ngaySinh" [(ngModel)]="customerModel.ngaySinh"
                  style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
            formControlName = "ngaySinh">
         </div>
@@ -115,7 +115,7 @@
         <label style="margin-left: 10px;font-size: 15px">Số điện thoại</label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
-          <input type="text" id="sdt"
+          <input type="text" id="sdt" [(ngModel)]="customerModel.sdt"
                  style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
            formControlName="sdt">
           </nz-form-control>

@@ -77,6 +77,7 @@ export class RoomComponent implements OnInit {
   isVisibleTT = false;
   isVisibleTienCoc = false;
   bill!: BillModel;
+
   constructor(private roomService: RoomService,
               private homeService: HomeService,
               private router: Router,
@@ -134,7 +135,7 @@ export class RoomComponent implements OnInit {
     this.formTienCoc.get('addInfo1').valueChanges.subscribe(() => this.updateImageUrlTienCoc());
     this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
       console.log(res)
-      this.customerModel = res ;
+      this.customerModel = res;
     })
   }
 
@@ -156,6 +157,8 @@ export class RoomComponent implements OnInit {
     const sale = amount * 0.95;
     const baseUrl = 'https://img.vietqr.io/image/vpb-62624112003-compact.jpg';
     const urlWithParams = `${baseUrl}?amount=${sale}&addInfo=${encodeURIComponent(addInfo)}&accountName=${encodeURIComponent(accountName)}`;
+    console.log(amount, "amount", addInfo, accountName)
+    console.log(urlWithParams, "url")
     return urlWithParams;
   }
 
@@ -179,7 +182,7 @@ export class RoomComponent implements OnInit {
     );
   }
 
-   updateUrlWithSearchParams(): void {
+  updateUrlWithSearchParams(): void {
     const queryParams = {
       soLuongNguoi: this.soLuongNguoi,
       tenLoaiPhong: this.tenLoaiPhong,
@@ -202,11 +205,11 @@ export class RoomComponent implements OnInit {
       const checkOut = params['checkOut'];
       const soPhong = params['soPhong'];
       const soNguoi = params['soNguoi'];
-      if(checkIn === '' || checkOut === ''){
+      if (checkIn === '' || checkOut === '') {
         this.checkIn = new Date().toISOString();
         this.checkOut = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
 
-      }else{
+      } else {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.soPhong = soPhong;
@@ -277,10 +280,10 @@ export class RoomComponent implements OnInit {
       const checkOut = params['checkOut'];
       this.roomTypeService.get(id).subscribe(res => {
         this.roomTypeModel = res;
-        this.tongTien = (this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay??0)) * Number.parseInt(soPhong);
+        this.tongTien = (this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0)) * Number.parseInt(soPhong);
         this.homeService.getRoomListSearch(1, 50, '', (this.roomTypeModel.tenLoaiPhong ?? ''), checkIn, checkOut).subscribe(res => {
           if (res && res.content) {
-            this.room= res.content;
+            this.room = res.content;
             console.log(res.content);
           }
         })
@@ -288,6 +291,8 @@ export class RoomComponent implements OnInit {
     })
 
   }
+
+  checkCreate = false;
 
   bookNow() {
     // const queryParams = {
@@ -311,7 +316,7 @@ export class RoomComponent implements OnInit {
       ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value,
       gioiTinh: (document.getElementById('gioiTinh') as HTMLInputElement).value,
     }
-    if(data.hoTen == '' || data.hoTen == null || data.sdt == '' || data.sdt == null || data.ngaySinh == null || data.ngaySinh == ''){
+    if (data.hoTen == '' || data.hoTen == null || data.sdt == '' || data.sdt == null || data.ngaySinh == null || data.ngaySinh == '') {
       this.mess.warning('Vui lòng điền đầy đủ thông tin người đặt');
       return;
     }
@@ -332,77 +337,83 @@ export class RoomComponent implements OnInit {
     setTimeout(async () => {
       const data2 = {
         tongTien: 0,
+        tienPhong: 0,
         idKhachHang: this.customerModel.id,
-        trangThai: 1
+        trangThai: 1,
+        ghiChu: '1'
       }
       data2.tongTien = this.tongTien;
+      data2.tienPhong = this.tongTien;
       data2.idKhachHang = this.customerModel.id;
       this.billService.createOrUpdateTaiQuay(data2).subscribe((res: any) => {
         console.log(res);
+        this.checkCreate = true;
       })
     }, 1500)
     console.log(this.room);
-    if (this.roomOrderForm.valid) {
-      console.log(this.room);
-        setTimeout(() => {
-          for (let x = 0;x < this.soPhong;x++) {
-            const dataDatPhong = this.roomOrderForm.value;
-            dataDatPhong.idKhachHang = this.customerModel.id;
-            if (this.customerModel == null || this.customerModel.giamGia === 0) {
-              console.log('khong ton tai');
-              dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0);
-            } else if (this.customerModel.giamGia !== 0) {
-              console.log('ton tai');
-              dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
-            }
-            dataDatPhong.idPhong = this.room[x].id;
-            dataDatPhong.checkIn = moment(this.checkIn);
-            dataDatPhong.checkOut = moment(this.checkOut);
-            // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
-            dataDatPhong.ghiChu = 'Không có ghi chú';
-            // const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
-            //   .pipe(first())
-            //   .subscribe((res) => {
-            //       if (res?.code === AppConstants.API_SUCCESS_CODE) {
-            //         console.log('Thành công')
-            //       } else {
-            //         const msg: any = res.entityMessages[0];
-            //         this.notification.warning(`${msg.errorMessage}`, "");
-            //         this.updateTongTien();
-            //         this.deleteBill();
-            //         return;
-            //       }
-            //     },
-            //   );
-            // this.unsubscribe.push(sub);
-            const sub = this.roomManagerService.create(dataDatPhong)
-              .pipe(first())
-              .subscribe((res) => {
-                  if (res?.code === AppConstants.API_SUCCESS_CODE) {
-                    // this.sendNotification();
-                    // this.messSuccess();
-                    console.log('thành công');
-                  } else {
-                    if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
-                      this.updateTongTien();
-                      this.deleteBill();
-                      const msg: any = res.entityMessages[0];
-                      this.notification.warning(`${msg.errorMessage}`, "");
-                    } else {
-                      this.message = `Error`;
-                    }
-                    this.hasError = true;
-                  }
-                },
-              );
-            this.unsubscribe.push(sub);
+    setTimeout(() => {
+      if (this.roomOrderForm.valid && this.checkCreate) {
+        console.log(this.room);
+
+        for (let x = 0; x < this.soPhong; x++) {
+          const dataDatPhong = this.roomOrderForm.value;
+          dataDatPhong.idKhachHang = this.customerModel.id;
+          if (this.customerModel == null || this.customerModel.giamGia === 0) {
+            console.log('khong ton tai');
+            dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0);
+          } else if (this.customerModel.giamGia !== 0) {
+            console.log('ton tai');
+            dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomTypeModel.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
           }
-        }, 3000)
-      setTimeout(() => {
-        this.getRoomsOfBill();
-        this.isVisible = true;
-      }, 3500)
-    }
+          dataDatPhong.idPhong = this.room[x].id;
+          dataDatPhong.checkIn = new Date(this.checkIn.toLocaleString());
+          dataDatPhong.checkOut = new Date(this.checkOut.toLocaleString());
+          // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
+          dataDatPhong.ghiChu = 'Không có ghi chú';
+          // const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
+          //   .pipe(first())
+          //   .subscribe((res) => {
+          //       if (res?.code === AppConstants.API_SUCCESS_CODE) {
+          //         console.log('Thành công')
+          //       } else {
+          //         const msg: any = res.entityMessages[0];
+          //         this.notification.warning(`${msg.errorMessage}`, "");
+          //         this.updateTongTien();
+          //         this.deleteBill();
+          //         return;
+          //       }
+          //     },
+          //   );
+          // this.unsubscribe.push(sub);
+          const sub = this.roomManagerService.create(dataDatPhong)
+            .pipe(first())
+            .subscribe((res) => {
+                if (res?.code === AppConstants.API_SUCCESS_CODE) {
+                  // this.sendNotification();
+                  // this.messSuccess();
+                  console.log('thành công');
+                } else {
+                  if (res?.code === AppConstants.API_BAD_REQUEST_CODE && res?.entityMessages.length > 0) {
+                    this.updateTongTien();
+                    this.deleteBill();
+                    const msg: any = res.entityMessages[0];
+                    this.notification.warning(`${msg.errorMessage}`, "");
+                  } else {
+                    this.message = `Error`;
+                  }
+                  this.hasError = true;
+                }
+              },
+            );
+          this.unsubscribe.push(sub);
+        }
+
+        setTimeout(() => {
+          this.getRoomsOfBill();
+          this.isVisible = true;
+        }, 3500)
+      }
+    }, 3000)
   }
 
   calculateTotalDays(): number {
@@ -458,6 +469,7 @@ export class RoomComponent implements OnInit {
 
   showModalThanhToan(): void {
     this.isVisibleTT = true;
+    console.log('12345')
   }
 
   showModalThanhToanTienCoc(): void {
@@ -533,8 +545,8 @@ export class RoomComponent implements OnInit {
     );
   }
 
-  handleCancel(){
-    this.isVisible =false;
+  handleCancel() {
+    this.isVisible = false;
   }
 
   protected readonly Number = Number;

@@ -32,7 +32,9 @@ export class RoomOrderMappingModel {
   tienPhat: number = 0;
   tienTichDiem: number = 0;
   tienThanhToan: number = 0;
+  tienHoanLai: number = 0;
   thoiGianCheckOut: string | undefined;
   nguoiCheckIn: string | undefined;
   sdtCheckIn: string | undefined;
+  giamGia: string = "";
 }

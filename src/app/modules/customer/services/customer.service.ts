@@ -51,4 +51,24 @@ export class CustomerService{
     return this.http.put(`${API_AU_URL}/update-customer`, data, {params});
   }
 
+  updateTichDiem(ghiChu: any, id : any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-ghi-chu`, ghiChu, {params});
+  }
+
+  tinhLaiGiamGia(ghiChu: any, id : any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/tinh-lai-giam-gia`, ghiChu, {params});
+  }
+
+  getListKHBySearch(page: number, size: number, inputSearch: string): Observable<any> {
+    const params = {page, size, inputSearch};
+    return this.http.get<any>(`${API_AU_URL}/list-by-search`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
+
 }
