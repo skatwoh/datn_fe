@@ -193,7 +193,7 @@ export class ListOrderNowComponent implements OnInit {
     setTimeout(() => {
       this.isVisibleHD = false;
       this.isOkLoadingHD = false;
-      this.message.success('Hủy hóa đơn thành công');
+      this.message.success('Hủy đơn đặt phòng thành công!');
       this.getListBillByCustomer();
       this.router.navigate(['/profile/me/list-room-order']);
     }, 400)

@@ -13,8 +13,8 @@ export class ListRoomOrderService{
   constructor(private http: HttpClient) {
   }
 
-  getListRoomOrder(page: number, size: number, id: any, trangThai: any): Observable<any> {
-    const params = {page, size, id, trangThai};
+  getListRoomOrder(page: number, size: number, id: any): Observable<any> {
+    const params = {page, size, id};
     return this.http.get<any>(`${API_AU_URL}/list-room-order-by-user`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;

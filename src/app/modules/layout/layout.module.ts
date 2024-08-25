@@ -11,6 +11,7 @@ import {NzAvatarModule} from 'ng-zorro-antd/avatar';
 import {FirstCharPipe} from '../../shared/pipes/first-char.pipe';
 import {NzSwitchModule} from "ng-zorro-antd/switch";
 import {FormsModule} from "@angular/forms";
+import {NzBadgeModule} from "ng-zorro-antd/badge";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {FormsModule} from "@angular/forms";
         FirstCharPipe,
         NzSwitchModule,
         FormsModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        NzBadgeModule
     ],
   exports: [LayoutComponent]
 })
