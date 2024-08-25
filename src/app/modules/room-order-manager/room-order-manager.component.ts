@@ -293,9 +293,27 @@ export class RoomOrderManagerComponent implements OnInit {
   showFormCheckout(id: any){
     console.log(new Date(this.roomModel.checkOut||'').getTime());
     console.log(new Date().getTime());
+    const dateCheckIn = new Date(this.roomModel.checkIn||'');
+    const dateCheckOut = new Date(this.roomModel.checkOut||'');
+    if(dateCheckOut.getDay() - dateCheckIn.getDay() == 1) {
+      console.log('Ngày checkIn kém ngày checkOut' + String(dateCheckOut.getDay() - dateCheckIn.getDay()) + 'ngày');
+      this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
+        this.roomMapMd = res;
+      })
+      this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+        this.roomOrderModel = data;
+        console.log(data.checkOut?.split('T')[0]);
+        console.log(new Date().toLocaleTimeString('vi-VN'));
+        console.log(new Date().toISOString());
+        this.idDatPhongNow = id;
+        this.isVisibleCheckOut = true;
+      });
+      return;
+    }
     if((this.roomModel.checkOut??'').split('T')[0] > new Date().toISOString().split('T')[0]){
+      console.log(this.roomModel.checkOut);
       const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
-      this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24)) - 1;
       this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
         this.roomMapMd = res;
       })
@@ -744,15 +762,19 @@ export class RoomOrderManagerComponent implements OnInit {
       if (params['checkInDate'] && params['checkOutDate']) {
         const checkIn = params['checkInDate'];
         const checkOut = params['checkOutDate'];
-        this.checkInSearch = checkIn;
-        this.checkOutSearch = checkOut;
-        this.roomService.getRoomMapping(checkIn, checkOut).subscribe(res => {
+        console.log(new Date(checkIn));
+        console.log(new Date(checkOut));
+        this.checkInSearch = new Date(checkIn);
+        this.checkOutSearch = new Date(checkOut);
+        this.roomService.getListThemPhong(this.roomMapMd.id, checkIn, checkOut).subscribe(res => {
           this.roomMap2 = res;
         })
       } else if (!params['checkInDate'] && !params['checkOutDate']) {
         this.checkInSearch = this.date.toISOString();
         this.checkOutSearch = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
-        this.roomService.getRoomMapping(this.date.toISOString().split('T')[0], this.date.toISOString().split('T')[0]).subscribe(res => {
+        console.log(this.date.toISOString());
+        console.log(new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString());
+        this.roomService.getListThemPhong(this.roomMapMd.id, this.date.toISOString().split('T')[0], new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0]).subscribe(res => {
           this.roomMap2 = res;
         })
       }

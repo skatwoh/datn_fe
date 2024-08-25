@@ -6,13 +6,14 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-<!--      <a href="" target="_blank">-->
+      <!--      <a href="" target="_blank">-->
       <a href="/admin/dashboard">
         <img src="assets/logo-main.png" alt="logo">
         <h1>Mebunbo</h1>
       </a>
     </div>
-    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed" *ngIf="(user$ | async) as user">
+    <ul nz-menu [nzTheme]="theme ? 'dark' : 'light'" nzMode="inline" [nzInlineCollapsed]="isCollapsed"
+        *ngIf="(user$ | async) as user">
       <li nz-submenu nzTitle="Thống kê" nzIcon="dashboard" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -31,11 +32,12 @@
         </ul>
       </li>
       <li nz-submenu nzTitle="Quản lý phòng đặt" nzIcon="database" *ngIf="user.role === 'admin'">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/admin/room-order-manager">Quản lý phòng đặt</a>
-          </li>
-        </ul>
+
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/admin/room-order-manager">Quản lý phòng đặt</a>
+            </li>
+          </ul>
       </li>
       <li nz-submenu nzTitle="Quản lý đặt phòng" nzIcon="group">
         <ul>
@@ -51,6 +53,8 @@
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/bill">Hóa đơn</a>
+            <nz-badge style="float: right;margin: 3px" [nzCount]="countBill">
+            </nz-badge>
           </li>
         </ul>
       </li>
@@ -69,54 +73,54 @@
       </li>
       <li nz-submenu nzTitle="Quản lý khách hàng" nzIcon="team">
         <ul>
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/account-user">Tài khoản</a>-->
-<!--          </li>-->
+          <!--          <li nz-menu-item nzMatchRouter>-->
+          <!--            <a routerLink="/admin/account-user">Tài khoản</a>-->
+          <!--          </li>-->
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/customer">Khách hàng</a>
           </li>
         </ul>
       </li>
-<!--      <li nz-submenu nzTitle="Quản lý bảo trì" nzIcon="database" *ngIf="user.role === 'admin'">-->
-<!--        <ul>-->
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/maintenance">Bảo trì</a>-->
-<!--          </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý bảo trì" nzIcon="database" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/maintenance">Bảo trì</a>-->
+      <!--          </li>-->
 
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li nz-submenu nzTitle="Quản lý đối tác" nzIcon="database" *ngIf="user.role === 'admin'">-->
-<!--        <ul>-->
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/partner">Đối tác</a>-->
-<!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý đối tác" nzIcon="database" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/partner">Đối tác</a>-->
+      <!--          </li>-->
 
-<!--        </ul>-->
-<!--      </li>-->
-<!--      <li nz-submenu nzTitle="Quản lý Dự Án" nzIcon="customer-service" *ngIf="user.role === 'admin'">-->
-<!--        <ul>-->
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/project"> Dự Án </a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý Dự Án" nzIcon="customer-service" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/project"> Dự Án </a>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
       <li nz-submenu nzTitle="Quản lý dịch vụ" nzIcon="customer-service" *ngIf="user.role === 'admin'">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="/admin/room-service"> Dịch Vụ </a>
           </li>
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/asset"> Tài sản </a>-->
-<!--          </li>-->
+          <!--          <li nz-menu-item nzMatchRouter>-->
+          <!--            <a routerLink="/admin/asset"> Tài sản </a>-->
+          <!--          </li>-->
         </ul>
       </li>
-<!--      <li nz-submenu nzTitle="Quản lý sự kiện" nzIcon="schedule" *ngIf="user.role === 'admin'">-->
-<!--        <ul>-->
-<!--          <li nz-menu-item nzMatchRouter>-->
-<!--            <a routerLink="/admin/sale"> Sự kiện </a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </li>-->
+      <!--      <li nz-submenu nzTitle="Quản lý sự kiện" nzIcon="schedule" *ngIf="user.role === 'admin'">-->
+      <!--        <ul>-->
+      <!--          <li nz-menu-item nzMatchRouter>-->
+      <!--            <a routerLink="/admin/sale"> Sự kiện </a>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
     </ul>
   </nz-sider>
   <nz-layout>

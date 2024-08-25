@@ -116,4 +116,11 @@ export class RoomService{
       return res;
     }))
   }
+
+  getListThemPhong(id: any, checkIn: any, checkOut: any): Observable<any> {
+    const params = {id, checkIn, checkOut};
+    return this.http.get<any>(`${API_AU_URL}/list-them-phong`, {params}).pipe(map(res => {
+      return res;
+    }))
+  }
 }

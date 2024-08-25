@@ -41,7 +41,7 @@
       </div>
     </td>
     <td nzCellControl="action">
-      <label class="relative inline-flex items-center mr-5 cursor-pointer">
+      <label *ngIf="data.role !== 'admin'" class="relative inline-flex items-center mr-5 cursor-pointer">
         <input type="checkbox" [ngModel]="data.emailVerified"
                (click)="manualUpdateUserStatus(data.email, i, data.emailVerified)"
                class="sr-only peer" checked>
@@ -49,7 +49,7 @@
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
       </label>
       <nz-button-group>
-        <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+        <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight" *ngIf="data.role !== 'admin'">
           <span style="color: palevioletred;" nz-icon nzTheme="outline" nzType="user-switch" ></span>
         </button>
       </nz-button-group>

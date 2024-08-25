@@ -43,15 +43,6 @@ export class ProfileComponent implements OnInit{
     this.isVisible = true;
   }
 
-  private getRooms(): void {
-    const id = this.user?.id;
-    this.roomOrderService.getListRoomOrder(1, 50, id, 1).subscribe(res => {
-      if (res && res.content) {
-        this.countRoom = res.content.length;
-      }
-    });
-  }
-
   private initForm(): void {
     this.user = this.authService.currentUserValue;
     this.form = this.fb.group({
@@ -66,11 +57,19 @@ export class ProfileComponent implements OnInit{
           {name: 'passwordAgain', label: 'Xác nhận mật khẩu'}
         ),}
       );
-    this.getRooms();
     this.customerService.getKhachHangByUser(this.user?.id).subscribe(res => {
       console.log(res)
       this.khachHang = res ;
     })
+    setTimeout(() => {
+      if(this.khachHang){
+        this.roomOrderService.getListRoomOrder(1, 50, this.khachHang.id).subscribe(res => {
+          if (res && res.content) {
+            this.countRoom = res.content.length;
+          }
+        });
+      }
+    }, 1000)
   }
 
   handleOk(form: FormGroup): void {

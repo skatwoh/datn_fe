@@ -1,13 +1,11 @@
 <div class="p-16" *ngIf="(user$ | async) as userInfo;">
   <div class="p-8 bg-white shadow mt-24">
     <div class="grid grid-cols-1 md:grid-cols-3">
-      <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
+      <div class="grid grid-cols-2 text-center order-last md:order-first mt-20 md:mt-0">
         <div><p class="font-bold text-gray-700 text-xl">{{countRoom}}</p>
-          <p class="text-gray-400">Số lần đặt</p></div>
-        <div><p class="font-bold text-gray-700 text-xl">0</p>
-          <p class="text-gray-400">Số lần hủy</p></div>
-        <div><p class="font-bold text-gray-700 text-xl">{{khachHang.rank}}</p>
-          <p class="text-gray-400">Hạng</p></div>
+          <p class="text-gray-400">Số phòng đặt</p></div>
+        <div><p class="font-bold text-gray-700 text-xl">{{khachHang.ghiChu}}</p>
+          <p class="text-gray-400">Tích điểm</p></div>
       </div>
       <div class="relative">
         <div
@@ -28,10 +26,6 @@
         </div>
       </div>
       <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-        <button [routerLink]="['/profile/me/room-order-history']"
-                class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-          Lịch sử đặt phòng
-        </button>
         <button [routerLink]="['/profile/me/list-room-order']"
           class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
           Danh sách phòng đặt

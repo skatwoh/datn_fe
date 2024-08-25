@@ -167,4 +167,14 @@ export class BillService{
     const params = {id};
     return this.http.post<any>(`${API_AU_URL}/update-tien-hoan-lai`,tienHoanLai, {params});
   }
+
+  getBillsXacNhan(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-xac-nhan`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
+    }));
+  }
 }

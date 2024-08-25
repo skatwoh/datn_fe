@@ -313,18 +313,17 @@ export class RoomComponent implements OnInit {
       hoTen: (document.getElementById('hoTen') as HTMLInputElement).value,
       sdt: (document.getElementById('sdt') as HTMLInputElement).value,
       cccd: (document.getElementById('cccd') as HTMLInputElement).value,
-      ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value,
-      gioiTinh: (document.getElementById('gioiTinh') as HTMLInputElement).value,
+      ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value
     }
     if (data.hoTen == '' || data.hoTen == null || data.sdt == '' || data.sdt == null || data.ngaySinh == null || data.ngaySinh == '') {
       this.mess.warning('Vui lòng điền đầy đủ thông tin người đặt');
       return;
     }
-    // setTimeout(() => {
-    //   this.customerService.create(data).subscribe((res: any) => {
-    //     console.log(res)
-    //   })
-    // }, 300)
+    setTimeout(() => {
+      this.customerService.create(data).subscribe((res: any) => {
+        console.log(res)
+      })
+    }, 300)
     // setTimeout(() => {
     //   this.customerService.getIdByCCCD(data.cccd).subscribe((res: any) => {
     //     this.idKhach = res;
