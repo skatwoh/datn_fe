@@ -50,7 +50,7 @@
             <label>Khách hàng: </label>
             <input id="khachHang"
                    style="width: 400px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 30px;padding: 5px"
-                   placeholder="Nhập tên hoặc số CCCD khách hàng">
+                   placeholder="Nhập tên hoặc số CCCD khách hàng" (change)="handleChangeCccd($event)">
           </div>
           <div style="margin-left: 30px;margin-top: 30px">
             <button (click)="resetSearch()" class="button-danger"
