@@ -95,6 +95,7 @@ export class RoomOrderManagerComponent implements OnInit {
   isVisibleHuyPhong = false;
   isOkLoading = false;
   soLuongDichVu: number = 0;
+  cccdValue: string = '';
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -1123,7 +1124,6 @@ export class RoomOrderManagerComponent implements OnInit {
   successMessage(): void {
     this.mess.success('Hủy phòng thành công');
   }
-
   huyDichVu(id: any, idDichVu: any, tienDichVu: number, soLuong: number){
     const idDV = idDichVu;
     const tienDV = tienDichVu;
@@ -1157,6 +1157,19 @@ export class RoomOrderManagerComponent implements OnInit {
         }
       })
     }, 1000)
+
+  handleChangeCccd(cccd: Event): void {
+    const inputElement = cccd.target as HTMLInputElement;
+    this.cccdValue = inputElement.value;
+    if(this.cccdValue == '') {
+      this.roomService.getRoomMapping(this.date.toISOString().split('T')[0], new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0]).subscribe(res => {
+        this.roomMapping = res;
+      })
+    } else {
+      this.roomOrderService.listRoomBooks(this.cccdValue).subscribe(res => {
+        this.roomMapping = res;
+      })
+    }
   }
 
   protected readonly formatDate = formatDate;

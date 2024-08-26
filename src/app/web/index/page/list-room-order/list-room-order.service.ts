@@ -79,4 +79,9 @@ export class ListRoomOrderService{
       return null;
     }));
   }
+
+  listRoomBooks(cccd: any): Observable<any> {
+    const params = {cccd};
+    return this.http.post<any>(`${API_AU_URL}/list-room-books`, params)
+  }
 }
