@@ -939,7 +939,7 @@ export class RoomOrderManagerComponent implements OnInit {
     this.roomManagerService.getListCheckOutToday(new Date().toISOString().split('T')[0]).subscribe(res => {
       this.listCheckOutToDay = res;
     })
-    this.isVisibleListCheckOut = true;
+    // this.isVisibleListCheckOut = true;
   }
 
   cancelListCheckOutToDay(){
