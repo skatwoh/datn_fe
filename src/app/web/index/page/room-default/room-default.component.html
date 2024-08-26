@@ -1,9 +1,9 @@
 <section class="dark:bg-gray-800 dark:text-gray-100">
   <div>
-    <div>
+    <div style="padding: 20px">
       <h2 class="text-3xl font-bold tracki text-center sm:text-5xl dark:text-gray-50">Phòng và dịch vụ của khách
         sạn</h2>
-      <p class="max-w-3xl mx-auto mt-4 text-xl text-center dark:text-gray-400">Intercontinental 45</p>
+      <p class="max-w-3xl mx-auto mt-4 text-xl text-center dark:text-gray-400">Intercontinental Mebunbo</p>
     </div>
     <div class="flex">
       <div style="width: 20%;height: 550px;border: 1px solid black;border-radius: 4px;margin: 10px">
@@ -39,7 +39,7 @@
           <div style="margin-left: 30px">
             <input type="number" id="gia"
                    style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;padding: 5px"
-                   >
+            >
           </div>
         </div>
         <br>
@@ -73,7 +73,7 @@
       text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
       group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                 <span style="width: 100%" (click)="searchByAll(soPhong, soNguoi)"
-                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
           Tìm kiếm
                 </span>
           </button>
@@ -95,8 +95,10 @@
                 <p class="mt-2 text-blue-800" style="font-size: 20px">Giá phòng : {{data.giaTheoNgay}}/đêm</p>
               </div>
               <div style="width: 100px;margin-top: 50px">
-                <button style="text-align: center" (click)="orderRoom(data.id)" class="rounded-lg py-4 px-2 hover:bg-blue-600 bg-stone-700 font-bold text-white shadow-lg shadow-white-500">
-                  Xem phòng ngay</button>
+                <button style="text-align: center" (click)="orderRoom(data.id)"
+                        class="rounded-lg py-4 px-2 hover:bg-blue-600 bg-stone-700 font-bold text-white shadow-lg shadow-white-500">
+                  Xem phòng ngay
+                </button>
               </div>
             </div>
           </div>
@@ -105,66 +107,218 @@
     </div>
 
     <div>
-      <div class="grid lg:gap-8 lg:grid-cols-2 lg:items-center">
-        <div class="lg:col-start-2">
-          <h3 class="text-2xl font-bold tracki sm:text-3xl dark:text-gray-50">Eam nibh gloriatur ex</h3>
-          <p class="mt-3 text-lg dark:text-gray-400">Per odio fabellas consulatu cu. Utroque detracto mel ea, quo te
-            latine theophrastus. Ea his tale nibh dissentias, mei exerci tamquam euripidis cu.</p>
-          <div class="mt-12 space-y-12">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <div
-                  class="flex items-center justify-center w-12 h-12 rounded-md dark:bg-violet-400 dark:text-gray-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                       class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
+      <div>
+        <hr style="width: 100%;height: 3px;margin: 5px">
+      </div>
+      <div class="flex">
+        <article class="max-w-2xl px-6 py-6 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
+          <div class="w-[32rem]">
+            <ul class="flex flex-col w-full">
+              <li class="relative flex flex-col gap-2">
+                  <span class="absolute left-0 grid justify-center transition-opacity duration-200 bg-transparent">
+                    <span class="h-full w-0.5 bg-blue-gray-100"></span>
+                  </span>
+                <div class="flex items-center gap-4">
+                      <span
+                        class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+                  <h5
+                    class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    Quy định và lưu trú
+                  </h5>
                 </div>
-              </div>
-              <div class="ml-4">
-                <h4 class="text-lg font-medium leadi dark:text-gray-50">Cibo augue offendit has ad</h4>
-                <p class="mt-2 dark:text-gray-400">An per velit appellantur, ut utinam minimum nominavi sit, odio nostro
-                  habemus ne nec. Ne sonet regione contentiones est.</p>
-              </div>
-            </div>
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <div
-                  class="flex items-center justify-center w-12 h-12 rounded-md dark:bg-violet-400 dark:text-gray-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                       class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
+                <div class="flex gap-4 pb-8">
+                  <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+                  <div>
+                    <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                      <b>- Thời gian nhận phòng:</b> sau 14h00.
+                      <br><span>  <b>- Thời gian trả phòng:</b> trước 12h00 trưa </span>
+                      <br><span>- Việc yêu cầu nhận phòng sớm hoặc trả phòng trễ tùy thuộc vào tình trạng phòng trống của khách sạn và phải được sự chấp thuận của khách sạn, phí phụ thu sẽ được áp dụng như sau:</span>
+                    </p>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b> -
+                        Trường hợp khách muốn nhận phòng sớm:</b></p>
+                      <li>Khách sạn không hỗ trợ check-in sớm cho khách hàng.</li>
+                      <li>Khách hàng chú ý check-in từ sau 14h.</li>
+                    </ul>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b> -
+                        Trường hợp trả phòng trễ: Khách có thể trả phòng trễ hoặc gia hạn việc tiếp tục ở lại căn cứ vào
+                        tình hình phòng trống và áp dụng mức phí phụ thu như sau:</b></p>
+                      <li> Trước 15h: phụ thu 30% tiền phòng của ngày trả phòng.</li>
+                      <li> Từ 15h00 - 18h00: phụ thu 50% tiền phòng của ngày trả phòng.</li>
+                      <li> Khách hàng chỉ có thể trả phòng trễ tối đa 10 tiếng.</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <div class="ml-4">
-                <h4 class="text-lg font-medium leadi dark:text-gray-50">At eum ferri luptatum lobortis</h4>
-                <p class="mt-2 dark:text-gray-400">Te per quidam maiorum ocurreret, etiam delicatissimi usu ad. Ne has
-                  quod periculis. Te sit primis iisque efficiantur.</p>
-              </div>
-            </div>
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <div
-                  class="flex items-center justify-center w-12 h-12 rounded-md dark:bg-violet-400 dark:text-gray-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                       class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
+              </li>
+              <li class="relative flex flex-col gap-2">
+                <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+                  <h5
+                    class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    Chính sách đặt cọc/thanh toán
+                  </h5>
                 </div>
-              </div>
-              <div class="ml-4">
-                <h4 class="text-lg font-medium leadi dark:text-gray-50">Dicunt verterem evertitur eu sea</h4>
-                <p class="mt-2 dark:text-gray-400">Audire principes rationibus eam an, autem nominavi luptatum per te.
-                  Sumo fabulas vim eu, sonet saperet eleifend ut vix.</p>
-              </div>
-            </div>
+                <div class="flex gap-4 pb-8">
+                  <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+                  <div>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                        Thanh toán toàn bộ</b></p>
+                      <li>Thanh toán toàn bộ đơn đặt phòng được giảm 5% tổng hóa đơn</li>
+                    </ul>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                        Đặt cọc</b></p>
+                      <li>Đặt cọc bằng 50% tổng số tiền phòng khi thực hiện đặt phòng thành công</li>
+                      <li>Thanh toán số tiền còn lại bằng 50% khi trả phòng.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
-          <img src="https://source.unsplash.com/random/361x481" alt=""
-               class="mx-auto rounded-lg shadow-lg dark:bg-gray-500">
-        </div>
+        </article>
+        <article class="max-w-2xl px-6 py-6 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
+          <div class="w-[32rem]">
+            <ul class="flex flex-col w-full">
+              <li class="relative flex flex-col gap-2">
+                <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+                  <h5
+                    class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    Chính sách hủy/đổi phòng
+                  </h5>
+                </div>
+                <div class="flex gap-4 pb-8">
+                  <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+                  <div>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                        Đặt
+                        cọc</b></p>
+                      <li>Miễn phí hủy phòng trước 3 ngày so với ngày nhận phòng</li>
+                      <li>Bất kỳ hủy đặt phòng nào trong vòng 3 ngày so với ngày nhận phòng sẽ bị tính phí 100% tiền đặt
+                        cọc.
+                      </li>
+                    </ul>
+                    <ul style="list-style-type:circle">
+                      <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                        Thanh
+                        toán toàn bộ</b></p>
+                      <li>Miễn phí hủy phòng trước 3 ngày so với ngày nhận phòng</li>
+                      <li>Bất kỳ hủy đặt phòng nào trong vòng 3 ngày so với ngày nhận phòng sẽ bị tính phí 50% tiền
+                        phòng.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="relative flex flex-col gap-2">
+                <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+                  <h5
+                    class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    Chính sách hoàn trả
+                  </h5>
+                </div>
+                <div class="flex gap-4">
+                  <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+                  <div>
+                    <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                      - Trong trường hợp Khách hàng đã thanh toàn tiền cọc, thanh toán đầy đủ tiền đặt phòng, nhưng do
+                      điều kiện khách quan nên hủy chuyến đi của mình, chúng tôi sẽ xem xét hoàn lại số tiền cho Khách
+                      hàng.
+                      <br>- Thời gian bồi hoàn là trong vòng 3-5 ngày .
+                      <br>- Hình thức bồi hoàn: bồi hoàn tài khoản ngân hàng đã được cung cấp hoặc thẻ đã thu tiền.
+                      <br>- Chi phí bồi hoàn: miễn phí.
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li class="relative flex flex-col gap-2">
+                <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+                  <h5
+                    class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    Phương thức thanh toán và bảo mật
+                  </h5>
+                </div>
+                <div class="flex gap-4">
+                  <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+                  <div>
+                    <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                      - Khách có thể trả bằng tiền mặt tại khách sạn hoặc nhân viên khách sạn sẽ trực tiếp gửi số tài
+                      khoản
+                      cho khách chuyển khoản qua internet-banking hoặc qua mã QR code .
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
+        <img src="https://source.unsplash.com/random/361x481" alt=""
+             class="mx-auto rounded-lg shadow-lg dark:bg-gray-500">
       </div>
     </div>
   </div>

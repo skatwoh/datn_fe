@@ -33,7 +33,7 @@
           <label style="margin-left: 10px;">Giá phòng:</label>
         </div>
         <div style="margin-left: 30px">
-          <p>{{(roomTypeModel.giaTheoNgay ?? 0 ) | currencyFormat}}</p>
+          <p>{{(roomTypeModel.giaTheoNgay ?? 0) | currencyFormat}}</p>
         </div>
       </div>
       <div style="margin: 10px;font-size: 17px" class="flex">
@@ -63,7 +63,8 @@
       </div>
       <hr style="width: 95%;margin-left: 10px">
     </div>
-    <div [formGroup]="roomOrderForm" (ngSubmit)="bookNow()" style="height: 500px;border: 1px solid black;border-radius: 4px;margin-top: 10px">
+    <div [formGroup]="roomOrderForm" (ngSubmit)="bookNow()"
+         style="height: 500px;border: 1px solid black;border-radius: 4px;margin-top: 10px">
       <div>
         <h1 style="font-size: 25px;text-align: center">Thông tin người đặt</h1>
         <br>
@@ -74,9 +75,9 @@
         <label style="margin-left: 10px;font-size: 15px">Họ tên: </label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
-          <input type="text" id="hoTen" [(ngModel)]="customerModel.hoTen"
-                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-           formControlName = "hoTen">
+            <input type="text" id="hoTen" [(ngModel)]="customerModel.hoTen"
+                   style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                   formControlName="hoTen">
           </nz-form-control>
         </div>
       </div>
@@ -84,20 +85,20 @@
         <label style="margin-left: 10px;font-size: 15px">Số CCCD</label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập CCCD">
-          <input type="text" id="cccd" [(ngModel)]="customerModel.cccd"
-                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-           formControlName="cccd">
+            <input type="text" id="cccd" [(ngModel)]="customerModel.cccd"
+                   style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                   formControlName="cccd">
           </nz-form-control>
         </div>
       </div>
       <div style="margin: 10px">
         <label style="margin-left: 10px;font-size: 15px">Ngày sinh</label>
         <nz-form-control nzErrorTip="Vui lòng nhập ngày sinh">
-        <div>
-          <input type="date" id="ngaySinh" [(ngModel)]="customerModel.ngaySinh"
-                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-           formControlName = "ngaySinh">
-        </div>
+          <div>
+            <input type="date" id="ngaySinh" [(ngModel)]="customerModel.ngaySinh"
+                   style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                   formControlName="ngaySinh">
+          </div>
         </nz-form-control>
       </div>
       <div style="margin: 10px">
@@ -115,9 +116,9 @@
         <label style="margin-left: 10px;font-size: 15px">Số điện thoại</label>
         <div>
           <nz-form-control nzErrorTip="Vui lòng nhập tên khách hàng">
-          <input type="text" id="sdt" [(ngModel)]="customerModel.sdt"
-                 style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
-           formControlName="sdt">
+            <input type="text" id="sdt" [(ngModel)]="customerModel.sdt"
+                   style="width: 95%;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px"
+                   formControlName="sdt">
           </nz-form-control>
         </div>
       </div>
@@ -128,29 +129,36 @@
     <div style="height: 75%;border-radius: 4px;border: 1px solid grey;margin: 10px;">
       <div nz-row style="margin: 5px">
         <div nz-col nzSpan="12">
-          <img style="width: 98%;margin: 5px"
-               src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
+          <div>
+            <img style="width: 98%;margin: 5px;height:420px"
+                 src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
+          </div>
         </div>
         <div nz-col nzSpan="12">
-          <img style="width: 98%;margin: 5px"
-               src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
+          <div>
+            <img style="width: 98%;margin: 5px;height: 420px"
+                 src="https://i.pinimg.com/564x/72/88/97/7288970fa6c009541646da31eeaedcfe.jpg">
+          </div>
         </div>
       </div>
       <div nz-row style="margin: 5px">
         <div nz-col nzSpan="8">
-          <img style="width: 98%;margin: 5px"
-               src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
-
+          <div>
+            <img style="width: 98%;margin: 5px;height:330px"
+                 src="https://i.pinimg.com/564x/5d/41/96/5d41966cb07811e82dc8803b945dee23.jpg">
+          </div>
         </div>
         <div nz-col nzSpan="8">
-          <img style="width: 98%;margin: 5px"
-               src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
-
+          <div>
+            <img style="width: 98%;margin: 5px;height:330px"
+                 src="https://i.pinimg.com/564x/19/2b/6f/192b6fa9f785c60c2c930c838df67a28.jpg">
+          </div>
         </div>
         <div nz-col nzSpan="8">
-          <img style="width: 98%;margin: 5px"
-               src="https://i.pinimg.com/564x/08/d7/2c/08d72c0a1507829c2f4dfbbd57824d33.jpg">
-
+          <div>
+            <img style="width: 98%;margin: 5px;height:330px"
+                 src="https://i.pinimg.com/564x/db/94/1e/db941e4047dcf3b69205f11d159bdeac.jpg">
+          </div>
         </div>
       </div>
     </div>
@@ -171,6 +179,224 @@
     </div>
   </div>
 </div>
+
+<div>
+  <div>
+    <hr style="width: 100%;height: 3px;margin: 5px">
+  </div>
+  <div class="flex">
+    <article class="max-w-2xl px-6 py-6 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
+      <div class="w-[32rem]">
+        <ul class="flex flex-col w-full">
+          <li class="relative flex flex-col gap-2">
+                  <span class="absolute left-0 grid justify-center transition-opacity duration-200 bg-transparent">
+                    <span class="h-full w-0.5 bg-blue-gray-100"></span>
+                  </span>
+            <div class="flex items-center gap-4">
+                      <span
+                        class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+              <h5
+                class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                Quy định và lưu trú
+              </h5>
+            </div>
+            <div class="flex gap-4 pb-8">
+              <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+              <div>
+                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                  <b>- Thời gian nhận phòng:</b> sau 14h00.
+                  <br><span>  <b>- Thời gian trả phòng:</b> trước 12h00 trưa </span>
+                  <br><span>- Việc yêu cầu nhận phòng sớm hoặc trả phòng trễ tùy thuộc vào tình trạng phòng trống của khách sạn và phải được sự chấp thuận của khách sạn, phí phụ thu sẽ được áp dụng như sau:</span>
+                </p>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b> -
+                    Trường hợp khách muốn nhận phòng sớm:</b></p>
+                  <li>Khách sạn không hỗ trợ check-in sớm cho khách hàng.</li>
+                  <li>Khách hàng chú ý check-in từ sau 14h.</li>
+                </ul>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b> -
+                    Trường hợp trả phòng trễ: Khách có thể trả phòng trễ hoặc gia hạn việc tiếp tục ở lại căn cứ vào
+                    tình hình phòng trống và áp dụng mức phí phụ thu như sau:</b></p>
+                  <li> Trước 15h: phụ thu 30% tiền phòng của ngày trả phòng.</li>
+                  <li> Từ 15h00 - 18h00: phụ thu 50% tiền phòng của ngày trả phòng.</li>
+                  <li> Khách hàng chỉ có thể trả phòng trễ tối đa 10 tiếng.</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="relative flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+              <h5
+                class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                Chính sách đặt cọc/thanh toán
+              </h5>
+            </div>
+            <div class="flex gap-4 pb-8">
+              <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+              <div>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                    Thanh toán toàn bộ</b></p>
+                  <li>Thanh toán toàn bộ đơn đặt phòng được giảm 5% tổng hóa đơn</li>
+                </ul>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                    Đặt cọc</b></p>
+                  <li>Đặt cọc bằng 50% tổng số tiền phòng khi thực hiện đặt phòng thành công</li>
+                  <li>Thanh toán số tiền còn lại bằng 50% khi trả phòng.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <article class="max-w-2xl px-6 py-6 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
+      <div class="w-[32rem]">
+        <ul class="flex flex-col w-full">
+          <li class="relative flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+              <h5
+                class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                Chính sách hủy/đổi phòng
+              </h5>
+            </div>
+            <div class="flex gap-4 pb-8">
+              <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+              <div>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                    Đặt
+                    cọc</b></p>
+                  <li>Miễn phí hủy phòng trước 3 ngày so với ngày nhận phòng</li>
+                  <li>Bất kỳ hủy đặt phòng nào trong vòng 3 ngày so với ngày nhận phòng sẽ bị tính phí 100% tiền đặt
+                    cọc.
+                  </li>
+                </ul>
+                <ul style="list-style-type:circle">
+                  <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600"><b>-
+                    Thanh
+                    toán toàn bộ</b></p>
+                  <li>Miễn phí hủy phòng trước 3 ngày so với ngày nhận phòng</li>
+                  <li>Bất kỳ hủy đặt phòng nào trong vòng 3 ngày so với ngày nhận phòng sẽ bị tính phí 50% tiền
+                    phòng.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="relative flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+              <h5
+                class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                Chính sách hoàn trả
+              </h5>
+            </div>
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+              <div>
+                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                  - Trong trường hợp Khách hàng đã thanh toàn tiền cọc, thanh toán đầy đủ tiền đặt phòng, nhưng do
+                  điều kiện khách quan nên hủy chuyến đi của mình, chúng tôi sẽ xem xét hoàn lại số tiền cho Khách
+                  hàng.
+                  <br>- Thời gian bồi hoàn là trong vòng 3-5 ngày .
+                  <br>- Hình thức bồi hoàn: bồi hoàn tài khoản ngân hàng đã được cung cấp hoặc thẻ đã thu tiền.
+                  <br>- Chi phí bồi hoàn: miễn phí.
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="relative flex flex-col gap-2">
+            <div class="flex items-center gap-4">
+               <span class="relative z-[2] w-max flex-shrink-0 overflow-hidden rounded-full bg-gray-900 p-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                             aria-hidden="true"
+                             class="w-4 h-4">
+                          <path
+                            d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z">
+                          </path>
+                          <path
+                            d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z">
+                          </path>
+                        </svg>
+                      </span>
+              <h5
+                class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                Phương thức thanh toán và bảo mật
+              </h5>
+            </div>
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 invisible h-full pointer-events-none"></span>
+              <div>
+                <p class="block font-sans text-base antialiased font-normal leading-relaxed text-gray-600">
+                  - Khách có thể trả bằng tiền mặt tại khách sạn hoặc nhân viên khách sạn sẽ trực tiếp gửi số tài
+                  khoản
+                  cho khách chuyển khoản qua internet-banking hoặc qua mã QR code .
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </div>
+
+  <div class="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
+    <img src="https://source.unsplash.com/random/361x481" alt=""
+         class="mx-auto rounded-lg shadow-lg dark:bg-gray-500">
+  </div>
+</div>
+
+
 <nz-modal
   [(nzVisible)]="isVisible"
   (nzOnCancel)="handleCancel()"
@@ -180,9 +406,9 @@
   <ng-container *nzModalContent>
     <div class="flex">
       <div style="width: 50%">
-      <button (click)="showModalThanhToan()">
-        Thanh toán toàn bộ
-      </button>
+        <button (click)="showModalThanhToan()">
+          Thanh toán toàn bộ
+        </button>
       </div>
       <div style="width: 50%">
         <button (click)="showModalThanhToanTienCoc()">
