@@ -1124,7 +1124,7 @@ export class RoomOrderManagerComponent implements OnInit {
   successMessage(): void {
     this.mess.success('Hủy phòng thành công');
   }
-  huyDichVu(id: any, idDichVu: any, tienDichVu: number, soLuong: number){
+  huyDichVu(id: any, idDichVu: any, tienDichVu: number, soLuong: number) {
     const idDV = idDichVu;
     const tienDV = tienDichVu;
     const soLuongDV = soLuong
@@ -1134,9 +1134,9 @@ export class RoomOrderManagerComponent implements OnInit {
           this.mess.success("Hủy dịch vụ thành công");
         },
       })
-      this.billService.updateTienDichVu(this.idHoaDon, (-tienDichVu)).subscribe(res =>{
+      this.billService.updateTienDichVu(this.idHoaDon, (-tienDichVu)).subscribe(res => {
       })
-      this.roomSerivceService.updateCongSoLuong(idDichVu, soLuong).subscribe(res =>{
+      this.roomSerivceService.updateCongSoLuong(idDichVu, soLuong).subscribe(res => {
       })
     }, 500)
     setTimeout(() => {
@@ -1144,8 +1144,8 @@ export class RoomOrderManagerComponent implements OnInit {
       this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDatPhongNow).subscribe(res => {
         this.detailsService = res.content;
         this.tongTienDichVu = 0;
-        for(let x = 0;x < res.content.length;x++) {
-          this.tongTienDichVu+=(res.content[x].giaDichVu*res.content[x].soLuong);
+        for (let x = 0; x < res.content.length; x++) {
+          this.tongTienDichVu += (res.content[x].giaDichVu * res.content[x].soLuong);
         }
       })
       this.roomManagerService.getDPById(this.idDatPhongNow).subscribe(res => {
@@ -1157,6 +1157,7 @@ export class RoomOrderManagerComponent implements OnInit {
         }
       })
     }, 1000)
+  }
 
   handleChangeCccd(cccd: Event): void {
     const inputElement = cccd.target as HTMLInputElement;
@@ -1170,6 +1171,29 @@ export class RoomOrderManagerComponent implements OnInit {
         this.roomMapping = res;
       })
     }
+  }
+
+  getRoomToDay2() {
+    const localDate = new Date(this.date.getTime() - (this.date.getTimezoneOffset() * 60000));
+    const localCheckInDate = localDate.toISOString().split('T')[0];
+
+    const checkOutDate = new Date();
+    checkOutDate.setDate(checkOutDate.getDate() + 1);
+    const localCheckOutDate = new Date(checkOutDate.getTime() - (checkOutDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+
+    (document.getElementById('checkIn') as HTMLInputElement).value = localCheckInDate;
+    (document.getElementById('checkOut') as HTMLInputElement).value = localCheckOutDate;
+
+    this.router.navigate(['/admin/room-order-manager/']);
+    this.roomService.getRoomMapping(localCheckInDate, localCheckOutDate).subscribe(res => {
+      this.roomMapping = res;
+    });
+
+    const queryParams = {
+      checkInDate: localCheckInDate,
+      checkOutDate: localCheckOutDate,
+    };
+    this.router.navigate(['/admin/room-order-manager/'], { queryParams });
   }
 
   protected readonly formatDate = formatDate;
