@@ -5,12 +5,6 @@
   </div>
   <form consFormFieldValidation [formGroup]="submitForm" (ngSubmit)="onSubmit(submitForm)">
     <nz-form-item>
-      <nz-form-label nzFor="giaPhong">Giá phòng</nz-form-label>
-      <nz-form-control nzErrorTip="Vui lòng nhập giá lớn hơn 100000">
-        <input style="width: 1400px;margin-left: 5px" nz-input type="number" id="giaPhong" formControlName="giaPhong"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
       <nz-form-label nzFor="idLoaiPhong">Loại phòng</nz-form-label>
       <nz-form-control nzErrorTip="Vui lòng chọn loại phòng">
       <select id="idLoaiPhong" formControlName="idLoaiPhong" style="width: 1400px;height: 40px;font-size: 18px;border-width: 1px; border-style: solid; border-color: darkgrey;border-radius: 3px" required>

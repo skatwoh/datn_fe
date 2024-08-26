@@ -57,9 +57,6 @@
         Mã
       </th>
       <th scope="col" class="px-6 py-3">
-        Giá phòng
-      </th>
-      <th scope="col" class="px-6 py-3">
         Loại phòng
       </th>
       <th scope="col" class="px-6 py-3">
@@ -80,9 +77,6 @@
       </td>
       <td class="px-6 py-4">
         {{ data.ma }}
-      </td>
-      <td class="px-6 py-4">
-        {{ data.giaPhong }}
       </td>
       <td class="px-6 py-4">
         {{ data.tenLoaiPhong }}
@@ -133,13 +127,6 @@
         <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentRoom.ma" disabled/>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzFor="giaPhong" style="width: 100px">Giá phòng </nz-form-label>
-      <nz-form-control nzErrorTip="Vui lòng nhập giá">
-        <input nz-input type="number" min="0" id="giaPhong" name="giaPhong" [(ngModel)]="currentRoom.giaPhong" required/>
-      </nz-form-control>
-    </nz-form-item>
-
     <nz-form-label nzFor="idloaiPhong" style="width: 100px">Loại phòng</nz-form-label>
     <nz-select nzAllowClear  style="width: 200px" [(ngModel)]="currentRoom.idLoaiPhong" nzPlaceHolder="{{currentRoom.tenLoaiPhong}}">
       <nz-option *ngFor="let data of roomType" [nzLabel]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'" nzValue="{{ data.id }}"></nz-option>

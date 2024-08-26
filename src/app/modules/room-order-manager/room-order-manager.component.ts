@@ -91,6 +91,9 @@ export class RoomOrderManagerComponent implements OnInit {
   isVisibleCheckoutSom = false;
   soNgayCheckOutSom: any;
   dateNow: any;
+  currentRoomOrder!: RoomOrder;
+  isVisibleHuyPhong = false;
+  isOkLoading = false;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -1036,6 +1039,66 @@ export class RoomOrderManagerComponent implements OnInit {
     }, 1000)
   }
 
+  showModalHuyPhong(id: any): void {
+    this.isVisibleHuyPhong = true;
+    this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+        this.currentRoomOrder = data;
+    });
+  }
+
+  handleOkHuyPhong(): void {
+    this.isOkLoading = true;
+    this.deleteRoom();
+    setTimeout(() => {
+      this.isVisibleHuyPhong = false;
+      this.isOkLoading = false;
+      this.isVisibleListDP = false;
+      this.isVisible = false;
+    }, 500);
+    setTimeout(() => {
+      this.viewRoom(this.currentRoomOrder.id, this.currentRoomOrder.idHoaDon, this.currentRoomOrder.id);
+    }, 1000)
+  }
+
+  handleCancelHuyPhong(): void {
+    this.isVisibleHuyPhong = false;
+  }
+
+  deleteRoom(): void {
+    this.roomOrderService.updateStatus(this.currentRoomOrder.id, 0)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          if (res.body.code == "Failed") {
+            this.mess.error(res.body.message);
+          } else {
+            this.currentRoomOrder.trangThai = 0
+            this.successMessage();
+          }
+        },
+      });
+    setTimeout(() => {
+      let checkCount = 0;
+      this.billService.getDatPhongByHoaDon(1, 15, this.currentRoomOrder.idHoaDon).subscribe(res => {
+        // this.roomByHD = res.content;
+        for(let x = 0;x < res.content.length;x++){
+          if(res.content[x].trangThai !== 0){
+            checkCount++;
+          }
+        }
+        console.log(checkCount);
+        if(checkCount === 0){
+          this.billService.updateStatus(this.currentRoomOrder.idHoaDon, 4).subscribe(res => {
+            console.log(res);
+          })
+        }
+      })
+    }, 200)
+  }
+
+  successMessage(): void {
+    this.mess.success('Hủy phòng thành công');
+  }
 
   protected readonly formatDate = formatDate;
 }

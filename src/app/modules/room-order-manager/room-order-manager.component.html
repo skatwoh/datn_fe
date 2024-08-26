@@ -281,8 +281,14 @@
   <ng-container *nzModalContent>
     <div>
       <div>
-        <p style="text-align: center;font-size: 30px;font-weight:bolder;margin-bottom: 5px">Phòng
+        <div style="width: 100%" class="flex">
+        <p style="text-align: center;font-size: 30px;font-weight:bolder;margin-bottom: 5px;width: 93%">Phòng
           số {{roomModel.tenPhong}}</p>
+            <button *ngIf="roomModel.trangThai == 1" (click)="showModalHuyPhong(roomModel.idDatPhong)" class="button-danger"
+            >
+              Hủy phòng
+            </button>
+        </div>
         <hr>
       </div>
       <br>
@@ -1060,6 +1066,22 @@
                 </span>
         </button>
       </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleHuyPhong"
+  (nzOnCancel)="handleCancelHuyPhong()"
+  (nzOnOk)="handleOkHuyPhong()"
+  [nzOkLoading]="isOkLoading"
+  [nzOkText]="'Đồng ý'"
+  [nzCancelText]="'Trở về'"
+
+>
+  <ng-container *nzModalContent>
+    <div>
+      <p style="font-size: large">Bạn có chắc muốn hủy phòng này không?</p>
     </div>
   </ng-container>
 </nz-modal>
