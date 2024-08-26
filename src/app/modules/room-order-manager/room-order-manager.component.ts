@@ -758,6 +758,11 @@ export class RoomOrderManagerComponent implements OnInit {
       this.roomManagerService.getDPById(this.idDatPhongNow).subscribe(res => {
         this.roomModel = res;
       })
+      this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
+        if (res && res.content) {
+          this.roomServiceModel = res.content;
+        }
+      })
     }, 1000)
   }
 
@@ -1115,6 +1120,41 @@ export class RoomOrderManagerComponent implements OnInit {
 
   successMessage(): void {
     this.mess.success('Hủy phòng thành công');
+  }
+
+  huyDichVu(id: any, idDichVu: any, tienDichVu: number, soLuong: number){
+    const idDV = idDichVu;
+    const tienDV = tienDichVu;
+    const soLuongDV = soLuong
+    setTimeout(() => {
+      this.billService.huyDichVu(id).subscribe({
+        next: (res) => {
+          this.mess.success("Hủy dịch vụ thành công");
+        },
+      })
+      this.billService.updateTienDichVu(this.idHoaDon, (-tienDichVu)).subscribe(res =>{
+      })
+      this.roomSerivceService.updateCongSoLuong(idDichVu, soLuong).subscribe(res =>{
+      })
+    }, 500)
+    setTimeout(() => {
+      this.isVisibleDichVu = false;
+      this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDatPhongNow).subscribe(res => {
+        this.detailsService = res.content;
+        this.tongTienDichVu = 0;
+        for(let x = 0;x < res.content.length;x++) {
+          this.tongTienDichVu+=(res.content[x].giaDichVu*res.content[x].soLuong);
+        }
+      })
+      this.roomManagerService.getDPById(this.idDatPhongNow).subscribe(res => {
+        this.roomModel = res;
+      })
+      this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
+        if (res && res.content) {
+          this.roomServiceModel = res.content;
+        }
+      })
+    }, 1000)
   }
 
   protected readonly formatDate = formatDate;
