@@ -165,19 +165,13 @@ export class RoomOrderManagerComponent implements OnInit {
       if (params['checkInDate'] && params['checkOutDate']) {
         const checkIn = params['checkInDate'];
         const checkOut = params['checkOutDate'];
-        (document.getElementById('checkIn') as HTMLInputElement).value = checkIn;
-        (document.getElementById('checkOut') as HTMLInputElement).value = checkOut ;
         this.checkInSearch = new Date(checkIn.toLocaleString());
         this.checkOutSearch = new Date(checkOut.toLocaleString());
         this.roomService.getRoomMapping(checkIn, checkOut).subscribe(res => {
           this.roomMapping = res;
-          this.soPhongTrong = 0;
-          for(let x = 0;x <= res.length;x++){
-            if(res[x].soPhong == 0){
-              this.soPhongTrong++;
-            }
-          }
-        })
+          (document.getElementById('checkIn') as HTMLInputElement).value = checkIn;
+          (document.getElementById('checkOut') as HTMLInputElement).value = checkOut;
+        });
       } else if (!params['checkInDate'] && !params['checkOutDate']) {
         this.checkInSearch = this.date.toISOString();
         this.checkOutSearch = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
@@ -203,11 +197,11 @@ export class RoomOrderManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.soPhongTrong = 0;
+    this.getRoomMapping();
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.dateNow = new Date().toISOString();
-    this.getRoomMapping();
   }
 
   showDetail(id: any, idDP: any, idHD: any) {
@@ -514,6 +508,14 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   showOrderRoom() {
+    if((document.getElementById('checkIn') as HTMLInputElement).value < new Date().toISOString().split('T')[0]){
+      this.mess.warning('Đã quá thời gian đặt phòng!');
+      return;
+    }
+    if((document.getElementById('checkIn') as HTMLInputElement).value > (document.getElementById('checkOut') as HTMLInputElement).value){
+      this.mess.warning('Thời gian đặt phòng không hợp lệ!');
+      return;
+    }
     if (this.checkInSearch < new Date().toISOString().split('T')[0] ||
       this.checkOutSearch < new Date().toISOString().split('T')[0]) {
       this.mess.warning('Đã quá thời gian đặt phòng!');
@@ -758,6 +760,11 @@ export class RoomOrderManagerComponent implements OnInit {
       })
       this.roomManagerService.getDPById(this.idDatPhongNow).subscribe(res => {
         this.roomModel = res;
+      })
+      this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
+        if (res && res.content) {
+          this.roomServiceModel = res.content;
+        }
       })
     }, 1000)
   }
@@ -1117,6 +1124,39 @@ export class RoomOrderManagerComponent implements OnInit {
   successMessage(): void {
     this.mess.success('Hủy phòng thành công');
   }
+  huyDichVu(id: any, idDichVu: any, tienDichVu: number, soLuong: number){
+    const idDV = idDichVu;
+    const tienDV = tienDichVu;
+    const soLuongDV = soLuong
+    setTimeout(() => {
+      this.billService.huyDichVu(id).subscribe({
+        next: (res) => {
+          this.mess.success("Hủy dịch vụ thành công");
+        },
+      })
+      this.billService.updateTienDichVu(this.idHoaDon, (-tienDichVu)).subscribe(res =>{
+      })
+      this.roomSerivceService.updateCongSoLuong(idDichVu, soLuong).subscribe(res =>{
+      })
+    }, 500)
+    setTimeout(() => {
+      this.isVisibleDichVu = false;
+      this.billService.getAllChiTietDichVuByDatPhong(1, 15, this.idDatPhongNow).subscribe(res => {
+        this.detailsService = res.content;
+        this.tongTienDichVu = 0;
+        for(let x = 0;x < res.content.length;x++) {
+          this.tongTienDichVu+=(res.content[x].giaDichVu*res.content[x].soLuong);
+        }
+      })
+      this.roomManagerService.getDPById(this.idDatPhongNow).subscribe(res => {
+        this.roomModel = res;
+      })
+      this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
+        if (res && res.content) {
+          this.roomServiceModel = res.content;
+        }
+      })
+    }, 1000)
 
   handleChangeCccd(cccd: Event): void {
     const inputElement = cccd.target as HTMLInputElement;

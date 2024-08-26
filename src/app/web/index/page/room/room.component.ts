@@ -289,7 +289,6 @@ export class RoomComponent implements OnInit {
         })
       })
     })
-
   }
 
   checkCreate = false;

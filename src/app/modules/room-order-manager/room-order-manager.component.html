@@ -342,7 +342,7 @@
             <td>{{ data.ngayDat | date : 'dd-MM-yyyy' }}</td>
             <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
             <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
-            <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : 'Đã hủy'}}</td>
+            <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : data.trangThai == 4 ? 'Đang xác nhận' : 'Đã hủy'}}</td>
             <td>
               <button><span nz-icon nzType="eye" nzTheme="outline" nz-tooltip nzTooltipTitle="Xem"
                             (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)"></span></button>
@@ -470,7 +470,7 @@
                   <td>{{ data.ngayDat | date : 'dd-MM-yyyy' }}</td>
                   <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
                   <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
-                  <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : 'Đã hủy'}}</td>
+                  <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : data.trangThai == 4 ? 'Đang xác nhận' : 'Đã hủy'}}</td>
                   <td>
                     <button><span nz-icon nzType="eye" nzTheme="outline" nz-tooltip nzTooltipTitle="Xem"
                                   (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)"></span></button>
@@ -498,6 +498,7 @@
                     <th>Thời gian đặt</th>
                     <th>Đơn giá</th>
                     <th>Tổng</th>
+                    <th>Tác vụ</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -508,6 +509,19 @@
                     <td>{{ data.thoiGianDat | date : 'dd-MM-yyyy hh:mm:ss' }}</td>
                     <td>{{ data.giaDichVu | currency:'VND': '':'1.0-0' }}</td>
                     <td>{{ data.giaDichVu * data.soLuong | currency:'VND': '':'1.0-0' }}</td>
+                    <td>
+                      <div nz-tooltip nzTooltipTitle="Xóa" (click)="huyDichVu(data.id, data.idDichVu, data.giaDichVu * data.soLuong, data.soLuong)">
+                        <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-trash" viewBox="0 0 16 16">
+                          <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                            fill="red"></path>
+                          <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                                fill="red"></path>
+                        </svg>
+                      </div>
+                    </td>
                   </tr>
                   </tbody>
                 </nz-table>
@@ -519,25 +533,26 @@
               <div style="width: 43%;height:445px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
                 <h3 style="font-weight: bolder;font-size: 16px;padding: 5px">Order dịch vụ</h3>
                 <div
-                  *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5"
+                  *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5 && roomModel.trangThaiThanhToan !== 2 && roomModel.trangThaiThanhToan !== 6"
                   nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div (click)="showFormOrderDichVu(data.id, data.soLuong)"
-                         style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
+                         style="border: 1px solid gray;border-radius: 5px;margin: 5px;height: 190px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
                         <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
                       </div>
                       <div style="padding: 5px;font-weight: bolder">
                         <h1>{{data.tenDichVu}}</h1>
                         <h1>Giá: {{data.giaDichVu | currency:'VND': '':'1.0-0' }}</h1>
+                        <h1>Số lượng: {{data.soLuong }}</h1>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div *ngIf="roomModel.trangThai === 3 || roomModel.trangThaiThanhToan === 5" nz-row>
+                <div *ngIf="roomModel.trangThai === 3 || roomModel.trangThaiThanhToan === 5 || roomModel.trangThaiThanhToan === 4" nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div
-                      style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
+                      style="border: 1px solid gray;border-radius: 5px;margin: 5px;height: 190px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
                         <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
                       </div>
@@ -1070,7 +1085,7 @@
           <td>{{ data.nguoiCheckIn }}</td>
           <td>{{ data.sdtCheckIn}}</td>
           <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
-          <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : 'Đã hủy'}}</td>
+          <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : data.trangThai == 4 ? 'Đang xác nhận' : 'Đã hủy'}}</td>
           <td class="flex">
             <button (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)" style="margin-left: 5px;"
                     class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium

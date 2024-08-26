@@ -58,4 +58,9 @@ export class RoomServiceService{
     const params = {id};
     return this.http.put<any>(`${API_AU_URL}/update-so-luong`, soLuong, {params});
   }
+
+  updateCongSoLuong(id: any, soLuong: number): Observable<any> {
+    const params = {id};
+    return this.http.put<any>(`${API_AU_URL}/update-cong-so-luong`, soLuong, {params});
+  }
 }
