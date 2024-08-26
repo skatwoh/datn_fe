@@ -96,22 +96,49 @@
         {{ data.soLuong }}
       </td>
       <td class="px-12 py-4" style="display: flex">
-        <div *ngIf="data.trangThai === 1" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
-          <svg (click)="generatePDF(data.id)" style="color: blue" xmlns="http://www.w3.org/2000/svg" width="25"
-               height="25" fill="currentColor"
-               class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-                  fill="blue"></path>
-            <path fill-rule="evenodd"
-                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-                  fill="blue"></path>
-          </svg>
-        </div>
+        <div class="btn-info" (click)="showModal(data.id)">
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>        </div>
       </td>
     </tr>
     </tbody>
   </nz-table>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Cập nhật dịch vụ"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+>
+  <ng-container *nzModalContent>
+    <div *ngIf="currentDichVu" class="edit-form">
+      <nz-form-item>
+        <nz-form-label nzFor="ma" style="width: 100px">Mã dịch vụ</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập mã">
+          <input nz-input type="text" id="ma" name="ma" [(ngModel)]="currentDichVu.ma" disabled/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="tenDichVu" style="width: 100px">Tên dịch vụ</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập tên">
+          <input nz-input type="text" id="tenDichVu" name="tenDichVu" [(ngModel)]="currentDichVu.tenDichVu" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="giaDichVu" style="width: 100px">Giá dịch vụ</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá">
+          <input nz-input type="number" id="giaDichVu" name="giaDichVu" [(ngModel)]="currentDichVu.giaDichVu" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="soLuong" style="width: 100px">Số lượng</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập giá">
+          <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="currentDichVu.soLuong" required/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </ng-container>
+</nz-modal>
 
 

@@ -20,17 +20,17 @@
         <input type="date" id="checkOut"
                style="width: 200px;height:30px;border-radius: 5px;border: 1px solid lightskyblue;margin-left: 10px;margin-top: 10px;padding: 5px">
       </div>
-      <div style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">
-        <label>Loại phòng</label>
-        <select id="tenLoaiPhong" class="select-input"
-                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"
-        >
-          <option class="option" value="">Tất cả</option>
-          <option class="option" *ngFor="let data of roomType"
-                  [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"
-                  [value]="data.tenLoaiPhong"></option>
-        </select>
-      </div>
+<!--      <div style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">-->
+<!--        <label>Loại phòng</label>-->
+<!--        <select id="tenLoaiPhong" class="select-input"-->
+<!--                style="width: 300px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;margin-left: 10px"-->
+<!--        >-->
+<!--          <option class="option" value="">Tất cả</option>-->
+<!--          <option class="option" *ngFor="let data of roomType"-->
+<!--                  [label]="data.tenLoaiPhong ? data.tenLoaiPhong : 'Chọn loại phòng'"-->
+<!--                  [value]="data.tenLoaiPhong"></option>-->
+<!--        </select>-->
+<!--      </div>-->
       <!--      <div style="font-size: 18px;margin-left: 30px;font-family: Arial;margin-top: 10px">-->
       <!--        <label>Trạng thái phòng</label>-->
       <!--        <select id="trangThai" class="select-input"-->
@@ -422,7 +422,7 @@
                   *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5"
                   nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
-                    <div (click)="showFormOrderDichVu(data.id)"
+                    <div (click)="showFormOrderDichVu(data.id, data.soLuong)"
                          style="border: 1px solid gray;border-radius: 5px;margin: 10px;height: 180px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
                         <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
