@@ -19,6 +19,7 @@ export class RoomServiceComponent implements OnInit{
   isVisible = false;
   isOkLoading = false;
   id : number | undefined;
+  currentDichVu!: RoomServiceModel;
   constructor(private roomSerivceService: RoomServiceService,
               private router: Router,
               private messageNoti: NzMessageService,
@@ -60,7 +61,7 @@ export class RoomServiceComponent implements OnInit{
 
   updateRoomService(): void {
     this.roomSerivceService
-      .update(this.currentRoomSerivce.id, this.currentRoomSerivce)
+      .update(this.currentDichVu.id, this.currentDichVu)
       .subscribe({
         next: (res) => {
           console.log(res);
@@ -78,7 +79,7 @@ export class RoomServiceComponent implements OnInit{
     this.isVisible = true;
     this.id = id;
     this.roomSerivceService.get(this.id).subscribe((data: RoomServiceModel) => {
-      this.currentRoomSerivce = data;
+      this.currentDichVu = data;
       console.log(this.currentRoomSerivce);
     });
   }

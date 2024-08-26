@@ -94,6 +94,9 @@
           Tổng tiền
         </th>
         <th scope="col" class="px-6 py-3">
+          Tiền hoàn lại
+        </th>
+        <th scope="col" class="px-6 py-3">
           Giảm giá
         </th>
         <th scope="col" class="px-6 py-3">
@@ -146,10 +149,13 @@
           {{ data.tongTien??0 | currency:'VND': '':'1.0-0'}}
         </td>
         <td class="px-6 py-4">
+          {{ data.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}
+        </td>
+        <td class="px-6 py-4">
           {{ data.tienTichDiem??0 | currency:'VND': '':'1.0-0'}}
         </td>
         <td class="px-6 py-4">
-          {{ data.tienThanhToan??data.tongTien | currency:'VND': '':'1.0-0'}}
+          {{ data.tienThanhToan??0 | currency:'VND': '':'1.0-0'}}
         </td>
         <td class="px-6 py-4">
           {{ data.tienCoc }}

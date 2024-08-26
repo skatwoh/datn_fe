@@ -76,7 +76,7 @@
             <div
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
             >
-              Mã phòng
+              Mã đặt phòng
             </div>
           </th>
           <th
@@ -101,6 +101,18 @@
               class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
             >
               Ngày trả
+            </div>
+          </th>
+          <th
+            colspan="1"
+            role="columnheader"
+            title="Toggle SortBy"
+            style="cursor: pointer"
+          >
+            <div
+              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
+            >
+              Giá phòng
             </div>
           </th>
           <th
@@ -145,7 +157,7 @@
         <tr role="row" *ngFor="let data of room; let i = index">
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.tenPhong}}
+              {{data.ma}}
             </p>
           </td>
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
@@ -160,10 +172,14 @@
           </td>
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <p class="text-md font-medium text-gray-600 dark:text-white">
+              {{data.giaPhong}} VND
+            </p>
+          </td>
+          <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
+            <p class="text-md font-medium text-gray-600 dark:text-white">
               {{data.tongGia}} VND
             </p>
           </td>
-
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <div class="flex items-center" *ngIf="data.trangThai == 0">
               <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
@@ -185,8 +201,6 @@
           <td class="py-3 text-sm" role="cell" *ngIf="hoaDon.id === data.idHoaDon">
             <div *ngIf="data.trangThai !== 3 && data.trangThai !== 2 && data.trangThai !== 0">
               <button (click)="showModal(data.id)" class="btn-red">Hủy phòng</button>
-
-              <button (click)="showRoomUpperPrice(data.giaPhong, data.id)" class="btn-change ml-3">Đổi phòng</button>
             </div>
           </td>
         </tr>

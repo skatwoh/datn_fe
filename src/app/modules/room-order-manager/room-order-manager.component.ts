@@ -94,6 +94,7 @@ export class RoomOrderManagerComponent implements OnInit {
   currentRoomOrder!: RoomOrder;
   isVisibleHuyPhong = false;
   isOkLoading = false;
+  soLuongDichVu: number = 0;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -148,9 +149,14 @@ export class RoomOrderManagerComponent implements OnInit {
     (document.getElementById('checkIn') as HTMLInputElement).value = this.date.toISOString().split('T')[0];
     (document.getElementById('checkOut') as HTMLInputElement).value = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0];
     this.router.navigate(['/admin/room-order-manager/']);
-    this.roomService.getRoomMapping(this.date.toISOString().split('T')[0], this.date.toISOString().split('T')[0]).subscribe(res => {
+    this.roomService.getRoomMapping(this.date.toISOString().split('T')[0], new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0]).subscribe(res => {
       this.roomMapping = res;
     })
+    const queryParams = {
+      checkInDate: this.date.toISOString().split('T')[0],
+      checkOutDate: new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString().split('T')[0],
+    };
+    this.router.navigate(['/admin/room-order-manager/'], {queryParams});
   }
 
   getRoomMapping() {
@@ -435,6 +441,10 @@ export class RoomOrderManagerComponent implements OnInit {
       );
       return;
     }
+    if((document.getElementById('checkIn') as HTMLInputElement).value >= (document.getElementById('checkOut') as HTMLInputElement).value){
+      this.mess.warning('Thời gian không hợp lệ!');
+      return;
+    }
     this.checkInSearch = checkInElement;
     this.checkOutSearch = checkOutElement;
     const queryParams = {
@@ -503,8 +513,8 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   showOrderRoom() {
-    if ((document.getElementById('checkIn') as HTMLInputElement).value < new Date().toISOString().split('T')[0] ||
-      (document.getElementById('checkOut') as HTMLInputElement).value < new Date().toISOString().split('T')[0]) {
+    if (this.checkInSearch < new Date().toISOString().split('T')[0] ||
+      this.checkOutSearch < new Date().toISOString().split('T')[0]) {
       this.mess.warning('Đã quá thời gian đặt phòng!');
       return;
     }
@@ -699,11 +709,12 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   // Đặt dịch vụ
-  showFormOrderDichVu(id: any) {
+  showFormOrderDichVu(id: any, soLuong: any) {
     this.isVisibleDichVu = true;
     this.roomSerivceService.get(id).subscribe(res => {
       this.roomSvModel = res;
     })
+    this.soLuongDichVu = soLuong;
     this.idDichVu = id;
   }
 
@@ -715,6 +726,10 @@ export class RoomOrderManagerComponent implements OnInit {
   okDichVu() {
     setTimeout(() => {
       const soLuong = document.getElementById('soLuong') as HTMLInputElement;
+      if(this.soLuongDichVu < Number.parseInt(soLuong.value)){
+        this.mess.warning('Số lượng trong kho không đủ');
+        return;
+      }
       const data1 = {
         idDichVu: this.idDichVu,
         idDatPhong: this.idDatPhongNow,
@@ -727,6 +742,8 @@ export class RoomOrderManagerComponent implements OnInit {
         console.log(res)
       })
       this.billService.updateTienDichVu(this.idHoaDon, data1.giaDichVu*data1.soLuong).subscribe(res =>{
+      })
+      this.roomSerivceService.updateSoLuong(this.idDichVu, Number.parseInt(soLuong.value)).subscribe(res =>{
       })
     }, 500)
     setTimeout(() => {
