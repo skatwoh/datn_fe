@@ -99,6 +99,12 @@ export class RoomDefaultComponent implements OnInit{
   }
 
   searchByAll(soPhong: any, soNguoi: any){
+    if(Number.parseInt((document.getElementById('soNguoi') as HTMLInputElement).value) < Number.parseInt((document.getElementById('soPhong') as HTMLInputElement).value)){
+      this.mess.warning(
+        'Số người không được nhỏ hơn số phòng!'
+      );
+      return;
+    }
     const checkInElement = document.getElementById('checkIn') as HTMLInputElement;
     const checkOutElement = document.getElementById('checkOut') as HTMLInputElement;
     if(checkOutElement.value == '' || checkOutElement.value == ''){

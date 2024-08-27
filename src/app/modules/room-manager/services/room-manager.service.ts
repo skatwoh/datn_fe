@@ -147,4 +147,11 @@ export class RoomManagerService {
   getMonthlyBookings(): Observable<any> {
     return this.http.get<MonthlyBooking[]>(`${API_AU_URL}/monthly-bookings`)
   }
+
+  getDPMappingByCheckInAndCCCD(checkIn: any, cccd: any): Observable<any>{
+    const params = {checkIn, cccd};
+    return this.http.get(`${API_AU_URL}/list-by-cccd-check-in`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
 }

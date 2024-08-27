@@ -94,8 +94,12 @@ export class RoomOrderManagerComponent implements OnInit {
   currentRoomOrder!: RoomOrder;
   isVisibleHuyPhong = false;
   isOkLoading = false;
+  isOkLoadingTimPhong = false;
   soLuongDichVu: number = 0;
   cccdValue: string = '';
+  isVisibleTimPhong = false;
+  listRoomByCCCD : RoomOrderMappingModel[] = [];
+  isVisibleListTimPhong = false;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -275,6 +279,14 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   createCheckIn() {
+    if ((document.getElementById('cccdCheckIn') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccdCheckIn') as HTMLInputElement).value.length !== 9) {
+      this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
+      return;
+    }
+    if ((document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 10 && (document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 11) {
+      this.mess.warning('Số điện thoại không hợp lệ');
+      return;
+    }
     this.billService.updateStatusRoomOrder(this.idDatPhongNow, 2).subscribe({})
     const data = this.formCheckIn.value;
     data.idDatPhong = this.idDatPhongNow;
@@ -1194,6 +1206,32 @@ export class RoomOrderManagerComponent implements OnInit {
       checkOutDate: localCheckOutDate,
     };
     this.router.navigate(['/admin/room-order-manager/'], { queryParams });
+  }
+
+  showFormTimPhong(){
+    this.isVisibleTimPhong = true;
+  }
+
+  handleCancelTimPhong(){
+    this.isVisibleTimPhong = false;
+  }
+
+  handleOkTimPhong(){
+    this.isOkLoadingTimPhong = true;
+    const cccdTim = (document.getElementById('cccdTimPhong') as HTMLInputElement).value;
+    const checkInTim = (document.getElementById('checkInTimPhong') as HTMLInputElement).value;
+    this.roomManagerService.getDPMappingByCheckInAndCCCD(checkInTim, cccdTim).subscribe(res => {
+      this.listRoomByCCCD = res;
+    })
+    setTimeout(() => {
+      this.isVisibleTimPhong = false;
+      this.isOkLoadingTimPhong = false;
+      this.isVisibleListTimPhong = true;
+    }, 500)
+  }
+
+  cancelListTimPhong(){
+    this.isVisibleListTimPhong = false;
   }
 
   protected readonly formatDate = formatDate;
