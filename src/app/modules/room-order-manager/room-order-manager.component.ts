@@ -283,10 +283,10 @@ export class RoomOrderManagerComponent implements OnInit {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
     }
-    if ((document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 10 && (document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 11) {
-      this.mess.warning('Số điện thoại không hợp lệ');
-      return;
-    }
+    // if ((document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 10 && (document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 11) {
+    //   this.mess.warning('Số điện thoại không hợp lệ');
+    //   return;
+    // }
     this.billService.updateStatusRoomOrder(this.idDatPhongNow, 2).subscribe({})
     const data = this.formCheckIn.value;
     data.idDatPhong = this.idDatPhongNow;
@@ -565,7 +565,6 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   saveOrderForm() {
-
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
@@ -622,8 +621,8 @@ export class RoomOrderManagerComponent implements OnInit {
           dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
         }
         dataDatPhong.idPhong = this.roomMapMd.id;
-        dataDatPhong.checkIn = this.checkInSearch;
-        dataDatPhong.checkOut = this.checkOutSearch;
+        dataDatPhong.checkIn = moment(this.checkInSearch);
+        dataDatPhong.checkOut = moment(this.checkOutSearch);
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
