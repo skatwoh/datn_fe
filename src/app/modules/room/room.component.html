@@ -60,6 +60,9 @@
         Loại phòng
       </th>
       <th scope="col" class="px-6 py-3">
+        Hình ảnh
+      </th>
+      <th scope="col" class="px-6 py-3">
         Trạng thái
       </th>
       <th scope="col" class="px-12 py-3">
@@ -80,6 +83,9 @@
       </td>
       <td class="px-6 py-4">
         {{ data.tenLoaiPhong }}
+      </td>
+      <td class="px-6 py-4">
+        <img style="width: 100px;height: 100px" src="{{data.image}}">
       </td>
       <td class="px-6 py-4">
         <div class="flex items-center" *ngIf="data.trangThai == 1">

@@ -12,34 +12,38 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
   templateUrl: './room-service.component.html',
   styleUrls: ['./room-service.component.scss']
 })
-export class RoomServiceComponent implements OnInit{
+export class RoomServiceComponent implements OnInit {
   roomservice: RoomServiceModel[] = [];
   currentRoomSerivce!: RoomServiceModel;
-  message ='';
+  message = '';
   isVisible = false;
   isOkLoading = false;
-  id : number | undefined;
+  id: number | undefined;
   currentDichVu!: RoomServiceModel;
+
   constructor(private roomSerivceService: RoomServiceService,
               private router: Router,
               private messageNoti: NzMessageService,
-              private http : HttpClient
-              ) { }
+              private http: HttpClient
+  ) {
+  }
 
   private getRoomSerivces(): void {
     this.roomSerivceService.getRoomSerivceList(1, 15).subscribe(res => {
       if (res && res.content) {
-        this.roomservice= res.content;
+        this.roomservice = res.content;
       }
     })
   }
-  searchInput :string = '';
+
+  searchInput: string = '';
+
   getRoomServiceListSearch(): void {
     const inputElement = document.getElementById('searchInput') as HTMLInputElement;
     this.searchInput = inputElement.value;
     this.roomSerivceService.getRoomServiceListSearch(1, 50, this.searchInput).subscribe(res => {
       if (res && res.content) {
-        this.roomservice= res.content;
+        this.roomservice = res.content;
       }
     })
   }
@@ -60,6 +64,15 @@ export class RoomServiceComponent implements OnInit{
   }
 
   updateRoomService(): void {
+    const fileInput: HTMLInputElement = document.getElementById('image') as HTMLInputElement;
+    const file: File | null = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0] : null;
+    if (file) {
+      // Đọc file thành chuỗi Base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.currentDichVu.image = reader.result as string;
+      }
+    }
     this.roomSerivceService
       .update(this.currentDichVu.id, this.currentDichVu)
       .subscribe({
@@ -75,6 +88,7 @@ export class RoomServiceComponent implements OnInit{
         error: (e) => console.error(e)
       });
   }
+
   showModal(id: any): void {
     this.isVisible = true;
     this.id = id;
@@ -96,6 +110,7 @@ export class RoomServiceComponent implements OnInit{
   handleCancel(): void {
     this.isVisible = false;
   }
+
   ngOnInit() {
     setTimeout(() => {
       this.getRoomSerivces();

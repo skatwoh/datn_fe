@@ -59,7 +59,7 @@
         Tên Dịch Vụ
       </th>
       <th scope="col" class="px-6 py-3">
-        Ghi Chú
+        Hình ảnh
       </th>
       <th scope="col" class="px-6 py-3">
         Gía Dịch Vụ
@@ -87,7 +87,7 @@
         {{ data.tenDichVu }}
       </td>
       <td class="px-6 py-4">
-      {{ data.ghiChu }}
+      <img style="width: 100px;height: 100px" src="{{data.image}}">
       </td>
       <td class="px-6 py-4">
         {{ data.giaDichVu }}
@@ -135,6 +135,13 @@
         <nz-form-label nzFor="soLuong" style="width: 100px">Số lượng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
           <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="currentDichVu.soLuong" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label style="width: 100px" nzFor="image">Thay ảnh</nz-form-label>
+        <span><img style="width: 150px;height: 150px" src="{{currentDichVu.image}}"></span>
+        <nz-form-control>
+          <input type="file" id="image" accept="image/*" style="margin-left: 5px"/>
         </nz-form-control>
       </nz-form-item>
     </div>

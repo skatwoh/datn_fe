@@ -8,15 +8,16 @@ import {NzTableModule} from "ng-zorro-antd/table";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzPageHeaderModule} from "ng-zorro-antd/page-header";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzUploadModule} from "ng-zorro-antd/upload";
 
 @NgModule({
-    imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NgIf, NzInputModule, NzButtonModule, NgForOf, NzIconModule, NzSelectModule, ReactiveFormsModule, NzModalModule],
+  imports: [RoomServiceRoutingModule, NzBreadCrumbModule, NzTableModule, FormsModule, NzFormModule, NzPageHeaderModule, NgIf, NzInputModule, NzButtonModule, NgForOf, NzIconModule, NzSelectModule, ReactiveFormsModule, NzModalModule, NzUploadModule, NgStyle],
   declarations: [RoomServiceComponent, RoomServiceCreateComponent, RoomServiceDetailComponent],
   exports: [RoomServiceComponent]
 })
