@@ -14,6 +14,8 @@ import {RoomTypeModel} from "../../models/room-type.model";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
 import {first} from "rxjs";
+import {RoomOrderMappingModel} from "../../models/room-order-mapping.model";
+import {CustomerModel} from "../customer/models/customer.model";
 
 @Component({
   selector: 'cons-room-manager',
@@ -25,7 +27,7 @@ import {first} from "rxjs";
 })
 export class RoomManagerComponent implements OnInit {
   readonly APP_DATE = AppConstants.APP_DATE;
-  roomOrder: RoomOrder[] = [];
+  roomOrder: RoomOrderMappingModel[] = [];
   roomType: RoomTypeModel[] = [];
   message = '';
   isVisible = false;
@@ -51,6 +53,49 @@ export class RoomManagerComponent implements OnInit {
               private homeService: HomeService, private message2: NzMessageService, private roomOrderService: ListRoomOrderService) {
   }
 
+  listOfColumn = [
+    {
+      title: 'Mã',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.ma).localeCompare(String(b.ma)),
+      priority: false
+    },
+    {
+      title: 'Mã phòng',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.tenPhong).localeCompare(String(b.tenPhong)),
+      priority: 6
+    },
+    {
+      title: 'Ngày nhận phòng',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.checkIn).localeCompare(String(b.checkIn)),
+      priority: 4
+    },
+    {
+      title: 'Ngày trả phòng',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.checkOut).localeCompare(String(b.checkOut)),
+      priority: 5
+    },
+    {
+      title: 'Khách hàng',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.hoTen).localeCompare(String(b.hoTen)),
+      priority: 3
+    },
+    {
+      title: 'Số điện thoại',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => String(a.sdt).localeCompare(String(b.sdt)),
+      priority: 2
+    },
+    {
+      title: 'Trạng thái',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => (a.trangThai??0) - (b.trangThai??0),
+      priority: 7
+    },
+    {
+      title: 'Tổng tiền',
+      compare: (a: RoomOrderMappingModel, b: RoomOrderMappingModel) => (a.tongGia??0) - (b.tongGia??0),
+      priority: 1
+    }
+  ]
+
   ngOnInit(): void {
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
@@ -71,7 +116,7 @@ export class RoomManagerComponent implements OnInit {
   }
 
   private getRoomOrders(): void {
-    this.roomManagerService.getListRoomManager(1, 50).subscribe(res => {
+    this.roomManagerService.getAllDPMapping(1, 50).subscribe(res => {
       if (res && res.content) {
         this.roomOrder = res.content;
         console.log(this.roomOrder);

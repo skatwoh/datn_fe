@@ -65,6 +65,9 @@
         Gía Dịch Vụ
       </th>
       <th scope="col" class="px-6 py-3">
+        Đơn vị tính
+      </th>
+      <th scope="col" class="px-6 py-3">
         Số lượng
       </th>
       <th scope="col" class="px-12 py-3">
@@ -93,11 +96,16 @@
         {{ data.giaDichVu }}
       </td>
       <td class="px-6 py-4">
-        {{ data.soLuong }}
+        {{ data.ghiChu }}
       </td>
-      <td class="px-12 py-4" style="display: flex">
+      <td class="px-6 py-4">
+        <div *ngIf="data.ghiChu != 'Lần'">{{ data.soLuong }}</div>
+        <div *ngIf="data.ghiChu == 'Lần'">Không có</div>
+      </td>
+      <td class="px-6 py-4">
         <div class="btn-info" (click)="showModal(data.id)">
-          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>        </div>
+          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
+        </div>
       </td>
     </tr>
     </tbody>

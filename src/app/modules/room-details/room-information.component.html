@@ -47,20 +47,18 @@
       </fieldset>
     </div>
   </div>
-  <nz-table #tableData [nzData]="roomDetails">
+  <nz-table #sortTable [nzData]="roomDetails">
     <thead>
     <tr>
       <th nzLeft>STT</th>
-      <th>Tầng</th>
-      <th>Dịch vụ</th>
-      <th>Diện tích</th>
-       <th>Mã phòng</th>
-      <th>Trạng thái</th>
+      <th scope="col" class="px-6 py-3" *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+        {{ column.title }}
+      </th>
       <th>Tác vụ</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let data of tableData.data; let i = index">
+    <tr *ngFor="let data of sortTable.data; let i = index">
       <th nzLeft>{{ i + 1 }}</th>
       <td nzLeft>{{ data.tang }}</td>
       <td nzLeft>{{ data.dichVu }}</td>

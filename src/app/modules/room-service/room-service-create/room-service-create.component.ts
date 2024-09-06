@@ -25,12 +25,42 @@ export class RoomServiceCreateComponent implements OnInit{
   submitted = false;
   roomList: RoomServiceModel[] = [];
   imageDichVu = '';
+  selectDichVu = false;
+
+  serviceType = [
+    {
+      ten: 'Lần'
+    },
+    {
+      ten: 'Chai'
+    },
+    {
+      ten: 'Lon'
+    },
+    {
+      ten: 'Cốc'
+    },
+    {
+      ten: 'Đĩa'
+    }
+  ]
+
   constructor(private roomSerivceSerivce: RoomServiceService,
               private message: NzMessageService,
               private router: Router) {}
 
   ngOnInit() {
 
+  }
+
+  changSelect(){
+    if((document.getElementById('ghiChu') as HTMLInputElement).value !== this.serviceType[0].ten &&
+      (document.getElementById('ghiChu') as HTMLInputElement).value !== this.serviceType[4].ten){
+      this.selectDichVu = true;
+      // this.message.success('Nhập số lượng' + (document.getElementById('ghiChu') as HTMLInputElement).value + ' ' + this.serviceType[0].ten);
+      return;
+    }
+    this.selectDichVu = false;
   }
 
   getRooms(): void {
@@ -45,7 +75,7 @@ export class RoomServiceCreateComponent implements OnInit{
     const data = {
       ma: this.roomservice.ma,
       tenDichVu: this.roomservice.tenDichVu,
-      ghiChu: this.roomservice.ghiChu,
+      ghiChu: (document.getElementById('ghiChu') as HTMLInputElement).value,
       giaDichVu: this.roomservice.giaDichVu,
       trangThai: 1,
       soLuong: this.roomservice.soLuong,

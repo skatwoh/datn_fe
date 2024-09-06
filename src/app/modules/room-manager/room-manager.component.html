@@ -46,38 +46,18 @@
       </fieldset>
     </div>
   </div>
-  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="roomOrder">
+  <nz-table #sortTable [nzData]="roomOrder" nzTableLayout="fixed" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="roomOrder">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th scope="col" class="px-6 py-3">
-        Mã
+      <!--      <th nzLeft>STT</th>-->
+      <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+        {{ column.title }}
       </th>
-      <th scope="col" class="px-6 py-3">
-        Mã phòng
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Ngày nhận phòng
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Ngày trả phòng
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Khách hàng
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Trạng thái
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Tổng tiền
-      </th>
-<!--      <th scope="col" class="px-12 py-3">-->
-<!--        Tác vụ-->
-<!--      </th>-->
     </tr>
     </thead>
     <tbody>
     <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-        *ngFor="let data of tableData.data; let i = index">
+        *ngFor="let data of sortTable.data; let i = index">
       <td class="px-6 py-4">
         {{ data.ma }}
       </td>
@@ -92,7 +72,10 @@
       </td>
 
       <td class="px-6 py-4">
-        {{ data.maKhachHang }}
+        {{ data.hoTen }}
+      </td>
+      <td class="px-6 py-4">
+        {{ data.sdt }}
       </td>
       <td class="px-6 py-4">
         <div class="flex items-center" *ngIf="data.trangThai == 1">
