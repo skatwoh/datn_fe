@@ -393,24 +393,6 @@
             </div>
           </td>
           <td class="px-12 py-4" style="display: flex">
-            <div *ngIf="data.trangThai !== (0||3)" class="btn-info">
-              <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
-          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>
-              </button>
-              <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li *ngIf="data.trangThai === 1" (click)="updateStatusRoomOrder(data.id, 2)" nz-menu-item
-                      class="hover:bg-blue-400">
-                    Đã check-in
-                  </li>
-                  <li nz-menu-item *ngIf="data.trangThai === 2" (click)="updateStatusRoomOrder(data.id, 3)"
-                      class="hover:bg-yellow-500">
-                    Đã trả phòng
-                  </li>
-                </ul>
-              </nz-dropdown-menu>
-            </div>
             <!--            <div style="margin-left: 3px">-->
             <!--              <button nz-button style="margin-left: 3px" nz-tooltip nzTooltipTitle="Thông tin dịch vụ"-->
             <!--                      (click)="showModalChiTietDichVu(data.id)">-->
@@ -434,9 +416,10 @@
   [(nzVisible)]="isVisibleChiTietDichVu"
   nzTitle="DANH SÁCH DỊCH VỤ"
   (nzOnCancel)="handleCancelChiTietDichVu()"
-  (nzOnOk)="showModalDichVu(idDP)"
+  (nzOnOk)="handleCancelChiTietDichVu()"
   nzOkText="Thêm dịch vụ"
   nzWidth="900px"
+  nzFooter=" "
 >
   <ng-container *nzModalContent>
     <div>
@@ -500,18 +483,6 @@
             >Ngày đặt
             </div>
           </th>
-          <th
-            colspan="1"
-            role="columnheader"
-            title="Toggle SortBy"
-            style="cursor: pointer;width: 100px"
-          >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >
-              Hành động
-            </div>
-          </th>
         </tr>
         </thead>
         <tbody role="rowgroup" class="px-4">
@@ -541,75 +512,11 @@
               {{ data.ghiChu | date : 'dd-MM-yyyy hh:mm:ss'}}
             </p>
           </td>
-          <td class="py-3 text-sm" style="display: flex;">
-            <div nz-tooltip nzTooltipTitle="Xóa" (click)="huyDichVu(data.id)">
-              <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                   class="bi bi-trash" viewBox="0 0 16 16">
-                <path
-                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                  fill="red"></path>
-                <path fill-rule="evenodd"
-                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                      fill="red"></path>
-              </svg>
-            </div>
-          </td>
         </tr>
         </tbody>
       </nz-table>
-      <div style="margin-top: 10px;" *ngIf="detailsService.length > 0">
-        <!--        <button-->
-        <!--                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"-->
-        <!--                (click)="generatePDFDichVu(idDP)"-->
-        <!--        >-->
-        <!--          Thanh toán dịch vụ-->
-        <!--        </button>-->
-        <button
-          class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-          (click)="generatePDFDichVu(idDP)"
-        >
-          Xuất hóa đơn
-        </button>
-      </div>
     </div>
   </ng-container>
 </nz-modal>
 
-<nz-modal
-  [(nzVisible)]="isVisibleDichVu"
-  nzTitle="CHỌN DỊCH VỤ"
-  (nzOnCancel)="handleCancelDichVu()"
-  (nzOnOk)="addDichVu(idDP)"
-  nzWidth="800px"
->
-  <ng-container *nzModalContent>
-    <div class="flex">
-      <div style="width: 350px;font-size: 18px;border: 1px solid grey;border-radius: 5px">
-        <nz-checkbox-wrapper>
-          <div style="margin: 5px" *ngFor="let data of roomservice">
-            <label nz-checkbox [nzValue]="data.id" (change)="addListDichVu(data.id, $event, data.giaDichVu)">
-              {{ data.tenDichVu }} - {{ data.giaDichVu }}VNĐ
-            </label>
-            <input
-              type="number"
-              min="1"
-              placeholder="Số lượng"
-              [id]="data.id"
-              [ngModel]="1"
-              (ngModelChange)="thayDoiTongTien(data.id, data.giaDichVu)"
-
-            />
-          </div>
-        </nz-checkbox-wrapper>
-
-      </div>
-      <div style="width: 380px;font-size: 18px;border: 1px solid grey;border-radius: 5px;margin-left: 10px">
-        <div style="margin-left: 20px">
-          <label style="font-size: 25px;font-weight: bold;margin-top: 10px">Tổng thanh toán:</label><br>
-          <p style="font-size: 25px;font-weight: bold">{{ tongTienDichVu | currency:'VND': '':'1.0-0' }}VND</p>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-</nz-modal>
 

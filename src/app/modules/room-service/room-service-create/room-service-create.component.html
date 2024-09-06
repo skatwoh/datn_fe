@@ -2,37 +2,44 @@
   <div class="submit-form">
     <div *ngIf="!submitted">
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="tenDichVu">Tên Dịch Vụ </nz-form-label>
-        <nz-form-control >
-<!--          <nz-select [(ngModel)]="roomservice.tenDichVu" (ngModelChange)="handleChangService(roomservice.tenDichVu)">-->
-<!--            <nz-option nzValue="Massage" nzLabel="Massage"></nz-option>-->
-<!--            <nz-option nzValue="Do an" nzLabel="Do an"></nz-option>-->
-<!--          </nz-select>-->
+        <nz-form-label style="width: 120px" nzFor="tenDichVu">Tên Dịch Vụ</nz-form-label>
+        <nz-form-control>
+          <!--          <nz-select [(ngModel)]="roomservice.tenDichVu" (ngModelChange)="handleChangService(roomservice.tenDichVu)">-->
+          <!--            <nz-option nzValue="Massage" nzLabel="Massage"></nz-option>-->
+          <!--            <nz-option nzValue="Do an" nzLabel="Do an"></nz-option>-->
+          <!--          </nz-select>-->
           <input nz-input type="text" id="tenDichVu" name="giaDichVu" [(ngModel)]="roomservice.tenDichVu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi Chú </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Ghi Chú</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
           <input nz-input type="text" id="ghiChu" name="ghiChu" [(ngModel)]="roomservice.ghiChu" [maxLength]="20"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ghiChu">Giá dịch vụ </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Giá dịch vụ</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá dịch vụ">
           <input nz-input type="number" id="giaDichVu" name="giaDichVu" [(ngModel)]="roomservice.giaDichVu"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label style="width: 120px" nzFor="ghiChu">Số lượng </nz-form-label>
+        <nz-form-label style="width: 120px" nzFor="ghiChu">Số lượng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số lượng">
           <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="roomservice.soLuong"/>
         </nz-form-control>
       </nz-form-item>
-      <br>
+      <nz-form-item>
+        <nz-form-label nzFor="image">Chọn ảnh</nz-form-label>
+        <nz-form-control>
+          <input type="file" id="image" accept="image/*" style="margin-left: 5px"/>
+        </nz-form-control>
+      </nz-form-item>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%"  routerLink="/admin/room-service" (click)="saveRoomSerivce()">Thêm</button>
+          <button nz-button nzType="primary" style="width: 100%"
+                  (click)="saveRoomSerivce()">Thêm
+          </button>
         </nz-form-control>
       </nz-form-item>
     </div>

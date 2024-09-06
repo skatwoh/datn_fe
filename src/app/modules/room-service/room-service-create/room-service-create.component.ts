@@ -4,6 +4,7 @@ import {RoomServiceModel} from "../../../models/room-service.model";
 import {RoomServiceService} from "../service/room-service.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Router} from "@angular/router";
+import {NzUploadFile} from "ng-zorro-antd/upload";
 
 @Component({
   selector: 'cons-room-service-create',
@@ -23,6 +24,7 @@ export class RoomServiceCreateComponent implements OnInit{
   };
   submitted = false;
   roomList: RoomServiceModel[] = [];
+  imageDichVu = '';
   constructor(private roomSerivceSerivce: RoomServiceService,
               private message: NzMessageService,
               private router: Router) {}
@@ -46,17 +48,39 @@ export class RoomServiceCreateComponent implements OnInit{
       ghiChu: this.roomservice.ghiChu,
       giaDichVu: this.roomservice.giaDichVu,
       trangThai: 1,
-      soLuong: this.roomservice.soLuong
+      soLuong: this.roomservice.soLuong,
+      image: ''
     };
 
-    this.roomSerivceSerivce.create(data).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.submitted = true;
-        this.successMessage();
-      },
-      error: (e) => console.error(e)
-    });
+    const fileInput: HTMLInputElement = document.getElementById('image') as HTMLInputElement;
+    const file: File | null = (fileInput.files && fileInput.files.length > 0) ? fileInput.files[0] : null;
+
+    if (file) {
+      // Đọc file thành chuỗi Base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        data.image = reader.result as string; // Thêm trường base64Image vào payload
+        this.roomSerivceSerivce.create(data).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.submitted = true;
+            this.successMessage();
+          },
+          error: (e) => console.error(e)
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.roomSerivceSerivce.create(data).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.submitted = true;
+          this.successMessage();
+        },
+        error: (e) => console.error(e)
+      });
+    }
+
     setTimeout( () => {
       this.getRooms();
       this.router.navigate(['/admin/room-service']);
@@ -66,6 +90,5 @@ export class RoomServiceCreateComponent implements OnInit{
   successMessage(): void {
     this.message.success('Thêm thành công');
   }
-
 
 }
