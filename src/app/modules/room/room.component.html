@@ -47,34 +47,26 @@
       </fieldset>
     </div>
   </div>
-  <nz-table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="room">
+  <nz-table #sortTable [nzData]="room" class="w-full text-sm text-left text-gray-500 dark:text-gray-400" #tableData [nzData]="room">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
       <th scope="col" class="px-6 py-3">
         STT
       </th>
-      <th scope="col" class="px-6 py-3">
-        Mã
-      </th>
-      <th scope="col" class="px-6 py-3">
-        Loại phòng
+      <th scope="col" class="px-6 py-3" *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority">
+        {{ column.title }}
       </th>
       <th scope="col" class="px-6 py-3">
         Hình ảnh
       </th>
-      <th scope="col" class="px-6 py-3">
-        Trạng thái
-      </th>
       <th scope="col" class="px-12 py-3">
         Tác vụ
       </th>
-<!--      <th scope="col" class="px-6 py-3">-->
-<!--      </th>-->
     </tr>
     </thead>
     <tbody>
     <tr class="w-full bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-        *ngFor="let data of tableData.data; let i = index">
+        *ngFor="let data of sortTable.data; let i = index">
       <td class="px-6 py-4">
         {{i + 1}}
       </td>
@@ -83,9 +75,6 @@
       </td>
       <td class="px-6 py-4">
         {{ data.tenLoaiPhong }}
-      </td>
-      <td class="px-6 py-4">
-        <img style="width: 100px;height: 100px" src="{{data.image}}">
       </td>
       <td class="px-6 py-4">
         <div class="flex items-center" *ngIf="data.trangThai == 1">
@@ -97,6 +86,9 @@
           <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
           Offline
         </div>
+      </td>
+      <td class="px-6 py-4">
+        <img style="width: 100px;height: 100px" src="{{data.image}}">
       </td>
       <td class="px-12 py-4" style="display: flex">
         <div class="btn-info" (click)="showModal(data.id)">

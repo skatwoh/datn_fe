@@ -87,9 +87,13 @@ export class RoomManagerService {
     return this.http.get<any>(`${API_CUS}/get-khach-hang-by-cccd`, {params});
   }
 
-  getAllDPMapping(): Observable<any>{
-    return this.http.get(`${API_AU_URL}/list-mapper`).pipe(map(res => {
-      return res;
+  getAllDPMapping(page: number, size: number): Observable<any> {
+    const params = {page, size};
+    return this.http.get<any>(`${API_AU_URL}/list-mapper`, {params}).pipe(map(res => {
+      if (res.body && res.body) {
+        return res.body;
+      }
+      return null;
     }));
   }
 

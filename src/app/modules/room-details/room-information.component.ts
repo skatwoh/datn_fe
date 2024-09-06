@@ -26,6 +26,34 @@ export class RoomInformationComponent implements OnInit{
   // roomModel!: RoomModel;
   room: RoomModel[] = [];
 
+  listOfColumn = [
+    {
+      title: 'Tầng',
+      compare: (a: RoomInformationModel, b: RoomInformationModel) => Number.parseInt(a.tang??'') - Number.parseInt(b.tang??''),
+      priority: 4
+    },
+    {
+      title: 'Dịch vụ',
+      compare: (a: RoomInformationModel, b: RoomInformationModel) => String(a.dichVu).localeCompare(String(b.dichVu)),
+      priority: 3
+    },
+    {
+      title: 'Diện tích',
+      compare: (a: RoomInformationModel, b: RoomInformationModel) => a.dienTich??0 - (b.dienTich??0),
+      priority: 2
+    },
+    {
+      title: 'Mã phòng',
+      compare: (a: RoomInformationModel, b: RoomInformationModel) => String(a.maPhong).localeCompare(String(b.maPhong)),
+      priority: 1
+    },
+    {
+      title: 'Trạng thái',
+      compare: (a: RoomInformationModel, b: RoomInformationModel) => a.trangThai??0 - (b.trangThai??0),
+      priority: 5
+    }
+  ]
+
   showModal(id: any): void {
     this.isVisible = true;
     this.id = id;

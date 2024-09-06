@@ -32,28 +32,6 @@ export class CustomerComponent implements OnInit{
   // detail
   id: number | undefined;
 
-  listOfColumn = [
-    {
-      title: 'Name',
-      compare: (a: DataItem, b: DataItem) => a.name.localeCompare(b.name),
-      priority: false
-    },
-    {
-      title: 'Chinese Score',
-      compare: (a: DataItem, b: DataItem) => a.chinese - b.chinese,
-      priority: 3
-    },
-    {
-      title: 'Math Score',
-      compare: (a: DataItem, b: DataItem) => a.math - b.math,
-      priority: 2
-    },
-    {
-      title: 'English Score',
-      compare: (a: DataItem, b: DataItem) => a.english - b.english,
-      priority: 1
-    }
-  ];
 
   listOfColumn2 = [
     {
