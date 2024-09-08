@@ -1300,9 +1300,37 @@ export class RoomOrderManagerComponent implements OnInit {
         } else if (event < today) {
           this.notification.error("Ngày trả phòng không thể nhỏ hơn ngày hôm nay", "");
         } else {
-          this.roomOrderService.updateCheckout(this.roomModel.idDatPhong, this.roomModel.checkOut, this.roomModel.checkIn, this.roomModel.id).subscribe(res => {
-            this.notification.success("Cập nhật thành công ngày trả phòng", "");
-            console.log(res);
+          // Chuyển đổi đối tượng Date thành định dạng yyyy-MM-dd
+          const formatDate = (date: Date): string => {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+          };
+
+          const formattedCheckOut = formatDate(event);
+          const formattedCheckIn = formatDate(new Date(this.roomModel.checkIn));
+
+          this.roomOrderService.updateCheckout(
+            this.roomModel.idDatPhong,
+            formattedCheckOut,
+            formattedCheckIn,
+            this.roomModel.id
+          ).subscribe({
+            next: res => {
+              this.notification.success("Cập nhật thành công ngày trả phòng", "");
+            },
+            error: (errorResponse) => {
+              debugger
+              // Extract status and body from the error response
+              const status = errorResponse.status;
+              const errorBody = errorResponse.error || errorResponse.message || "Phòng đã có khách đặt trong ngày đó";
+
+              console.log(errorResponse.content)
+              // Log and display error information
+              console.error(`Error Status: ${status}`, errorBody);
+              this.notification.error(`${errorBody}`, "");
+            }
           });
         }
       } else {
@@ -1310,8 +1338,6 @@ export class RoomOrderManagerComponent implements OnInit {
       }
     }
   }
-
-
 
 
   protected readonly formatDate = formatDate;
