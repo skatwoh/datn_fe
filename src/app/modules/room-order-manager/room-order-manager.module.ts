@@ -23,10 +23,11 @@ import {NzAlertModule} from "ng-zorro-antd/alert";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzTabsModule} from "ng-zorro-antd/tabs";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 
 @NgModule({
     imports: [RoomOrderManagerRoutingModule, NzBreadCrumbModule, DatePipe, NgForOf, NgIf, NzPageHeaderModule, NzSwitchModule,
-        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule, NzCardModule, IndexModule, NzSpinModule, NzAlertModule, NzCheckboxModule, CurrencyPipe, NzPopconfirmModule, NzTabsModule],
+        NzTableModule, FormsModule, NgClass, NzSelectModule, NzButtonModule, NzFormModule, NzInputModule, NzMessageModule, NzIconModule, NzModalModule, ReactiveFormsModule, FormFieldValidationDirective, NzToolTipModule, NzCardModule, IndexModule, NzSpinModule, NzAlertModule, NzCheckboxModule, CurrencyPipe, NzPopconfirmModule, NzTabsModule, NzDatePickerModule],
   declarations: [RoomOrderManagerComponent],
   exports: [RoomOrderManagerComponent]
 })

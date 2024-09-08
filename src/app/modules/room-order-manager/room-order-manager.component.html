@@ -406,7 +406,7 @@
               <p style="color: white;font-weight: bolder;font-size: 16px;padding: 3px;padding-left: 10px">Chi tiết thuê
                 phòng</p>
             </div>
-            <div style="padding:10px;padding-top:10px;font-size: 15px;font-weight: bolder;height: 60px;width: 100%"
+            <div style="padding:10px;padding-top:10px;font-size: 15px;font-weight: bolder;height: 60px;width: 100%; margin-top: 10px"
                  class="flex">
               <p>Khách hàng: </p>
               <p style="color:red;"> {{roomModel.hoTen}}</p>
@@ -415,7 +415,9 @@
               <p style="padding-left: 30px">Ngày nhận phòng: </p>
               <p style="color:red;"> {{roomModel.checkIn | date : 'dd-MM-yyyy'}}</p>
               <p style="padding-left: 30px">Ngày trả phòng: </p>
-              <p style="color:red;"> {{roomModel.checkOut | date : 'dd-MM-yyyy'}}</p>
+<!--              <p style="color:red;"> {{roomModel.checkOut | date : 'dd-MM-yyyy'}}</p>-->
+              <nz-date-picker style="margin-bottom: 17px" nzBorderless [(ngModel)]="roomModel.checkOut" (ngModelChange)="updateCheckOut($event)"/>
+              <p style="color:red;"> {{ getDaysBetweenCheckInAndCheckOut() }} ngày</p>
               <button
                 (click)="showFormChangeRoom(roomModel.tenLoaiPhong, roomModel.id, roomModel.checkIn, roomModel.checkOut)"
                 style="margin-top: -5px;margin-left: 40px"
@@ -834,7 +836,7 @@
             <nz-form-label nzFor="ngaySinh">Ngày sinh khách hàng</nz-form-label>
             <nz-form-control nzErrorTip="Vui lòng nhập ngày sinh">
               <input type="date" id="ngaySinh" formControlName="ngaySinh"
-                     style="border-radius: 5px;border: 1px solid deepskyblue">
+                     style="border-radius: 5px;border: 1px solid deepskyblue" (blur)="checkAge()">
             </nz-form-control>
           </nz-form-item>
 
