@@ -311,6 +311,7 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   showFormCheckout(id: any){
+    console.log(new Date().getHours().toLocaleString('vi-VN'))
     console.log(new Date(this.roomModel.checkOut||'').getTime());
     console.log(new Date().getTime());
     const dateCheckIn = new Date(this.roomModel.checkIn||'');
@@ -389,21 +390,30 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   createCheckOut(){
-      // if(this.roomOrderModel.checkOut?.split('T')[0] == this.date.toISOString().split('T')[0]){
-      //   if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) > 0){
-      //     this.thoiGianMuon = Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12;
-      //     if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) > 2){
-      //       console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
-      //       this.tienPhat = this.roomMapMd.giaTheoNgay ?? 0;
-      //     }else{
-      //       console.log('op2')
-      //       console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
-      //       this.tienPhat = (Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) * (this.roomMapMd.giaTheoNgay ?? 0) * 0.15;
-      //     }
-      //     this.isVisibleCheckOutLater = true;
-      //     return;
-      //   }
-      // }
+      if(this.roomOrderModel.checkOut?.split('T')[0] == this.date.toISOString().split('T')[0]){
+        if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) > 0){
+          this.thoiGianMuon = Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12;
+          if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) >= 6){
+            console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+            this.tienPhat = this.roomMapMd.giaTheoNgay ?? 0;
+            console.log('1');
+          }
+          if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) >= 3 &&
+             (Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) < 6){
+              console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+              this.tienPhat = (this.roomMapMd.giaTheoNgay ?? 0)*0.5;
+            console.log('2');
+          }
+          if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) >= 1 &&
+            (Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) < 3){
+            console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+            this.tienPhat = (this.roomMapMd.giaTheoNgay ?? 0)*0.3;
+            console.log('3');
+          }
+          this.isVisibleCheckOutLater = true;
+          return;
+        }
+      }
       this.billService.updateStatusRoomOrder(this.idDatPhongNow, 3).subscribe({})
       this.mess.success('Check-out thành công!');
       this.isVisibleCheckOut = false;

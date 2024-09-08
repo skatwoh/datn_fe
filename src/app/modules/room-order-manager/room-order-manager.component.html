@@ -438,12 +438,12 @@
                           *ngIf="roomModel.trangThai == 2 || roomModel.trangThai == 5">
                     Check-out
                   </button>
-                  <button style="margin-top: -5px;margin-left: 5px"
-                          class="button-blue2"
-                          (click)="showFormCheckoutMuon(roomModel.idDatPhong)"
-                          *ngIf="roomModel.trangThai == 2">
-                    Check-out muộn
-                  </button>
+<!--                  <button style="margin-top: -5px;margin-left: 5px"-->
+<!--                          class="button-blue2"-->
+<!--                          (click)="showFormCheckoutMuon(roomModel.idDatPhong)"-->
+<!--                          *ngIf="roomModel.trangThai == 2">-->
+<!--                    Check-out muộn-->
+<!--                  </button>-->
                 </div>
                 <div *ngIf="roomModel.trangThai == 5">
                   <p style="font-size: 15px;font-weight: bolder;margin-left: 5px;color: red">(Trả phòng muộn)</p>
@@ -993,7 +993,9 @@
 >
   <ng-container *nzModalContent>
     <div style="font-weight: bolder;font-size: 17px;padding: 5px">
-      <h3>(trả phòng muộn 1 tiếng phạt (15% giá phòng một ngày)/h)</h3>
+      <h3>(trả phòng muộn từ 13h đến 15h: tính 30% giá phòng)</h3>
+      <h3>(trả phòng muộn từ 15h đến 18h: tính 50% giá phòng)</h3>
+      <h3>(trả phòng muộn sau 18h: tính 100% giá phòng)</h3>
     </div>
     <div style="font-weight: bolder;font-size: 15px;padding: 5px">
       <p>Trả phòng muộn {{thoiGianMuon}} giờ</p>
