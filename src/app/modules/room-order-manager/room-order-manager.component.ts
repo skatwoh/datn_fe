@@ -488,10 +488,10 @@ export class RoomOrderManagerComponent implements OnInit {
         this.roomManagerService.getDPMappingBySearch(id, checkInElement, checkOutElement).subscribe(res => {
           this.room = res;
           for(let x = 0;x < res.length;x++){
-            if(res[x].trangThai !== 3){
+            if(res[x].trangThai != 3 && res[x].trangThai != 1){
                 this.checkList = 1;
             }
-            if(res[x].trangThai === 3){
+            if(res[x].trangThai == 3 || res[x].trangThai == 1){
               this.checkList = 0;
             }
           }
