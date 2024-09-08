@@ -84,4 +84,9 @@ export class ListRoomOrderService{
     const params = {cccd};
     return this.http.post<any>(`${API_AU_URL}/list-room-books`, params)
   }
+
+  updateCheckout(id: any, checkOut: any, checkIn: any, idPhong: any): Observable<any> {
+    const params = {id, checkOut, checkIn, idPhong};
+    return this.http.put(`${API_AU_URL}/update-checkout`, params);
+  }
 }

@@ -100,6 +100,7 @@ export class RoomOrderManagerComponent implements OnInit {
   isVisibleTimPhong = false;
   listRoomByCCCD : RoomOrderMappingModel[] = [];
   isVisibleListTimPhong = false;
+  isAboveFifteen: boolean = false;
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -206,6 +207,9 @@ export class RoomOrderManagerComponent implements OnInit {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
     this.dateNow = new Date().toISOString();
+    if (this.roomModel.checkOut) {
+      (document.getElementById('checkOut1') as HTMLInputElement).value = new Date(this.roomModel.checkOut).toISOString().split('T')[0];
+    }
   }
 
   showDetail(id: any, idDP: any, idHD: any) {
@@ -520,13 +524,18 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   showOrderRoom() {
-    if((document.getElementById('checkIn') as HTMLInputElement).value < new Date().toISOString().split('T')[0]){
-      this.mess.warning('Đã quá thời gian đặt phòng!');
+    if((document.getElementById('checkIn') as HTMLInputElement).value == '' || (document.getElementById('checkOut') as HTMLInputElement).value == ''){
+      this.mess.warning('Vui lòng điền ngày nhận hoặc ngày trả');
       return;
-    }
-    if((document.getElementById('checkIn') as HTMLInputElement).value > (document.getElementById('checkOut') as HTMLInputElement).value){
-      this.mess.warning('Thời gian đặt phòng không hợp lệ!');
-      return;
+    } else {
+      if ((document.getElementById('checkIn') as HTMLInputElement).value < new Date().toISOString().split('T')[0]) {
+        this.mess.warning('Đã quá thời gian đặt phòng!');
+        return;
+      }
+      if ((document.getElementById('checkIn') as HTMLInputElement).value > (document.getElementById('checkOut') as HTMLInputElement).value) {
+        this.mess.warning('Thời gian đặt phòng không hợp lệ!');
+        return;
+      }
     }
     if (this.checkInSearch < new Date().toISOString().split('T')[0] ||
       this.checkOutSearch < new Date().toISOString().split('T')[0]) {
@@ -564,11 +573,29 @@ export class RoomOrderManagerComponent implements OnInit {
     })
   }
 
+  checkAge() {
+    const birthday = new Date(this.ngaySinh);
+    const today = new Date();
+    const minAge = 15;
+
+    birthday.setFullYear(birthday.getFullYear() + minAge);
+
+    if (birthday <= today) {
+      this.isAboveFifteen = true;
+      this.mess.warning('Ngày sinh không hợp lệ');
+    }
+  }
+
   saveOrderForm() {
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
     }
+    if((document.getElementById('sdt') as HTMLInputElement).value.length !== 10){
+      this.mess.warning('Số định dạng 10 chữ số');
+      return;
+    }
+
     const data = {
       hoTen: (document.getElementById('ten') as HTMLInputElement).value,
       sdt: (document.getElementById('sdt') as HTMLInputElement).value,
@@ -1232,6 +1259,50 @@ export class RoomOrderManagerComponent implements OnInit {
   cancelListTimPhong(){
     this.isVisibleListTimPhong = false;
   }
+
+  getDaysBetweenCheckInAndCheckOut(): number {
+    if (!this.roomModel.checkIn || !this.roomModel.checkOut) {
+      return 0;
+    }
+    const checkInDate = new Date(this.roomModel.checkIn);
+    const checkOutDate = new Date(this.roomModel.checkOut);
+
+    // Đặt thời gian của cả hai ngày về 00:00:00
+    checkInDate.setHours(0, 0, 0, 0);
+    checkOutDate.setHours(0, 0, 0, 0);
+
+    const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+
+    // Chia số mili giây để lấy ra số ngày
+    return timeDiff / (1000 * 3600 * 24);
+  }
+
+
+  updateCheckOut(event: Date): void {
+    if (event) {
+      if (this.roomModel.checkIn) {
+        const checkInDate = new Date(this.roomModel.checkIn);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        if (event < checkInDate) {
+          this.notification.error("Ngày trả phòng không thể nhỏ hơn ngày nhận phòng", "");
+        } else if (event < today) {
+          this.notification.error("Ngày trả phòng không thể nhỏ hơn ngày hôm nay", "");
+        } else {
+          this.roomOrderService.updateCheckout(this.roomModel.idDatPhong, this.roomModel.checkOut, this.roomModel.checkIn, this.roomModel.id).subscribe(res => {
+            this.notification.success("Cập nhật thành công ngày trả phòng", "");
+            console.log(res);
+          });
+        }
+      } else {
+        this.notification.error("Ngày nhận phòng không hợp lệ", "");
+      }
+    }
+  }
+
+
+
 
   protected readonly formatDate = formatDate;
 }
