@@ -4,13 +4,24 @@ import {RoomService} from "../room/services/room.service";
 import {Router} from "@angular/router";
 import {RoomOrder} from "../../models/room-order";
 import {RoomManagerService} from "../room-manager/services/room-manager.service";
-import {count, forkJoin} from 'rxjs';
+import {forkJoin} from 'rxjs';
 import {ServiceService} from "../../web/index/page/service/service.service";
 import {AccountModel} from "../account/models/account.model";
 import {AccountService} from "../account/services/account.service";
 import {CommentService} from "../../web/index/comment/comment.service";
 import * as moment from "moment/moment";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
+import {CustomerUseRoom} from "../../models/CustomerUseRoom";
+
+interface GanttItem {
+  id: string;
+  title: string;
+  start: number;
+  end: number;
+  expandable?: boolean;
+  links?: string[];
+}
 
 
 @Component({
@@ -36,10 +47,12 @@ export class WelcomeComponent implements OnInit {
   monthNumber: string = '';
   luaChon: string = '';
   tongSoDichVu: number = 0;
+  customerUseRoom: CustomerUseRoom[] = [];
+  items: GanttItem[] = [];
 
   constructor(private roomService: RoomService, private router: Router, private roomOrderService: RoomManagerService,
               private service: ServiceService, private accountService: AccountService, private commentService: CommentService,
-              private mess: NzMessageService) {
+              private mess: NzMessageService, private roomOrderService1: ListRoomOrderService) {
   }
 
   getRooms() {
@@ -61,6 +74,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.listCustomers();
     forkJoin([
       this.getRooms(),
       this.getRoomOrders(),
@@ -209,4 +223,19 @@ export class WelcomeComponent implements OnInit {
       })
     }
   }
+
+  listCustomers(): void {
+    this.roomOrderService1.listCustomerUseRoom().subscribe((res: any) => {
+      this.customerUseRoom = res.body;
+
+      this.items = this.customerUseRoom.map(booking => ({
+        id: booking.idPhong.toString(),
+        title: `Room ${booking.maPhong}`,
+        start: new Date(booking.checkIn).getTime() / 1000,
+        end: new Date(booking.checkOut).getTime() / 1000,
+        expandable: true
+      }));
+    });
+  }
+
 }

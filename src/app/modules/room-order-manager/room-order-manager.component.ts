@@ -35,6 +35,7 @@ import {BillModel} from "../../models/bill.model";
 import * as moment from "moment";
 import { subYears, isBefore, isAfter } from 'date-fns';
 import {CustomerUseRoom} from "../../models/CustomerUseRoom";
+import {GanttItem} from "@worktile/gantt";
 
 
 @Component({
