@@ -33,6 +33,7 @@ import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-ro
 import {DetailsServiceModel} from "../../models/details-service.model";
 import {BillModel} from "../../models/bill.model";
 import * as moment from "moment";
+import {CustomerUseRoom} from "../../models/CustomerUseRoom";
 import { subYears, isBefore, isAfter } from 'date-fns';
 
 
@@ -110,6 +111,7 @@ export class RoomOrderManagerComponent implements OnInit {
   listRoomByCCCD : RoomOrderMappingModel[] = [];
   isVisibleListTimPhong = false;
   isAboveFifteen: boolean = false;
+  customerUseRoom: CustomerUseRoom[] = [];
 
   listRoomOfBill : RoomOrder[] = [];
 
@@ -731,9 +733,15 @@ export class RoomOrderManagerComponent implements OnInit {
           console.log('ton tai');
           dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
         }
+        const formatDate = (date: Date): string => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        };
         dataDatPhong.idPhong = this.roomMapMd.id;
-        dataDatPhong.checkIn = moment(this.checkInSearch);
-        dataDatPhong.checkOut = moment(this.checkOutSearch);
+        dataDatPhong.checkIn = formatDate(this.checkInSearch);
+        dataDatPhong.checkOut = formatDate(this.checkOutSearch);
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
@@ -1399,12 +1407,11 @@ export class RoomOrderManagerComponent implements OnInit {
               this.notification.success("Cập nhật thành công ngày trả phòng", "");
             },
             error: (errorResponse) => {
-              debugger
-              // Extract status and body from the error response
+
               const status = errorResponse.status;
               const errorBody = errorResponse.error || errorResponse.message || "Phòng đã có khách đặt trong ngày đó";
 
-              console.log(errorResponse.content)
+              console.log(errorResponse.response)
               // Log and display error information
               console.error(`Error Status: ${status}`, errorBody);
               this.notification.error(`${errorBody}`, "");
@@ -1417,6 +1424,11 @@ export class RoomOrderManagerComponent implements OnInit {
     }
   }
 
+  listCustomers(): void {
+    this.roomOrderService.listCustomerUseRoom().subscribe(res => {
+      this.customerUseRoom = res.body;
+    });
+  }
   calculateTotalDays2(checkIn: any, checkOut: any): number {
 
     if (checkIn && checkOut) {
