@@ -284,6 +284,38 @@
         </nz-table>
       </div>
     </nz-tab>
+    <nz-tab nzTitle="Danh sách khách hàng lưu trú" (nzClick)="listCustomers()">
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto">
+          <div class="p-1.5 min-w-full inline-block align-middle">
+            <div class="overflow-hidden">
+              <table class="min-w-full">
+                <thead>
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Tên khách hàng</th>
+                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Phòng</th>
+                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Số điện thoại</th>
+                  <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">căn cước công dân</th>
+                  <th scope="col" class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                <tr *ngFor="let item of customerUseRoom">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{item.tenKhachHang}}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{item.maPhong}}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{item.sdt}}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{item.cccd}}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-tab>
   </nz-tabset>
 </div>
 
