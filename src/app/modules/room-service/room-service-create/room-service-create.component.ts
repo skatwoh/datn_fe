@@ -5,6 +5,10 @@ import {RoomServiceService} from "../service/room-service.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {Router} from "@angular/router";
 import {NzUploadFile} from "ng-zorro-antd/upload";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment";
+
+const API_AU_URL = `${environment.apiUrl}/dich-vu`;
 
 @Component({
   selector: 'cons-room-service-create',
@@ -27,6 +31,8 @@ export class RoomServiceCreateComponent implements OnInit{
   imageDichVu = '';
   selectDichVu = false;
 
+  selectedFile!: File;
+
   serviceType = [
     {
       ten: 'Lần'
@@ -47,7 +53,8 @@ export class RoomServiceCreateComponent implements OnInit{
 
   constructor(private roomSerivceSerivce: RoomServiceService,
               private message: NzMessageService,
-              private router: Router) {}
+              private router: Router,
+              private http: HttpClient) {}
 
   ngOnInit() {
 
@@ -121,4 +128,24 @@ export class RoomServiceCreateComponent implements OnInit{
     this.message.success('Thêm thành công');
   }
 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadImage(id: any) {
+    this.message.success(String(this.selectedFile));
+    const formData = new FormData();
+    formData.append('image', this.selectedFile, this.selectedFile.name);
+    const params = {id};
+    this.http.put(`${API_AU_URL}/upload`, formData,
+      {params})
+      .subscribe(
+        (response) => {
+          console.log('Image uploaded successfully:', response);
+        },
+        (error) => {
+          console.error('Error uploading image:', error);
+        }
+      );
+  }
 }

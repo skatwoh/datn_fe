@@ -8,7 +8,7 @@ export class RoomOrderMappingModel {
   ngayDat: string | undefined;
   checkIn: string | undefined;
   checkOut: string | undefined;
-  soNguoi: number | undefined;
+  soNguoi: number = 0;
   ghiChu: string | undefined;
   trangThai: number | undefined;
   tenPhong: string | undefined;

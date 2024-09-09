@@ -9,4 +9,5 @@ export class CheckInDetailModel {
   trangThai: number | undefined;
   ghiChu: string | undefined;
   ngayNhanPhong: string | undefined;
+  soNguoi: number = 0;
 }
