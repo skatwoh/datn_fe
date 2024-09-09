@@ -315,7 +315,6 @@ export class RoomOrderManagerComponent implements OnInit {
     //   this.mess.warning('Số điện thoại không hợp lệ');
     //   return;
     // }
-    this.billService.updateStatusRoomOrder(this.idDatPhongNow, 2).subscribe({})
     const data = this.formCheckIn.value;
     data.idDatPhong = this.idDatPhongNow;
     this.roomManagerService.createCheckIn(data).subscribe(res => {
@@ -733,15 +732,15 @@ export class RoomOrderManagerComponent implements OnInit {
           console.log('ton tai');
           dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
         }
-        const formatDate = (date: Date): string => {
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const day = String(date.getDate()).padStart(2, '0');
-          return `${year}-${month}-${day}`;
-        };
+        // const formatDate = (date: Date): string => {
+        //   const year = date.getFullYear();
+        //   const month = String(date.getMonth() + 1).padStart(2, '0');
+        //   const day = String(date.getDate()).padStart(2, '0');
+        //   return `${year}-${month}-${day}`;
+        // };
         dataDatPhong.idPhong = this.roomMapMd.id;
-        dataDatPhong.checkIn = formatDate(this.checkInSearch);
-        dataDatPhong.checkOut = formatDate(this.checkOutSearch);
+        dataDatPhong.checkIn = moment(this.checkInSearch);
+        dataDatPhong.checkOut = moment(this.checkOutSearch);
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
@@ -1428,18 +1427,6 @@ export class RoomOrderManagerComponent implements OnInit {
     this.roomOrderService.listCustomerUseRoom().subscribe(res => {
       this.customerUseRoom = res.body;
     });
-  }
-  calculateTotalDays2(checkIn: any, checkOut: any): number {
-
-    if (checkIn && checkOut) {
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const startDate = new Date(checkIn);
-      const endDate = new Date(checkOut);
-
-      const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
-      return Math.round(differenceInMilliseconds / millisecondsPerDay);
-    }
-    return 0;
   }
 
   protected readonly formatDate = formatDate;
