@@ -34,6 +34,7 @@ import {DetailsServiceModel} from "../../models/details-service.model";
 import {BillModel} from "../../models/bill.model";
 import * as moment from "moment";
 import { subYears, isBefore, isAfter } from 'date-fns';
+import {CustomerUseRoom} from "../../models/CustomerUseRoom";
 
 
 @Component({
@@ -110,6 +111,7 @@ export class RoomOrderManagerComponent implements OnInit {
   listRoomByCCCD : RoomOrderMappingModel[] = [];
   isVisibleListTimPhong = false;
   isAboveFifteen: boolean = false;
+  customerUseRoom: CustomerUseRoom[] = [];
 
   listRoomOfBill : RoomOrder[] = [];
 
@@ -1399,12 +1401,11 @@ export class RoomOrderManagerComponent implements OnInit {
               this.notification.success("Cập nhật thành công ngày trả phòng", "");
             },
             error: (errorResponse) => {
-              debugger
-              // Extract status and body from the error response
+
               const status = errorResponse.status;
               const errorBody = errorResponse.error || errorResponse.message || "Phòng đã có khách đặt trong ngày đó";
 
-              console.log(errorResponse.content)
+              console.log(errorResponse.response)
               // Log and display error information
               console.error(`Error Status: ${status}`, errorBody);
               this.notification.error(`${errorBody}`, "");
@@ -1428,6 +1429,11 @@ export class RoomOrderManagerComponent implements OnInit {
       return Math.round(differenceInMilliseconds / millisecondsPerDay);
     }
     return 0;
+  }
+  listCustomers(): void {
+    this.roomOrderService.listCustomerUseRoom().subscribe(res => {
+      this.customerUseRoom = res.body;
+    });
   }
 
   protected readonly formatDate = formatDate;

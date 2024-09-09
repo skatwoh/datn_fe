@@ -89,4 +89,8 @@ export class ListRoomOrderService{
     const params = {id, checkOut, checkIn, idPhong};
     return this.http.put(`${API_AU_URL}/update-checkout`, params);
   }
+
+  listCustomerUseRoom(): Observable<any> {
+    return this.http.get<any>(`${API_AU_URL}/customer-use-room`);
+  }
 }
