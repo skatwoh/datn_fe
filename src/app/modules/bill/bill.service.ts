@@ -158,6 +158,11 @@ export class BillService{
     return this.http.post<any>(`${API_AU_URL}/update-tien-dich-vu`,tienDichVu, {params});
   }
 
+  updateTienPhong(id: any, tienPhong: any) :Observable<any>{
+    const params = {id};
+    return this.http.post<any>(`${API_AU_URL}/update-tien-phong`,tienPhong, {params});
+  }
+
   updateTienTichDiem(id: any, tienTichDiem: any) :Observable<any>{
     const params = {id};
     return this.http.post<any>(`${API_AU_URL}/update-tien-tich-diem`,tienTichDiem, {params});

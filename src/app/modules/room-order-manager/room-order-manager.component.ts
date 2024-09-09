@@ -9,7 +9,15 @@ import {DatePipe, formatDate} from "@angular/common";
 import {RoomServiceService} from "../room-service/service/room-service.service";
 import {RoomServiceModel} from "../../models/room-service.model";
 import {CheckInDetailModel} from "../../models/check-in-detail.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {RoomMappingModel} from "../../models/room-mapping.model";
 import {NzNotificationPlacement, NzNotificationService} from "ng-zorro-antd/notification";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -25,6 +33,7 @@ import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-ro
 import {DetailsServiceModel} from "../../models/details-service.model";
 import {BillModel} from "../../models/bill.model";
 import * as moment from "moment";
+import { subYears, isBefore, isAfter } from 'date-fns';
 
 
 @Component({
@@ -102,6 +111,8 @@ export class RoomOrderManagerComponent implements OnInit {
   isVisibleListTimPhong = false;
   isAboveFifteen: boolean = false;
 
+  listRoomOfBill : RoomOrder[] = [];
+
   constructor(private roomService: RoomService,
               private http: HttpClient,
               private roomManagerService: RoomManagerService,
@@ -119,10 +130,10 @@ export class RoomOrderManagerComponent implements OnInit {
       cccdCheckIn: ['', Validators.required],
       hoTenCheckIn: ['', Validators.required],
       sdtCheckIn: ['', Validators.required],
-      ngaySinhCheckIn: ['', Validators.required],
+      ngaySinhCheckIn: new FormControl(null, [Validators.required, this.minAgeValidator(18)]),
       gioiTinhCheckIn: [0],
       trangThaiCheckIn: [1],
-      ghiChuCheckIn: ['', Validators.required]
+      soNguoi: new FormControl(null, [Validators.required, Validators.min(0), Validators.max(10)])
     });
     this.formCheckOut = this.formBuilder.group({
       idDatPhong: [0],
@@ -270,6 +281,17 @@ export class RoomOrderManagerComponent implements OnInit {
     this.getTongTienDichVu(idDP);
   }
 
+  minAgeValidator(minAge: number): ValidatorFn {
+    const today = new Date();
+    const minDate = subYears(today, minAge);
+
+    // @ts-ignore
+    return (control: FormControl): ValidationErrors | null => {
+      const birthDate = new Date(control.value);
+      return isAfter(birthDate, minDate) ? { minAge: true } : null;
+    };
+  }
+
   showFormCheckIn(id: any) {
     this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
       this.roomOrderModel = data;
@@ -331,20 +353,34 @@ export class RoomOrderManagerComponent implements OnInit {
       });
       return;
     }
-    if((this.roomModel.checkOut??'').split('T')[0] > new Date().toISOString().split('T')[0]){
-      console.log(this.roomModel.checkOut);
-      const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
-      this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24)) - 1;
-      this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
-        this.roomMapMd = res;
-      })
-      this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
-        this.roomOrderModel = data;
-        this.idDatPhongNow = id;
-      });
+    if(dateCheckOut.getDay() - dateCheckIn.getDay() > 1){
+      if((this.roomModel.checkOut??'').split('T')[0] > new Date().toISOString().split('T')[0]){
+       if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) >= 1){
+        console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+        const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
+        this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24)) - 1;
+        }
+        if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) < 1){
+          console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+          const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
+          this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        }
+        console.log(this.roomModel.checkOut);
+        this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
+          this.roomMapMd = res;
+        })
+        this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+          this.roomOrderModel = data;
+          this.idDatPhongNow = id;
+        });
+      }
+    }
+    setTimeout(() => {
+      if(this.soNgayCheckOutSom > 0){
         this.isVisibleCheckoutSom = true;
         return;
-    }
+      }
+
     this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
       this.roomMapMd = res;
     })
@@ -356,6 +392,7 @@ export class RoomOrderManagerComponent implements OnInit {
       this.idDatPhongNow = id;
       this.isVisibleCheckOut = true;
     });
+    }, 500)
     // this.roomManagerService.detailCheckIn(id).subscribe((data: CheckInDetailModel) => {
     //     this.checkInDetail = data;
     // })
@@ -375,6 +412,22 @@ export class RoomOrderManagerComponent implements OnInit {
     setTimeout(() => {
       this.viewRoom(this.idDatPhongNow, this.idHoaDon, this.idDatPhongNow);
     }, 1000)
+    setTimeout(() => {
+      this.billService.getDatPhongByHoaDon(1, 50, this.idHoaDon).subscribe(res => {
+        if (res && res.content) {
+          for(let x = 0; x < res.content.length;x++){
+            if(res.content[x].trangThai != 3 && res.content[x].trangThai != 0){
+              this.listRoomOfBill.push(res.content[x]);
+            }
+          }
+        }
+      })
+    }, 1500)
+    setTimeout(() => {
+      if(this.listRoomOfBill.length == 0){
+        this.isVisibleXacNhanTT = true;
+      }
+    }, 2000)
   }
 
   cancelCheckOutSom(){
@@ -389,6 +442,8 @@ export class RoomOrderManagerComponent implements OnInit {
     this.mess.info('click confirm');
   }
 
+  //Check-out
+  isVisibleXacNhanTT = false;
   createCheckOut(){
       if(this.roomOrderModel.checkOut?.split('T')[0] == this.date.toISOString().split('T')[0]){
         if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) > 0){
@@ -419,10 +474,29 @@ export class RoomOrderManagerComponent implements OnInit {
       this.isVisibleCheckOut = false;
       this.isVisibleListDP = false;
       this.isVisible = false;
-      this.router.navigate(['/admin/room-order-manager']);
       setTimeout(() => {
         this.viewRoom(this.idDatPhongNow, this.idHoaDon, this.idDatPhongNow);
       }, 1000)
+      setTimeout(() => {
+        this.billService.getDatPhongByHoaDon(1, 50, this.idHoaDon).subscribe(res => {
+          if (res && res.content) {
+            for(let x = 0; x < res.content.length;x++){
+              if(res.content[x].trangThai != 3 && res.content[x].trangThai != 0){
+                this.listRoomOfBill.push(res.content[x]);
+              }
+            }
+          }
+        })
+      }, 1500)
+    setTimeout(() => {
+      if(this.listRoomOfBill.length == 0){
+        this.isVisibleXacNhanTT = true;
+      }
+    }, 2000)
+  }
+
+  handleCancelThanhToan(){
+    this.isVisibleXacNhanTT = false;
   }
 
   cancelCheckOutLater(){
@@ -916,6 +990,7 @@ export class RoomOrderManagerComponent implements OnInit {
       console.log(res);
     })
     this.mess.success('Thanh toán thành công!');
+    this.isVisibleXacNhanTT = false;
     this.isVisibleListDP = false;
     this.isVisible = false;
     setTimeout(() => {
@@ -1084,6 +1159,7 @@ export class RoomOrderManagerComponent implements OnInit {
       console.log(res);
     })
     this.mess.success('Thanh toán thành công!');
+    this.isVisibleXacNhanTT = false;
     this.isVisibleListDP = false;
     this.isVisible = false;
     this.isVisibleTichDiem = false;
@@ -1104,6 +1180,7 @@ export class RoomOrderManagerComponent implements OnInit {
       console.log(res);
     })
     this.mess.success('Thanh toán thành công!');
+    this.isVisibleXacNhanTT = false;
     this.isVisibleListDP = false;
     this.isVisible = false;
     this.isVisibleTichDiem = false;
@@ -1287,7 +1364,7 @@ export class RoomOrderManagerComponent implements OnInit {
     return timeDiff / (1000 * 3600 * 24);
   }
 
-
+  checkAPICheckOut = false;
   updateCheckOut(event: Date): void {
     if (event) {
       if (this.roomModel.checkIn) {
@@ -1318,6 +1395,7 @@ export class RoomOrderManagerComponent implements OnInit {
             this.roomModel.id
           ).subscribe({
             next: res => {
+              this.checkAPICheckOut = true;
               this.notification.success("Cập nhật thành công ngày trả phòng", "");
             },
             error: (errorResponse) => {
@@ -1339,6 +1417,18 @@ export class RoomOrderManagerComponent implements OnInit {
     }
   }
 
+  calculateTotalDays2(checkIn: any, checkOut: any): number {
+
+    if (checkIn && checkOut) {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const startDate = new Date(checkIn);
+      const endDate = new Date(checkOut);
+
+      const differenceInMilliseconds = endDate.getTime() - startDate.getTime();
+      return Math.round(differenceInMilliseconds / millisecondsPerDay);
+    }
+    return 0;
+  }
 
   protected readonly formatDate = formatDate;
 }

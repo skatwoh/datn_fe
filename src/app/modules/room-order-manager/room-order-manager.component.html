@@ -415,9 +415,9 @@
               <p style="padding-left: 30px">Ngày nhận phòng: </p>
               <p style="color:red;"> {{roomModel.checkIn | date : 'dd-MM-yyyy'}}</p>
               <p style="padding-left: 30px">Ngày trả phòng: </p>
-<!--              <p style="color:red;"> {{roomModel.checkOut | date : 'dd-MM-yyyy'}}</p>-->
-              <nz-date-picker style="margin-bottom: 17px" nzBorderless [(ngModel)]="roomModel.checkOut" (ngModelChange)="updateCheckOut($event)"/>
-              <p style="color:red;"> {{ getDaysBetweenCheckInAndCheckOut() }} ngày</p>
+              <p *ngIf="roomModel.trangThai == 3" style="color:red;"> {{roomModel.checkOut | date : 'dd-MM-yyyy'}}</p>
+              <nz-date-picker *ngIf="roomModel.trangThai != 3" style="margin-bottom: 17px" nzBorderless [(ngModel)]="roomModel.checkOut" (ngModelChange)="updateCheckOut($event)"/>
+              <p *ngIf="roomModel.trangThai != 3" style="color:red;"> {{ getDaysBetweenCheckInAndCheckOut() }} ngày</p>
               <button
                 (click)="showFormChangeRoom(roomModel.tenLoaiPhong, roomModel.id, roomModel.checkIn, roomModel.checkOut)"
                 style="margin-top: -5px;margin-left: 40px"
@@ -513,7 +513,7 @@
                   <tbody>
                   <tr *ngFor="let data of basicTable2.data;let i = index;">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ data.tenDichVu }}</td>
+                    <td>{{ data.tenDichVu }}({{data.ghiChu}})</td>
                     <td>{{ data.soLuong }}</td>
                     <td>{{ data.thoiGianDat | date : 'dd-MM-yyyy hh:mm:ss' }}</td>
                     <td>{{ data.giaDichVu | currency:'VND': '':'1.0-0' }}</td>
@@ -563,10 +563,10 @@
                     <div
                       style="border: 1px solid gray;border-radius: 5px;margin: 5px;height: 190px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
-                        <img src="./assets/images/{{data.image}}" style="width: 100%;height: 100%">
+                        <img src="{{data.image}}" style="width: 100%;height: 100%">
                       </div>
                       <div style="padding: 5px;font-weight: bolder">
-                        <h1>{{data.tenDichVu}}</h1>
+                        <h1>{{data.tenDichVu}}({{data.ghiChu}})</h1>
                         <h1>Giá: {{data.giaDichVu | currency:'VND': '':'1.0-0' }}</h1>
                       </div>
                     </div>
@@ -626,7 +626,10 @@
             <hr style="margin: 10px">
             <p>Số CCCD: {{checkInDetailModel.cccd}}</p>
             <hr style="margin: 10px">
-            <p>Ngày nhận phòng: {{checkInDetailModel.ngayNhanPhong | date : 'dd-MM-yyyy'}}</p>
+            <div class="flex">
+            <p>Ngày nhận phòng: {{checkInDetailModel.ngayNhanPhong | date : 'dd-MM-yyyy'}} | </p>
+            <p *ngIf="roomModel.trangThai == 2">Số người: {{roomModel.soNguoi}}</p>
+            </div>
             <hr style="margin: 10px">
           </div>
           <div style="border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
@@ -717,25 +720,24 @@
     <form nz-form [formGroup]="formCheckIn" (ngSubmit)="createCheckIn()">
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Số CCCD</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Input is required">
+        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số CCCD">
           <input nz-input id="cccdCheckIn" formControlName="cccdCheckIn" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Họ tên</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="MaxLength is 6">
+        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập họ tên">
           <input nz-input formControlName="hoTenCheckIn" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Ngày sinh</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="MinLength is 6">
-          <input type="date" nz-input formControlName="ngaySinhCheckIn" required/>
+        <nz-form-control nzHasFeedback nzErrorTip="Bạn phải đủ 18 tuổi"> <input type="date" nz-input formControlName="ngaySinhCheckIn" required />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Giới tính</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Email is not valid">
+        <nz-form-control nzHasFeedback nzErrorTip="Giới tính is not valid">
           <select id="gioiTinhCheckIn" class="select-input"
                   style="width: 200px;height: 30px;font-size: 18px;border-width: 1px; border-style: solid; border-color: dodgerblue;border-radius: 3px;"
                   formControlName="gioiTinhCheckIn">
@@ -747,18 +749,14 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">SĐT</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Pattern not match">
+        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số điện thoại">
           <input nz-input formControlName="sdtCheckIn"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSpan]="5">Ghi chú</nz-form-label>
-        <nz-form-control nzHasFeedback>
-          <input
-            nz-input
-            formControlName="ghiChuCheckIn"
-            required
-          />
+        <nz-form-label [nzSpan]="5">Số người</nz-form-label>
+        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số người lớn hơn 0 và tối đa {{roomMapMd.soNguoi}}">
+          <input nz-input formControlName="soNguoi"/>
         </nz-form-control>
       </nz-form-item>
       <br>
@@ -1223,6 +1221,33 @@
         <label style="width: 270px">Ngày check-in</label>
           <input style="margin: 5px" nz-input type="date" id="checkInTimPhong" required/>
       </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  nzTitle="Xác nhận thanh toán"
+  [(nzVisible)]="isVisibleXacNhanTT"
+  (nzOnCancel)="handleCancelThanhToan()"
+  (nzOnOk)="updateBillStatus(roomModel.idHoaDon, roomModel.idDatPhong)"
+  [nzOkText]="'Xác nhận thanh toán'"
+  [nzCancelText]="'Trở về'"
+>
+  <ng-container *nzModalContent>
+    <div style="font-size: 18px;padding: 10px;font-weight: bolder">
+      <i *ngIf="listRoomOfBill.length == 0">Đã trả hết phòng, xác nhận thanh toán?</i>
+      <br>
+      <i>Tổng tiền: {{roomModel.tongTien | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Tiền phòng: {{roomModel.tienPhong | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Tiền dịch vụ: {{roomModel.tienDichVu??0 | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Tiền phạt: {{roomModel.tienPhat??0 | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Tiền hoàn lại: {{roomModel.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Cần thanh toán: {{((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}</i>
     </div>
   </ng-container>
 </nz-modal>
