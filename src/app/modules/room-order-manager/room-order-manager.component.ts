@@ -35,7 +35,7 @@ import {BillModel} from "../../models/bill.model";
 import * as moment from "moment";
 import {CustomerUseRoom} from "../../models/CustomerUseRoom";
 import { subYears, isBefore, isAfter } from 'date-fns';
-import {GanttItem} from "@worktile/gantt";
+
 
 
 @Component({
@@ -186,6 +186,7 @@ export class RoomOrderManagerComponent implements OnInit {
         const checkOut = params['checkOutDate'];
         this.checkInSearch = new Date(checkIn.toLocaleString());
         this.checkOutSearch = new Date(checkOut.toLocaleString());
+        console.log('getRoomMapping: ' + new Date(checkIn.toLocaleString()));
         this.roomService.getRoomMapping(checkIn, checkOut).subscribe(res => {
           this.roomMapping = res;
           (document.getElementById('checkIn') as HTMLInputElement).value = checkIn;
@@ -530,6 +531,10 @@ export class RoomOrderManagerComponent implements OnInit {
   searchRoom(position: NzNotificationPlacement) {
     const checkInElement = (document.getElementById('checkIn') as HTMLInputElement).value;
     const checkOutElement = (document.getElementById('checkOut') as HTMLInputElement).value;
+    console.log(moment(checkInElement).toISOString());
+    console.log(moment(checkOutElement).toISOString());
+    console.log(moment(checkInElement).toLocaleString());
+    console.log(moment(checkOutElement).toLocaleString());
     if (checkInElement == '' && checkOutElement == '') {
       this.notification.blank(
         'Vui lòng nhập đầy đủ ngày nhận phòng và ngày trả phòng!',
@@ -673,6 +678,11 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   saveOrderForm() {
+    const dateCheckIn = new Date((document.getElementById('checkIn') as HTMLInputElement).value);
+    const dateCheckOut = new Date((document.getElementById('checkOut') as HTMLInputElement).value);
+    // Đặt giờ, phút, giây về 0
+    // dateCheckIn.setHours(0, 0, 0, 0);
+    // dateCheckOut.setHours(0, 0, 0, 0);
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
@@ -740,8 +750,8 @@ export class RoomOrderManagerComponent implements OnInit {
         //   return `${year}-${month}-${day}`;
         // };
         dataDatPhong.idPhong = this.roomMapMd.id;
-        dataDatPhong.checkIn = moment(this.checkInSearch);
-        dataDatPhong.checkOut = moment(this.checkOutSearch);
+        dataDatPhong.checkIn = dateCheckIn.toISOString().split('T')[0] + 'T00:00:00.000Z';
+        dataDatPhong.checkOut = dateCheckOut.toISOString().split('T')[0] + 'T00:00:00.000Z';
         // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
@@ -770,8 +780,8 @@ export class RoomOrderManagerComponent implements OnInit {
             data3.tongGia = this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
           }
           data3.idPhong = this.dataList[x].id;
-          data3.checkIn = moment(this.checkInSearch);
-          data3.checkOut = moment(this.checkOutSearch);
+          data3.checkIn = dateCheckIn.toISOString().split('T')[0] + 'T00:00:00.000Z';
+          data3.checkOut = dateCheckOut.toISOString().split('T')[0] + 'T00:00:00.000Z';
           data3.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
           const sub2 = this.roomManagerService.datPhongTaiQuay(data3)
             .pipe(first())
@@ -1307,16 +1317,17 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   getRoomToDay2() {
-    const localDate = new Date(this.date.getTime() - (this.date.getTimezoneOffset() * 60000));
+    const localDate = new Date();
     const localCheckInDate = localDate.toISOString().split('T')[0];
 
     const checkOutDate = new Date();
     checkOutDate.setDate(checkOutDate.getDate() + 1);
-    const localCheckOutDate = new Date(checkOutDate.getTime() - (checkOutDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    // const localCheckOutDate = new Date(checkOutDate.getTime() - (checkOutDate.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+    const localCheckOutDate = checkOutDate.toISOString().split('T')[0];
 
     (document.getElementById('checkIn') as HTMLInputElement).value = localCheckInDate;
     (document.getElementById('checkOut') as HTMLInputElement).value = localCheckOutDate;
-
+    console.log(localCheckInDate);
     this.router.navigate(['/admin/room-order-manager/']);
     this.roomService.getRoomMapping(localCheckInDate, localCheckOutDate).subscribe(res => {
       this.roomMapping = res;
