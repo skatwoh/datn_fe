@@ -1,0 +1,21 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách phòng"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Danh sách phòng</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="gantt-chart">
+  <div *ngFor="let task of tasks" class="task">
+    <div class="task-name">{{ task.roomCode }}</div>
+    <div class="task-bar" [ngStyle]="{'width.%': 25, 'left.%': getTaskPosition(task), 'background-color': getTaskBarColor(task)}">
+      <span class="task-duration">
+        From {{ formatDate(task.startDate) }} to {{ formatDate(task.endDate) }}
+      </span>
+    </div>
+  </div>
+</div>
+

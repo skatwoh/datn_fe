@@ -14,15 +14,6 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {ListRoomOrderService} from "../../web/index/page/list-room-order/list-room-order.service";
 import {CustomerUseRoom} from "../../models/CustomerUseRoom";
 
-interface GanttItem {
-  id: string;
-  title: string;
-  start: number;
-  end: number;
-  expandable?: boolean;
-  links?: string[];
-}
-
 
 @Component({
   selector: 'app-welcome',
@@ -48,7 +39,7 @@ export class WelcomeComponent implements OnInit {
   luaChon: string = '';
   tongSoDichVu: number = 0;
   customerUseRoom: CustomerUseRoom[] = [];
-  items: GanttItem[] = [];
+  public tasks: any[] = [];
 
   constructor(private roomService: RoomService, private router: Router, private roomOrderService: RoomManagerService,
               private service: ServiceService, private accountService: AccountService, private commentService: CommentService,
@@ -74,7 +65,6 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.listCustomers();
     forkJoin([
       this.getRooms(),
       this.getRoomOrders(),
@@ -224,18 +214,5 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
-  listCustomers(): void {
-    this.roomOrderService1.listCustomerUseRoom().subscribe((res: any) => {
-      this.customerUseRoom = res.body;
-
-      this.items = this.customerUseRoom.map(booking => ({
-        id: booking.idPhong.toString(),
-        title: `Room ${booking.maPhong}`,
-        start: new Date(booking.checkIn).getTime() / 1000,
-        end: new Date(booking.checkOut).getTime() / 1000,
-        expandable: true
-      }));
-    });
-  }
 
 }
