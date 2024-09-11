@@ -682,15 +682,32 @@ export class RoomOrderManagerComponent implements OnInit {
   saveOrderForm() {
     const dateCheckIn = new Date((document.getElementById('checkIn') as HTMLInputElement).value);
     const dateCheckOut = new Date((document.getElementById('checkOut') as HTMLInputElement).value);
-    // Đặt giờ, phút, giây về 0
-    // dateCheckIn.setHours(0, 0, 0, 0);
-    // dateCheckOut.setHours(0, 0, 0, 0);
+    const dateOfBirthInput = (document.getElementById('ngaySinh') as HTMLInputElement).value;
+    const dateOfBirth = new Date(dateOfBirthInput);
+
+    // Check if date of birth is less than 18 years ago
+    const today = new Date();
+    let age = today.getFullYear() - dateOfBirth.getFullYear();
+    const monthDifference = today.getMonth() - dateOfBirth.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dateOfBirth.getDate())) {
+      age--;
+    }
+
+    if (age < 18) {
+      this.mess.warning('Người dùng phải ít nhất 18 tuổi');
+      return;
+    }
+
+    // Validation for CCCD length
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
     }
+
+    // Validation for phone number length
     if((document.getElementById('sdt') as HTMLInputElement).value.length !== 10){
-      this.mess.warning('Số định dạng 10 chữ số');
+      this.mess.warning('Số điện thoại phải có 10 chữ số');
       return;
     }
 
@@ -698,13 +715,15 @@ export class RoomOrderManagerComponent implements OnInit {
       hoTen: (document.getElementById('ten') as HTMLInputElement).value,
       sdt: (document.getElementById('sdt') as HTMLInputElement).value,
       cccd: (document.getElementById('cccd') as HTMLInputElement).value,
-      ngaySinh: (document.getElementById('ngaySinh') as HTMLInputElement).value,
+      ngaySinh: dateOfBirthInput,
     }
+
     setTimeout(() => {
       this.customerService.create(data).subscribe((res: any) => {
         console.log(res)
       })
     }, 300)
+
     setTimeout(() => {
       this.customerService.getIdByCCCD(data.cccd).subscribe((res: any) => {
         this.idKhach = res;
@@ -722,39 +741,19 @@ export class RoomOrderManagerComponent implements OnInit {
         })
       })
     }, 1000)
-    // setTimeout(async () => {
-    //   const data2 = {
-    //     tongTien: 0,
-    //     idKhachHang: this.idKhach,
-    //     trangThai: 3
-    //   }
-    //   data2.tongTien = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) + this.tongTien;
-    //   data2.idKhachHang = this.idKhach
-    //   this.billService.createOrUpdateTaiQuay(data2).subscribe((res: any) => {
-    //     console.log(res);
-    //   })
-    // }, 1500)
+
     if (this.roomOrderForm.valid) {
       setTimeout(() => {
         const dataDatPhong = this.roomOrderForm.value;
         dataDatPhong.idKhachHang = this.idKhach;
         if (this.customerModel == null || this.customerModel.giamGia === 0) {
-          console.log('khong ton tai');
           dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0);
         } else if (this.customerModel.giamGia !== 0) {
-          console.log('ton tai');
           dataDatPhong.tongGia = this.calculateTotalDays() * (this.roomMapMd.giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
         }
-        // const formatDate = (date: Date): string => {
-        //   const year = date.getFullYear();
-        //   const month = String(date.getMonth() + 1).padStart(2, '0');
-        //   const day = String(date.getDate()).padStart(2, '0');
-        //   return `${year}-${month}-${day}`;
-        // };
         dataDatPhong.idPhong = this.roomMapMd.id;
         dataDatPhong.checkIn = dateCheckIn.toISOString().split('T')[0] + 'T00:00:00.000Z';
         dataDatPhong.checkOut = dateCheckOut.toISOString().split('T')[0] + 'T00:00:00.000Z';
-        // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
         dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
           .pipe(first())
@@ -776,10 +775,8 @@ export class RoomOrderManagerComponent implements OnInit {
           const data3 = this.roomOrderForm.value;
           data3.idKhachHang = this.idKhach;
           if (this.customerModel == null || this.customerModel.giamGia === 0) {
-            console.log('khong ton tai');
             data3.tongGia = this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0);
           } else if (this.customerModel.giamGia !== 0) {
-            console.log('ton tai');
             data3.tongGia = this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0) * (100 - this.customerModel.giamGia) / 100;
           }
           data3.idPhong = this.dataList[x].id;
@@ -813,9 +810,9 @@ export class RoomOrderManagerComponent implements OnInit {
         this.isVisibleXacNhanDatTruoc = false;
         this.isVisibleListCheckOut = false;
       }, 3000)
-
     }
   }
+
 
   handleByCCCD() {
     const cccd = (document.getElementById('cccd') as HTMLInputElement).value;

@@ -1,0 +1,38 @@
+.gantt-chart {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.task {
+  margin: 20px 0;
+  position: relative;
+  height: 50px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  z-index: 1; /* Đảm bảo rằng các task không bị chồng lên nhau */
+}
+
+.task-name {
+  position: absolute;
+  left: 0;
+  width: 200px;
+  padding: 10px;
+  background: #e0e0e0;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.task-bar {
+  height: 100%;
+  position: absolute;
+  left: 200px;
+  top: 0;
+  color: white;
+  text-align: center;
+  padding-right: 10px;
+  line-height: 30px;
+  border-radius: 4px;
+}
