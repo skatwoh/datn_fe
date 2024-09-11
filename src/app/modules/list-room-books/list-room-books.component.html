@@ -1,0 +1,19 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  nzTitle="Danh sách khách hàng"
+>
+  <nz-breadcrumb nz-page-header-breadcrumb>
+    <nz-breadcrumb-item>Quản lý khách hàng</nz-breadcrumb-item>
+    <nz-breadcrumb-item>Danh sách khách hàng</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</nz-page-header>
+
+<div class="gantt-chart">
+  <div *ngFor="let task of tasks" class="task">
+    <div class="task-name">{{ task.maPhong }}</div>
+    <div class="task-bar" [style.width.%]="getTaskWidth(task)">
+      <span class="task-duration">{{ getTaskDuration(task) }} days</span>
+    </div>
+  </div>
+</div>

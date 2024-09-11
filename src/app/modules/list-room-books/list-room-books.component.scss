@@ -1,0 +1,29 @@
+.gantt-chart {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+}
+.task {
+  margin: 10px 0;
+  position: relative;
+  height: 30px;
+  border: 1px solid #ccc;
+}
+.task-name {
+  position: absolute;
+  left: 0;
+  width: 150px;
+  padding: 5px;
+  background: #f0f0f0;
+  box-sizing: border-box;
+}
+.task-bar {
+  background-color: #4CAF50;
+  height: 100%;
+  position: absolute;
+  left: 150px;
+  top: 0;
+  color: white;
+  text-align: center;
+  padding-right: 5px;
+}

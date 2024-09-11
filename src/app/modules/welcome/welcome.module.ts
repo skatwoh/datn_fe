@@ -8,7 +8,6 @@ import { NzBreadCrumbModule } from "ng-zorro-antd/breadcrumb";
 import { NzPageHeaderModule } from "ng-zorro-antd/page-header";
 import { CaseModule } from "../../web/index/case/case.module";
 import { FormsModule } from "@angular/forms";
-// import { NgxGanttComponent, NgxGanttTableColumnComponent, NgxGanttTableComponent, GANTT_GLOBAL_CONFIG } from "@worktile/gantt"; // Import GANTT_GLOBAL_CONFIG
 
 @NgModule({
   imports: [
@@ -22,20 +21,8 @@ import { FormsModule } from "@angular/forms";
     NgIf,
     FormsModule,
     NgForOf,
-    // NgxGanttComponent,
-    // NgxGanttTableComponent,
-    // NgxGanttTableColumnComponent
   ],
   declarations: [WelcomeComponent],
   exports: [WelcomeComponent],
-  providers: [
-    // {
-    //   provide: GANTT_GLOBAL_CONFIG,
-    //   useValue: {
-    //     dateFormat: 'yyyy-MM-dd', // Hoặc các cấu hình khác theo yêu cầu của bạn
-    //     // Thêm các cấu hình khác nếu cần
-    //   }
-    // }
-  ]
 })
 export class WelcomeModule { }
