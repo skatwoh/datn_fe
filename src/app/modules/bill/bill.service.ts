@@ -71,8 +71,8 @@ export class BillService{
     return this.http.put<any>(`${environment.apiUrl}/dat-phong/update-stt`, data, {params});
   }
 
-  deleteBill(data: any): Observable<any> {
-    return this.http.post(`${API_AU_URL}/delete`, data);
+  deleteBill(): Observable<any> {
+    return this.http.post(`${API_AU_URL}/delete`, null);
   }
 
   getBillsBySearch(page: number, size: number, input: string, trangThai: any): Observable<any> {

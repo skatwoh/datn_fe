@@ -644,12 +644,12 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   deleteBill() {
-    const data = {
-      ngayThanhToan: moment(this.checkInSearch),
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-      idKhachHang: this.idKhach
-    }
-    this.billService.deleteBill(data).subscribe((res: any) => {
+    // const data = {
+    //   ngayThanhToan: moment(this.checkInSearch),
+    //   tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    //   idKhachHang: this.idKhach
+    // }
+    this.billService.deleteBill().subscribe((res: any) => {
       console.log(res);
     })
   }
@@ -676,6 +676,8 @@ export class RoomOrderManagerComponent implements OnInit {
       this.mess.warning('Ngày sinh không hợp lệ');
     }
   }
+
+  checkDP : number = 1;
 
   saveOrderForm() {
     const dateCheckIn = new Date((document.getElementById('checkIn') as HTMLInputElement).value);
@@ -759,12 +761,13 @@ export class RoomOrderManagerComponent implements OnInit {
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
                 console.log('Thành công')
+                this.mess.success('Đặt phòng thành công!');
               } else {
                 this.updateTongTien();
                 this.deleteBill();
                 const msg: any = res.entityMessages[0];
                 this.notification.warning(`${msg.errorMessage}`, "");
-                return;
+                this.checkDP = 2;
               }
             },
           );
@@ -788,17 +791,17 @@ export class RoomOrderManagerComponent implements OnInit {
             .subscribe((res) => {
                 if (res?.code === AppConstants.API_SUCCESS_CODE) {
                   console.log('Thành công');
+                  this.mess.success('Đặt phòng thành công!');
                 } else {
                   const msg: any = res.entityMessages[0];
                   this.notification.warning(`${msg.errorMessage}`, "");
                   this.updateTongTien();
-                  return;
+                  this.checkDP = 2;
                 }
               },
             );
           this.unsubscribe.push(sub2);
         }
-        this.mess.success('Đặt phòng thành công!');
         const queryParams = {
           checkInDate: (document.getElementById('checkIn') as HTMLInputElement).value,
           checkOutDate: (document.getElementById('checkOut') as HTMLInputElement).value,

@@ -302,7 +302,7 @@ export class RoomDetailsComponent implements OnInit, OnDestroy {
     }else if(this.khachHang.giamGia !== 0){
       data.tongTien = (document.getElementById('tongGiaMoi') as HTMLInputElement).value;
     }
-    this.billService.deleteBill(data).subscribe((res: any) => {
+    this.billService.deleteBill().subscribe((res: any) => {
       console.log(res);
     })
   }
