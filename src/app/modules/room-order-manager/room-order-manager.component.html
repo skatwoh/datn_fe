@@ -171,7 +171,7 @@
                     <p style="font-size: 30px;text-align: center">Lượt đặt: {{data.soPhong}}</p>
                     <!--                <p style="font-size: 30px;text-align: center">Lượt đặt: {{getSoLanDatPhong(data.id)}}</p>-->
                   </div>
-                  <div *ngIf="data.soPhong == 0">
+                  <div *ngIf="data.soPhong == 0 ">
                     <br>
                     <p style="font-size: 30px;text-align: center">Sẵn sàng đón khách</p>
                   </div>
@@ -391,7 +391,7 @@
         </nz-table>
       </div>
     </div>
-    <div *ngIf="room.length == 0 || checkList == 0">
+    <div *ngIf="listCheckToBook.length == 0">
       <p style="font-size: 30px;text-align: center">Hiện chưa có khách đặt phòng trong khoảng thời gian này!
 <!--        ({{dateNow}})-->
       </p>
@@ -427,6 +427,15 @@
             >
               Hủy phòng
             </button>
+          <button *ngIf="roomModel.trangThai == 3 && roomModel.trangThaiThanhToan != 5 && roomModel.trangThaiThanhToan != 4" (click)="showModalThanhToanRieng(roomModel.idDatPhong)" class="button-thanh-toan"
+          >
+            Thanh toán phòng này
+          </button>
+          <button class="button-thanh-toan"
+                  (click)="showFormCheckoutMuon(roomModel.idDatPhong)"
+                  *ngIf="roomModel.trangThai == 2">
+            Check-out muộn
+          </button>
         </div>
         <hr>
       </div>
@@ -470,12 +479,6 @@
                           *ngIf="roomModel.trangThai == 2 || roomModel.trangThai == 5">
                     Check-out
                   </button>
-<!--                  <button style="margin-top: -5px;margin-left: 5px"-->
-<!--                          class="button-blue2"-->
-<!--                          (click)="showFormCheckoutMuon(roomModel.idDatPhong)"-->
-<!--                          *ngIf="roomModel.trangThai == 2">-->
-<!--                    Check-out muộn-->
-<!--                  </button>-->
                 </div>
                 <div *ngIf="roomModel.trangThai == 5">
                   <p style="font-size: 15px;font-weight: bolder;margin-left: 5px;color: red">(Trả phòng muộn)</p>
@@ -669,7 +672,7 @@
           </div>
           <div
             style="border: 1px solid darkgrey;border-radius: 5px;margin: 5px;font-size: 17px;font-weight: bolder;padding: 10px">
-            <p>Mã hóa đơn: {{roomModel.maHD}}</p>
+            <p>Mã hóa đơn: {{roomModel.maHD}} | {{roomModel.ghiChu == '1' ? 'Đơn Online' : 'Đơn tại quầy'}}</p>
             <hr style="margin: 10px">
             <div class="flex">
               <p style="width: 50%">Ngày tạo: {{roomModel.ngayTao | date : 'dd-MM-yyyy'}}</p>
@@ -682,6 +685,7 @@
               toán: {{roomModel.trangThaiThanhToan == 0 ? 'Đã thanh toán tiền phòng' : (roomModel.trangThaiThanhToan == 1 || roomModel.trangThaiThanhToan == 3) ? 'Thanh toán sau' : roomModel.trangThaiThanhToan == 2 ? 'Đang xác nhận' :
                 roomModel.trangThaiThanhToan == 5 ? 'Hoàn tất thanh toán' : roomModel.trangThaiThanhToan == 6 ? 'Đang xác nhận cọc' : roomModel.trangThaiThanhToan == 7 ? 'Đã đặt cọc' : 'Đã hủy'}}</p>
             <hr style="margin: 10px">
+            <div *ngIf="roomModel.trangThaiThanhToan != 4">
             <p *ngIf="roomModel.tienCoc">Tiền cọc: {{roomModel.tienCoc | currency:'VND': '':'1.0-0' }}</p>
             <hr *ngIf="roomModel.tienCoc" style="margin: 10px">
             <p *ngIf="roomModel.thoiGianCoc">Thời gian cọc: {{roomModel.thoiGianCoc | date : 'dd-MM-yyyy hh:mm:ss'}}</p>
@@ -715,9 +719,11 @@
                 </svg>
               </div>
             </div>
+            </div>
           </div>
           <div
-            *ngIf="roomModel.trangThaiThanhToan == 3 || roomModel.trangThaiThanhToan == 7 || roomModel.trangThaiThanhToan == 0">
+            *ngIf="(roomModel.trangThaiThanhToan == 3 || roomModel.trangThaiThanhToan == 7 || roomModel.trangThaiThanhToan == 0)
+            && checkCheckoutAll == 1 && (roomModel.trangThai == 3 || roomModel.trangThai == 0)">
             <!--            <button style="width: 98%;height:35px;color:white;font-weight:bolder;margin: 5px;background-color: #4cb3fd;border-radius: 5px">Xác nhận thanh toán</button>-->
             <button (click)="updateBillStatus(roomModel.idHoaDon, roomModel.idDatPhong)" style="width: 98%;margin: 5px;"
                     class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
@@ -749,6 +755,10 @@
   nzFooter=" "
 >
   <ng-container *nzModalContent>
+    <div>
+    <button (click)="handleThongTinCheckIn()" style="margin-left: 50%" class="button-thanh-toan">Là người đặt phòng</button>
+    </div>
+    <div style="margin: 2px;">
     <form nz-form [formGroup]="formCheckIn" (ngSubmit)="createCheckIn()">
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Số CCCD</nz-form-label>
@@ -759,12 +769,12 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Họ tên</nz-form-label>
         <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập họ tên">
-          <input nz-input formControlName="hoTenCheckIn" required/>
+          <input nz-input id="hoTenCheckIn" formControlName="hoTenCheckIn" required/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Ngày sinh</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Bạn phải đủ 18 tuổi"> <input type="date" nz-input formControlName="ngaySinhCheckIn" required />
+        <nz-form-control nzHasFeedback nzErrorTip="Bạn phải đủ 18 tuổi"> <input type="date" id="ngaySinhCheckIn" nz-input formControlName="ngaySinhCheckIn" required />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -782,22 +792,23 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="5">SĐT</nz-form-label>
         <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số điện thoại">
-          <input nz-input formControlName="sdtCheckIn"/>
+          <input nz-input id="sdtCheckIn" formControlName="sdtCheckIn"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Số người</nz-form-label>
         <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số người lớn hơn 0 và tối đa {{roomMapMd.soNguoi}}">
-          <input nz-input formControlName="soNguoi"/>
+          <input type="number" id="soNguoiCheckIn" nz-input formControlName="soNguoi"/>
         </nz-form-control>
       </nz-form-item>
       <br>
       <nz-form-item>
         <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%" [disabled]="formCheckIn.invalid">Hoàn thành</button>
+          <button nz-button nzType="primary" style="width: 100%" >Hoàn thành</button>
         </nz-form-control>
       </nz-form-item>
     </form>
+    </div>
   </ng-container>
 </nz-modal>
 <nz-modal
@@ -1164,12 +1175,8 @@
   (nzOnOk)="okCheckOutMuon()"
 >
   <ng-container *nzModalContent>
-    <div style="font-weight: bolder;font-size: 17px;padding: 5px">
-      <h3>(trả phòng muộn 1 tiếng phạt (15% giá phòng một ngày)/h)</h3>
-    </div>
-    <div style="font-weight: bolder;font-size: 15px;padding: 5px">
-      <label>Số giờ check-out muộn: </label>
-      <input type="number" id="soGioCheckOut"/>
+    <div style="font-weight: bolder;font-size: 18px;padding: 5px">
+      <h3>Phòng này sẽ check-out muộn ?</h3>
     </div>
   </ng-container>
 </nz-modal>
@@ -1224,7 +1231,6 @@
   [nzOkLoading]="isOkLoading"
   [nzOkText]="'Đồng ý'"
   [nzCancelText]="'Trở về'"
-
 >
   <ng-container *nzModalContent>
     <div>
@@ -1239,20 +1245,70 @@
   (nzOnCancel)="handleCancelTimPhong()"
   (nzOnOk)="handleOkTimPhong()"
   [nzOkLoading]="isOkLoadingTimPhong"
-  [nzOkText]="'Tìm'"
-  [nzCancelText]="'Trở về'"
-
+  nzWidth="1200px"
+  nzFooter=" "
 >
   <ng-container *nzModalContent>
-    <div>
-      <div style="margin: 5px;font-weight: bolder" class="flex">
-        <label style="width: 270px">Nhập số CCCD người đặt</label>
-          <input style="margin: 5px" nz-input id="cccdTimPhong" required/>
+    <div style="margin: 10px">
+      <div style="margin: 5px;font-size: 18px" class="flex">
+        <label style="margin: 5px">Người đặt: </label>
+        <nz-select id="idKHTimPhong" style="margin: 5px" nzShowSearch nzAllowClear nzPlaceHolder="Select a person" [(ngModel)]="selectedValue" (ngModelChange)="onChangeKH($event)">
+          <nz-option *ngFor="let data of listKhachHang" nzLabel="{{data.cccd}} - {{data.hoTen}} - {{data.sdt}}" nzValue="{{data.id}}"></nz-option>
+        </nz-select>
+        <label style="margin: 5px">Ngày check-in</label>
+        <input type="date" id="checkInTimPhong"
+               style="width: 200px;height:30px;border-radius: 5px;
+               border: 1px solid lightskyblue;margin-left: 10px;margin-top: 5px;padding: 5px">
+        <button (click)="handleOkTimPhong()" style="margin-left: 10px" class="button-blue">Tìm kiếm</button>
       </div>
-      <div style="margin: 5px;font-weight: bolder" class="flex">
-        <label style="width: 270px">Ngày check-in</label>
-          <input style="margin: 5px" nz-input type="date" id="checkInTimPhong" required/>
-      </div>
+    </div>
+    <hr style="margin: 5px">
+    <div *ngIf="listRoomByCCCD.length == 0">
+      <h3 STYLE="text-align: center;font-size: 25px;margin-top: 10px">DANH SÁCH TRỐNG</h3>
+    </div>
+    <div *ngIf="listRoomByCCCD.length > 0">
+      <nz-table #basicTable [nzData]="listRoomByCCCD">
+        <thead>
+        <tr>
+          <th>STT</th>
+          <th>Số phòng</th>
+          <th>Loại phòng</th>
+          <th>Giá phòng</th>
+          <th>Người đặt</th>
+          <th>Người nhận phòng</th>
+          <th>Số điện thoại</th>
+          <th>Ngày nhận phòng</th>
+          <th>Ngày trả phòng</th>
+          <th>Trạng thái</th>
+          <th>Tác vụ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data;let i = index;">
+          <td>{{ i + 1 }}</td>
+          <td>{{ data.tenPhong }}</td>
+          <td>{{ data.tenLoaiPhong }}</td>
+          <td>{{ data.giaPhong | currency:'VND': '':'1.0-0'  }}</td>
+          <td>{{ data.hoTen  }}</td>
+          <td>{{ data.nguoiCheckIn }}</td>
+          <td>{{ data.sdtCheckIn}}</td>
+          <td>{{ data.checkIn | date : 'dd-MM-yyyy' }}</td>
+          <td>{{ data.checkOut | date : 'dd-MM-yyyy' }}</td>
+          <td>{{ data.trangThai == 1 ? 'Chờ nhận phòng' : data.trangThai == 2 ? 'Đã nhận phòng' : data.trangThai == 3 ? 'Đã trả phòng' : data.trangThai == 5 ? 'Trả phòng muộn' : data.trangThai == 4 ? 'Đang xác nhận' : 'Đã hủy'}}</td>
+          <td class="flex">
+            <button (click)="viewRoom(data.idDatPhong, data.idHoaDon, data.idDatPhong)" style="margin-left: 5px;"
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500
+      group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <span
+                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          Xem
+                </span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
     </div>
   </ng-container>
 </nz-modal>
@@ -1284,6 +1340,28 @@
   </ng-container>
 </nz-modal>
 
+<nz-modal
+  [(nzVisible)]="isVisibleThanhToanRieng"
+  (nzOnCancel)="handleCancelThanhToanRieng()"
+  (nzOnOk)="handleOkThanhToanRieng()"
+  [nzOkText]="'Xác nhận thanh toán'"
+  [nzCancelText]="'Trở về'"
+
+>
+  <ng-container *nzModalContent>
+    <div style="font-size: 18px;padding: 10px;font-weight: bolder">
+      <p style="font-size: large">Xác nhận thanh toán cho phòng {{roomMapMd.ma}}?</p>
+      <br>
+      <i>Tiền phòng: {{roomModel.tongGia | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Tiền dịch vụ: {{tongTienDichVu??0 | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Đã thanh toán: {{roomModel.tienCocDatPhong??0 | currency:'VND': '':'1.0-0'}}</i>
+      <br>
+      <i>Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
+    </div>
+  </ng-container>
+</nz-modal>
 
 <!--<nz-spin [nzSpinning]="isVisibleSpin" nzTip="Loading...">-->
 <!--  <nz-alert-->

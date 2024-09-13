@@ -13,6 +13,7 @@ export class RoomOrderMappingModel {
   trangThai: number | undefined;
   tenPhong: string | undefined;
   tongGia: number | undefined;
+  tienCocDatPhong: number = 0;
   idDatPhong: number | undefined;
   tenLoaiPhong: string | undefined;
   giaPhong: number = 0;

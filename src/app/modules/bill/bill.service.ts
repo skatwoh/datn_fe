@@ -182,4 +182,11 @@ export class BillService{
       return null;
     }));
   }
+
+  updateTienHoaDon(id: any, data: any) :Observable<any>{
+    const params = {id};
+    // const data = {tongTien, tienCoc, tienDichVu}
+    return this.http.post<any>(`${API_AU_URL}/update-tien-hoa-don`, data, {params});
+  }
+
 }
