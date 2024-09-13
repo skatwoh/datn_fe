@@ -241,7 +241,7 @@ export class RoomManagerDetailsComponent implements OnInit, OnDestroy {
       tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
       idKhachHang: this.idKhach
     }
-    this.billService.deleteBill(data).subscribe((res: any) => {
+    this.billService.deleteBill().subscribe((res: any) => {
       console.log(res);
     })
   }

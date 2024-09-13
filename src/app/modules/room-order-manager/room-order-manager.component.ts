@@ -41,7 +41,15 @@ import { subYears, isBefore, isAfter } from 'date-fns';
 @Component({
   selector: 'cons-room-order-manager',
   templateUrl: './room-order-manager.component.html',
-  styleUrls: ['./room-order-manager.component.scss']
+  styleUrls: ['./room-order-manager.component.scss'],
+  styles: [
+    `
+      nz-select {
+        width: 550px;
+        height: 35px;
+      }
+    `
+  ]
 })
 export class RoomOrderManagerComponent implements OnInit {
   room: RoomOrderMappingModel[] = [];
@@ -115,6 +123,10 @@ export class RoomOrderManagerComponent implements OnInit {
   customerUseRoom: CustomerUseRoom[] = [];
 
   listRoomOfBill : RoomOrder[] = [];
+  listCheckToBook : RoomOrderMappingModel[] = [];
+
+  selectedValue: any = null;
+  listKhachHang: CustomerModel[] = [];
 
   constructor(private roomService: RoomService,
               private http: HttpClient,
@@ -164,6 +176,14 @@ export class RoomOrderManagerComponent implements OnInit {
   //     this.room = res;
   //   })
   // }
+
+  private getCustomers(): void {
+    this.customerService.getCustomerList(1, 15).subscribe(res => {
+      if (res && res.content) {
+        this.listKhachHang= res.content;
+      }
+    })
+  }
 
   getRoomToDay() {
     (document.getElementById('checkIn') as HTMLInputElement).value = this.date.toISOString().split('T')[0];
@@ -218,6 +238,7 @@ export class RoomOrderManagerComponent implements OnInit {
   ngOnInit(): void {
     this.soPhongTrong = 0;
     this.getRoomMapping();
+    this.getCustomers()
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
       this.roomType = data2; // Gán dữ liệu lấy được vào biến roomType
     });
@@ -265,6 +286,7 @@ export class RoomOrderManagerComponent implements OnInit {
     }
   }
 
+  checkCheckoutAll: number = 1;
   viewRoom(id: any, idHD: any, idDP: any) {
     this.isVisible = true;
     this.idDatPhongNow = idDP;
@@ -274,6 +296,16 @@ export class RoomOrderManagerComponent implements OnInit {
     })
     this.roomManagerService.getAllDPMappingByHD(id, idHD).subscribe(res => {
       this.roomOfBill = res;
+      if(res){
+        for(let x = 0;x < res.length;x++){
+          if(res[x].trangThai == 3 || res[x].trangThai == 0){
+            this.checkCheckoutAll = 1;
+          }
+          if(res[x].trangThai != 3 && res[x].trangThai != 0){
+            this.checkCheckoutAll = 0;
+          }
+        }
+      }
     })
     this.roomManagerService.detailCheckIn(idDP).subscribe(res => {
       this.checkInDetailModel = res;
@@ -313,12 +345,43 @@ export class RoomOrderManagerComponent implements OnInit {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
       return;
     }
+      if ((document.getElementById('sdtCheckIn') as HTMLInputElement).value == '' || (document.getElementById('sdtCheckIn') as HTMLInputElement).value == null ||
+          (document.getElementById('hoTenCheckIn') as HTMLInputElement).value == '' || (document.getElementById('hoTenCheckIn') as HTMLInputElement).value == null ||
+          (document.getElementById('ngaySinhCheckIn') as HTMLInputElement).value == '' || (document.getElementById('ngaySinhCheckIn') as HTMLInputElement).value == null ||
+          (document.getElementById('soNguoiCheckIn') as HTMLInputElement).value == '' || (document.getElementById('soNguoiCheckIn') as HTMLInputElement).value == null) {
+          this.mess.warning('Vui lòng nhập đầy đủ thông tin');
+          return;
+      }
+      if(Number.parseInt((document.getElementById('soNguoiCheckIn') as HTMLInputElement).value) < 0 ||
+          Number.parseInt((document.getElementById('soNguoiCheckIn') as HTMLInputElement).value) > (this.roomMapMd.soNguoi??0)){
+          this.mess.warning('Số người không hợp lệ');
+          return;
+      }
+      const dateOfBirthInput = (document.getElementById('ngaySinhCheckIn') as HTMLInputElement).value;
+      const dateOfBirth = new Date(dateOfBirthInput);
+      // Check if date of birth is less than 18 years ago
+      const today = new Date();
+      let age = today.getFullYear() - dateOfBirth.getFullYear();
+      const monthDifference = today.getMonth() - dateOfBirth.getMonth();
+
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dateOfBirth.getDate())) {
+          age--;
+      }
+      if (age < 18) {
+          this.mess.warning('Người dùng phải ít nhất 18 tuổi');
+          return;
+      }
     // if ((document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 10 && (document.getElementById('sdtCheckIn') as HTMLInputElement).value.length !== 11) {
     //   this.mess.warning('Số điện thoại không hợp lệ');
     //   return;
     // }
     const data = this.formCheckIn.value;
     data.idDatPhong = this.idDatPhongNow;
+    data.cccdCheckIn = (document.getElementById('cccdCheckIn') as HTMLInputElement).value;
+    data.hoTenCheckIn = (document.getElementById('hoTenCheckIn') as HTMLInputElement).value;
+    data.sdtCheckIn = (document.getElementById('sdtCheckIn') as HTMLInputElement).value;
+    data.ngaySinhCheckIn = (document.getElementById('ngaySinhCheckIn') as HTMLInputElement).value;
+    data.soNguoi = (document.getElementById('soNguoiCheckIn') as HTMLInputElement).value;
     this.roomManagerService.createCheckIn(data).subscribe(res => {
       console.log(res);
     })
@@ -518,6 +581,22 @@ export class RoomOrderManagerComponent implements OnInit {
     setTimeout(() => {
       this.viewRoom(this.idDatPhongNow, this.idHoaDon, this.idDatPhongNow);
     }, 1000)
+    setTimeout(() => {
+      this.billService.getDatPhongByHoaDon(1, 50, this.idHoaDon).subscribe(res => {
+        if (res && res.content) {
+          for(let x = 0; x < res.content.length;x++){
+            if(res.content[x].trangThai != 3 && res.content[x].trangThai != 0){
+              this.listRoomOfBill.push(res.content[x]);
+            }
+          }
+        }
+      })
+    }, 1500)
+    setTimeout(() => {
+      if(this.listRoomOfBill.length == 0){
+        this.isVisibleXacNhanTT = true;
+      }
+    }, 2000)
   }
 
   handleCancelCheckIn() {
@@ -582,28 +661,17 @@ export class RoomOrderManagerComponent implements OnInit {
       if (checkOutElement != '' && checkOutElement != '') {
         this.roomManagerService.getDPMappingBySearch(id, checkInElement, checkOutElement).subscribe(res => {
           this.room = res;
-          for(let x = 0;x < res.length;x++){
-            if(res[x].trangThai != 3 && res[x].trangThai != 1){
-                this.checkList = 1;
-            }
-            if(res[x].trangThai == 3 || res[x].trangThai == 1){
-              this.checkList = 0;
-            }
-          }
-          console.log(this.checkList)
+        })
+        this.roomManagerService.checkListToBook(id, checkInElement, checkOutElement).subscribe(res => {
+          this.listCheckToBook = res;
         })
       } else {
         this.roomManagerService.getDPMappingBySearch(id, this.date.toISOString().split('T')[0], this.date.toISOString().split('T')[0]).subscribe(res => {
           this.room = res;
-          for(let x = 0;x < res.length;x++){
-            if(res[x].trangThai !== 3){
-              this.checkList = 1;
-            }
-            if(res[x].trangThai === 3){
-              this.checkList = 0;
-            }
-          }
           console.log(this.checkList)
+        })
+        this.roomManagerService.checkListToBook(id, this.date.toISOString().split('T')[0], new Date((new Date()).setDate(this.date.getDate() + 1)).toISOString().split('T')[0]).subscribe(res => {
+          this.listCheckToBook = res;
         })
       }
     }, 2000)
@@ -640,16 +708,18 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   cancelOrderForm() {
+    this.dataList = [];
+    this.tongTien = 0;
     this.isVisibleOrderForm = false;
   }
 
   deleteBill() {
-    const data = {
-      ngayThanhToan: moment(this.checkInSearch),
-      tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
-      idKhachHang: this.idKhach
-    }
-    this.billService.deleteBill(data).subscribe((res: any) => {
+    // const data = {
+    //   ngayThanhToan: moment(this.checkInSearch),
+    //   tongTien: (document.getElementById('tongGia') as HTMLInputElement).value,
+    //   idKhachHang: this.idKhach
+    // }
+    this.billService.deleteBill().subscribe((res: any) => {
       console.log(res);
     })
   }
@@ -663,6 +733,21 @@ export class RoomOrderManagerComponent implements OnInit {
       console.log(res);
     })
   }
+
+  checkAge() {
+    const birthday = new Date(this.ngaySinh);
+    const today = new Date();
+    const minAge = 15;
+
+    birthday.setFullYear(birthday.getFullYear() + minAge);
+
+    if (birthday <= today) {
+      this.isAboveFifteen = true;
+      this.mess.warning('Ngày sinh không hợp lệ');
+    }
+  }
+
+  checkDP : number = 1;
 
   saveOrderForm() {
     const dateCheckIn = new Date((document.getElementById('checkIn') as HTMLInputElement).value);
@@ -745,12 +830,13 @@ export class RoomOrderManagerComponent implements OnInit {
           .subscribe((res) => {
               if (res?.code === AppConstants.API_SUCCESS_CODE) {
                 console.log('Thành công')
+                this.mess.success('Đặt phòng thành công!');
               } else {
                 this.updateTongTien();
                 this.deleteBill();
                 const msg: any = res.entityMessages[0];
                 this.notification.warning(`${msg.errorMessage}`, "");
-                return;
+                this.checkDP = 2;
               }
             },
           );
@@ -772,17 +858,17 @@ export class RoomOrderManagerComponent implements OnInit {
             .subscribe((res) => {
                 if (res?.code === AppConstants.API_SUCCESS_CODE) {
                   console.log('Thành công');
+                  this.mess.success('Đặt phòng thành công!');
                 } else {
                   const msg: any = res.entityMessages[0];
                   this.notification.warning(`${msg.errorMessage}`, "");
                   this.updateTongTien();
-                  return;
+                  this.checkDP = 2;
                 }
               },
             );
           this.unsubscribe.push(sub2);
         }
-        this.mess.success('Đặt phòng thành công!');
         const queryParams = {
           checkInDate: (document.getElementById('checkIn') as HTMLInputElement).value,
           checkOutDate: (document.getElementById('checkOut') as HTMLInputElement).value,
@@ -909,6 +995,9 @@ export class RoomOrderManagerComponent implements OnInit {
   dataList: RoomMappingModel[] = [];
 
   showMoreRoom() {
+    this.dataList = [];
+    this.tongTien = 0;
+    this.showListMoreRoom = false;
     this.isVisibleMoreRoom = true;
     this.route.queryParams.subscribe(params => {
       if (params['checkInDate'] && params['checkOutDate']) {
@@ -963,15 +1052,13 @@ export class RoomOrderManagerComponent implements OnInit {
 
   cancelMoreRoom() {
     this.isVisibleMoreRoom = false;
-    this.dataList = [];
-
   }
 
   okMoreRoom() {
     this.showListMoreRoom = true;
     this.isVisibleMoreRoom = false;
     for (let x = 0;x <= this.dataList.length;x++){
-      this.tongTien += (this.calculateTotalDays() * (this.dataList[x].giaTheoNgay ?? 0));
+      this.tongTien += (this.calculateTotalDays() * (this.dataList[x].giaTheoNgay??0));
     }
   }
 
@@ -1116,12 +1203,12 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   okCheckOutMuon(){
-    if(Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) > 10){
-      this.mess.warning('Chỉ được check-out muộn tối đa 10 tiếng');
-      return;
-    }
-    this.tienPhat = Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) * (this.roomMapMd.giaTheoNgay ?? 0) * 0.15;
-    this.billService.updateTienPhat(this.idHoaDon, Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) * (this.roomMapMd.giaTheoNgay ?? 0) * 0.15).subscribe({})
+    // if(Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) > 10){
+    //   this.mess.warning('Chỉ được check-out muộn tối đa 10 tiếng');
+    //   return;
+    // }
+    // this.tienPhat = Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) * (this.roomMapMd.giaTheoNgay ?? 0) * 0.15;
+    // this.billService.updateTienPhat(this.idHoaDon, Number.parseInt((document.getElementById("soGioCheckOut") as HTMLInputElement).value) * (this.roomMapMd.giaTheoNgay ?? 0) * 0.15).subscribe({})
     this.billService.updateStatusRoomOrder(this.idDatPhongNow, 5).subscribe({})
     this.mess.success('Check-out muộn thành công!');
     this.isVisibleCheckOut = false;
@@ -1334,16 +1421,25 @@ export class RoomOrderManagerComponent implements OnInit {
 
   handleOkTimPhong(){
     this.isOkLoadingTimPhong = true;
-    const cccdTim = (document.getElementById('cccdTimPhong') as HTMLInputElement).value;
+    const id = this.selectedValue;
     const checkInTim = (document.getElementById('checkInTimPhong') as HTMLInputElement).value;
-    this.roomManagerService.getDPMappingByCheckInAndCCCD(checkInTim, cccdTim).subscribe(res => {
+    if(id == null || id == ''){
+      this.mess.warning('Vui lòng chọn khách hàng');
+      return;
+    }
+    this.roomManagerService.getDPMappingByCheckInAndCCCD(checkInTim, id).subscribe(res => {
       this.listRoomByCCCD = res;
     })
-    setTimeout(() => {
-      this.isVisibleTimPhong = false;
-      this.isOkLoadingTimPhong = false;
-      this.isVisibleListTimPhong = true;
-    }, 500)
+    // setTimeout(() => {
+    //   this.isVisibleTimPhong = false;
+    //   this.isOkLoadingTimPhong = false;
+    //   this.isVisibleListTimPhong = true;
+    // }, 500)
+  }
+
+  onChangeKH(value: string) {
+    this.selectedValue = value;
+    // Use this.selectedValue for further processing
   }
 
   cancelListTimPhong(){
@@ -1419,11 +1515,108 @@ export class RoomOrderManagerComponent implements OnInit {
     }
   }
 
+  isVisibleThanhToanRieng = false;
+
+  showModalThanhToanRieng(id: any): void {
+        // this.mess.success(String(this.checkCheckoutAll));
+        this.isVisibleThanhToanRieng = true;
+        this.roomOrderService.get(id).subscribe((data: RoomOrder) => {
+            this.currentRoomOrder = data;
+        });
+  }
+
+  handleCancelThanhToanRieng(){
+      this.isVisibleThanhToanRieng = false;
+  }
+
+  handleOkThanhToanRieng(){
+      const data = {
+          hoTen: this.checkInDetailModel.hoTen,
+          sdt: this.checkInDetailModel.sdt,
+          cccd: this.checkInDetailModel.cccd,
+          ngaySinh: this.checkInDetailModel.ngaySinh,
+      }
+      setTimeout(() => {
+          this.customerService.create(data).subscribe((res: any) => {
+              console.log(res)
+          })
+      }, 300)
+      setTimeout(() => {
+          this.customerService.getIdByCCCD(data.cccd).subscribe((res: any) => {
+              this.idKhach = res;
+              const data2 = {
+                  tongTien: 0,
+                  tienPhong: 0,
+                  idKhachHang: res,
+                  trangThai: 5
+              }
+              data2.tongTien = (this.roomModel.tongGia??0) + this.tongTienDichVu;
+              data2.tienPhong = this.roomModel.tongGia??0;
+              data2.idKhachHang = res;
+              this.billService.createOrUpdateTaiQuay(data2).subscribe((res2: any) => {
+                  if(res2){
+                    this.roomManagerService.updateIdHoaDonByDatPhong(this.idDatPhongNow).subscribe(res => {
+                      console.log(res);
+                    })
+                    const data3 = {
+                      id: this.idHoaDon,
+                      tongTien: this.roomModel.tongGia,
+                      tienCoc: this.roomModel.tienCocDatPhong,
+                      tienDichVu: this.tongTienDichVu,
+                      tienPhong: this.roomModel.tongGia
+                    }
+                    this.billService.updateTienHoaDon(this.idHoaDon, data3).subscribe(res3 => {
+                      console.log(res3);
+                    })
+                    this.mess.success('Thanh toán thành công');
+                    this.isVisibleThanhToanRieng = false;
+                    this.isVisibleListDP = false;
+                    this.isVisible = false;
+                  }
+              })
+          })
+      }, 1000)
+
+    // setTimeout(() => {
+    //   this.viewRoom(this.idDatPhongNow, this.idHoaDon, this.idDatPhongNow);
+    // }, 2000)
+  }
+
+  updateIdHoaDon(){
+    setTimeout(() => {
+      this.roomManagerService.updateIdHoaDonByDatPhong(this.idDatPhongNow).subscribe(res => {
+        console.log(res);
+      })
+      this.mess.success('Thanh toán thành công');
+      this.isVisibleThanhToanRieng = false;
+    }, 2500)
+  }
+
   listCustomers(): void {
     this.roomOrderService.listCustomerUseRoom().subscribe(res => {
       this.customerUseRoom = res.body;
     });
   }
+
+  handleThongTinCheckIn(){
+      (document.getElementById('cccdCheckIn') as HTMLInputElement).value = this.roomModel.cccd??'';
+      (document.getElementById('sdtCheckIn') as HTMLInputElement).value = this.roomModel.sdt??'';
+      (document.getElementById('hoTenCheckIn') as HTMLInputElement).value = this.roomModel.hoTen??'';
+      (document.getElementById('ngaySinhCheckIn') as HTMLInputElement).value = this.roomModel.ngaySinh??'';
+  }
+
+  // changeRoomColor(id: any): string{
+  //   let colorRoom = '';
+  //   this.roomManagerService.getCheckOutToDay(id).subscribe(res => {
+  //     if(res.length > 0){
+  //       colorRoom = 'red';
+  //     }
+  //     if(res.length == 0){
+  //       colorRoom = 'lightskyblue';
+  //     }
+  //   })
+  //   return colorRoom;
+  // }
 
   protected readonly formatDate = formatDate;
 }

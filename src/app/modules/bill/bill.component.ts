@@ -115,19 +115,18 @@ export class BillComponent implements OnInit {
                 console.log(res);
             },
         })
-
         this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
             if (res && res.content) {
                 this.roomOrder = res.content;
             }
         })
-        setTimeout(() =>{
-          for (let x = 0;x < this.roomOrder.length;x++){
-            this.billService.updateStatusRoomOrder(this.roomOrder[x].id, 1).subscribe( res => {
-              console.log(res);
-            })
-          }
-        }, 300)
+        // setTimeout(() =>{
+        //   for (let x = 0;x < this.roomOrder.length;x++){
+        //     this.billService.updateStatusRoomOrder(this.roomOrder[x].id, 1).subscribe( res => {
+        //       console.log(res);
+        //     })
+        //   }
+        // }, 300)
     }
 
     updateStatusRoomOrder(id: any, trangThai: any) {

@@ -449,7 +449,7 @@ export class RoomComponent implements OnInit {
       tongTien: this.tongTien,
       idKhachHang: this.idKhach
     }
-    this.billService.deleteBill(data).subscribe((res: any) => {
+    this.billService.deleteBill().subscribe((res: any) => {
       console.log(res);
     })
   }

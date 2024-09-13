@@ -116,6 +116,13 @@ export class RoomManagerService {
     }));
   }
 
+  checkListToBook(id: any, checkIn: any, checkOut: any): Observable<any>{
+    const params = {id, checkIn, checkOut};
+    return this.http.get(`${API_AU_URL}/check-list-to-book`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
   createCheckIn(data: any): Observable<any>{
     return this.http.post(`${environment.apiUrl}/thong-tin-nhan-phong/create`, data);
   }
@@ -152,9 +159,21 @@ export class RoomManagerService {
     return this.http.get<MonthlyBooking[]>(`${API_AU_URL}/monthly-bookings`)
   }
 
-  getDPMappingByCheckInAndCCCD(checkIn: any, cccd: any): Observable<any>{
-    const params = {checkIn, cccd};
-    return this.http.get(`${API_AU_URL}/list-by-cccd-check-in`, {params}).pipe(map(res => {
+  getDPMappingByCheckInAndCCCD(checkIn: any, id: any): Observable<any>{
+    const params = {checkIn, id};
+    return this.http.get(`${API_AU_URL}/list-by-customer-and-check-in`, {params}).pipe(map(res => {
+      return res;
+    }));
+  }
+
+  updateIdHoaDonByDatPhong(id: any): Observable<any> {
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/update-hoa-don-by-id`, {params});
+  }
+
+  getCheckOutToDay(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get(`${API_AU_URL}/get-check-out-to-day`, {params}).pipe(map(res => {
       return res;
     }));
   }

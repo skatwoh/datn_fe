@@ -71,8 +71,8 @@ export class BillService{
     return this.http.put<any>(`${environment.apiUrl}/dat-phong/update-stt`, data, {params});
   }
 
-  deleteBill(data: any): Observable<any> {
-    return this.http.post(`${API_AU_URL}/delete`, data);
+  deleteBill(): Observable<any> {
+    return this.http.post(`${API_AU_URL}/delete`, null);
   }
 
   getBillsBySearch(page: number, size: number, input: string, trangThai: any): Observable<any> {
@@ -182,4 +182,11 @@ export class BillService{
       return null;
     }));
   }
+
+  updateTienHoaDon(id: any, data: any) :Observable<any>{
+    const params = {id};
+    // const data = {tongTien, tienCoc, tienDichVu}
+    return this.http.post<any>(`${API_AU_URL}/update-tien-hoa-don`, data, {params});
+  }
+
 }
