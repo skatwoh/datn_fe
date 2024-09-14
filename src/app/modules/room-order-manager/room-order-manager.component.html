@@ -427,7 +427,7 @@
             >
               Hủy phòng
             </button>
-          <button *ngIf="roomModel.trangThai == 3 && roomModel.trangThaiThanhToan != 5 && roomModel.trangThaiThanhToan != 4" (click)="showModalThanhToanRieng(roomModel.idDatPhong)" class="button-thanh-toan"
+          <button *ngIf="roomModel.trangThai == 3 && roomModel.trangThaiThanhToan != 5 && roomModel.trangThaiThanhToan != 4 && roomOfBill.length > 0" (click)="showModalThanhToanRieng(roomModel.idDatPhong)" class="button-thanh-toan"
           >
             Thanh toán phòng này
           </button>
@@ -1356,9 +1356,12 @@
       <br>
       <i>Tiền dịch vụ: {{tongTienDichVu??0 | currency:'VND': '':'1.0-0'}}</i>
       <br>
+      <i *ngIf="roomModel.tienPhatDatPhong != ''">Tiền phạt: {{roomModel.tienPhatDatPhong | currency:'VND': '':'1.0-0'}}</i>
+      <br *ngIf="roomModel.tienPhatDatPhong != ''">
       <i>Đã thanh toán: {{roomModel.tienCocDatPhong??0 | currency:'VND': '':'1.0-0'}}</i>
       <br>
-      <i>Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
+      <i *ngIf="roomModel.tienPhatDatPhong == ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
+      <i *ngIf="roomModel.tienPhatDatPhong != ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) + Number(roomModel.tienPhatDatPhong) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
     </div>
   </ng-container>
 </nz-modal>
