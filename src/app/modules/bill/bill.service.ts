@@ -71,6 +71,11 @@ export class BillService{
     return this.http.put<any>(`${environment.apiUrl}/dat-phong/update-stt`, data, {params});
   }
 
+  checkOutMuon(id: any, data: any): Observable<any> {
+    const params = {id};
+    return this.http.put<any>(`${environment.apiUrl}/dat-phong/check-out-muon`, data, {params});
+  }
+
   deleteBill(): Observable<any> {
     return this.http.post(`${API_AU_URL}/delete`, null);
   }

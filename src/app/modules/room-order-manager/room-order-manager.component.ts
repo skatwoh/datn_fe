@@ -571,7 +571,7 @@ export class RoomOrderManagerComponent implements OnInit {
 
   okCheckOutLater(){
     this.billService.updateTienPhat(this.idHoaDon, this.tienPhat).subscribe({})
-    this.billService.updateStatusRoomOrder(this.idDatPhongNow, 3).subscribe({})
+    this.billService.checkOutMuon(this.idDatPhongNow, this.tienPhat).subscribe({})
     this.mess.success('Check-out thành công!');
     this.isVisibleCheckOut = false;
     this.isVisibleListDP = false;
@@ -824,7 +824,7 @@ export class RoomOrderManagerComponent implements OnInit {
         dataDatPhong.idPhong = this.roomMapMd.id;
         dataDatPhong.checkIn = dateCheckIn.toISOString().split('T')[0] + 'T00:00:00.000Z';
         dataDatPhong.checkOut = dateCheckOut.toISOString().split('T')[0] + 'T00:00:00.000Z';
-        dataDatPhong.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
+        dataDatPhong.ghiChu = '';
         const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
           .pipe(first())
           .subscribe((res) => {
@@ -852,7 +852,7 @@ export class RoomOrderManagerComponent implements OnInit {
           data3.idPhong = this.dataList[x].id;
           data3.checkIn = dateCheckIn.toISOString().split('T')[0] + 'T00:00:00.000Z';
           data3.checkOut = dateCheckOut.toISOString().split('T')[0] + 'T00:00:00.000Z';
-          data3.ghiChu = (document.getElementById('ghiChu') as HTMLInputElement).value;
+          data3.ghiChu = '';
           const sub2 = this.roomManagerService.datPhongTaiQuay(data3)
             .pipe(first())
             .subscribe((res) => {
@@ -1547,11 +1547,27 @@ export class RoomOrderManagerComponent implements OnInit {
               const data2 = {
                   tongTien: 0,
                   tienPhong: 0,
+                  tienPhat: 0,
+                  tienDichVu: 0,
+                  tienThanhToan: 0,
                   idKhachHang: res,
                   trangThai: 5
               }
-              data2.tongTien = (this.roomModel.tongGia??0) + this.tongTienDichVu;
+              if(this.roomModel.tienPhatDatPhong == ''){
+                data2.tongTien = (this.roomModel.tongGia??0) + this.tongTienDichVu;
+              }
+              if(this.roomModel.tienPhatDatPhong != ''){
+                data2.tongTien = (this.roomModel.tongGia??0) + this.tongTienDichVu + Number.parseInt(this.roomModel.tienPhatDatPhong??'');
+                data2.tienPhat = Number.parseInt(this.roomModel.tienPhatDatPhong??'');
+              }
               data2.tienPhong = this.roomModel.tongGia??0;
+              data2.tienDichVu = this.tongTienDichVu;
+              if(this.roomModel.tienPhatDatPhong != '') {
+                data2.tienThanhToan = this.tongTienDichVu + (this.roomModel.tongGia ?? 0) + Number.parseInt(this.roomModel.tienPhatDatPhong ?? '');
+              }
+              if(this.roomModel.tienPhatDatPhong == '') {
+              data2.tienThanhToan = this.tongTienDichVu + (this.roomModel.tongGia ?? 0);
+              }
               data2.idKhachHang = res;
               this.billService.createOrUpdateTaiQuay(data2).subscribe((res2: any) => {
                   if(res2){
@@ -1560,10 +1576,17 @@ export class RoomOrderManagerComponent implements OnInit {
                     })
                     const data3 = {
                       id: this.idHoaDon,
-                      tongTien: this.roomModel.tongGia,
+                      tongTien: (this.roomModel.tongGia??0) + this.tongTienDichVu,
                       tienCoc: this.roomModel.tienCocDatPhong,
                       tienDichVu: this.tongTienDichVu,
-                      tienPhong: this.roomModel.tongGia
+                      tienPhong: this.roomModel.tongGia,
+                      tienPhat: 0
+                    }
+                    if(this.roomModel.tienPhatDatPhong != ''){
+                      data3.tongTien = (this.roomModel.tongGia??0) + Number.parseInt(this.roomModel.tienPhatDatPhong??'') + this.tongTienDichVu;
+                    }
+                    if(this.roomModel.tienPhatDatPhong != ''){
+                      data3.tienPhat = Number.parseInt(this.roomModel.tienPhatDatPhong??'');
                     }
                     this.billService.updateTienHoaDon(this.idHoaDon, data3).subscribe(res3 => {
                       console.log(res3);
@@ -1619,4 +1642,5 @@ export class RoomOrderManagerComponent implements OnInit {
   // }
 
   protected readonly formatDate = formatDate;
+  protected readonly Number = Number;
 }

@@ -368,7 +368,7 @@ export class RoomComponent implements OnInit {
           dataDatPhong.checkIn = new Date(this.checkIn.toLocaleString());
           dataDatPhong.checkOut = new Date(this.checkOut.toLocaleString());
           // data.idVourcher = (document.getElementById('voucher') as HTMLInputElement).value;
-          dataDatPhong.ghiChu = 'Không có ghi chú';
+          dataDatPhong.ghiChu = '';
           // const sub = this.roomManagerService.datPhongTaiQuay(dataDatPhong)
           //   .pipe(first())
           //   .subscribe((res) => {
