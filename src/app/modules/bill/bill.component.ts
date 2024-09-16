@@ -233,7 +233,8 @@ export class BillComponent implements OnInit {
     getBillByString(): void {
         const inputElement = document.getElementById('searchInput') as HTMLInputElement;
         this.searchInput = inputElement.value;
-          this.billService.getBillsBySearch(1, 50, this.searchInput, (document.getElementById('trangThaiHoaDon') as HTMLInputElement).value).subscribe(res => {
+          this.billService.getBillsBySearch(1, 50, this.searchInput, (document.getElementById('trangThaiHoaDon') as HTMLInputElement).value,
+            (document.getElementById('startDate') as HTMLInputElement).value, (document.getElementById('endDate') as HTMLInputElement).value).subscribe(res => {
             const queryParams = {
               searchInput: this.searchInput
             };

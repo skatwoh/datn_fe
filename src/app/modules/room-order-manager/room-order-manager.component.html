@@ -270,14 +270,14 @@
           Xem
                 </span>
               </button>
-              <button (click)="xacNhanDatTruoc(data.id)" style="margin-left: 5px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
-      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500
-      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                <span
-                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-          Đặt ngay
-                </span>
-              </button>
+<!--              <button (click)="xacNhanDatTruoc(data.id)" style="margin-left: 5px;" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium-->
+<!--      text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-yellow-500 group-hover:from-cyan-500-->
+<!--      group-hover:to-yellow-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">-->
+<!--                <span-->
+<!--                  class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">-->
+<!--          Đặt ngay-->
+<!--                </span>-->
+<!--              </button>-->
             </td>
           </tr>
           </tbody>
@@ -657,15 +657,15 @@
             <hr style="margin: 10px">
             <p>Số điện thoại: {{checkInDetailModel.sdt}}</p>
             <hr style="margin: 10px">
-            <p>Giới tính: {{checkInDetailModel.gioiTinh == 0 ? 'Nam' : 'Nữ'}}</p>
-            <hr style="margin: 10px">
             <p>Số CCCD: {{checkInDetailModel.cccd}}</p>
             <hr style="margin: 10px">
             <div class="flex">
-            <p>Ngày nhận phòng: {{checkInDetailModel.ngayNhanPhong | date : 'dd-MM-yyyy'}} | </p>
-            <p *ngIf="roomModel.trangThai == 2">Số người: {{roomModel.soNguoi}}</p>
-            </div>
+            <p>Thời gian nhận phòng: {{checkInDetailModel.ghiChu | date : 'dd-MM-yyyy hh:mm'}} | </p>
+            <p *ngIf="roomModel.trangThai == 2 || roomModel.trangThai == 3">Số người: {{roomModel.soNguoi}}</p>
             <hr style="margin: 10px">
+            </div>
+            <p *ngIf="roomModel.trangThai == 3">Thời gian trả phòng: {{roomModel.thoiGianCheckOut | date : 'dd-MM-yyyy hh:mm'}}</p>
+            <hr *ngIf="roomModel.trangThai == 3" style="margin: 10px">
           </div>
           <div style="border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
             <p style="text-align: center;font-weight: bolder;background-color: deepskyblue">Thông tin thanh toán</p>
@@ -891,12 +891,12 @@
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-label nzFor="ghiChu">Ghi chú</nz-form-label>
+            <nz-form-label nzFor="email">Email khách hàng </nz-form-label>
             <br>
             <div>
-              <nz-form-control nzErrorTip="Vui lòng nhập ghi chú">
-                <textarea style="border-radius: 5px;border: 1px solid deepskyblue" rows="6" cols="38" id="ghiChu"
-                          formControlName="ghiChu"></textarea>
+              <nz-form-control nzErrorTip="Vui lòng nhập email">
+                <textarea style="border-radius: 5px;border: 1px solid deepskyblue" rows="6" cols="38" id="email"
+                           formControlName="email"></textarea>
               </nz-form-control>
             </div>
           </nz-form-item>

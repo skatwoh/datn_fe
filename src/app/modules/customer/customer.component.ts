@@ -35,11 +35,6 @@ export class CustomerComponent implements OnInit{
 
   listOfColumn2 = [
     {
-      title: 'ID',
-      compare: (a: CustomerModel, b: CustomerModel) => a.id.localeCompare(b.id),
-      priority: false
-    },
-    {
       title: 'Mã',
       compare: (a: CustomerModel, b: CustomerModel) => a.ma.localeCompare(b.ma),
       priority: 6
@@ -63,6 +58,11 @@ export class CustomerComponent implements OnInit{
       title: 'Số điện thoại',
       compare: (a: CustomerModel, b: CustomerModel) => a.sdt.localeCompare(b.sdt),
       priority: 2
+    },
+    {
+      title: 'Email',
+      compare: (a: CustomerModel, b: CustomerModel) => a.diaChi.localeCompare(b.diaChi),
+      priority: 7
     },
     {
       title: 'Tích điểm',
@@ -109,6 +109,14 @@ export class CustomerComponent implements OnInit{
   }
 
   handleOk(): void {
+    if((document.getElementById('sdt') as HTMLInputElement).value.length !== 10){
+      this.messageNoti.warning('Số điện thoại không hợp lệ!');
+      return;
+    }
+    if((document.getElementById('hoTen') as HTMLInputElement).value == ''){
+      this.messageNoti.warning('Họ tên không được để trống!');
+      return;
+    }
     this.isOkLoading = true;
     this.updateCustomer();
     setTimeout(() => {
@@ -153,6 +161,15 @@ export class CustomerComponent implements OnInit{
 
   cancelLichSu(){
     this.isVisibleLichSu = false;
+  }
+
+  sendPointToCustomer(id: any, email: string){
+    if(email == '' || email == null){
+      this.messageNoti.warning('Khách hàng này chưa có email!');
+      return;
+    }
+    this.customerService.sendPointsToCustommer(id).subscribe({});
+    this.messageNoti.success('Gửi thành công!');
   }
 
   ngOnInit() {

@@ -78,6 +78,7 @@ export class RoomOrderManagerComponent implements OnInit {
   idKhach: any;
   hoTen: string = '';
   sdt: string = '';
+  email: string = '';
   ngaySinh: any;
   idDatPhongNow: any;
   roomOrderModel!: RoomOrder;
@@ -92,7 +93,6 @@ export class RoomOrderManagerComponent implements OnInit {
   currentBill!: BillModel;
   tongTien: number = 0;
   tongTienDichVu: number = 0;
-  soPhongTrong: number = 0;
   isVisibleCheckOutLater = false;
   tienPhat: number = 0;
   thoiGianMuon: number = 0;
@@ -217,15 +217,10 @@ export class RoomOrderManagerComponent implements OnInit {
         this.checkOutSearch = new Date((new Date()).setDate(new Date().getDate() + 1)).toISOString();
         this.roomService.getRoomMapping(this.date.toISOString().split('T')[0], this.date.toISOString().split('T')[0]).subscribe(res => {
           this.roomMapping = res;
-          this.soPhongTrong = 0;
-          for(let x = 0;x <= res.length;x++){
-            if(res[x].soPhong == 0){
-              this.soPhongTrong++;
-            }
-          }
         })
       }
     });
+    this.dataList = [];
   }
 
   resetSearch() {
@@ -236,7 +231,6 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.soPhongTrong = 0;
     this.getRoomMapping();
     this.getCustomers()
     this.http.get<any>(`${environment.apiUrl}/phong/single-list-room-type`).subscribe((data2) => {
@@ -468,6 +462,7 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   okCheckOutSom(){
+    this.roomManagerService.updateTongGiaPhongById(this.soNgayCheckOutSom*this.roomModel.giaPhong, this.idDatPhongNow).subscribe({})
     this.billService.updateTienHoanLai(this.idHoaDon, this.soNgayCheckOutSom*this.roomModel.giaPhong).subscribe({})
     this.billService.updateStatusRoomOrder(this.idDatPhongNow, 3).subscribe({})
     this.mess.success('Check-out thành công!');
@@ -633,15 +628,8 @@ export class RoomOrderManagerComponent implements OnInit {
       checkOutDate: checkOutElement,
     };
     this.router.navigate(['/admin/room-order-manager/'], {queryParams});
-    this.soPhongTrong = 0;
     this.roomService.getRoomMapping(checkInElement, checkOutElement).subscribe(res => {
       this.roomMapping = res;
-      this.soPhongTrong = 0;
-      for(let x = 0;x <= res.length;x++){
-        if(res[x].soPhong == 0){
-          this.soPhongTrong++;
-        }
-      }
     })
   }
 
@@ -754,6 +742,8 @@ export class RoomOrderManagerComponent implements OnInit {
     const dateCheckOut = new Date((document.getElementById('checkOut') as HTMLInputElement).value);
     const dateOfBirthInput = (document.getElementById('ngaySinh') as HTMLInputElement).value;
     const dateOfBirth = new Date(dateOfBirthInput);
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const emailValue = emailInput.value;
 
     // Check if date of birth is less than 18 years ago
     const today = new Date();
@@ -768,6 +758,11 @@ export class RoomOrderManagerComponent implements OnInit {
       this.mess.warning('Người dùng phải ít nhất 18 tuổi');
       return;
     }
+
+    // if (!this.validateEmail((document.getElementById('email') as HTMLInputElement).value)) {
+    //   this.mess.warning('Email không đúng định dạng');
+    //   return;
+    // }
 
     // Validation for CCCD length
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
@@ -786,6 +781,7 @@ export class RoomOrderManagerComponent implements OnInit {
       sdt: (document.getElementById('sdt') as HTMLInputElement).value,
       cccd: (document.getElementById('cccd') as HTMLInputElement).value,
       ngaySinh: dateOfBirthInput,
+      diaChi: (document.getElementById('email') as HTMLInputElement).value
     }
 
     setTimeout(() => {
@@ -869,16 +865,16 @@ export class RoomOrderManagerComponent implements OnInit {
             );
           this.unsubscribe.push(sub2);
         }
+        this.isVisibleOrderForm = false;
+        this.isVisibleListDP = false;
+        this.isVisibleXacNhanDatTruoc = false;
+        this.isVisibleListCheckOut = false;
         const queryParams = {
           checkInDate: (document.getElementById('checkIn') as HTMLInputElement).value,
           checkOutDate: (document.getElementById('checkOut') as HTMLInputElement).value,
         };
         this.router.navigate(['/admin/room-order-manager/'], {queryParams});
         this.getRoomMapping();
-        this.isVisibleOrderForm = false;
-        this.isVisibleListDP = false;
-        this.isVisibleXacNhanDatTruoc = false;
-        this.isVisibleListCheckOut = false;
       }, 3000)
     }
   }
@@ -891,6 +887,7 @@ export class RoomOrderManagerComponent implements OnInit {
       this.hoTen = res.hoTen;
       this.sdt = res.sdt;
       (document.getElementById('ngaySinh') as HTMLInputElement).value = res.ngaySinh;
+      (document.getElementById('email') as HTMLInputElement).value = res.diaChi;
     })
   }
 
@@ -1496,6 +1493,11 @@ export class RoomOrderManagerComponent implements OnInit {
             next: res => {
               this.checkAPICheckOut = true;
               this.notification.success("Cập nhật thành công ngày trả phòng", "");
+              this.isVisibleListDP = false;
+              this.isVisible = false;
+              setTimeout(() => {
+                this.viewRoom(this.idDatPhongNow, this.idHoaDon, this.idDatPhongNow);
+              }, 1000)
             },
             error: (errorResponse) => {
 
@@ -1550,6 +1552,7 @@ export class RoomOrderManagerComponent implements OnInit {
                   tienPhat: 0,
                   tienDichVu: 0,
                   tienThanhToan: 0,
+                  ngayThanhToan: new Date().toISOString().split('T')[0],
                   idKhachHang: res,
                   trangThai: 5
               }
@@ -1640,6 +1643,11 @@ export class RoomOrderManagerComponent implements OnInit {
   //   })
   //   return colorRoom;
   // }
+
+  validateEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9]+[a-zA-Z0-9]+@[gmail]\.[com]$/;
+    return emailRegex.test(email);
+  }
 
   protected readonly formatDate = formatDate;
   protected readonly Number = Number;

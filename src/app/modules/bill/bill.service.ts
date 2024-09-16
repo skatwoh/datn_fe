@@ -80,8 +80,8 @@ export class BillService{
     return this.http.post(`${API_AU_URL}/delete`, null);
   }
 
-  getBillsBySearch(page: number, size: number, input: string, trangThai: any): Observable<any> {
-    const params = {page, size, input, trangThai};
+  getBillsBySearch(page: number, size: number, input: string, trangThai: any, startDate: any, endDate: any): Observable<any> {
+    const params = {page, size, input, trangThai, startDate, endDate};
     return this.http.get<any>(`${API_AU_URL}/list-by-search`, {params}).pipe(map(res => {
       if (res.body && res.body) {
         return res.body;
