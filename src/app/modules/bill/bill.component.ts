@@ -39,6 +39,12 @@ export class BillComponent implements OnInit {
     inputSoLuong: any[] = [];
     soLuongCu: any = 1;
   state: Map<number, boolean> = new Map();
+  tienPhongHD: number = 0;
+  tienDichVuHD: number = 0;
+  tienHoanLaiHD: number = 0;
+  tienPhatHD: number = 0;
+  tienGiamGiaHD: number = 0;
+  thanhToanTruoc: number = 0;
 
     constructor(private billService: BillService, private http: HttpClient, private roomOrderService: ListRoomOrderService, private message: NzMessageService,
                 private roomSerivceService: RoomServiceService) {
@@ -207,9 +213,15 @@ export class BillComponent implements OnInit {
             });
     }
 
-    showChiTiet(id: any) {
+    showChiTiet(id: any, tienPhong: any, tienDichVu: any, tienPhat: any, tienHoanLai: any, tienGiamGia: any, thanhToanTruoc: any) {
         this.isVisible = true;
         this.idHD = id;
+        this.tienPhongHD = tienPhong;
+        this.tienDichVuHD = tienDichVu;
+        this.tienPhatHD = tienPhat;
+        this.tienHoanLaiHD = tienHoanLai;
+        this.tienGiamGiaHD = tienGiamGia;
+        this.thanhToanTruoc = thanhToanTruoc;
         this.billService.getDatPhongByHoaDon(1, 50, id).subscribe(res => {
             if (res && res.content) {
                 // this.billService.get(res.content[0].idHoaDon).subscribe(data => {
