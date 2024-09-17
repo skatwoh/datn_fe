@@ -702,11 +702,11 @@
             <hr *ngIf="roomModel.tienHoanLai" style="margin: 10px">
             <div class="flex">
 
-              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) >= 0">
-                Cần thanh toán: {{(roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) | currency:'VND': '':'1.0-0'}}
+              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) >= 0">
+                Cần thanh toán: {{(roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0) | currency:'VND': '':'1.0-0'}}
               </p>
-              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) < 0">
-                Cần hoàn lại: {{-((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) < 0">
+                Cần hoàn lại: {{-((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) | currency:'VND': '':'1.0-0'}}
               </p>
               <div *ngIf="roomModel.trangThaiThanhToan==5" style="margin-left: 20px">
                 <svg (click)="generatePDF(roomModel.idHoaDon)" style="color: blue" xmlns="http://www.w3.org/2000/svg"
@@ -1338,11 +1338,11 @@
       <br>
       <i>Tiền hoàn lại: {{roomModel.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}</i>
       <br>
-      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) >= 0">
-        Cần thanh toán: {{((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) >= 0">
+        Cần thanh toán: {{((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) | currency:'VND': '':'1.0-0'}}
       </i>
-      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) < 0">
-        Cần hoàn tiền: {{-((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) < 0">
+        Cần hoàn tiền: {{-((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0) - (roomModel.tienTichDiem??0)) | currency:'VND': '':'1.0-0'}}
       </i>
     </div>
   </ng-container>

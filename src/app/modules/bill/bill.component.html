@@ -93,27 +93,27 @@
         <th scope="col" class="px-6 py-3">
           Ngày thanh toán
         </th>
-        <th scope="col" class="px-6 py-3">
-          Tiền phòng
-        </th>
-        <th scope="col" class="px-6 py-3">
-          Tiền dịch vụ
-        </th>
-        <th scope="col" class="px-6 py-3">
-          Tiền phạt
-        </th>
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền phòng-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền dịch vụ-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền phạt-->
+<!--        </th>-->
         <th scope="col" class="px-6 py-3">
           Tổng tiền
         </th>
-        <th scope="col" class="px-6 py-3">
-          Tiền hoàn lại
-        </th>
-        <th scope="col" class="px-6 py-3">
-          Giảm giá
-        </th>
-        <th scope="col" class="px-6 py-3">
-          Tổng thanh toán
-        </th>
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tiền hoàn lại-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Giảm giá-->
+<!--        </th>-->
+<!--        <th scope="col" class="px-6 py-3">-->
+<!--          Tổng thanh toán-->
+<!--        </th>-->
         <th scope="col" class="px-6 py-3">
           Thanh toán trước
         </th>
@@ -148,27 +148,27 @@
         <td class="px-6 py-4">
           {{ data.ngayThanhToan | date : 'dd-MM-yyyy' }}
         </td>
-        <td class="px-6 py-4">
-          {{ data.tienPhong??0 | currency:'VND': '':'1.0-0'}}
-        </td>
-        <td class="px-6 py-4">
-          {{ data.tienDichVu??0 | currency:'VND': '':'1.0-0'}}
-        </td>
-        <td class="px-6 py-4">
-          {{ data.tienPhat??0 | currency:'VND': '':'1.0-0'}}
-        </td>
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienPhong??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienDichVu??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienPhat??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
         <td class="px-6 py-4">
           {{ data.tongTien??0 | currency:'VND': '':'1.0-0'}}
         </td>
-        <td class="px-6 py-4">
-          {{ data.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}
-        </td>
-        <td class="px-6 py-4">
-          {{ data.tienTichDiem??0 | currency:'VND': '':'1.0-0'}}
-        </td>
-        <td class="px-6 py-4">
-          {{ data.tienThanhToan??0 | currency:'VND': '':'1.0-0'}}
-        </td>
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienTichDiem??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
+<!--        <td class="px-6 py-4">-->
+<!--          {{ data.tienThanhToan??0 | currency:'VND': '':'1.0-0'}}-->
+<!--        </td>-->
         <td class="px-6 py-4">
           {{ data.tienCoc }}
         </td>
@@ -235,7 +235,7 @@
               </ul>
             </nz-dropdown-menu>
           </div>
-          <div class="btn-info ml-3" (click)="showChiTiet(data.id)">
+          <div class="btn-info ml-3" (click)="showChiTiet(data.id, data.tienPhong, data.tienDichVu, data.tienPhat, data.tienHoanLai, data.tienTichDiem, data.tienCoc)">
             <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 24px"></span>
           </div>
           <div *ngIf="data.trangThai === 5" class="font-medium text-blue-600 dark:text-blue-500 hover:underline ml-2">
@@ -264,6 +264,42 @@
   nzWidth="1100px"
 >
   <ng-container *nzModalContent>
+    <div style="font-size: 16px;padding: 5px;margin: 5px" class="flex">
+      <div style="font-weight: bolder" class="flex">
+      <p>Tiền phòng: </p>
+      <i style="color: red;margin-left: 5px">{{tienPhongHD | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền dịch vụ: </p>
+        <i style="color: red;margin-left: 5px">{{tienDichVuHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền phạt: </p>
+        <i style="color: red;margin-left: 5px">{{tienPhatHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+    </div>
+    <div style="font-size: 16px;padding: 5px;margin: 5px" class="flex">
+      <div style="font-weight: bolder" class="flex">
+        <p>Tiền hoàn lại: </p>
+        <i style="color: red;margin-left: 5px">{{tienHoanLaiHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Tiền giảm giá: </p>
+        <i style="color: red;margin-left: 5px">{{tienGiamGiaHD??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Thanh toán trước: </p>
+        <i style="color: red;margin-left: 5px">{{thanhToanTruoc??0 | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div *ngIf="(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) >=0" style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Cần thanh toán: </p>
+        <i style="color: red;margin-left: 5px">{{(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+      <div *ngIf="(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) <0" style="font-weight: bolder;margin-left: 60px" class="flex">
+        <p>Cần hoàn tiền: </p>
+        <i style="color: red;margin-left: 5px">{{-(tienPhongHD + (tienDichVuHD??0) + (tienPhatHD??0) - (thanhToanTruoc??0) - (tienHoanLaiHD??0) - (tienGiamGiaHD??0)) | currency:'VND': '':'1.0-0'}}</i>
+      </div>
+    </div>
     <div>
       <nz-table #tableData [nzData]="roomOrder" role="table" class="w-full min-w-[500px] overflow-x-scroll">
         <thead>
@@ -486,10 +522,6 @@
             title="Toggle SortBy"
             style="cursor: pointer"
           >
-            <div
-              class="flex items-center justify-between pb-2 pt-4 text-start uppercase tracking-wide text-gray-600 sm:text-xs lg:text-xs"
-            >Ngày đặt
-            </div>
           </th>
         </tr>
         </thead>
@@ -512,12 +544,7 @@
           </td>
           <td class="py-3 text-sm" role="cell">
             <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{data.trangThai}}
-            </p>
-          </td>
-          <td class="py-3 text-sm" role="cell">
-            <p class="text-md font-medium text-gray-600 dark:text-white">
-              {{ data.ghiChu | date : 'dd-MM-yyyy hh:mm:ss'}}
+              {{data.soLuong}}
             </p>
           </td>
         </tr>
