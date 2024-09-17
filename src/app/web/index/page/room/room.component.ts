@@ -77,6 +77,7 @@ export class RoomComponent implements OnInit {
   isVisibleTT = false;
   isVisibleTienCoc = false;
   bill!: BillModel;
+  isVisibleSpin = false;
 
   constructor(private roomService: RoomService,
               private homeService: HomeService,
@@ -304,8 +305,35 @@ export class RoomComponent implements OnInit {
     if (this.user?.name == null) {
       this.router.navigate(['/hotel/login']);
     }
+    const dateOfBirthInput = (document.getElementById('ngaySinh') as HTMLInputElement).value;
+    const dateOfBirth = new Date(dateOfBirthInput);
+
+    // Check if date of birth is less than 18 years ago
+    const today = new Date();
+    let age = today.getFullYear() - dateOfBirth.getFullYear();
+    const monthDifference = today.getMonth() - dateOfBirth.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dateOfBirth.getDate())) {
+      age--;
+    }
+
+    if (age < 18) {
+      this.mess.warning('Người dùng phải ít nhất 18 tuổi');
+      return;
+    }
+    // if (!this.validateEmail((document.getElementById('email') as HTMLInputElement).value)) {
+    //   this.mess.warning('Email không đúng định dạng');
+    //   return;
+    // }
+
+    // Validation for CCCD length
     if ((document.getElementById('cccd') as HTMLInputElement).value.length !== 12 && (document.getElementById('cccd') as HTMLInputElement).value.length !== 9) {
       this.mess.warning('Số CCCD phải có độ dài 9 hoặc 12 chữ số');
+      return;
+    }
+    // Validation for phone number length
+    if((document.getElementById('sdt') as HTMLInputElement).value.length !== 10){
+      this.mess.warning('Số điện thoại phải có 10 chữ số');
       return;
     }
     const data = {
@@ -319,6 +347,7 @@ export class RoomComponent implements OnInit {
       this.mess.warning('Vui lòng điền đầy đủ thông tin người đặt');
       return;
     }
+    this.isVisibleSpin = true;
     setTimeout(() => {
       this.customerService.updateCustomer(this.user?.id, data).subscribe(res => {
 
@@ -410,6 +439,7 @@ export class RoomComponent implements OnInit {
         setTimeout(() => {
           this.getRoomsOfBill();
           this.isVisible = true;
+          this.isVisibleSpin = false;
         }, 3500)
       }
     }, 3000)

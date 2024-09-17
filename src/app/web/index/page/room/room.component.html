@@ -164,7 +164,14 @@
     </div>
     <div style="height: 22%;border-radius: 4px;border: 1px solid grey;margin: 10px;" class="flex">
       <div style="margin: 5px;width:90%">
-        <h1 style="font-size: 25px;font-family: 'Arvo', serif">{{roomTypeModel.tenLoaiPhong}}</h1>
+        <div class="flex">
+          <h1 style="font-size: 25px;font-family: 'Arvo', serif">{{roomTypeModel.tenLoaiPhong}}</h1>
+          <div style="color: black;margin: 10px;margin-left: 40%;width: 200px">
+            <br>
+            <nz-spin nzTip="Vui lòng chờ..." [nzSize]="'large'" *ngIf="isVisibleSpin">
+            </nz-spin>
+          </div>
+        </div>
         <h1 style="font-size: 20px;padding: 4px">Giá phòng: {{roomTypeModel.giaTheoNgay}}/đêm</h1>
         <h1 style="font-size: 20px;padding: 4px">Phòng phù hợp với: {{roomTypeModel.soNguoi}} người/phòng</h1>
         <h1 style="font-size: 20px;padding: 4px">(Có thể ở thêm tối đa 1 người)</h1>

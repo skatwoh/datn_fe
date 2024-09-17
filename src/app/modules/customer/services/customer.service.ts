@@ -71,4 +71,9 @@ export class CustomerService{
     }));
   }
 
+  sendPointsToCustommer(id: any): Observable<any>{
+    const params = {id};
+    return this.http.get<any>(`${API_AU_URL}/send-point-to-customer`, {params});
+  }
+
 }

@@ -177,4 +177,9 @@ export class RoomManagerService {
       return res;
     }));
   }
+
+  updateTongGiaPhongById(tienPhong:any, id: any): Observable<any> {
+    const params = {id};
+    return this.http.put(`${API_AU_URL}/update-tien-phong-by-id`, tienPhong, {params});
+  }
 }

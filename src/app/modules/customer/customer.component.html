@@ -46,7 +46,6 @@
     <tbody>
     <tr *ngFor="let data of sortTable.data; let i = index">
       <!--      <th nzLeft>{{ i + 1 }}</th>-->
-      <td nzLeft>{{ data.id }}</td>
       <td nzLeft>{{ data.ma }}</td>
       <td nzLeft>{{ data.hoTen }}</td>
       <td nzLeft>{{ data.cccd }}</td>
@@ -61,20 +60,27 @@
       <!--        </div>-->
       <!--      </td>-->
       <td nzLeft>{{ data.sdt }}</td>
+      <td nzLeft>{{ data.diaChi }}</td>
       <td nzLeft>{{ data.ghiChu ?? 0 | currency:'VND': '':'1.0-0' }}</td>
       <td nzLeft>
         <div class="btn-info flex">
           <!--          <span class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="showModal(data.id)" nz-icon nzType="edit" nzTheme="outline" style="font-size: 24px"></span>-->
-          <div style="margin-left: 5px">
+          <div>
             <button (click)="showModal(data.id)"
-                    style="background-color: lightgreen;font-weight: bolder;border: 2px solid green;border-radius: 3px;padding: 3px;width: 80px">
+                    class="button-blue">
               Sửa
             </button>
           </div>
           <div style="margin-left: 5px">
             <button (click)="showLichSuDatPhong(data.id)"
-              style="background-color: #4cb3fd;font-weight: bolder;border: 2px solid #007DB6;border-radius: 3px;padding: 3px">
+              class="button-thanh-toan">
               Lịch sử đặt phòng
+            </button>
+          </div>
+          <div style="margin-left: 5px">
+            <button (click)="sendPointToCustomer(data.id, data.diaChi)"
+                    class="button-green">
+              Gửi điểm
             </button>
           </div>
         </div>
@@ -130,9 +136,15 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="giaPhong" style="width: 100px">Số điện thoại</nz-form-label>
+        <nz-form-label nzFor="email" style="width: 100px">Số điện thoại</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập số điện thoại">
           <input nz-input type="text" id="sdt" name="sdt" [(ngModel)]="currentCustomer.sdt" required/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="email" style="width: 100px">Email</nz-form-label>
+        <nz-form-control nzErrorTip="Vui lòng nhập email">
+          <input nz-input type="text" id="email" name="diaChi" [(ngModel)]="currentCustomer.diaChi" required/>
         </nz-form-control>
       </nz-form-item>
     </div>
