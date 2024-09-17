@@ -469,7 +469,7 @@
               <div>
                 <button (click)="showFormCheckIn(roomModel.idDatPhong)" style="margin-top: -5px;margin-left: 40px"
                         class="button-blue"
-                        *ngIf="roomModel.trangThai == 1">
+                        *ngIf="roomModel.trangThai == 1 && (roomModel.trangThaiThanhToan == 3 || roomModel.trangThaiThanhToan == 7 || roomModel.trangThaiThanhToan == 0)">
                   Check-in
                 </button>
                 <div class="flex">
@@ -576,11 +576,11 @@
               </div>
               <div style="width: 43%;height:445px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
                 <h3 style="font-weight: bolder;font-size: 16px;padding: 5px">Order dịch vụ</h3>
-                <div
+                <div class="thanh-cuon" style="height: 90%"
                   *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5 && roomModel.trangThaiThanhToan !== 2 && roomModel.trangThaiThanhToan !== 6"
                   nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
-                    <div (click)="showFormOrderDichVu(data.id, data.soLuong)"
+                    <div (click)="showFormOrderDichVu(data.id, data.soLuong, data.ghiChu)"
                          style="border: 1px solid gray;border-radius: 5px;margin: 5px;height: 190px;">
                       <div style="width: 90%;height: 60%;margin: 3px">
                         <img src="{{data.image}}" style="width: 100%;height: 100%">
@@ -588,7 +588,7 @@
                       <div style="padding: 5px;font-weight: bolder">
                         <h1>{{data.tenDichVu}}</h1>
                         <h1>Giá: {{data.giaDichVu | currency:'VND': '':'1.0-0' }}</h1>
-                        <h1>Số lượng: {{data.soLuong }}</h1>
+                        <h1 *ngIf="data.ghiChu == 'Chai' || data.ghiChu == 'Lon'">Số lượng: {{data.soLuong }}</h1>
                       </div>
                     </div>
                   </div>
@@ -686,10 +686,8 @@
                 roomModel.trangThaiThanhToan == 5 ? 'Hoàn tất thanh toán' : roomModel.trangThaiThanhToan == 6 ? 'Đang xác nhận cọc' : roomModel.trangThaiThanhToan == 7 ? 'Đã đặt cọc' : 'Đã hủy'}}</p>
             <hr style="margin: 10px">
             <div *ngIf="roomModel.trangThaiThanhToan != 4">
-            <p *ngIf="roomModel.tienCoc">Tiền cọc: {{roomModel.tienCoc | currency:'VND': '':'1.0-0' }}</p>
+            <p *ngIf="roomModel.tienCoc">Thanh toán trước: {{roomModel.tienCoc | currency:'VND': '':'1.0-0' }}</p>
             <hr *ngIf="roomModel.tienCoc" style="margin: 10px">
-            <p *ngIf="roomModel.thoiGianCoc">Thời gian cọc: {{roomModel.thoiGianCoc | date : 'dd-MM-yyyy hh:mm:ss'}}</p>
-            <hr *ngIf="roomModel.thoiGianCoc" style="margin: 10px">
             <div class="flex">
               <p style="width: 50%">Tiền phạt: {{roomModel.tienPhat??0 | currency:'VND': '':'1.0-0' }}</p>
               <p>Tiền dịch vụ: {{roomModel.tienDichVu??0 | currency:'VND': '':'1.0-0' }}</p>
@@ -704,7 +702,12 @@
             <hr *ngIf="roomModel.tienHoanLai" style="margin: 10px">
             <div class="flex">
 
-              <p>Tổng thanh toán: {{roomModel.tienThanhToan | currency:'VND': '':'1.0-0'}}</p>
+              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) >= 0">
+                Cần thanh toán: {{(roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0) | currency:'VND': '':'1.0-0'}}
+              </p>
+              <p *ngIf="((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) < 0">
+                Cần hoàn lại: {{-((roomModel.tienPhong??0) + roomModel.tienDichVu - (roomModel.tienCoc??0) - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+              </p>
               <div *ngIf="roomModel.trangThaiThanhToan==5" style="margin-left: 20px">
                 <svg (click)="generatePDF(roomModel.idHoaDon)" style="color: blue" xmlns="http://www.w3.org/2000/svg"
                      width="25"
@@ -797,7 +800,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSpan]="5">Số người</nz-form-label>
-        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số người lớn hơn 0 và tối đa {{roomMapMd.soNguoi}}">
+        <nz-form-control nzHasFeedback nzErrorTip="Vui lòng nhập số người lớn hơn 0 và tối đa {{((roomMapMd.soNguoi??0) + 1)}}">
           <input type="number" id="soNguoiCheckIn" nz-input formControlName="soNguoi"/>
         </nz-form-control>
       </nz-form-item>
@@ -1335,7 +1338,12 @@
       <br>
       <i>Tiền hoàn lại: {{roomModel.tienHoanLai??0 | currency:'VND': '':'1.0-0'}}</i>
       <br>
-      <i>Cần thanh toán: {{((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}</i>
+      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) >= 0">
+        Cần thanh toán: {{((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+      </i>
+      <i *ngIf="((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) < 0">
+        Cần hoàn tiền: {{-((roomModel.tienPhong??0) + (roomModel.tienDichVu??0) + (roomModel.tienPhat) - roomModel.tienCoc - (roomModel.tienHoanLai??0)) | currency:'VND': '':'1.0-0'}}
+      </i>
     </div>
   </ng-container>
 </nz-modal>
@@ -1358,10 +1366,8 @@
       <br>
       <i *ngIf="roomModel.tienPhatDatPhong != ''">Tiền phạt: {{roomModel.tienPhatDatPhong | currency:'VND': '':'1.0-0'}}</i>
       <br *ngIf="roomModel.tienPhatDatPhong != ''">
-      <i>Đã thanh toán: {{roomModel.tienCocDatPhong??0 | currency:'VND': '':'1.0-0'}}</i>
-      <br>
-      <i *ngIf="roomModel.tienPhatDatPhong == ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
-      <i *ngIf="roomModel.tienPhatDatPhong != ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) + Number(roomModel.tienPhatDatPhong) - (roomModel.tienCocDatPhong??0)) | currency:'VND': '':'1.0-0'}}</i>
+      <i *ngIf="roomModel.tienPhatDatPhong == ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0)) | currency:'VND': '':'1.0-0'}}</i>
+      <i *ngIf="roomModel.tienPhatDatPhong != ''">Cần thanh toán: {{((roomModel.tongGia??0) + (tongTienDichVu??0) + Number(roomModel.tienPhatDatPhong)) | currency:'VND': '':'1.0-0'}}</i>
     </div>
   </ng-container>
 </nz-modal>

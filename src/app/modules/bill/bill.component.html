@@ -115,7 +115,7 @@
           Tổng thanh toán
         </th>
         <th scope="col" class="px-6 py-3">
-          Tiền cọc
+          Thanh toán trước
         </th>
         <th scope="col" class="px-6 py-3">
           Đơn đặt
@@ -225,13 +225,9 @@
                     class="hover:bg-blue-400">
                   Xác nhận tiền cọc
                 </li>
-                <li *ngIf="data.trangThai === 1 || data.trangThai === 2 || data.trangThai === 3 || data.trangThai === 7"
+                <li *ngIf="data.trangThai === 1 || data.trangThai === 2"
                     (click)="updateStatus(data.id , data.idKhachHang)" nz-menu-item class="hover:bg-blue-400">
                   Xác nhận thanh toán
-                </li>
-                <li nz-menu-item *ngIf="data.trangThai === 1" (click)="thanhToanSau(data.id)"
-                    class="hover:bg-yellow-500">
-                  Thanh toán sau
                 </li>
                 <li nz-menu-item *ngIf="data.trangThai != 4 && data.trangThai != 5" (click)="huyHoaDon(data.id)" class="hover:bg-red-500">
                   Hủy

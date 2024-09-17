@@ -115,6 +115,7 @@ export class RoomOrderManagerComponent implements OnInit {
   isOkLoading = false;
   isOkLoadingTimPhong = false;
   soLuongDichVu: number = 0;
+  loaiDichVu: string = '';
   cccdValue: string = '';
   isVisibleTimPhong = false;
   listRoomByCCCD : RoomOrderMappingModel[] = [];
@@ -347,7 +348,7 @@ export class RoomOrderManagerComponent implements OnInit {
           return;
       }
       if(Number.parseInt((document.getElementById('soNguoiCheckIn') as HTMLInputElement).value) < 0 ||
-          Number.parseInt((document.getElementById('soNguoiCheckIn') as HTMLInputElement).value) > (this.roomMapMd.soNguoi??0)){
+        (Number.parseInt((document.getElementById('soNguoiCheckIn') as HTMLInputElement).value) - 1) > (this.roomMapMd.soNguoi??0)){
           this.mess.warning('Số người không hợp lệ');
           return;
       }
@@ -418,12 +419,15 @@ export class RoomOrderManagerComponent implements OnInit {
        if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) >= 1){
         console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
         const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
-        this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24)) - 1;
+        this.soNgayCheckOutSom = Math.round(timeDiff / (1000 * 3600 * 24)) - 1;
         }
         if((Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12) < 1){
           console.log(Number.parseInt(new Date().getHours().toLocaleString('vi-VN')) - 12);
+          console.log('Khoảng ngày');
+          console.log(new Date(this.roomModel.checkOut||'').getTime());
+          console.log(new Date().getTime());
           const timeDiff = Math.abs(new Date(this.roomModel.checkOut||'').getTime() - new Date().getTime());
-          this.soNgayCheckOutSom = Math.ceil(timeDiff / (1000 * 3600 * 24));
+          this.soNgayCheckOutSom = Math.round(timeDiff / (1000 * 3600 * 24));
         }
         console.log(this.roomModel.checkOut);
         this.roomService.getOneMapping(this.roomModel.id).subscribe(res => {
@@ -919,12 +923,13 @@ export class RoomOrderManagerComponent implements OnInit {
   }
 
   // Đặt dịch vụ
-  showFormOrderDichVu(id: any, soLuong: any) {
+  showFormOrderDichVu(id: any, soLuong: any, loaiDichVu: any) {
     this.isVisibleDichVu = true;
     this.roomSerivceService.get(id).subscribe(res => {
       this.roomSvModel = res;
     })
     this.soLuongDichVu = soLuong;
+    this.loaiDichVu = loaiDichVu;
     this.idDichVu = id;
   }
 
@@ -936,7 +941,7 @@ export class RoomOrderManagerComponent implements OnInit {
   okDichVu() {
     setTimeout(() => {
       const soLuong = document.getElementById('soLuong') as HTMLInputElement;
-      if(this.soLuongDichVu < Number.parseInt(soLuong.value)){
+      if(this.soLuongDichVu < Number.parseInt(soLuong.value) && (this.loaiDichVu == 'Lon' || this.loaiDichVu == 'Chai')){
         this.mess.warning('Số lượng trong kho không đủ');
         return;
       }
@@ -1552,7 +1557,6 @@ export class RoomOrderManagerComponent implements OnInit {
                   tienPhat: 0,
                   tienDichVu: 0,
                   tienThanhToan: 0,
-                  ngayThanhToan: new Date().toISOString().split('T')[0],
                   idKhachHang: res,
                   trangThai: 5
               }
@@ -1580,7 +1584,6 @@ export class RoomOrderManagerComponent implements OnInit {
                     const data3 = {
                       id: this.idHoaDon,
                       tongTien: (this.roomModel.tongGia??0) + this.tongTienDichVu,
-                      tienCoc: this.roomModel.tienCocDatPhong,
                       tienDichVu: this.tongTienDichVu,
                       tienPhong: this.roomModel.tongGia,
                       tienPhat: 0
