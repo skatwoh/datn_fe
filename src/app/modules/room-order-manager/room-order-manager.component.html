@@ -548,13 +548,13 @@
                   <tbody>
                   <tr *ngFor="let data of basicTable2.data;let i = index;">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ data.tenDichVu }}({{data.ghiChu}})</td>
+                    <td>{{ data.tenDichVu }}</td>
                     <td>{{ data.soLuong }}</td>
                     <td>{{ data.thoiGianDat | date : 'dd-MM-yyyy hh:mm:ss' }}</td>
                     <td>{{ data.giaDichVu | currency:'VND': '':'1.0-0' }}</td>
                     <td>{{ data.giaDichVu * data.soLuong | currency:'VND': '':'1.0-0' }}</td>
                     <td>
-                      <div nz-tooltip nzTooltipTitle="Xóa" (click)="huyDichVu(data.id, data.idDichVu, data.giaDichVu * data.soLuong, data.soLuong)">
+                      <div *ngIf="roomModel.trangThai == 2" nz-tooltip nzTooltipTitle="Xóa" (click)="huyDichVu(data.id, data.idDichVu, data.giaDichVu * data.soLuong, data.soLuong)">
                         <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                              class="bi bi-trash" viewBox="0 0 16 16">
                           <path
@@ -577,7 +577,7 @@
               <div style="width: 43%;height:445px;border: 1px solid darkgrey;border-radius: 5px;margin: 5px">
                 <h3 style="font-weight: bolder;font-size: 16px;padding: 5px">Order dịch vụ</h3>
                 <div class="thanh-cuon" style="height: 90%"
-                  *ngIf="(roomModel.trangThai === 1 || roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5 && roomModel.trangThaiThanhToan !== 2 && roomModel.trangThaiThanhToan !== 6"
+                  *ngIf="(roomModel.trangThai === 2 || roomModel.trangThai === 5) && roomModel.trangThaiThanhToan !== 5 && roomModel.trangThaiThanhToan !== 2 && roomModel.trangThaiThanhToan !== 6"
                   nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div (click)="showFormOrderDichVu(data.id, data.soLuong, data.ghiChu)"
@@ -593,7 +593,7 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="roomModel.trangThai === 3 || roomModel.trangThaiThanhToan === 5 || roomModel.trangThaiThanhToan === 4" nz-row>
+                <div class="thanh-cuon" style="height: 90%" *ngIf="roomModel.trangThai === 1 || roomModel.trangThai === 3 || roomModel.trangThaiThanhToan === 5 || roomModel.trangThaiThanhToan === 4" nz-row>
                   <div *ngFor="let data of roomServiceModel" nz-col nzSpan="8">
                     <div
                       style="border: 1px solid gray;border-radius: 5px;margin: 5px;height: 190px;">

@@ -100,7 +100,7 @@
       </td>
       <td class="px-6 py-4">
         <div *ngIf="data.ghiChu != 'Lần' && data.ghiChu != 'Cốc' && data.ghiChu != 'Đĩa'">{{ data.soLuong }}</div>
-        <div *ngIf="data.ghiChu == 'Lần' || data.ghiChu == 'Cốc' || data.ghiChu == 'Đĩa'">Không có</div>
+        <div *ngIf="data.ghiChu == 'Lần' || data.ghiChu == 'Cốc' || data.ghiChu == 'Đĩa'">Sẵn hàng</div>
       </td>
       <td class="px-6 py-4">
         <div class="btn-info" (click)="showModal(data.id)">
@@ -139,7 +139,7 @@
           <input nz-input type="number" id="giaDichVu" name="giaDichVu" [(ngModel)]="currentDichVu.giaDichVu" required/>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <nz-form-item *ngIf="currentDichVu.ghiChu == 'Chiếc' || currentDichVu.ghiChu == 'Lon' || currentDichVu.ghiChu == 'Chai'">
         <nz-form-label nzFor="soLuong" style="width: 100px">Số lượng</nz-form-label>
         <nz-form-control nzErrorTip="Vui lòng nhập giá">
           <input nz-input type="number" id="soLuong" name="soLuong" [(ngModel)]="currentDichVu.soLuong" required/>

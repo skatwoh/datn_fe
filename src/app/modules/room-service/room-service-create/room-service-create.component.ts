@@ -48,6 +48,9 @@ export class RoomServiceCreateComponent implements OnInit{
     },
     {
       ten: 'Đĩa'
+    },
+    {
+      ten: 'Chiếc'
     }
   ]
 
@@ -62,6 +65,7 @@ export class RoomServiceCreateComponent implements OnInit{
 
   changSelect(){
     if((document.getElementById('ghiChu') as HTMLInputElement).value !== this.serviceType[0].ten &&
+      (document.getElementById('ghiChu') as HTMLInputElement).value !== this.serviceType[3].ten &&
       (document.getElementById('ghiChu') as HTMLInputElement).value !== this.serviceType[4].ten){
       this.selectDichVu = true;
       // this.message.success('Nhập số lượng' + (document.getElementById('ghiChu') as HTMLInputElement).value + ' ' + this.serviceType[0].ten);

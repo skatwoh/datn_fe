@@ -941,6 +941,10 @@ export class RoomOrderManagerComponent implements OnInit {
   okDichVu() {
     setTimeout(() => {
       const soLuong = document.getElementById('soLuong') as HTMLInputElement;
+      if(Number.parseInt(soLuong.value) <=0){
+        this.mess.warning('Số lượng phải lớn hơn 0');
+        return;
+      }
       if(this.soLuongDichVu < Number.parseInt(soLuong.value) && (this.loaiDichVu == 'Lon' || this.loaiDichVu == 'Chai')){
         this.mess.warning('Số lượng trong kho không đủ');
         return;
