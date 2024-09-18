@@ -70,23 +70,37 @@ export class RoomServiceComponent implements OnInit {
       // Đọc file thành chuỗi Base64
       const reader = new FileReader();
       reader.onloadend = () => {
-        this.currentDichVu.image = reader.result as string;
-      }
+        this.currentDichVu.image = reader.result as string; // Thêm trường base64Image vào payload
+        this.roomSerivceService.update(this.currentDichVu.id, this.currentDichVu).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.message = res.message
+              ? res.message
+              : this.messageNoti.success('Update thành công', {
+                nzDuration: 5000
+              });
+            this.getRoomSerivces();
+          },
+          error: (e) => console.error(e)
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.roomSerivceService
+        .update(this.currentDichVu.id, this.currentDichVu)
+        .subscribe({
+          next: (res) => {
+            console.log(res);
+            this.message = res.message
+              ? res.message
+              : this.messageNoti.success('Update thành công', {
+                nzDuration: 5000
+              });
+            this.getRoomSerivces();
+          },
+          error: (e) => console.error(e)
+        });
     }
-    this.roomSerivceService
-      .update(this.currentDichVu.id, this.currentDichVu)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.message = res.message
-            ? res.message
-            : this.messageNoti.success('Update thành công', {
-              nzDuration: 5000
-            });
-          this.getRoomSerivces();
-        },
-        error: (e) => console.error(e)
-      });
   }
 
   showModal(id: any): void {
